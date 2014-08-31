@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/template.xhtml">
+   
+   <ui:define name="content">
+   	<h1>Cadastro de Blocos:</h1>
+   	<p:outputLabel value="Nome do bloco:" />
+	<p:inputText id="inputNome" value="#{blocoController.bloco.nome}" alt="Digite o nome do bloco" ></p:inputText>
+
+    <p:separator id="separatorId" />	
+
+   	<p:commandButton id="btnSalvarBloco" value="SALVAR" actionListener="#{blocoController.salvar}"  />
+
+   </ui:define>
+</ui:composition>
