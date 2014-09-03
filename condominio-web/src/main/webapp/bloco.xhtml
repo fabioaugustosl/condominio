@@ -8,12 +8,35 @@
    
    <ui:define name="content">
    	<h1>Cadastro de Blocos:</h1>
-   	<p:outputLabel value="Nome do bloco:" />
-	<p:inputText id="inputNome" value="#{blocoController.bloco.nome}" alt="Digite o nome do bloco" ></p:inputText>
+ <!--   	<p:outputLabel value="Número do bloco: " />
+	<p:inputText id="inputNumero" value="#{blocoController.bloco.numero}" alt="Digite o número usado para identificar o bloco" ></p:inputText> -->
+	<br />
+	<p:panel id="cadastroBloco">
+	
+	   	<p:outputLabel value="Nome do bloco: " />
+		<p:inputText id="inputNome" value="#{blocoController.bloco.nome}" alt="Digite o nome do bloco" ></p:inputText>
+	
+		<p:commandButton id="btnRemoverBloco" value="Remover" actionListener="#{blocoController.remover}" update="mensagens, dtBloco"></p:commandButton>
+		<p:commandButton id="btnSalvarBloco" value="Salvar" actionListener="#{blocoController.salvar}" update="mensagens, dtBloco, cadastroBloco"></p:commandButton>
 
-    <p:separator id="separatorId" />	
+	</p:panel>
+    <p:separator id="separatorId" />
+    <br />	
 
-   	<p:commandButton id="btnSalvarBloco" value="SALVAR" actionListener="#{blocoController.salvar}"  />
 
+	<br />
+	
+	<p:dataTable id="dtBloco" var="bloco" 
+			value="#{blocoController.blocos}"
+			rowKey="#{bloco.id}" 
+			selection="#{blocoController.blocoSelecionado}" 
+			emptyMessage="Não existem blocos cadastrados até o momento." >
+		
+        <p:column selectionMode="single" style="width:16px;text-align:center"/>
+	 
+	    <p:column headerText="Nome do bloco">
+	        <h:outputText value="#{bloco.nome}" />
+	    </p:column>
+	</p:dataTable> 
    </ui:define>
 </ui:composition>
