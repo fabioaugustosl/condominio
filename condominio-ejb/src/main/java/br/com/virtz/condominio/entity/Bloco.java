@@ -27,7 +27,6 @@ public class Bloco extends Entidade implements Serializable {
 	private Integer numero;
 
 	@NotNull
-	@Size(min = 1, max = 50)
 	@Column(name = "nome", length = 50, nullable = false)
 	private String nome;
 

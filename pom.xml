@@ -58,6 +58,12 @@
             <type>pom</type>
             <scope>import</scope>
          </dependency>
+         
+         <dependency>
+         	<groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.0</version>
+         </dependency>
 
          <!-- JSR-303 (Bean Validation) Implementation -->
          <!-- Provides portable constraints such as @Email -->

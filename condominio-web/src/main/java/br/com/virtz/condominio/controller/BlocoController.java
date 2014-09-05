@@ -8,9 +8,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import br.com.virtz.condominio.entity.Bloco;
 import br.com.virtz.condominio.service.IBlocoService;
+import br.com.virtz.condominio.util.MessageHelper;
 
 @ManagedBean
 @ViewScoped
@@ -18,6 +20,9 @@ public class BlocoController {
 
 	@EJB
 	private IBlocoService blocoService;
+	
+	@Inject
+	private MessageHelper message;
 	
 	private Bloco bloco;
 	private Bloco blocoSelecionado;
@@ -33,24 +38,26 @@ public class BlocoController {
 	public void salvar(){
 		try {
 			blocoService.salvar(bloco);
+			message.addInfo("O bloco "+bloco.getNome()+" foi salvo com sucesso!"); 
+
 			blocos = listarTodos(); 
 			bloco = new Bloco();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("O bloco "+bloco.getNome()+" foi salvo com sucesso!"));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocorreu um erro ao salvar o bloco", null));
+			message.addError("Ocorreu um erro ao salvar o bloco");
 		}
 	}
 	
 	public void remover(){
 		
 		if(blocoSelecionado == null){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nenhum bloco foi selecionado para ser removido.", null));
+			message.addError("Nenhum bloco foi selecionado para ser removido.");
 		}
 		
 		blocoService.remover(blocoSelecionado.getId());
 		blocos = listarTodos(); 
+		
+		message.addInfo("O bloco "+blocoSelecionado.getNome()+" foi removido com sucesso"); 
 		blocoSelecionado = null;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "O bloco "+bloco.getNome()+" foi removido com sucesso", null));
 	}
 	
 	public List<Bloco> listarTodos(){
