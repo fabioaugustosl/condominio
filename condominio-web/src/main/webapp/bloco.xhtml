@@ -8,13 +8,11 @@
    
    <ui:define name="content">
    	<h1>Cadastro de Blocos:</h1>
- <!--   	<p:outputLabel value="Número do bloco: " />
-	<p:inputText id="inputNumero" value="#{blocoController.bloco.numero}" alt="Digite o número usado para identificar o bloco" ></p:inputText> -->
-	<br />
+ <br />
 	<p:panel id="cadastroBloco">
 	
 	   	<p:outputLabel value="Nome do bloco: " />
-		<p:inputText id="inputNome" value="#{blocoController.bloco.nome}" alt="Digite o nome do bloco" ></p:inputText>
+		<p:inputText id="inputNome" value="#{blocoController.bloco.nome}" alt="Digite o nome do bloco"  maxlength="50" requiredMessage="Meu filho... preencha o campo Nome"></p:inputText>
 	
 		<p:commandButton id="btnRemoverBloco" value="Remover" actionListener="#{blocoController.remover}" update="mensagens, dtBloco"></p:commandButton>
 		<p:commandButton id="btnSalvarBloco" value="Salvar" actionListener="#{blocoController.salvar}" update="mensagens, dtBloco, cadastroBloco"></p:commandButton>

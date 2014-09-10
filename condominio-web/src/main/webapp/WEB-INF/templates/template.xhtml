@@ -25,17 +25,20 @@
 	</p:ajaxStatus>
 	
 	
-	<div id="TopoContainer">Aqui vai ser o topo</div>
 	<h:form id="form">
-		<p:layout>
+		<p:panel id="faixaSuperios" closable="false" style="heigth:5%; display:block;  width:100%; background-color: buttonhighlight;">Faixa pra colocar botões de atalho.. como o logout</p:panel>
+		
+		<p:layout id="layoutContainer" >
+			<p:layoutUnit position="north" closable="false" resizable="false" collapsible="false" style="height:10%; ">
+				<p:outputPanel id="TopoContainer" >Aqui vai ser o topo</p:outputPanel>
+			</p:layoutUnit>
+			
 			<p:layoutUnit position="west" size="250px;" header="Menu"
 				resizable="true" closable="false" collapsible="true">
 				<p:panelMenu style="width:100%">
-					<p:submenu label="Condominio">
-						<p:menuitem value="Mural" url="http://www.primefaces.org"
-							icon="ui-icon-disk" />
-						<p:menuitem value="Reservar" url="http://www.primefaces.org"
-							icon="ui-icon-disk" />
+					<p:submenu label="Cadastros">
+						<p:menuitem value="Condomínio" outcome="/condominio/condominio.faces" />
+						<p:menuitem value="Bloco (exemplo)" outcome="/bloco.faces" />
 					</p:submenu>
 					<p:separator />
 					<!--  <p:submenu label="Cadastros" >
@@ -54,11 +57,14 @@
 				<p:messages id="mensagens"></p:messages>
 				<ui:insert name="content">Aqui vai ser o conteúdo.</ui:insert>
 			</p:layoutUnit>
+			
+			<p:layoutUnit position="south" closable="false" resizable="false" collapsible="false" >
+				<p:outputPanel id="RodapeContainer">Aqui vai ser o rodape</p:outputPanel>
+			</p:layoutUnit>
 
 		</p:layout>
 	</h:form>
 
-	<div id="RodapeContainer">Aqui vai ser o rodape</div>
 </h:body>
 
 </html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/template.xhtml">
+   
+   <ui:define name="content">
+   	<h1><p:outputLabel value="#{condominioController.nomeCondominio}" /></h1>
+ 	<br />
+	<p:panel id="cadastroBlocos" rendered="#{condominioController.blocos ne null}">
+		<p:outputLabel value="Seu condomínio ainda não possui nenhum bloco cadastrado." />
+		<br /><br />
+		<p:outputLabel value="Quantos blocos são? " />
+		<p:spinner id="minMax" value="#{condominioController.quantidadeBlocos}" size="10" min="0" max="20" />
+	</p:panel>
+   </ui:define>
+</ui:composition>
