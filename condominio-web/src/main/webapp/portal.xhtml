@@ -7,7 +7,28 @@
    template="/WEB-INF/templates/template.xhtml">
    
    <ui:define name="content">
-	   <h1>Tela Inicial - Portal</h1>
+	   <p:growl id="msgsGrowl" showDetail="true" />
+ 
+        <p:dashboard id="board" model="#{portalController.model}">
+            <p:ajax event="reorder" listener="#{portalController.handleReorder}" update="msgsGrowl" />
+ 
+            <p:panel id="Agenda" header="Agenda">
+                <h:outputText value="Exemplo" />
+            </p:panel>
+ 
+            <p:panel id="Memorando" header="Memorando">
+                <h:outputText value="Exemplo" />
+            </p:panel>
+ 
+            <p:panel id="Importante" header="Importante">
+                <h:outputText value="Exemplo"  />
+            </p:panel>
+ 
+            <p:panel id="Troca" header="Troca de idéias">
+                <h:outputText value="Exemplo" />
+            </p:panel>
+ 
+        </p:dashboard>
 
    </ui:define>
 </ui:composition>

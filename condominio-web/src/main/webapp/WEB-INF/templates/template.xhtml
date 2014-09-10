@@ -36,20 +36,14 @@
 			<p:layoutUnit position="west" size="250px;" header="Menu"
 				resizable="true" closable="false" collapsible="true">
 				<p:panelMenu style="width:100%">
-					<p:submenu label="Cadastros">
-						<p:menuitem value="Condomínio" outcome="/condominio/condominio.faces" />
+					<p:submenu label="Informações">
+						<p:menuitem value="Meu Condomínio" outcome="/condominio/condominio.faces" />
+						<p:menuitem value="Meus Dados" url="www.google.com" />
 						<p:menuitem value="Bloco (exemplo)" outcome="/bloco.faces" />
 					</p:submenu>
-					<p:separator />
-					<!--  <p:submenu label="Cadastros" >
-				            <p:submenu label="Links" icon="ui-icon-extlink">
-				                <p:submenu label="Condominio" icon="ui-icon-heart">
-				                    <p:menuitem value="Moradores" url="http://www.primefaces.org" icon="ui-icon-home" />
-				                    <p:menuitem value="Condominio" url="http://www.primefaces.org/documentation" icon="ui-icon-document" />
-				                </p:submenu>
-				            </p:submenu>
-				            <p:menuitem value="Condominos" outcome="/mobile/index" icon="ui-icon-signal" />
-				        </p:submenu> -->
+					<p:submenu label="Configurações">
+						<p:menuitem value="Gerais" url="www.google.com" />
+					</p:submenu>
 				</p:panelMenu>
 			</p:layoutUnit>
 
