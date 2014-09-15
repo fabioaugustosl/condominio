@@ -9,11 +9,38 @@
    <ui:define name="content">
    	<h1><p:outputLabel value="#{condominioController.nomeCondominio}" /></h1>
  	<br />
-	<p:panel id="cadastroBlocos" rendered="#{condominioController.blocos ne null}">
+ 	<p:outputPanel id="ctCadastroBlocos" layout="block" >
+	<p:outputPanel id="cadastroBlocos" layout="block" rendered="#{condominioController.mostrarCadastrosBlocos()}">
 		<p:outputLabel value="Seu condomínio ainda não possui nenhum bloco cadastrado." />
 		<br /><br />
 		<p:outputLabel value="Quantos blocos são? " />
-		<p:spinner id="minMax" value="#{condominioController.quantidadeBlocos}" size="10" min="0" max="20" />
-	</p:panel>
+		<p:spinner id="minMax" value="#{condominioController.quantidadeBlocos}" size="5" min="1" max="20" />
+		
+		<p:commandButton id="btnBloco" value="Ok" style="margin-left:10px;" 
+						actionListener="#{condominioController.sugerirBlocos}"
+						update="ctCadastroBlocos" />
+	</p:outputPanel>
+	
+	<p:outputPanel id="salvaBlocos" >
+		<p:dataTable id="dtBlocos" var="bloco" value="#{condominioController.blocos}" rendered="#{not condominioController.mostrarCadastrosBlocos()}"
+			 editable="true" style="margin-bottom:20px">
+ 
+	       <p:ajax event="rowEdit" listener="#{condominioController.onRowEdit}" update=":form:mensagens" />
+	       <p:ajax event="rowEditCancel" listener="#{condominioController.onRowCancel}" update=":form:mensagens" />
+	 
+	       <p:column headerText="Nome do Bloco">
+	           <p:cellEditor>
+	               <f:facet name="output"><h:outputText value="#{bloco.nome}" /></f:facet>
+	               <f:facet name="input"><p:inputText value="#{bloco.nome}" style="width:100%" label="Nome"/></f:facet>
+	           </p:cellEditor>
+	       </p:column>
+	 
+	       <p:column style="width:32px">
+	           <p:rowEditor />
+	       </p:column>
+	   </p:dataTable>
+	
+	</p:outputPanel>
+	</p:outputPanel>
    </ui:define>
 </ui:composition>

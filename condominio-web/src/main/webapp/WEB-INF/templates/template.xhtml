@@ -14,50 +14,54 @@
 </h:head>
 
 <h:body>
-	<p:ajaxStatus style="width:16px;height:16px;">
-		<f:facet name="start">
-			<h:graphicImage value="../design/ajaxloading.gif" />
-		</f:facet>
-
-		<f:facet name="complete">
-			<h:outputText value="" />
-		</f:facet>
-	</p:ajaxStatus>
-	
-	
-	<h:form id="form">
-		<p:panel id="faixaSuperios" closable="false" style="heigth:5%; display:block;  width:100%; background-color: buttonhighlight;">Faixa pra colocar botões de atalho.. como o logout</p:panel>
+		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+ 
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+		    <p:graphicImage name="/img/ajax-loader.GIF" />
+		</p:dialog>
 		
-		<p:layout id="layoutContainer" >
-			<p:layoutUnit position="north" closable="false" resizable="false" collapsible="false" style="height:10%; ">
-				<p:outputPanel id="TopoContainer" >Aqui vai ser o topo</p:outputPanel>
-			</p:layoutUnit>
+	
+		<p:outputPanel id="central"  style="height:90%; width:100%;" layout="block" global="true">
 			
-			<p:layoutUnit position="west" size="250px;" header="Menu"
-				resizable="true" closable="false" collapsible="true">
-				<p:panelMenu style="width:100%">
-					<p:submenu label="Informações">
-						<p:menuitem value="Meu Condomínio" outcome="/condominio/condominio.faces" />
-						<p:menuitem value="Meus Dados" url="www.google.com" />
-						<p:menuitem value="Bloco (exemplo)" outcome="/bloco.faces" />
-					</p:submenu>
-					<p:submenu label="Configurações">
-						<p:menuitem value="Gerais" url="www.google.com" />
-					</p:submenu>
-				</p:panelMenu>
-			</p:layoutUnit>
-
-			<p:layoutUnit position="center">
-				<p:messages id="mensagens"></p:messages>
-				<ui:insert name="content">Aqui vai ser o conteúdo.</ui:insert>
-			</p:layoutUnit>
-			
-			<p:layoutUnit position="south" closable="false" resizable="false" collapsible="false" >
-				<p:outputPanel id="RodapeContainer">Aqui vai ser o rodape</p:outputPanel>
-			</p:layoutUnit>
-
-		</p:layout>
-	</h:form>
+		<p:outputPanel id="faixaSuperios" style="height:5%; width:100%; background-color: #e7e3e3; text-align:rigth;" global="true" layout="block">
+				<p:graphicImage url="/img/logout.png"></p:graphicImage>
+		</p:outputPanel>
+		
+		<p:outputPanel id="faixaPrincipal" style="height:95%; width:100%;" global="true" layout="block">
+			<p:layout id="layoutContainer" >
+				<p:layoutUnit position="north" closable="false" resizable="false" collapsible="false" style="height:15%; ">
+					<p:outputPanel id="TopoContainer" >Aqui vai ser o topo</p:outputPanel>
+				</p:layoutUnit>
+				
+				<p:layoutUnit position="west" size="250px;" header="Menu"
+					resizable="true" closable="false" collapsible="true">
+					<p:panelMenu style="width:100%">
+						<p:submenu label="Informações">
+							<p:menuitem value="Meu Condomínio" outcome="/condominio/condominio.faces" />
+							<p:menuitem value="Meus Dados" url="www.google.com" />
+							<p:menuitem value="Bloco (exemplo)" outcome="/bloco.faces" />
+						</p:submenu>
+						<p:submenu label="Configurações">
+							<p:menuitem value="Gerais" url="www.google.com" />
+						</p:submenu>
+					</p:panelMenu>
+				</p:layoutUnit>
+	
+				<p:layoutUnit position="center">
+					<h:form id="form" style="width:100%">
+						<p:messages id="mensagens" ></p:messages>
+						<ui:insert name="content">Aqui vai ser o conteúdo.</ui:insert>
+					</h:form>
+				</p:layoutUnit>
+				
+				<!-- <p:layoutUnit position="south" closable="false" resizable="false" collapsible="false" >
+					<p:outputPanel id="faixaRodape" style="height:5%; width:100%; background-color: #e7e3e3;" global="true" layout="block">
+							Rodape
+					</p:outputPanel>
+				</p:layoutUnit> -->
+			</p:layout>
+		</p:outputPanel>
+	</p:outputPanel>
 
 </h:body>
 

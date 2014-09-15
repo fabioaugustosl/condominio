@@ -10,6 +10,12 @@
 
    <!-- Write your navigation rules here. You are encouraged to use CDI for 
       creating @Named managed beans. -->
+      
+      <factory>
+	  	<exception-handler-factory>
+	    	br.com.virtz.handlerException.AppCustomExceptionFactory
+	  	</exception-handler-factory>
+	</factory>
     
 
 </faces-config>

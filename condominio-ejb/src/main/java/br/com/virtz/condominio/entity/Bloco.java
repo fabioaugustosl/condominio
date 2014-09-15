@@ -1,16 +1,17 @@
 package br.com.virtz.condominio.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -20,7 +21,7 @@ public class Bloco extends Entidade implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "numero", nullable = true)
@@ -29,6 +30,17 @@ public class Bloco extends Entidade implements Serializable {
 	@NotNull
 	@Column(name = "nome", length = 50, nullable = false)
 	private String nome;
+	
+	@ManyToOne
+	@JoinColumn(name="idCondominio", nullable=false)
+	private Condominio condominio;
+	
+	@OneToMany(mappedBy="bloco")
+	private List<Apartamento> apartamentos;
+	
+	@Column(name="qtdAndares")
+	private Integer quantidadeAndares;
+	
 
 	public Long getId() {
 		return id;
@@ -53,5 +65,29 @@ public class Bloco extends Entidade implements Serializable {
 	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
-	
+
+	public Condominio getCondominio() {
+		return condominio;
+	}
+
+	public void setCondominio(Condominio condominio) {
+		this.condominio = condominio;
+	}
+
+	public List<Apartamento> getApartamentos() {
+		return apartamentos;
+	}
+
+	public void setApartamentos(List<Apartamento> apartamentos) {
+		this.apartamentos = apartamentos;
+	}
+
+	public Integer getQuantidadeAndares() {
+		return quantidadeAndares;
+	}
+
+	public void setQuantidadeAndares(Integer quantidadeAndares) {
+		this.quantidadeAndares = quantidadeAndares;
+	}
+			
 }

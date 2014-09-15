@@ -7,28 +7,31 @@
    template="/WEB-INF/templates/template.xhtml">
    
    <ui:define name="content">
-	   <p:growl id="msgsGrowl" showDetail="true" />
+	   	<p:growl id="msgsGrowl" showDetail="true" />
  
-        <p:dashboard id="board" model="#{portalController.model}">
+ 		<p:outputPanel id="containerDashBoard" style="width:100% !important;" >
+        <p:dashboard id="board" model="#{portalController.model}" style="width:100% !important">
             <p:ajax event="reorder" listener="#{portalController.handleReorder}" update="msgsGrowl" />
  
-            <p:panel id="Agenda" header="Agenda">
+            <p:panel id="Agenda" header="Agenda" style="width:100%">
                 <h:outputText value="Exemplo" />
             </p:panel>
  
-            <p:panel id="Memorando" header="Memorando">
+            <p:panel id="Memorando" header="Memorando" style="width:100%">
                 <h:outputText value="Exemplo" />
             </p:panel>
  
-            <p:panel id="Importante" header="Importante">
+            <p:panel id="Importante" header="Importante" style="width:100%">
                 <h:outputText value="Exemplo"  />
             </p:panel>
  
-            <p:panel id="Troca" header="Troca de idéias">
+            <p:panel id="Troca" header="Troca de idéias" style="width:100%; height:500px;"> 
                 <h:outputText value="Exemplo" />
             </p:panel>
  
         </p:dashboard>
+        
+        </p:outputPanel>
 
    </ui:define>
 </ui:composition>
