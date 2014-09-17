@@ -24,7 +24,7 @@ import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
 @ViewScoped
-public class CondominioController {
+public class CondominioEdicaoController {
 
 	@EJB
 	private IBlocoService blocoService;
@@ -41,7 +41,6 @@ public class CondominioController {
 	private List<Bloco> blocos;
 	private Condominio condominio;
 	private Usuario usuario;
-	private Integer quantidadeBlocos = null;
 	
 	@PostConstruct
 	public void init(){
@@ -49,35 +48,12 @@ public class CondominioController {
 		condominio = usuario.getCondominio();
 		
 		blocos = listarTodos();
-		if(blocos == null || blocos.isEmpty()){
-			quantidadeBlocos = 1;
-		}
 	}
-	
-	public boolean mostrarCadastrosBlocos(){
-		if(blocos == null || blocos.isEmpty()){
-			return Boolean.TRUE;
-		}
-		return Boolean.FALSE;
-	}
-	
 	
 	public List<Bloco> listarTodos(){
 		return blocoService.recuperarTodos();
 	}
 	
-	public void sugerirBlocos(){
-		blocos = new ArrayList<Bloco>();
-		for(int i=0; i<quantidadeBlocos; i++){
-			Bloco b = new Bloco();
-			b.setNome("Bloco "+(i+1));
-			b.setQuantidadeAndares(4);
-			b.setCondominio(condominio);
-			blocos.add(b);
-		}		
-	}
-	
-
 	public void salvarBlocos() throws AppException{
 		for(Bloco bloco : blocos){
 			try {
@@ -86,8 +62,7 @@ public class CondominioController {
 				throw new AppException("Ocorreu um erro ao salvar o(s) bloco(s). Favor acesse o menu novamente e repita o processo.");
 			}
 		}
-		message.addInfo("Parabéns. O cadatro de seu condomínio está quase completo. ");
-		NavigationPage.forwardToPage("condominioEdicao.faces");
+		message.addInfo("Os dados do seu condomínio foram atualizados com sucesso. ");
 	}
 	
 	public void onRowEdit(RowEditEvent event) {
@@ -98,6 +73,7 @@ public class CondominioController {
     	message.addInfo("Edição cancelada!");
     }
     
+
     
 	// GETTERS E SETTERS
 	
@@ -113,12 +89,4 @@ public class CondominioController {
 		return condominio.getNome();
 	}
 
-	public Integer getQuantidadeBlocos() {
-		return quantidadeBlocos;
-	}
-
-	public void setQuantidadeBlocos(Integer quantidadeBlocos) {
-		this.quantidadeBlocos = quantidadeBlocos;
-	}
-		
 }

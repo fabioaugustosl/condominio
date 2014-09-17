@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/template.xhtml">
+   
+   <ui:define name="content">
+   	<h1><p:outputLabel value="#{condominioEdicaoController.nomeCondominio}" /></h1>
+ 	<br />
+ 	
+	<p:outputPanel id="salvaBlocosEdicao" >
+	
+		<p:dataTable id="dtBlocos" var="bloco" value="#{condominioEdicaoController.blocos}" 
+			 editable="true" style="margin-bottom:20px">
+ 
+	       <p:ajax event="rowEdit" listener="#{condominioEdicaoController.onRowEdit}" update=":form:mensagens" />
+	       <p:ajax event="rowEditCancel" listener="#{condominioEdicaoController.onRowCancel}" update=":form:mensagens" />
+	 
+	       <p:column headerText="Nome do Bloco" >
+	           <p:cellEditor>
+	               <f:facet name="output"><h:outputText value="#{bloco.nome}" /></f:facet>
+	               <f:facet name="input"><p:inputText value="#{bloco.nome}" style="width:100%" label="Nome"/></f:facet>
+	           </p:cellEditor>
+	       </p:column>
+	       <p:column headerText="Quantidade de andares">
+	           <p:cellEditor>
+	               <f:facet name="output"><h:outputText value="#{bloco.quantidadeAndares}" /></f:facet>
+	               <f:facet name="input"><p:inputText value="#{bloco.quantidadeAndares}" style="width:100%" label="Andares"/></f:facet>
+	           </p:cellEditor>
+	       </p:column>
+	 
+	       <p:column style="width:32px">
+	           <p:rowEditor />
+	       </p:column>
+	   </p:dataTable>
+	
+		<p:commandButton id="btnBlocoSalvar" value="Ok" style="margin-left:10px;" 
+						actionListener="#{condominioEdicaoController.salvarBlocos}"
+						update="ctCadastroBlocos" />
+	</p:outputPanel>
+	</p:outputPanel>
+   </ui:define>
+</ui:composition>
