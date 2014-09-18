@@ -52,8 +52,18 @@
 		
 			<p:commandButton id="btnBlocoSalvar" value="Ok" style="margin-left:10px;" 
 							actionListener="#{condominioController.salvarBlocos}"
-							update="ctCadastroBlocos" />
+							update="ctCadastroBlocos" onsuccess="PF('cadSucesso').show();" />
 	</p:outputPanel>
 	</p:outputPanel>
+	
+	
+	<p:dialog header="Cadastro dos blocos" widgetVar="cadSucesso" modal="true" height="100" dynamic="true" appendToBody="true" >
+	    <p:outputPanel layout="block">
+	    <h:outputText value="Parabéns. O cadatro dos blocos de seu condomínio terminou." />
+	    </p:outputPanel>
+	    <p:commandButton id="btnEditarBloco" value="Ok" 
+							actionListener="#{condominioController.editarCondominio}" />
+	</p:dialog>  
+
    </ui:define>
 </ui:composition>

@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.event.FlowEvent;
@@ -41,11 +42,14 @@ public class CondominioEdicaoController {
 	private List<Bloco> blocos;
 	private Condominio condominio;
 	private Usuario usuario;
+	private boolean editavel;
 	
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
 		condominio = usuario.getCondominio();
+
+		editavel = false;
 		
 		blocos = listarTodos();
 	}
@@ -88,5 +92,14 @@ public class CondominioEdicaoController {
 	public String getNomeCondominio() {
 		return condominio.getNome();
 	}
+
+	public boolean isEditavel() {
+		return editavel;
+	}
+
+	public void setEditavel(boolean editavel) {
+		this.editavel = editavel;
+	}
+
 
 }

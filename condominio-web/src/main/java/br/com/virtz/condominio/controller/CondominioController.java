@@ -7,9 +7,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import org.primefaces.event.FlowEvent;
 import org.primefaces.event.RowEditEvent;
 
 import br.com.virtz.condominio.entity.Bloco;
@@ -86,9 +86,12 @@ public class CondominioController {
 				throw new AppException("Ocorreu um erro ao salvar o(s) bloco(s). Favor acesse o menu novamente e repita o processo.");
 			}
 		}
-		message.addInfo("Parabéns. O cadatro de seu condomínio está quase completo. ");
-		NavigationPage.forwardToPage("condominioEdicao.faces");
 	}
+	
+	public void editarCondominio() throws AppException{
+		NavigationPage.redirectToPage("condominioEdicao.faces");
+	}
+	
 	
 	public void onRowEdit(RowEditEvent event) {
         message.addInfo("Bloco editado "+ ((Bloco) event.getObject()).getId());

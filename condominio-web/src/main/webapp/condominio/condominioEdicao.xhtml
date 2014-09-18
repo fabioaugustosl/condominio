@@ -13,7 +13,7 @@
 	<p:outputPanel id="salvaBlocosEdicao" >
 	
 		<p:dataTable id="dtBlocos" var="bloco" value="#{condominioEdicaoController.blocos}" 
-			 editable="true" style="margin-bottom:20px">
+			 editable="#{condominioEdicaoController.isEditavel()}" style="margin-bottom:20px">
  
 	       <p:ajax event="rowEdit" listener="#{condominioEdicaoController.onRowEdit}" update=":form:mensagens" />
 	       <p:ajax event="rowEditCancel" listener="#{condominioEdicaoController.onRowCancel}" update=":form:mensagens" />
@@ -31,15 +31,14 @@
 	           </p:cellEditor>
 	       </p:column>
 	 
-	       <p:column style="width:32px">
+	       <p:column style="width:32px" rendered="#{condominioEdicaoController.isEditavel()}">
 	           <p:rowEditor />
 	       </p:column>
 	   </p:dataTable>
 	
-		<p:commandButton id="btnBlocoSalvar" value="Ok" style="margin-left:10px;" 
+		<p:commandButton id="btnBlocoSalvar" value="Ok" style="margin-left:10px;" rendered="#{condominioEdicaoController.isEditavel()}"
 						actionListener="#{condominioEdicaoController.salvarBlocos}"
-						update="ctCadastroBlocos" />
-	</p:outputPanel>
+						update="mensagens" />
 	</p:outputPanel>
    </ui:define>
 </ui:composition>
