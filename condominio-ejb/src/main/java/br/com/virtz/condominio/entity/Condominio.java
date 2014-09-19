@@ -2,6 +2,7 @@ package br.com.virtz.condominio.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +25,12 @@ public class Condominio extends Entidade implements Serializable {
 	
 	@OneToMany(mappedBy="condominio")
 	private List<Bloco> bloco;
+	
+	@OneToMany(mappedBy="condominio")
+	private Set<AreaComum> areasComuns;
+	
+	@OneToMany(mappedBy="condominio")
+	private Set<Usuario> usuarios;
 	
 	@NotNull
 	@Column(name = "nome", length = 100, nullable = false)
@@ -63,7 +70,21 @@ public class Condominio extends Entidade implements Serializable {
 	public void setQuantidadeApartamentos(Integer quantidadeApartamentos) {
 		this.quantidadeApartamentos = quantidadeApartamentos;
 	}
-	
-	
+
+	public Set<AreaComum> getAreasComuns() {
+		return areasComuns;
+	}
+
+	public void setAreasComuns(Set<AreaComum> areasComuns) {
+		this.areasComuns = areasComuns;
+	}
+
+	public Set<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(Set<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
 	
 }

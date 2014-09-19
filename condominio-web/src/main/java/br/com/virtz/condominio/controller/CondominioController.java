@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.event.RowEditEvent;
@@ -16,7 +15,6 @@ import br.com.virtz.condominio.entity.Bloco;
 import br.com.virtz.condominio.entity.Condominio;
 import br.com.virtz.condominio.entity.Usuario;
 import br.com.virtz.condominio.exception.AppException;
-import br.com.virtz.condominio.service.IBlocoService;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.MessageHelper;
@@ -25,9 +23,6 @@ import br.com.virtz.condominio.util.NavigationPage;
 @ManagedBean
 @ViewScoped
 public class CondominioController {
-
-	@EJB
-	private IBlocoService blocoService;
 	
 	@EJB
 	private ICondominioService condominioService;
@@ -48,7 +43,7 @@ public class CondominioController {
 		usuario = sessao.getUsuarioLogado();
 		condominio = usuario.getCondominio();
 		
-		blocos = listarTodos();
+		blocos = listarTodosBlcoso();
 		if(blocos == null || blocos.isEmpty()){
 			quantidadeBlocos = 1;
 		}
@@ -62,8 +57,8 @@ public class CondominioController {
 	}
 	
 	
-	public List<Bloco> listarTodos(){
-		return blocoService.recuperarTodos();
+	public List<Bloco> listarTodosBlcoso(){
+		return condominioService.recuperarTodosBlocos();
 	}
 	
 	public void sugerirBlocos(){
@@ -81,7 +76,7 @@ public class CondominioController {
 	public void salvarBlocos() throws AppException{
 		for(Bloco bloco : blocos){
 			try {
-				blocoService.salvar(bloco);
+				condominioService.salvarBloco(bloco);
 			} catch (Exception e) {
 				throw new AppException("Ocorreu um erro ao salvar o(s) bloco(s). Favor acesse o menu novamente e repita o processo.");
 			}

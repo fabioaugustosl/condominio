@@ -2,33 +2,28 @@ package br.com.virtz.condominio.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import org.primefaces.event.FlowEvent;
 import org.primefaces.event.RowEditEvent;
 
+import br.com.virtz.condominio.entity.AreaComum;
 import br.com.virtz.condominio.entity.Bloco;
 import br.com.virtz.condominio.entity.Condominio;
 import br.com.virtz.condominio.entity.Usuario;
 import br.com.virtz.condominio.exception.AppException;
-import br.com.virtz.condominio.service.IBlocoService;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.MessageHelper;
-import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
 @ViewScoped
 public class CondominioEdicaoController {
-
-	@EJB
-	private IBlocoService blocoService;
 	
 	@EJB
 	private ICondominioService condominioService;
@@ -40,6 +35,7 @@ public class CondominioEdicaoController {
 	private MessageHelper message;
 	
 	private List<Bloco> blocos;
+	private List<AreaComum> areas;
 	private Condominio condominio;
 	private Usuario usuario;
 	private boolean editavel;
@@ -51,30 +47,53 @@ public class CondominioEdicaoController {
 
 		editavel = false;
 		
-		blocos = listarTodos();
+		blocos = listarTodosBlocos();
+		areas = new ArrayList<AreaComum>(condominio.getAreasComuns());
 	}
 	
-	public List<Bloco> listarTodos(){
-		return blocoService.recuperarTodos();
+	public List<Bloco> listarTodosBlocos(){
+		return condominioService.recuperarTodosBlocos();
 	}
 	
-	public void salvarBlocos() throws AppException{
-		for(Bloco bloco : blocos){
-			try {
-				blocoService.salvar(bloco);
-			} catch (Exception e) {
-				throw new AppException("Ocorreu um erro ao salvar o(s) bloco(s). Favor acesse o menu novamente e repita o processo.");
+	public void salvar() throws AppException{
+		
+		try {
+			condominioService.salvar(condominio);
+		
+			for(Bloco bloco : blocos){
+				condominioService.salvarBloco(bloco);
 			}
+		} catch (Exception e) {
+			throw new AppException("Ocorreu um erro ao salvar o(s) bloco(s). Favor acesse o menu novamente e repita o processo.");
 		}
+
 		message.addInfo("Os dados do seu condomínio foram atualizados com sucesso. ");
 	}
 	
+	
+	public void salvarAreas() throws AppException{
+		
+		try {
+			
+		} catch (Exception e) {
+			throw new AppException("Ocorreu um erro ao salvar a(s) áreas(s). Favor acesse o menu novamente e repita o processo.");
+		}
+
+		message.addInfo("As áreas comuns de seu condomínio foram atualizadas.");
+	}
+
 	public void onRowEdit(RowEditEvent event) {
         message.addInfo("Bloco editado "+ ((Bloco) event.getObject()).getId());
     }
      
     public void onRowCancel(RowEditEvent event) {
     	message.addInfo("Edição cancelada!");
+    }
+    
+    public void excluirArea(AreaComum area){
+    	condominioService.removerAreaComum(area.getId());
+    	
+    	message.addInfo("A área comum "+area.getNome()+" foi excluída com sucesso.");
     }
     
 
@@ -101,5 +120,20 @@ public class CondominioEdicaoController {
 		this.editavel = editavel;
 	}
 
+	public Condominio getCondominio() {
+		return condominio;
+	}
+
+	public void setCondominio(Condominio condominio) {
+		this.condominio = condominio;
+	}
+
+	public List<AreaComum> getAreas() {
+		return areas;
+	}
+
+	public void setAreas(List<AreaComum> areas) {
+		this.areas = areas;
+	}
 
 }

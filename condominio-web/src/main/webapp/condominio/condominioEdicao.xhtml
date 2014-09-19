@@ -10,35 +10,78 @@
    	<h1><p:outputLabel value="#{condominioEdicaoController.nomeCondominio}" /></h1>
  	<br />
  	
-	<p:outputPanel id="salvaBlocosEdicao" >
-	
-		<p:dataTable id="dtBlocos" var="bloco" value="#{condominioEdicaoController.blocos}" 
-			 editable="#{condominioEdicaoController.isEditavel()}" style="margin-bottom:20px">
- 
-	       <p:ajax event="rowEdit" listener="#{condominioEdicaoController.onRowEdit}" update=":form:mensagens" />
-	       <p:ajax event="rowEditCancel" listener="#{condominioEdicaoController.onRowCancel}" update=":form:mensagens" />
+	<p:tabView orientation="left">
+        <p:tab title="O condomínio">
+        	<p:outputPanel layout="block" rendered="#{condominioEdicaoController.isEditavel()}">
+	        	<p:outputLabel value="Nome do condomínio: " />
+	       		<p:inputText value="#{condominioEdicaoController.condominio.nome}" style="width:100%" label="Nome:"  required="true" requiredMessage="O nome do condomínio é obrigatório." /> <br />
+       		</p:outputPanel>
+       		
+       		<p:outputPanel layout="block">
+	       		<p:outputLabel value="Total de apartamentos: " />
+	       		<p:inputText value="#{condominioEdicaoController.condominio.quantidadeApartamentos}" 
+	       			size="10" maxlength="3"  style="width:100%"  
+	       			rendered="#{condominioEdicaoController.isEditavel()}"/>
+	       			
+	       		<p:outputLabel value="#{condominioEdicaoController.condominio.quantidadeApartamentos}" 
+	       			rendered="#{not condominioEdicaoController.isEditavel()}"/>
+	       			
+       		</p:outputPanel>
+        	<br />
+			<p:dataTable id="dtBlocos" var="bloco" value="#{condominioEdicaoController.blocos}" 
+				 editable="#{condominioEdicaoController.isEditavel()}" style="margin-bottom:20px">
 	 
-	       <p:column headerText="Nome do Bloco" >
-	           <p:cellEditor>
-	               <f:facet name="output"><h:outputText value="#{bloco.nome}" /></f:facet>
-	               <f:facet name="input"><p:inputText value="#{bloco.nome}" style="width:100%" label="Nome"/></f:facet>
-	           </p:cellEditor>
-	       </p:column>
-	       <p:column headerText="Quantidade de andares">
-	           <p:cellEditor>
-	               <f:facet name="output"><h:outputText value="#{bloco.quantidadeAndares}" /></f:facet>
-	               <f:facet name="input"><p:inputText value="#{bloco.quantidadeAndares}" style="width:100%" label="Andares"/></f:facet>
-	           </p:cellEditor>
-	       </p:column>
-	 
-	       <p:column style="width:32px" rendered="#{condominioEdicaoController.isEditavel()}">
-	           <p:rowEditor />
-	       </p:column>
-	   </p:dataTable>
-	
-		<p:commandButton id="btnBlocoSalvar" value="Ok" style="margin-left:10px;" rendered="#{condominioEdicaoController.isEditavel()}"
-						actionListener="#{condominioEdicaoController.salvarBlocos}"
-						update="mensagens" />
-	</p:outputPanel>
+		       <p:ajax event="rowEdit" listener="#{condominioEdicaoController.onRowEdit}" update=":form:mensagens" />
+		       <p:ajax event="rowEditCancel" listener="#{condominioEdicaoController.onRowCancel}" update=":form:mensagens" />
+		 
+		       <p:column headerText="Nome do Bloco" >
+		           <p:cellEditor>
+		               <f:facet name="output"><h:outputText value="#{bloco.nome}" /></f:facet>
+		               <f:facet name="input"><p:inputText value="#{bloco.nome}" style="width:100%" label="Nome"/></f:facet>
+		           </p:cellEditor>
+		       </p:column>
+		       <p:column headerText="Quantidade de andares">
+		           <p:cellEditor>
+		               <f:facet name="output"><h:outputText value="#{bloco.quantidadeAndares}" /></f:facet>
+		               <f:facet name="input"><p:inputText value="#{bloco.quantidadeAndares}" style="width:100%" label="Andares"/></f:facet>
+		           </p:cellEditor>
+		       </p:column>
+		 
+		       <p:column style="width:32px" rendered="#{condominioEdicaoController.isEditavel()}">
+		           <p:rowEditor />
+		       </p:column>
+		   </p:dataTable>
+		
+			<p:commandButton id="btnBlocoSalvarTab1" value="Salvar" style="margin-left:10px;" rendered="#{condominioEdicaoController.isEditavel()}"
+							actionListener="#{condominioEdicaoController.salvarAreas}"
+							update="mensagens" />
+            
+        </p:tab>
+        
+        <p:tab title="Áreas comuns">
+            
+            <p:dataTable id="dtAreas" var="area" value="#{condominioEdicaoController.areas}" 
+				 editable="#{condominioEdicaoController.isEditavel()}" style="margin-bottom:20px">
+	 			
+	 			<p:column headerText="Nome" >
+		               <h:outputText value="#{area.nome}" />
+		       	</p:column>
+		       	
+		       	<p:column headerText="Descrição" >
+		               <h:outputText value="#{area.descricao}" />
+		       	</p:column>
+		       
+		       	<p:column style="width:32px">
+		           <p:commandButton id="removerArea" value="Excluir" rendered="#{condominioEdicaoController.isEditavel()}"
+							actionListener="#{condominioEdicaoController.excluirArea(area)}" update="mensagens, dtAreas" />
+		       	</p:column>
+		   </p:dataTable>
+            
+            <p:commandButton id="btnBlocoSalvarTab2" value="Salvar" style="margin-left:10px;" rendered="#{condominioEdicaoController.isEditavel()}"
+							actionListener="#{condominioEdicaoController.salvar}"
+							update="mensagens" />
+        </p:tab>
+    </p:tabView>
+    
    </ui:define>
 </ui:composition>

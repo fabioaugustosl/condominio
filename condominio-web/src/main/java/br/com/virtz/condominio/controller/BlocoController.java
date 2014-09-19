@@ -4,14 +4,12 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import br.com.virtz.condominio.entity.Bloco;
-import br.com.virtz.condominio.service.IBlocoService;
+import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.util.MessageHelper;
 
 @ManagedBean
@@ -19,7 +17,7 @@ import br.com.virtz.condominio.util.MessageHelper;
 public class BlocoController {
 
 	@EJB
-	private IBlocoService blocoService;
+	private ICondominioService condominioService;
 	
 	@Inject
 	private MessageHelper message;
@@ -37,7 +35,7 @@ public class BlocoController {
 	
 	public void salvar(){
 		try {
-			blocoService.salvar(bloco);
+			condominioService.salvarBloco(bloco);
 			message.addInfo("O bloco "+bloco.getNome()+" foi salvo com sucesso!"); 
 
 			blocos = listarTodos(); 
@@ -53,7 +51,7 @@ public class BlocoController {
 			message.addError("Nenhum bloco foi selecionado para ser removido.");
 		}
 		
-		blocoService.remover(blocoSelecionado.getId());
+		condominioService.removerBloco(blocoSelecionado.getId());
 		blocos = listarTodos(); 
 		
 		message.addInfo("O bloco "+blocoSelecionado.getNome()+" foi removido com sucesso"); 
@@ -61,7 +59,7 @@ public class BlocoController {
 	}
 	
 	public List<Bloco> listarTodos(){
-		return blocoService.recuperarTodos();
+		return condominioService.recuperarTodosBlocos();
 	}
 	
 
