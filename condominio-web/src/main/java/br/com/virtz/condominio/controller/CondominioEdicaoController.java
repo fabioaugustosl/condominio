@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.controller;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +37,7 @@ public class CondominioEdicaoController {
 	
 	private List<Bloco> blocos;
 	private List<AreaComum> areas;
+	private AreaComum area;
 	private Condominio condominio;
 	private Usuario usuario;
 	private boolean editavel;
@@ -44,8 +46,9 @@ public class CondominioEdicaoController {
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
 		condominio = usuario.getCondominio();
+		area = new AreaComum();
 
-		editavel = false;
+		editavel = true;
 		
 		blocos = listarTodosBlocos();
 		areas = new ArrayList<AreaComum>(condominio.getAreasComuns());
@@ -71,10 +74,15 @@ public class CondominioEdicaoController {
 	}
 	
 	
-	public void salvarAreas() throws AppException{
+	public void salvarArea() throws AppException{
 		
 		try {
-			
+			area = condominioService.salvarAreaComum(area);
+			if(areas == null){
+				areas = new ArrayList<AreaComum>();
+			}
+			areas.add(area);
+			area = null;
 		} catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar a(s) áreas(s). Favor acesse o menu novamente e repita o processo.");
 		}
@@ -96,6 +104,9 @@ public class CondominioEdicaoController {
     	message.addInfo("A área comum "+area.getNome()+" foi excluída com sucesso.");
     }
     
+    public void novaArea(){
+    	area = new AreaComum();
+    }
 
     
 	// GETTERS E SETTERS
@@ -135,5 +146,15 @@ public class CondominioEdicaoController {
 	public void setAreas(List<AreaComum> areas) {
 		this.areas = areas;
 	}
+
+	public AreaComum getArea() {
+		return area;
+	}
+
+	public void setArea(AreaComum area) {
+		this.area = area;
+	}
+	
+	
 
 }

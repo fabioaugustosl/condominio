@@ -10,7 +10,7 @@
    	<h1><p:outputLabel value="#{condominioEdicaoController.nomeCondominio}" /></h1>
  	<br />
  	
-	<p:tabView orientation="left">
+	<p:tabView id="tabConcominio" orientation="left">
         <p:tab title="O condomínio">
         	<p:outputPanel layout="block" rendered="#{condominioEdicaoController.isEditavel()}">
 	        	<p:outputLabel value="Nome do condomínio: " />
@@ -24,7 +24,7 @@
 	       			rendered="#{condominioEdicaoController.isEditavel()}"/>
 	       			
 	       		<p:outputLabel value="#{condominioEdicaoController.condominio.quantidadeApartamentos}" 
-	       			rendered="#{not condominioEdicaoController.isEditavel()}"/>
+	       			rendered="#{not condominioEdicaoController.isEditavel()}" />
 	       			
        		</p:outputPanel>
         	<br />
@@ -53,8 +53,8 @@
 		   </p:dataTable>
 		
 			<p:commandButton id="btnBlocoSalvarTab1" value="Salvar" style="margin-left:10px;" rendered="#{condominioEdicaoController.isEditavel()}"
-							actionListener="#{condominioEdicaoController.salvarAreas}"
-							update="mensagens" />
+							actionListener="#{condominioEdicaoController.salvar}"
+							update=":form:mensagens, tabConcominio" />
             
         </p:tab>
         
@@ -71,17 +71,54 @@
 		               <h:outputText value="#{area.descricao}" />
 		       	</p:column>
 		       
-		       	<p:column style="width:32px">
-		           <p:commandButton id="removerArea" value="Excluir" rendered="#{condominioEdicaoController.isEditavel()}"
-							actionListener="#{condominioEdicaoController.excluirArea(area)}" update="mensagens, dtAreas" />
+		       	<p:column style="width:32px" rendered="#{condominioEdicaoController.isEditavel()}">
+		           <p:commandButton id="removerArea" value="Excluir" 
+							actionListener="#{condominioEdicaoController.excluirArea(area)}"
+							update=":form:mensagens, dtAreas" />
 		       	</p:column>
-		   </p:dataTable>
+		   	</p:dataTable>
             
-            <p:commandButton id="btnBlocoSalvarTab2" value="Salvar" style="margin-left:10px;" rendered="#{condominioEdicaoController.isEditavel()}"
-							actionListener="#{condominioEdicaoController.salvar}"
-							update="mensagens" />
+          	<p:commandButton value="Nova Área" actionListener="#{condominioEdicaoController.novaArea}" 
+          				oncomplete="PF('cadArea').show();" />
         </p:tab>
     </p:tabView>
+    
+    <p:dialog header="Área comum" widgetVar="cadArea" minHeight="40" appendTo="@(body)" dynamic="true">
+	   	<p:panelGrid id="gridCadArea">
+	   	 	<p:row>
+        		<p:column>
+        			<p:outputLabel value="Nome:"></p:outputLabel>
+        		</p:column>
+        		<p:column>
+        			<p:inputText id="nomeArea" value="#{condominioEdicaoController.area.nome}" 
+        					size="100" maxlength="100" required="true" />
+        		</p:column>
+ 	   		</p:row>
+ 	   		
+ 	   		<p:row>
+        		<p:column>
+        			<p:outputLabel value="Descrição:"></p:outputLabel>
+        		</p:column>
+        		<p:column>
+        			<p:inputTextarea id="descArea" value="#{condominioEdicaoController.area.descricao}" 
+        					maxlength="2000"  />
+        		</p:column>
+ 	   		</p:row>
+ 	   		
+ 	   		<p:row>
+        		<p:column binding="2">
+        			<p:outputLabel value="Passível de reserva? "></p:outputLabel>
+        			<p:selectBooleanCheckbox id="passivelReserva" 
+        					value="#{condominioEdicaoController.area.podeSerReservado}" />
+        		</p:column>
+ 	   		</p:row>
+ 	   		
+	   	</p:panelGrid>
+        
+        <p:commandButton id="btnBlocoSalvarTab2" value="Salvar" 
+							actionListener="#{condominioEdicaoController.salvarArea}"
+							update=":form:mensagens, :form:tabConcominio:dtAreas" onclick="PF('cadArea').hide();" />
+	</p:dialog>
     
    </ui:define>
 </ui:composition>
