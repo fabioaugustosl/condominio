@@ -46,7 +46,6 @@ public class CondominioEdicaoController {
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
 		condominio = usuario.getCondominio();
-		area = new AreaComum();
 
 		editavel = usuario.isSindico();
 		
@@ -77,6 +76,7 @@ public class CondominioEdicaoController {
 	public void salvarArea() throws AppException{
 		
 		try {
+			area.setCondominio(condominio);
 			area = condominioService.salvarAreaComum(area);
 			if(areas == null){
 				areas = new ArrayList<AreaComum>();

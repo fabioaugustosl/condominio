@@ -37,7 +37,7 @@ public class LoginController {
 		Usuario u = new Usuario();
 		u.setEmail("fabioaugustosl@gmail.com");
 		u.setNome("Fabio");
-		//u.setSindico(Boolean.TRUE);
+		u.setSindico(Boolean.TRUE);
 		
 		Condominio c = new Condominio();
 		c.setNome("Ponto Imperial");
