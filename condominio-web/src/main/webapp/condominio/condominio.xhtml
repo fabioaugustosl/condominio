@@ -52,13 +52,14 @@
 		
 			<p:commandButton id="btnBlocoSalvar" value="Ok" style="margin-left:10px;" 
 							actionListener="#{condominioController.salvarBlocos}"
-							update="ctCadastroBlocos" onsuccess="PF('cadSucesso').show();" />
+							update="ctCadastroBlocos" 
+							onsuccess="PF('cadSucesso').show();" />
 	</p:outputPanel>
 	</p:outputPanel>
 	
 	
-	<p:dialog header="Cadastro dos blocos" widgetVar="cadSucesso" modal="true" height="100" dynamic="true" appendToBody="true" >
-	    <p:outputPanel layout="block">
+	<p:dialog header="Cadastro dos blocos" id="cadSucesso" widgetVar="cadSucesso" height="100" dynamic="true" appendTo="@(body)" modal="true"  >
+	    <p:outputPanel layout="block" id="outputPanelDlgSucess" >
 	    <h:outputText value="Parabéns. O cadatro dos blocos de seu condomínio terminou." />
 	    </p:outputPanel>
 	    <p:commandButton id="btnEditarBloco" value="Ok" 

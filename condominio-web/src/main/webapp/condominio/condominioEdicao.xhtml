@@ -59,19 +59,19 @@
         </p:tab>
         
         <p:tab title="Áreas comuns">
-            
+             
             <p:dataTable id="dtAreas" var="area" value="#{condominioEdicaoController.areas}" 
 				 editable="#{condominioEdicaoController.isEditavel()}" style="margin-bottom:20px">
 	 			
-	 			<p:column headerText="Nome" >
+	 			<p:column headerText="Nome" style="width:30%"  >
 		               <h:outputText value="#{area.nome}" />
 		       	</p:column>
 		       	
-		       	<p:column headerText="Descrição" >
+		       	<p:column headerText="Descrição" style="width:50%" >
 		               <h:outputText value="#{area.descricao}" />
 		       	</p:column>
 		       
-		       	<p:column style="width:32px" rendered="#{condominioEdicaoController.isEditavel()}">
+		       	<p:column rendered="#{condominioEdicaoController.isEditavel()}" style="width:20%" >
 		           <p:commandButton id="removerArea" value="Excluir" 
 							actionListener="#{condominioEdicaoController.excluirArea(area)}"
 							update=":form:mensagens, dtAreas" />
@@ -79,11 +79,12 @@
 		   	</p:dataTable>
             
           	<p:commandButton value="Nova Área" actionListener="#{condominioEdicaoController.novaArea}" 
-          				oncomplete="PF('cadArea').show();" />
+          		rendered="#{condominioEdicaoController.isEditavel()}"
+          		oncomplete="PF('cadArea').show();" /> 
         </p:tab>
     </p:tabView>
     
-    <p:dialog header="Área comum" widgetVar="cadArea" minHeight="40" appendTo="@(body)" dynamic="true">
+    <p:dialog header="Área comum" widgetVar="cadArea" minHeight="40" appendTo="@(body)" dynamic="true" modal="true">
 	   	<p:panelGrid id="gridCadArea">
 	   	 	<p:row>
         		<p:column>
@@ -106,7 +107,7 @@
  	   		</p:row>
  	   		
  	   		<p:row>
-        		<p:column binding="2">
+        		<p:column colspan="2">
         			<p:outputLabel value="Passível de reserva? "></p:outputLabel>
         			<p:selectBooleanCheckbox id="passivelReserva" 
         					value="#{condominioEdicaoController.area.podeSerReservado}" />
@@ -117,8 +118,9 @@
         
         <p:commandButton id="btnBlocoSalvarTab2" value="Salvar" 
 							actionListener="#{condominioEdicaoController.salvarArea}"
-							update=":form:mensagens, :form:tabConcominio:dtAreas" onclick="PF('cadArea').hide();" />
-	</p:dialog>
+							update=":form:mensagens, :form:tabConcominio:dtAreas"
+							onsuccess="PF('cadArea').hide();" />
+	</p:dialog> 
     
    </ui:define>
 </ui:composition>

@@ -30,6 +30,10 @@ public class Usuario extends Entidade implements Serializable {
 	@Column(name = "email", length = 100, nullable = false)
 	private String email;
 	
+	@NotNull
+	@Column(name = "sindico", nullable = false)
+	private boolean sindico = Boolean.FALSE;
+	
 	@ManyToOne
 	@JoinColumn(name="idCondominio", nullable=false)
 	private Condominio condominio;
@@ -66,4 +70,12 @@ public class Usuario extends Entidade implements Serializable {
 		this.condominio = condominio;
 	}
 
+	public boolean isSindico() {
+		return sindico;
+	}
+
+	public void setSindico(boolean sindico) {
+		this.sindico = sindico;
+	}
+	
 }

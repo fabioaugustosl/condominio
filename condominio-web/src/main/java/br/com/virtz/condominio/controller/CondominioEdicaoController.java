@@ -48,7 +48,7 @@ public class CondominioEdicaoController {
 		condominio = usuario.getCondominio();
 		area = new AreaComum();
 
-		editavel = true;
+		editavel = usuario.isSindico();
 		
 		blocos = listarTodosBlocos();
 		areas = new ArrayList<AreaComum>(condominio.getAreasComuns());
@@ -82,9 +82,10 @@ public class CondominioEdicaoController {
 				areas = new ArrayList<AreaComum>();
 			}
 			areas.add(area);
-			area = null;
 		} catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar a(s) áreas(s). Favor acesse o menu novamente e repita o processo.");
+		} finally {
+			area = null;
 		}
 
 		message.addInfo("As áreas comuns de seu condomínio foram atualizadas.");

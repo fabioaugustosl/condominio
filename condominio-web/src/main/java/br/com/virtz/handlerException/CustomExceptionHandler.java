@@ -44,7 +44,9 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 			ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
 
 			Throwable exception = context.getException();
-
+			
+			exception.printStackTrace();
+			
 			String msg = "";
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("exceptionMessage", exception.getMessage());
