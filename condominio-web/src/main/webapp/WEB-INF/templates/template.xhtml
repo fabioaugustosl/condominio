@@ -11,57 +11,143 @@
 	<!--  <h:outputStylesheet library="css" name="default.css"/>
         <h:outputStylesheet library="css" name="cssLayout.css"/> -->
 	<title>Condominio</title>
+	
+	<style>
+body, 
+html{
+    margin:0;
+    padding:0;
+    height:100%;
+}
+* img{
+    max-width:100% !important;
+    height:auto !important;
+}
+.site-cols-wrapper{
+    max-width:1200px;
+    margin:0 auto;
+ 
+    font-family: sans-serif;
+    font-size:18px;
+    color:#555;
+}
+/* Coluna da esquerda */
+.site-left-col{
+    width:100%;
+    margin-right:-940px;
+    float:left;
+}
+.site-left-col-resized{
+    width:100%;
+    margin-right:0;
+    float:none;
+}
+.site-left-col-inner{
+    padding:20px;
+    margin-right:940px;
+}
+.site-left-col-inner-resized{
+    padding:20px;
+    margin-right:0;
+}
+/* Coluna da direita */
+.site-right-col{
+    width:900px;
+    float:right;
+}
+.site-right-col-resized{
+    width:100%;
+    float:none;
+}
+.site-right-col-inner{
+    padding:20px;
+}
+/* "Menu" */
+.menu{
+    padding:20px 0;
+    text-align:center;
+    width:100%;
+    displau:block;
+    clear:both;
+    font-size:14px;
+    color:#fff;
+    background:#000;
+}
+.menu a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+}
+</style>
+	
+	<script>
+function resizeSidebar() {
+    var window_width = $(window).width();
+    
+    if ( window_width &#60; 800 ) { 
+        $('.site-right-col').addClass('site-right-col-resized');
+        $('.site-left-col').addClass('site-left-col-resized');
+        $('.site-left-col-inner').addClass('site-left-col-inner-resized');
+    } else {
+        $('.site-right-col').removeClass('site-right-col-resized');
+        $('.site-left-col').removeClass('site-left-col-resized');
+        $('.site-left-col-inner').removeClass('site-left-col-inner-resized');
+    }
+}
+ 
+jQuery(function(){
+    resizeSidebar();
+    
+    $(window).resize(function(){
+        resizeSidebar();
+    });
+});
+</script>
+
 </h:head>
+
 <h:body>
 		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
  
 		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-		    <p:graphicImage name="../img/ajax-loader.gif" />
+		    <p:graphicImage name="/img/ajax-loader.gif" />
 		</p:dialog>
 		
-	
-		<p:outputPanel id="central"  style="height:90%; width:100%;" layout="block" global="true">
-			
-		<p:outputPanel id="faixaSuperios" style="height:5%; width:100%; background-color: #e7e3e3; text-align:rigth;" global="true" layout="block">
-				<p:graphicImage url="/img/logout.png"></p:graphicImage>
-		</p:outputPanel>
+		<div class="menu">
+			<p:outputLabel value="Topo principal"></p:outputLabel>
+			<p:graphicImage url="/img/logout.png"></p:graphicImage> 
+		</div>
 		
-		<p:outputPanel id="faixaPrincipal" style="height:95%; width:100%;" global="true" layout="block">
-			<p:layout id="layoutContainer" >
-				<p:layoutUnit position="north" closable="false" resizable="false" collapsible="false" style="height:15%; ">
-					<p:outputPanel id="TopoContainer" >Aqui vai ser o topo</p:outputPanel>
-				</p:layoutUnit>
-				
-				<p:layoutUnit position="west" size="250px;" header="Menu"
-					resizable="true" closable="false" collapsible="true">
-					<p:panelMenu style="width:100%">
+		<div class="site-cols-wrapper">
+			    <div class="site-left-col">
+			        <div class="site-left-col-inner">
+			            <p:panelMenu style="width:100%">
 						<p:submenu label="Informações">
 							<p:menuitem value="Meu Condomínio" outcome="/condominio/condominio.faces" />
 							<p:menuitem value="Meus Dados" url="www.google.com" />
 							<p:menuitem value="Bloco (exemplo)" outcome="/bloco.faces" />
+							<p:menuitem value="Reservar Área" outcome="/condominio/reservarArea.faces" />
 						</p:submenu>
 						<p:submenu label="Configurações">
 							<p:menuitem value="Gerais" url="www.google.com" />
 						</p:submenu>
 					</p:panelMenu>
-				</p:layoutUnit>
-	
-				<p:layoutUnit position="center">
-					<h:form id="form" style="width:100%">
+			        </div>
+			    </div>
+			    <div class="site-right-col">
+			        <div class="site-right-col-inner">
+			           <h:form id="form" style="width:100%">
 						<p:messages id="mensagens" ></p:messages>
 						<ui:insert name="content">Aqui vai ser o conteúdo.</ui:insert>
 					</h:form>
-				</p:layoutUnit>
-				
-				<!-- <p:layoutUnit position="south" closable="false" resizable="false" collapsible="false" >
-					<p:outputPanel id="faixaRodape" style="height:5%; width:100%; background-color: #e7e3e3;" global="true" layout="block">
-							Rodape
-					</p:outputPanel>
-				</p:layoutUnit> -->
-			</p:layout>
-		</p:outputPanel>
-	</p:outputPanel>
-
+			        </div>
+			    </div>
+		</div>
+		<div class="menu">
+			<p:outputLabel value="Rodapé"></p:outputLabel>
+		</div>
+					
+	
 </h:body>
 
 </html>

@@ -8,6 +8,8 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.print.attribute.HashAttributeSet;
 
+import org.apache.commons.lang.StringUtils;
+
 import br.com.virtz.condominio.entity.AreaComum;
 import br.com.virtz.condominio.entity.Condominio;
 import br.com.virtz.condominio.entity.Usuario;
@@ -32,12 +34,17 @@ public class LoginController {
 	@Inject
 	private SessaoUsuario sessao;
 	
+	private String login;
+	
 	
 	public void logar() throws Exception{
 		Usuario u = new Usuario();
 		u.setEmail("fabioaugustosl@gmail.com");
 		u.setNome("Fabio");
-		u.setSindico(Boolean.TRUE);
+		
+		if(StringUtils.isNotBlank(login) && login.equalsIgnoreCase("sindico") ){
+			u.setSindico(Boolean.TRUE);
+		}
 		
 		Condominio c = new Condominio();
 		c.setNome("Ponto Imperial");
@@ -57,5 +64,18 @@ public class LoginController {
 		
 		navigation.redirectToPage("/portal.faces");
 	}
+
+
+	public String getLogin() {
+		return login;
+	}
+
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	
+	
+	
 		
 }

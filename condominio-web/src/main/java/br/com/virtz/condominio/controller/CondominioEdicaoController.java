@@ -1,9 +1,7 @@
 package br.com.virtz.condominio.controller;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

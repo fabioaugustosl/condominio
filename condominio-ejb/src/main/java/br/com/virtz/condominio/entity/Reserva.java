@@ -27,6 +27,12 @@ public class Reserva extends Entidade implements Serializable {
 	@Column(name = "data", nullable = false)
 	private Calendar data;
 
+	@Column(name = "horaInicio")
+	private Calendar horaInicio;
+
+	@Column(name = "horaFim")
+	private Calendar horaFim;
+
 	@ManyToOne
 	@JoinColumn(name = "idAreaComum")
 	private AreaComum areaComum;
@@ -65,6 +71,22 @@ public class Reserva extends Entidade implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Calendar getHoraInicio() {
+		return horaInicio;
+	}
+
+	public void setHoraInicio(Calendar horaInicio) {
+		this.horaInicio = horaInicio;
+	}
+
+	public Calendar getHoraFim() {
+		return horaFim;
+	}
+
+	public void setHoraFim(Calendar horaFim) {
+		this.horaFim = horaFim;
 	}
 
 }

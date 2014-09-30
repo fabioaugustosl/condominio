@@ -24,7 +24,7 @@ public class Condominio extends Entidade implements Serializable {
 	private Long id;
 	
 	@OneToMany(mappedBy="condominio")
-	private List<Bloco> bloco;
+	private List<Bloco> blocos;
 	
 	@OneToMany(mappedBy="condominio")
 	private Set<AreaComum> areasComuns;
@@ -47,12 +47,12 @@ public class Condominio extends Entidade implements Serializable {
 		this.id = id;
 	}
 
-	public List<Bloco> getBloco() {
-		return bloco;
+	public List<Bloco> getBlocos() {
+		return blocos;
 	}
 
-	public void setBloco(List<Bloco> bloco) {
-		this.bloco = bloco;
+	public void setBlocos(List<Bloco> blocos) {
+		this.blocos = blocos;
 	}
 
 	public String getNome() {

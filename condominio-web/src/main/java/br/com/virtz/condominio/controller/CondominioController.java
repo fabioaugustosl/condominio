@@ -1,6 +1,5 @@
 package br.com.virtz.condominio.controller;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +44,10 @@ public class CondominioController {
 		condominio = usuario.getCondominio();
 		
 		blocos = listarTodosBlcoso();
+		if(blocos != null && blocos.size() > 0){
+			NavigationPage.redirectToPage("/condominio/condominioEdicao.faces");
+		}
+		
 		if(blocos == null || blocos.isEmpty()){
 			quantidadeBlocos = 1;
 		}

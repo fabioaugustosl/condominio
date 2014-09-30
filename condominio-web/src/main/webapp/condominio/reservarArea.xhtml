@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/template.xhtml">
+   
+   <ui:define name="content">
+   	<h1><p:outputLabel value="Reserva de áreas em comum" /></h1>
+ 	<br /><br />
+ 	<p:outputLabel value="Selecione a área desejada: " />
+ 	<p:selectOneMenu id="comboArea" >
+ 		<f:selectItems value="#{reservaController.areas}" var="area" itemLabel="#{area.nome}" itemValue="#{area.id}" />
+ 	</p:selectOneMenu>
+ 	
+ 	<p:outputPanel id="containerAgenda" style="margin-top:10px;">
+  		<p:schedule id="schedule" value="#{reservaController.reservas}" widgetVar="agendaReserva" timeZone="GMT+3" locale="pt">
+  			<p:ajax event="dateSelect" listener="#{reservaController.selecionarData}" update="eventDetails" oncomplete="PF('novoEvento').show();" />
+ 
+           <!--  
+            <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="eventDetails" oncomplete="PF('novoEvento').show();" />
+            <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update="messages" />
+            <p:ajax event="eventResize" listener="#{scheduleView.onEventResize}" update="messages" /> -->
+ 
+       	</p:schedule>
+    </p:outputPanel> 
+    
+    <p:dialog widgetVar="novoEvento" header="Agendar" showEffect="clip" hideEffect="clip">
+        <h:panelGrid id="eventDetails" columns="2">
+            
+            <h:outputLabel value="Você confirma a reserva?" />
+ 
+            <p:commandButton id="btnAgendar" value="Sim" actionListener="#{reservaController.salvarReserva}" oncomplete="PF('agendaReserva').update();PF('novoEvento').hide();" />
+        </h:panelGrid>
+    </p:dialog>  
+    
+    <script type="text/javascript">
+	    PrimeFaces.locales['pt'] = {
+	        closeText: 'Fechar',
+	        prevText: 'Anterior',
+	        nextText: 'Próximo',
+	        currentText: 'Hoje',
+	        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+	            'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+	        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun',
+	            'Jul','Ago','Set','Out','Nov','Dez'],
+	        dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+	        dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+	        dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+	        weekHeader: 'Hf',
+	        firstDay: 1,
+	        isRTL: false,
+	        showMonthAfterYear: false,
+	        yearSuffix: '',
+	        month: 'Mês',
+	        week: 'Semana',
+	        day: 'Dia',
+	        allDayText : 'Hora'
+	    };
+	</script>
+	<style type="text/css">
+	    .value {
+	        width: 1000px;
+	    }
+	</style>
+
+   </ui:define>
+</ui:composition>
