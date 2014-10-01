@@ -6,7 +6,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.print.attribute.HashAttributeSet;
 
 import org.apache.commons.lang.StringUtils;
 

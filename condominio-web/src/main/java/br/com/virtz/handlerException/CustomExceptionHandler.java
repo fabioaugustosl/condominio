@@ -13,8 +13,6 @@ import javax.faces.event.ExceptionQueuedEventContext;
 
 import org.apache.commons.lang.StringUtils;
 
-import br.com.virtz.condominio.exception.AppException;
-
 
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 
@@ -52,8 +50,11 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("exceptionMessage", exception.getMessage());
 
 				msg = this.retrieveTranslatedMessage(exception);
+				
+				FacesContext.getCurrentInstance().addMessage(null,	new FacesMessage( FacesMessage.SEVERITY_ERROR, msg, null));
+				this.handleRedirect(FacesContext.getCurrentInstance());
 
-				AppException sf = this.getAppException(exception);
+			/*	AppException sf = this.getAppException(exception);
 				FacesContext.getCurrentInstance().addMessage(null,	new FacesMessage( FacesMessage.SEVERITY_ERROR, msg, null));
 				if(sf == null || sf.exibirDetalhes()){
 					StringBuilder detail = new StringBuilder();
@@ -61,7 +62,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 					FacesContext.getCurrentInstance().addMessage(null,	new FacesMessage( FacesMessage.SEVERITY_FATAL, detail.toString(), null));
 
 					this.handleRedirect(FacesContext.getCurrentInstance());
-				}
+				}*/
 
 				FacesContext.getCurrentInstance().renderResponse();
 
@@ -118,7 +119,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 		return "";
 	}
 
-	private AppException getAppException(Throwable exception) {
+/*	private AppException getAppException(Throwable exception) {
 		Throwable cause = exception.getCause();
 		// tenta até o terceiro nível a tradução da mensagem
 		for(int i = 0; i < 5; i++){
@@ -131,7 +132,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 			cause = cause.getCause();
 		}
 		return null;
-	}
+	}*/
 
 
 }

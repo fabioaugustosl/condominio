@@ -1,17 +1,12 @@
 package br.com.virtz.converter;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.persistence.Id;
-
-import org.primefaces.component.picklist.PickList;
-import org.primefaces.component.selectmanymenu.SelectManyMenu;
-import org.primefaces.model.DualListModel;
 
 /**
  * Converter padrão para ser usado quando a entidade envolvida tiver a

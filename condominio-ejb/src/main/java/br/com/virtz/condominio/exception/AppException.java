@@ -2,13 +2,11 @@ package br.com.virtz.condominio.exception;
 
 import java.io.Serializable;
 
-import javax.ejb.ApplicationException;
-
 /**
  * Exceção padrão/geral do sistema. Todas as demais exceções devem por
  * padrão extender essa classe.
  */
-@ApplicationException(rollback=true)
+//@ApplicationException(rollback=true)
 public class AppException extends Exception implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

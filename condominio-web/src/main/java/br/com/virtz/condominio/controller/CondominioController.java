@@ -14,7 +14,6 @@ import org.primefaces.event.RowEditEvent;
 import br.com.virtz.condominio.entity.Bloco;
 import br.com.virtz.condominio.entity.Condominio;
 import br.com.virtz.condominio.entity.Usuario;
-import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.MessageHelper;
@@ -77,17 +76,17 @@ public class CondominioController {
 	}
 	
 
-	public void salvarBlocos() throws AppException{
+	public void salvarBlocos() throws Exception{
 		for(Bloco bloco : blocos){
 			try {
 				condominioService.salvarBloco(bloco);
 			} catch (Exception e) {
-				throw new AppException("Ocorreu um erro ao salvar o(s) bloco(s). Favor acesse o menu novamente e repita o processo.");
+				throw new Exception("Ocorreu um erro ao salvar o(s) bloco(s). Favor acesse o menu novamente e repita o processo.");
 			}
 		}
 	}
 	
-	public void editarCondominio() throws AppException{
+	public void editarCondominio() throws Exception{
 		NavigationPage.redirectToPage("condominioEdicao.faces");
 	}
 	

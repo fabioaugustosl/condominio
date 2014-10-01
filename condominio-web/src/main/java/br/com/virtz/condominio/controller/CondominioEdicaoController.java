@@ -15,7 +15,6 @@ import br.com.virtz.condominio.entity.AreaComum;
 import br.com.virtz.condominio.entity.Bloco;
 import br.com.virtz.condominio.entity.Condominio;
 import br.com.virtz.condominio.entity.Usuario;
-import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.MessageHelper;
@@ -55,7 +54,7 @@ public class CondominioEdicaoController {
 		return condominioService.recuperarTodosBlocos();
 	}
 	
-	public void salvar() throws AppException{
+	public void salvar() throws Exception{
 		
 		try {
 			condominioService.salvar(condominio);
@@ -64,14 +63,14 @@ public class CondominioEdicaoController {
 				condominioService.salvarBloco(bloco);
 			}
 		} catch (Exception e) {
-			throw new AppException("Ocorreu um erro ao salvar o(s) bloco(s). Favor acesse o menu novamente e repita o processo.");
+			throw new Exception("Ocorreu um erro ao salvar o(s) bloco(s). Favor acesse o menu novamente e repita o processo.");
 		}
 
 		message.addInfo("Os dados do seu condomínio foram atualizados com sucesso. ");
 	}
 	
 	
-	public void salvarArea() throws AppException{
+	public void salvarArea() throws Exception{
 		
 		try {
 			area.setCondominio(condominio);
@@ -81,7 +80,7 @@ public class CondominioEdicaoController {
 			}
 			areas.add(area);
 		} catch (Exception e) {
-			throw new AppException("Ocorreu um erro ao salvar a(s) áreas(s). Favor acesse o menu novamente e repita o processo.");
+			throw new Exception("Ocorreu um erro ao salvar a(s) áreas(s). Favor acesse o menu novamente e repita o processo.");
 		} finally {
 			area = null;
 		}

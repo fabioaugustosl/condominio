@@ -20,7 +20,6 @@
          <groupId>br.com.virtz</groupId>
          <artifactId>condominio-ejb</artifactId>
          <type>ejb</type>
-         <scope>provided</scope>
       </dependency>
 
       <!-- Import the JAX-RS API, we use provided scope as the API is included 
