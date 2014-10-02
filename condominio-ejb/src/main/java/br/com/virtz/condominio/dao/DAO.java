@@ -11,8 +11,7 @@ import br.com.virtz.condominio.entity.Entidade;
 
 public abstract class DAO<T> {
 	
-	@SuppressWarnings("unused")
-   	@Produces
+	@Produces
    	@PersistenceContext
    	private EntityManager em;
 
