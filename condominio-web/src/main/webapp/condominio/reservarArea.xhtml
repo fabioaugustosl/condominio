@@ -10,31 +10,31 @@
    	<h1><p:outputLabel value="Reserva de áreas em comum" /></h1>
  	<br /><br />
  	<p:outputLabel value="Selecione a área desejada: " />
- 	<p:selectOneMenu id="comboArea" >
- 		<f:selectItems value="#{reservaController.areas}" var="area" itemLabel="#{area.nome}" itemValue="#{area.id}" />
+ 	<p:selectOneMenu id="comboArea" value="#{reservaController.areaSelecionada}" converter="converterEntityById" >
+ 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+ 		<f:selectItems value="#{reservaController.areas}" var="area" itemLabel="#{area.nome}" itemValue="#{area}" />
+ 		<p:ajax event="change" update="containerAgenda" listener="#{reservaController.recuperarEventos}" />
  	</p:selectOneMenu>
  	
  	<p:outputPanel id="containerAgenda" style="margin-top:10px;">
-  		<p:schedule id="schedule" value="#{reservaController.reservas}" widgetVar="agendaReserva" timeZone="GMT+3" locale="pt">
-  			<p:ajax event="dateSelect" listener="#{reservaController.selecionarData}" update="eventDetails" oncomplete="PF('novoEvento').show();" />
- 
-           <!--  
-            <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="eventDetails" oncomplete="PF('novoEvento').show();" />
-            <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update="messages" />
-            <p:ajax event="eventResize" listener="#{scheduleView.onEventResize}" update="messages" /> -->
- 
-       	</p:schedule>
+  		<p:schedule id="agendaReserva" value="#{reservaController.reservas}" widgetVar="agendaReserva" timeZone="GMT-3" locale="pt" >
+            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" update="novoEventoPanel" oncomplete="PF('novoEvento').show();" />
+        </p:schedule>
     </p:outputPanel> 
     
-    <p:dialog widgetVar="novoEvento" header="Agendar" showEffect="clip" hideEffect="clip">
-        <h:panelGrid id="eventDetails" columns="2">
+    <p:dialog widgetVar="novoEvento" header="Agendar" showEffect="clip" hideEffect="clip" dynamic="false" appendTo="@(body)">
+        <h:panelGrid id="novoEventoPanel" columns="1">
             
-            <h:outputLabel value="Você confirma a reserva?" />
+            <p:outputLabel value="#{reservaController.mensagemConfirmacaoReserva}" id="txtMsgConfirmacao" />
  
-            <p:commandButton id="btnAgendar" value="Sim" actionListener="#{reservaController.salvarReserva}" oncomplete="PF('agendaReserva').update();PF('novoEvento').hide();" />
+ 			<p:outputPanel>
+	            <p:commandButton id="btnAgendar" value="Sim" actionListener="#{reservaController.salvarReserva}" update="agendaReserva, mensagens" oncomplete="PF('novoEvento').hide();" />
+	            <p:commandButton id="btnAgendarNao" value="Não" onclick="PF('novoEvento').hide();" />
+            </p:outputPanel>
         </h:panelGrid>
-    </p:dialog>  
+    </p:dialog>   
     
+   
     <script type="text/javascript">
 	    PrimeFaces.locales['pt'] = {
 	        closeText: 'Fechar',

@@ -52,6 +52,9 @@ public class LoginController {
 		AreaComum ac = new AreaComum();
 		ac.setNome("Churrasqueira");
 		ac.setCondominio(c);
+		
+		ac = condominioService.salvarAreaComum(ac);
+		
 		c.setAreasComuns(new HashSet<AreaComum>());
 		c.getAreasComuns().add(ac);
 		

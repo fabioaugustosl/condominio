@@ -116,7 +116,7 @@
       </plugins>
    </build>
    
-<repositories>
+	<repositories>
 	    <repository>
 	        <id>prime-repo</id>
 	        <name>PrimeFaces Maven Repository</name>

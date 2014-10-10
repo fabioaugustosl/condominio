@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.com.virtz.condominio.dao.IReservaDAO;
+import br.com.virtz.condominio.entity.AreaComum;
 import br.com.virtz.condominio.entity.Reserva;
 
 @Stateless
@@ -16,21 +17,22 @@ public class ReservaService implements IReservaService {
 
 	@Override
 	public Reserva salvar(Reserva reserva) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return reservaDAO.salvar(reserva);
 	}
 
 	@Override
 	public void remover(Long id) {
-		// TODO Auto-generated method stub
-		
+		reservaDAO.remover(id);
 	}
 
 	@Override
 	public List<Reserva> recuperarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		return reservaDAO.recuperarTodos();
 	}
 
+	@Override
+	public List<Reserva> recuperar(AreaComum area) {
+		return reservaDAO.recuperar(area);
+	}
 	
 }

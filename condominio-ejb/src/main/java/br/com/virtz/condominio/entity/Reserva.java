@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -23,13 +25,16 @@ public class Reserva extends Entidade implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	@Column(name = "data", nullable = false)
 	private Calendar data;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "horaInicio")
 	private Calendar horaInicio;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "horaFim")
 	private Calendar horaFim;
 

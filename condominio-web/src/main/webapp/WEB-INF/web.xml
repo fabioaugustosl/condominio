@@ -18,6 +18,7 @@
 		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
 		<param-value>true</param-value>
 	</context-param>
+
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
 		<param-value>flick</param-value>
@@ -28,12 +29,7 @@
 		<param-value>commons</param-value>
 	</context-param>
 	
-	<!-- <context-param>
-    <param-name>org.jboss.jbossfaces.WAR_BUNDLES_JSF_IMPL</param-name>
-    <param-value>true</param-value>
-</context-param> -->
-
-	<session-config>
+ 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
 
@@ -41,10 +37,6 @@
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 	
-	<!-- <listener>  
-	        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>  
-	</listener>  
-	 -->
 	<!-- <filter>
 		<filter-name>PrimeFaces FileUpload Filter</filter-name>
 		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
