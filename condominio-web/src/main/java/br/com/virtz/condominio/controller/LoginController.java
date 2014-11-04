@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import br.com.virtz.condominio.entity.AreaComum;
 import br.com.virtz.condominio.entity.Condominio;
 import br.com.virtz.condominio.entity.Usuario;
+import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -32,6 +33,9 @@ public class LoginController {
 	
 	@Inject
 	private SessaoUsuario sessao;
+	
+	@Inject
+	private ParametroSistemaLookup parametroLookup;
 	
 	private String login;
 	
@@ -63,6 +67,9 @@ public class LoginController {
 		u = usuarioService.salvar(u);
 		
 		sessao.setUsuarioLogado(u);
+		
+		// iniciar lookups
+		parametroLookup.iniciarLookup(c);
 		
 		navigation.redirectToPage("/portal.faces");
 	}

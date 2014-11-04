@@ -18,9 +18,17 @@
  	
  	<p:outputPanel id="containerAgenda" style="margin-top:10px;">
   		<p:schedule id="agendaReserva" value="#{reservaController.reservas}" widgetVar="agendaReserva" timeZone="GMT-3" locale="pt" >
-            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" update="novoEventoPanel" oncomplete="PF('novoEvento').show();" />
+            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" update="novoEventoPanel" onsuccess="PF('novoEvento').show();" />
         </p:schedule>
     </p:outputPanel> 
+    
+    <p:outputPanel id="containerMaximoDia" rendered="#{reservaController.maximoDiasFuturo > 0}">
+    	<p:outputLabel value="Data máxima para agendamento: "  />
+    	<p:outputLabel value="#{reservaController.dataMaximaAgendamento}"  >
+    		<f:convertDateTime pattern="dd/MM/yyyy"/>
+    	</p:outputLabel>
+    	
+    </p:outputPanel>
     
     <p:dialog widgetVar="novoEvento" header="Agendar" showEffect="clip" hideEffect="clip" dynamic="false" appendTo="@(body)">
         <h:panelGrid id="novoEventoPanel" columns="1">
@@ -28,7 +36,7 @@
             <p:outputLabel value="#{reservaController.mensagemConfirmacaoReserva}" id="txtMsgConfirmacao" />
  
  			<p:outputPanel>
-	            <p:commandButton id="btnAgendar" value="Sim" actionListener="#{reservaController.salvarReserva}" update="agendaReserva, mensagens" oncomplete="PF('novoEvento').hide();" />
+	            <p:commandButton id="btnAgendar" value="Sim" actionListener="#{reservaController.salvarReserva}" update="agendaReserva" oncomplete="PF('novoEvento').hide();" />
 	            <p:commandButton id="btnAgendarNao" value="Não" onclick="PF('novoEvento').hide();" />
             </p:outputPanel>
         </h:panelGrid>

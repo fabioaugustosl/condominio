@@ -52,20 +52,9 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 				msg = this.retrieveTranslatedMessage(exception);
 				
 				FacesContext.getCurrentInstance().addMessage(null,	new FacesMessage( FacesMessage.SEVERITY_ERROR, msg, null));
-				this.handleRedirect(FacesContext.getCurrentInstance());
-
-			/*	AppException sf = this.getAppException(exception);
-				FacesContext.getCurrentInstance().addMessage(null,	new FacesMessage( FacesMessage.SEVERITY_ERROR, msg, null));
-				if(sf == null || sf.exibirDetalhes()){
-					StringBuilder detail = new StringBuilder();
-					this.buildDetailError(exception, detail);
-					FacesContext.getCurrentInstance().addMessage(null,	new FacesMessage( FacesMessage.SEVERITY_FATAL, detail.toString(), null));
-
-					this.handleRedirect(FacesContext.getCurrentInstance());
-				}*/
+				//this.handleRedirect(FacesContext.getCurrentInstance());
 
 				FacesContext.getCurrentInstance().renderResponse();
-
 			} finally {
 				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 				if(StringUtils.isBlank(msg)){
