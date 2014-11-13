@@ -26,6 +26,12 @@
          <artifactId>condominio-web</artifactId>
          <type>war</type>
       </dependency>
+      <dependency>
+         <groupId>br.com.virtz</groupId>
+         <artifactId>condominio-util</artifactId>
+         <version>1.0.0-SNAPSHOT</version>
+         <type>jar</type>
+      </dependency>
    </dependencies>
 
    <build>

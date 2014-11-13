@@ -1,6 +1,8 @@
 package br.com.virtz.condominio.controller;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -9,6 +11,10 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 
+import br.com.virtz.condominio.bean.Email;
+import br.com.virtz.condominio.constantes.EnumTemplates;
+import br.com.virtz.condominio.email.EnviarEmailPadrao;
+import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entity.AreaComum;
 import br.com.virtz.condominio.entity.Condominio;
 import br.com.virtz.condominio.entity.Usuario;
@@ -16,12 +22,13 @@ import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
+import br.com.virtz.condominio.util.ArquivosUtil;
 import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
 @ViewScoped
 public class LoginController {
-
+	
 	@Inject
 	private NavigationPage navigation;
 	
@@ -39,8 +46,18 @@ public class LoginController {
 	
 	private String login;
 	
+	@Inject
+	private LeitorTemplate leitor;
+	
+	@Inject
+	private ArquivosUtil arquivosUtil;
+	
+	@EJB
+	private EnviarEmailPadrao enviarEmail;
+	
 	
 	public void logar() throws Exception{
+		
 		Usuario u = new Usuario();
 		u.setEmail("fabioaugustosl@gmail.com");
 		u.setNome("Fabio");
@@ -70,6 +87,15 @@ public class LoginController {
 		
 		// iniciar lookups
 		parametroLookup.iniciarLookup(c);
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+        map.put("titulo", "Fábio");
+        
+        String caminho = arquivosUtil.getCaminhaPastaTemplatesEmail();
+		String msg = leitor.processarTemplate(caminho, EnumTemplates.PADRAO.getNomeArquivo(), map);
+		
+		Email email = new Email("fabioaugustosl@gmail.com", "fabioaugustosl@gmail.com", "teste Fabio", msg);
+		enviarEmail.enviar(email);
 		
 		navigation.redirectToPage("/portal.faces");
 	}
