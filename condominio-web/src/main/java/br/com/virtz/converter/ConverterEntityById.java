@@ -7,7 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import br.com.virtz.condominio.entity.Entidade;
+import br.com.virtz.condominio.entidades.Entidade;
 
 
 @FacesConverter(value = "converterEntityById")

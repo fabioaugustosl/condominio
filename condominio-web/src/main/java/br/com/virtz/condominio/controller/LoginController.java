@@ -15,9 +15,9 @@ import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.email.EnviarEmailPadrao;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
-import br.com.virtz.condominio.entity.AreaComum;
-import br.com.virtz.condominio.entity.Condominio;
-import br.com.virtz.condominio.entity.Usuario;
+import br.com.virtz.condominio.entidades.AreaComum;
+import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.service.IUsuarioService;
@@ -52,12 +52,27 @@ public class LoginController {
 	@Inject
 	private ArquivosUtil arquivosUtil;
 	
-	@EJB
+	/*@EJB
 	private EnviarEmailPadrao enviarEmail;
-	
+	*/
 	
 	public void logar() throws Exception{
 		
+		//metodoAuxiliarCriacaoUsuarioDesenv();
+				
+		Usuario u = usuarioService.recuperarUsuarioCompleto(1l);
+		sessao.setUsuarioLogado(u);
+		
+		// iniciar lookups
+		parametroLookup.iniciarLookup(u.getCondominio());
+		
+		//testeEnvioEmail();
+		
+		navigation.redirectToPage("/portal.faces");
+	}
+
+
+	private void metodoAuxiliarCriacaoUsuarioDesenv() throws Exception {
 		Usuario u = new Usuario();
 		u.setEmail("fabioaugustosl@gmail.com");
 		u.setNome("Fabio");
@@ -70,6 +85,7 @@ public class LoginController {
 		c.setNome("Ponto Imperial");
 		
 		c = condominioService.salvar(c);
+		
 		AreaComum ac = new AreaComum();
 		ac.setNome("Churrasqueira");
 		ac.setCondominio(c);
@@ -82,12 +98,10 @@ public class LoginController {
 		u.setCondominio(c);
 		
 		u = usuarioService.salvar(u);
-		
-		sessao.setUsuarioLogado(u);
-		
-		// iniciar lookups
-		parametroLookup.iniciarLookup(c);
-		
+	}
+
+
+	private void testeEnvioEmail() {
 		Map<Object, Object> map = new HashMap<Object, Object>();
         map.put("titulo", "Fábio");
         
@@ -95,9 +109,7 @@ public class LoginController {
 		String msg = leitor.processarTemplate(caminho, EnumTemplates.PADRAO.getNomeArquivo(), map);
 		
 		Email email = new Email("fabioaugustosl@gmail.com", "fabioaugustosl@gmail.com", "teste Fabio", msg);
-		enviarEmail.enviar(email);
-		
-		navigation.redirectToPage("/portal.faces");
+//		enviarEmail.enviar(email);
 	}
 
 

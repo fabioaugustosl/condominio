@@ -6,8 +6,8 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 
 import br.com.virtz.condominio.constantes.EnumParametroSistema;
-import br.com.virtz.condominio.entity.Condominio;
-import br.com.virtz.condominio.entity.ParametroSistema;
+import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.ParametroSistema;
 
 @Stateless
 public class ParametroSistemaDAO extends DAO<ParametroSistema> implements IParametroSistemaDAO {

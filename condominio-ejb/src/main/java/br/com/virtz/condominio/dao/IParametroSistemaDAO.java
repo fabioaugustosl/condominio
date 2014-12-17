@@ -5,8 +5,8 @@ import java.util.List;
 import javax.ejb.Local;
 
 import br.com.virtz.condominio.constantes.EnumParametroSistema;
-import br.com.virtz.condominio.entity.Condominio;
-import br.com.virtz.condominio.entity.ParametroSistema;
+import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.ParametroSistema;
 
 @Local
 public interface IParametroSistemaDAO extends CrudDAO<ParametroSistema> {

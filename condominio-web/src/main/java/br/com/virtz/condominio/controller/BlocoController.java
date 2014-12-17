@@ -8,7 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
-import br.com.virtz.condominio.entity.Bloco;
+import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.util.MessageHelper;
 

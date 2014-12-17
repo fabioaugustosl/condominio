@@ -8,10 +8,10 @@ import javax.ejb.Stateless;
 import br.com.virtz.condominio.dao.IAreaComumDAO;
 import br.com.virtz.condominio.dao.IBlocoDAO;
 import br.com.virtz.condominio.dao.ICondominioDAO;
-import br.com.virtz.condominio.entity.AreaComum;
-import br.com.virtz.condominio.entity.Bloco;
-import br.com.virtz.condominio.entity.Condominio;
-import br.com.virtz.condominio.entity.Usuario;
+import br.com.virtz.condominio.entidades.AreaComum;
+import br.com.virtz.condominio.entidades.Bloco;
+import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.Usuario;
 
 @Stateless
 public class CondominioService implements ICondominioService {

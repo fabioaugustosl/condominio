@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import br.com.virtz.condominio.entity.AreaComum;
-import br.com.virtz.condominio.entity.Bloco;
-import br.com.virtz.condominio.entity.Condominio;
-import br.com.virtz.condominio.entity.ParametroSistema;
-import br.com.virtz.condominio.entity.Usuario;
+import br.com.virtz.condominio.entidades.AreaComum;
+import br.com.virtz.condominio.entidades.Bloco;
+import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.ParametroSistema;
+import br.com.virtz.condominio.entidades.Usuario;
 
 @Local
 public interface IParametroSistemaService {

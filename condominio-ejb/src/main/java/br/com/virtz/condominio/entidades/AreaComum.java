@@ -1,4 +1,4 @@
-package br.com.virtz.condominio.entity;
+package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
 import java.util.Calendar;

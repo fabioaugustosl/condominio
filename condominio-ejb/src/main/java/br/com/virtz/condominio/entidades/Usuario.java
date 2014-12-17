@@ -1,7 +1,6 @@
-package br.com.virtz.condominio.entity;
+package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,13 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
-public class Bloco extends Entidade implements Serializable {
+public class Usuario extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,23 +22,24 @@ public class Bloco extends Entidade implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "numero", nullable = true)
-	private Integer numero;
-
 	@NotNull
-	@Column(name = "nome", length = 50, nullable = false)
+	@Column(name = "nome", length = 100, nullable = false)
 	private String nome;
+	
+	@NotNull
+	@Column(name = "email", length = 100, nullable = false)
+	private String email;
+	
+	@NotNull
+	@Column(name = "sindico", nullable = false)
+	private boolean sindico = Boolean.FALSE;
 	
 	@ManyToOne
 	@JoinColumn(name="idCondominio", nullable=false)
 	private Condominio condominio;
 	
-	@OneToMany(mappedBy="bloco")
-	private List<Apartamento> apartamentos;
-	
-	@Column(name="qtdAndares")
-	private Integer quantidadeAndares;
-	
+	@Column(name = "fotoPerfil", length = 300)
+	private String fotoPerfil;
 
 	public Long getId() {
 		return id;
@@ -58,12 +57,12 @@ public class Bloco extends Entidade implements Serializable {
 		this.nome = nome;
 	}
 
-	public Integer getNumero() {
-		return numero;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setNumero(Integer numero) {
-		this.numero = numero;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Condominio getCondominio() {
@@ -74,20 +73,20 @@ public class Bloco extends Entidade implements Serializable {
 		this.condominio = condominio;
 	}
 
-	public List<Apartamento> getApartamentos() {
-		return apartamentos;
+	public boolean isSindico() {
+		return sindico;
 	}
 
-	public void setApartamentos(List<Apartamento> apartamentos) {
-		this.apartamentos = apartamentos;
+	public void setSindico(boolean sindico) {
+		this.sindico = sindico;
 	}
 
-	public Integer getQuantidadeAndares() {
-		return quantidadeAndares;
+	public String getFotoPerfil() {
+		return fotoPerfil;
 	}
 
-	public void setQuantidadeAndares(Integer quantidadeAndares) {
-		this.quantidadeAndares = quantidadeAndares;
+	public void setFotoPerfil(String fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
 	}
-			
+	
 }

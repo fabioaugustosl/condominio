@@ -6,8 +6,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.com.virtz.condominio.dao.IParametroSistemaDAO;
-import br.com.virtz.condominio.entity.Condominio;
-import br.com.virtz.condominio.entity.ParametroSistema;
+import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.ParametroSistema;
 
 @Stateless
 public class ParametroSistemaService implements IParametroSistemaService {

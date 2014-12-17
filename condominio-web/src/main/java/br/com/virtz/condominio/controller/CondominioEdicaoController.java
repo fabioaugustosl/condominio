@@ -11,10 +11,10 @@ import javax.inject.Inject;
 
 import org.primefaces.event.RowEditEvent;
 
-import br.com.virtz.condominio.entity.AreaComum;
-import br.com.virtz.condominio.entity.Bloco;
-import br.com.virtz.condominio.entity.Condominio;
-import br.com.virtz.condominio.entity.Usuario;
+import br.com.virtz.condominio.entidades.AreaComum;
+import br.com.virtz.condominio.entidades.Bloco;
+import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.MessageHelper;

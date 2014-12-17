@@ -9,8 +9,8 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 
 import br.com.virtz.condominio.constantes.EnumParametroSistema;
-import br.com.virtz.condominio.entity.Condominio;
-import br.com.virtz.condominio.entity.ParametroSistema;
+import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.ParametroSistema;
 import br.com.virtz.condominio.service.IParametroSistemaService;
 
 @SessionScoped

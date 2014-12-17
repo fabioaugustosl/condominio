@@ -7,7 +7,7 @@ import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.com.virtz.condominio.entity.Entidade;
+import br.com.virtz.condominio.entidades.Entidade;
 
 public abstract class DAO<T> {
 	

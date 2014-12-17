@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 
-import br.com.virtz.condominio.entity.Usuario;
+import br.com.virtz.condominio.entidades.Usuario;
 
 @SessionScoped
 public class SessaoUsuario implements Serializable {

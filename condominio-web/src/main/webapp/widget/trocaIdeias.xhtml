@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   <p:outputPanel id="containerBatePapo">
+	   <p:outputPanel id="painelNovoBatePapo">
+	   	 	<p:accordionPanel>
+        		<p:tab title="Envie sua mensagem">
+	            	<h:panelGrid columns="2" cellpadding="10">
+	                	<p:inputTextarea rows="5" cols="30" style="width:100%;" maxlength="800" 
+	                		counterTemplate="{0}" autoResize="false" value="#{batePapoCOntroller.mensagem}"  />
+	                	<p:commandLink id="enviarMensagemBatePapo" update=":form:containerBatePapo" 
+	                			actionListener="#{batePapoCOntroller.enviarMensagem}" >
+					        <h:outputText value="Enviar" />
+					    </p:commandLink>
+	            	</h:panelGrid>
+        		</p:tab>
+        	</p:accordionPanel>
+	   </p:outputPanel>
+	   <p:outputPanel id="painelBatePapoMensagens">
+			<p:dataScroller id="dataScrollerBatePapo" value="#{batePapoController.batePapos}" var="papo" chunkSize="10" mode="inline" style="width:100%; height:100%;" >
+		        <h:panelGrid columns="1" style="width:100%; height:100%;" columnClasses="logo">
+		            <p:outputPanel>
+		                <h:panelGrid columns="2" cellpadding="5">
+		                    
+		                    <p:outputPanel id="trocaIdeiaContainerFoto">
+		 						<p:graphicImage id="img" url="/img/usuario/foto.jpg" style="width:50px;" />
+		 					</p:outputPanel>
+		                    <p:outputPanel id="trocaIdeiaContainerMensagem">
+		                    	<h:outputText value="#{papo.mensagem}" style="font-weight: bold"/><br />
+		                    	<h:outputText value="+ #{papo.qtdPositivas}" /> <h:outputText value="  - #{papo.qtdNegativas}" />
+		                    	
+		                    	<p:commandButton id="positivarBP" value="(+)" actionListener="#{batePapoController.positivar(papo)}" update="dataScrollerBatePapo"></p:commandButton>
+		                    	<p:commandButton id="negativarBP" value="(-)" actionListener="#{batePapoController.negativar(papo)}" update="dataScrollerBatePapo"></p:commandButton>
+		                    </p:outputPanel>
+		
+		                </h:panelGrid>
+		            </p:outputPanel>
+		        </h:panelGrid>
+		    </p:dataScroller>
+	    </p:outputPanel>
+    </p:outputPanel>
+
+
+</ui:composition>
+

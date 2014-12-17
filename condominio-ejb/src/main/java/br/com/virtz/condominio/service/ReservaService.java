@@ -6,8 +6,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.com.virtz.condominio.dao.IReservaDAO;
-import br.com.virtz.condominio.entity.AreaComum;
-import br.com.virtz.condominio.entity.Reserva;
+import br.com.virtz.condominio.entidades.AreaComum;
+import br.com.virtz.condominio.entidades.Reserva;
 
 @Stateless
 public class ReservaService implements IReservaService {

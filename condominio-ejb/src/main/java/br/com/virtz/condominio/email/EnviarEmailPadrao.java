@@ -46,7 +46,7 @@ public class EnviarEmailPadrao implements EnviarEmail {
         Session session = Session.getDefaultInstance(props,
                     new javax.mail.Authenticator() {
                          protected PasswordAuthentication getPasswordAuthentication()   {
-                               return new PasswordAuthentication("fabioaugustosl@gmail.com", "-");
+                               return new PasswordAuthentication("fabioaugustosl@gmail.com", "Fabio159216");
                          }
                     });
 

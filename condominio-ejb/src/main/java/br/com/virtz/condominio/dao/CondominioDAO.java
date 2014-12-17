@@ -5,8 +5,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
-import br.com.virtz.condominio.entity.Condominio;
-import br.com.virtz.condominio.entity.Usuario;
+import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.Usuario;
 
 @Stateless
 public class CondominioDAO extends DAO<Condominio> implements ICondominioDAO {

@@ -1,4 +1,4 @@
-package br.com.virtz.condominio.entity;
+package br.com.virtz.condominio.entidades;
 
 public abstract class Entidade {
 	public abstract Long getId();

@@ -6,7 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.com.virtz.condominio.dao.IUsuarioDAO;
-import br.com.virtz.condominio.entity.Usuario;
+import br.com.virtz.condominio.entidades.Usuario;
 
 @Stateless
 public class UsuarioService implements IUsuarioService {
@@ -27,6 +27,11 @@ public class UsuarioService implements IUsuarioService {
 	@Override
 	public Usuario salvar(Usuario usuario) throws Exception {
 		return usuarioDAO.salvar(usuario);
+	}
+
+	@Override
+	public Usuario recuperarUsuarioCompleto(Long id) {
+		return usuarioDAO.recuperarUsuarioCompleto(id);
 	}
 
 }

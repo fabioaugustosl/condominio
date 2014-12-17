@@ -1,18 +1,25 @@
-package br.com.virtz.condominio.entity;
+package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@NamedQueries({
+	@NamedQuery(name="Avaliacao.recuperarAvalicaoPorBatepapoEUsuario",
+				query="Select a FROM Avaliacao a WHERE a.usuario.id = :idUsuario and a.batePapo.id = :idBatePapo")
+})
 public class Avaliacao extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,16 +28,21 @@ public class Avaliacao extends Entidade implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "positiva", nullable = true)
-	private boolean positiva;
+	@Column(name = "positiva", nullable = true, columnDefinition = "TINYINT", length = 1)
+	private Boolean positiva;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "idUsuario", nullable = false)
 	private Usuario usuario;
 
 	@Column(name = "observacao", length = 500)
 	private String observacao;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idBatePapo")
+	private BatePapo batePapo; 
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -39,11 +51,11 @@ public class Avaliacao extends Entidade implements Serializable {
 		this.id = id;
 	}
 
-	public boolean isPositiva() {
+	public Boolean isPositiva() {
 		return positiva;
 	}
 
-	public void setPositiva(boolean positiva) {
+	public void setPositiva(Boolean positiva) {
 		this.positiva = positiva;
 	}
 
@@ -62,5 +74,14 @@ public class Avaliacao extends Entidade implements Serializable {
 	public void setObservacao(String observacao) {
 		observacao = observacao;
 	}
+
+	public BatePapo getBatePapo() {
+		return batePapo;
+	}
+
+	public void setBatePapo(BatePapo batePapo) {
+		this.batePapo = batePapo;
+	}
+	
 
 }

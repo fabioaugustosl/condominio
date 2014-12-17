@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import br.com.virtz.condominio.entity.AreaComum;
-import br.com.virtz.condominio.entity.Reserva;
+import br.com.virtz.condominio.entidades.AreaComum;
+import br.com.virtz.condominio.entidades.Reserva;
 
 @Local
 public interface IReservaDAO extends CrudDAO<Reserva> {

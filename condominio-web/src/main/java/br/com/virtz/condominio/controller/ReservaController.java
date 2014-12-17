@@ -20,10 +20,10 @@ import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
 import br.com.virtz.condominio.constantes.EnumParametroSistema;
-import br.com.virtz.condominio.entity.AreaComum;
-import br.com.virtz.condominio.entity.ParametroSistema;
-import br.com.virtz.condominio.entity.Reserva;
-import br.com.virtz.condominio.entity.Usuario;
+import br.com.virtz.condominio.entidades.AreaComum;
+import br.com.virtz.condominio.entidades.ParametroSistema;
+import br.com.virtz.condominio.entidades.Reserva;
+import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.service.IReservaService;
