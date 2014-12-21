@@ -122,11 +122,16 @@ jQuery(function(){
 			    <div class="site-left-col">
 			        <div class="site-left-col-inner">
 			            <p:panelMenu style="width:100%">
-						<p:submenu label="Informações">
+						<p:submenu label="Condomínio">
 							<p:menuitem value="Meu Condomínio" outcome="/condominio/condominio.faces" />
-							<p:menuitem value="Meus Dados" url="www.google.com" />
 							<p:menuitem value="Bloco (exemplo)" outcome="/bloco.faces" />
 							<p:menuitem value="Reservar Área" outcome="/condominio/reservarArea.faces" />
+						</p:submenu>
+						<p:submenu label="Geral">
+							<p:menuitem value="Gerenciar Votações" outcome="/votacao/cadastrarVotacao.faces" />
+						</p:submenu>
+						<p:submenu label="Informações">
+							<p:menuitem value="Meus Dados" url="www.google.com" />
 						</p:submenu>
 						<p:submenu label="Configurações">
 							<p:menuitem value="Gerais" url="www.google.com" />

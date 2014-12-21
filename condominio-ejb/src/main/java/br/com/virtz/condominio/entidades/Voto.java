@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -36,6 +38,13 @@ public class Voto extends Entidade implements Serializable {
 
 	@Column(name = "total")
 	private boolean total;
+	
+	@Column(name = "opcao")
+	private int opcao;
+	
+	@ManyToOne
+	@JoinColumn(name = "idVotacao")
+	private Votacao votacao;
 
 	public Long getId() {
 		return id;
@@ -93,4 +102,20 @@ public class Voto extends Entidade implements Serializable {
 		this.total = total;
 	}
 
+	public int getOpcao() {
+		return opcao;
+	}
+
+	public void setOpcao(int opcao) {
+		this.opcao = opcao;
+	}
+
+	public Votacao getVotacao() {
+		return votacao;
+	}
+
+	public void setVotacao(Votacao votacao) {
+		this.votacao = votacao;
+	}
+	
 }

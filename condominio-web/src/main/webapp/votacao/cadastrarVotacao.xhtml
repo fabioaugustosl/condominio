@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/template.xhtml">
+   
+   <ui:define name="content">
+   	<h1><p:outputLabel value="Crie uma nova votação online" /></h1>
+ 	<br />
+ 	
+ 	<p:panelGrid columns="2">
+    
+		<p:outputLabel value="Qual é a pergunta a ser respondida?" />
+		<p:inputTextarea id="assuntoVotacao" label="Insira aqui a pergunta a ser respondida pelos moradores."
+						value="#{cadastroVotacaoController.votacao.assuntoVotacao}" required="true" 
+						requiredMessage="Favor preencher a pergunta da votação." maxlength="2000" >
+		</p:inputTextarea>
+	     
+	    <p:outputLabel value="Qual é o tipo de votação?" />
+	    <p:selectOneMenu id="comboTipoVotacao" required="true"
+	    			requiredMessage="É necessário quer você selecione o tipo de votação"
+	    			value="#{cadastroVotacaoController.tipoVotacaoSelecionado}"  >
+	   		<f:selectItem itemLabel="Selecione..." itemValue="" />
+	    	<f:selectItems value="#{cadastroVotacaoController.tiposVotacao}" />	
+	    	<p:ajax event="change" update=":form:opcoesTipoVotacao" listener="#{cadastroVotacaoController.montarOpcaoTipoVotacao}" />
+	    </p:selectOneMenu>
+    </p:panelGrid>
+    
+    <p:outputPanel id="opcoesTipoVotacao">
+    	<p:outputPanel id="tipoSimNao" rendered="#{cadastroVotacaoController.isSimNao()}"> 
+    		Sim Não
+    	</p:outputPanel>
+    	<p:outputPanel id="tipoData" rendered="#{cadastroVotacaoController.isData()}"> 
+    		Data
+    	</p:outputPanel>	
+    	<p:outputPanel id="tipoMoeda" rendered="#{cadastroVotacaoController.isMoeda()}"> 
+    		Moeda
+    	</p:outputPanel>
+    	<p:outputPanel id="tipoNumerico" rendered="#{cadastroVotacaoController.isNumerico()}"> 
+    		Numerico
+    	</p:outputPanel>
+    	<p:outputPanel id="tipoOpcao" rendered="#{cadastroVotacaoController.isOpcoes()}"> 
+    		Opções
+    	</p:outputPanel>
+    </p:outputPanel>
+    
+    <br /> <br />
+    
+    <p:outputLabel value="Caso deseje exibir algum termo de aceite de concordância favor verificar na tela Configurações > Termo de concordância. Ao ser cadastrado esse termo aparecerá automaticamente para aceite na tela de votação." />
+   </ui:define>
+</ui:composition>

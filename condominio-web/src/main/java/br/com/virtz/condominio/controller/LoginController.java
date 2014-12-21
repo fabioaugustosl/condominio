@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 
 import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
+import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 import br.com.virtz.condominio.email.EnviarEmailPadrao;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.AreaComum;
@@ -78,7 +79,9 @@ public class LoginController {
 		u.setNome("Fabio");
 		
 		if(StringUtils.isNotBlank(login) && login.equalsIgnoreCase("sindico") ){
-			u.setSindico(Boolean.TRUE);
+			u.setTipoUsuario(EnumTipoUsuario.SINDICO);
+		} else {
+			u.setTipoUsuario(EnumTipoUsuario.MORADOR);
 		}
 		
 		Condominio c = new Condominio();

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 
 @Entity
 @XmlRootElement
@@ -31,8 +35,9 @@ public class Usuario extends Entidade implements Serializable {
 	private String email;
 	
 	@NotNull
-	@Column(name = "sindico", nullable = false)
-	private boolean sindico = Boolean.FALSE;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "tipoUsuario", nullable = false, length=30)
+	private EnumTipoUsuario tipoUsuario;
 	
 	@ManyToOne
 	@JoinColumn(name="idCondominio", nullable=false)
@@ -74,11 +79,15 @@ public class Usuario extends Entidade implements Serializable {
 	}
 
 	public boolean isSindico() {
-		return sindico;
+		return EnumTipoUsuario.SINDICO.equals(getTipoUsuario());
 	}
 
-	public void setSindico(boolean sindico) {
-		this.sindico = sindico;
+	public EnumTipoUsuario getTipoUsuario() {
+		return tipoUsuario;
+	}
+
+	public void setTipoUsuario(EnumTipoUsuario tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
 	}
 
 	public String getFotoPerfil() {

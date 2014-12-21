@@ -2,6 +2,7 @@ package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +13,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 
 @Entity
 @XmlRootElement
+@NamedQueries({
+	@NamedQuery(name="Votacao.recuperarPorCondominio",
+				query="Select v FROM Votacao v WHERE v.condominio = :idCondominio")
+})
 public class Votacao extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -43,7 +51,15 @@ public class Votacao extends Entidade implements Serializable {
 
 	@Column(name = "dataLimite")
 	private Date dataLimite;
-
+	
+	@OneToMany(mappedBy="votacao")
+	private List<OpcaoVotacao> opcoes;
+	
+	@OneToMany(mappedBy="votacao")
+	private List<Voto> votos;
+	
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -92,4 +108,21 @@ public class Votacao extends Entidade implements Serializable {
 		this.dataLimite = dataLimite;
 	}
 
+	public List<OpcaoVotacao> getOpcoes() {
+		return opcoes;
+	}
+
+	public void setOpcoes(List<OpcaoVotacao> opcoes) {
+		this.opcoes = opcoes;
+	}
+
+	public List<Voto> getVotos() {
+		return votos;
+	}
+
+	public void setVotos(List<Voto> votos) {
+		this.votos = votos;
+	}
+	
+	
 }
