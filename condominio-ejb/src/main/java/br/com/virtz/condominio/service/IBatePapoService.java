@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import br.com.virtz.condominio.entidades.Avaliacao;
 import br.com.virtz.condominio.entidades.BatePapo;
+import br.com.virtz.condominio.entidades.ComentarioBatePapo;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.ErroAoSalvar;
@@ -18,4 +19,5 @@ public interface IBatePapoService {
 	public Avaliacao avaliarPositivamente(BatePapo papo, Usuario usuario, String comentario) throws ErroAoSalvar;
 	public Avaliacao avaliarNegativamente(BatePapo papo, Usuario usuario, String comentario) throws ErroAoSalvar;
 	public boolean usuarioJaAvaliou(BatePapo batePapo, Usuario usuario);
+	public List<ComentarioBatePapo> recuperarComentarios(BatePapo batePapo);
 }

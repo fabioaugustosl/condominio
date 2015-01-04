@@ -10,15 +10,22 @@
    	<h1><p:outputLabel value="Crie uma nova votação online" /></h1>
  	<br />
  	
- 	<p:panelGrid columns="2">
+ 	<p:panelGrid id="containerNovaVotacao" columns="2">
     
 		<p:outputLabel value="Qual é a pergunta a ser respondida?" />
 		<p:inputTextarea id="assuntoVotacao" label="Insira aqui a pergunta a ser respondida pelos moradores."
 						value="#{cadastroVotacaoController.votacao.assuntoVotacao}" required="true" 
 						requiredMessage="Favor preencher a pergunta da votação." maxlength="2000" >
 		</p:inputTextarea>
-	     
-	    <p:outputLabel value="Qual é o tipo de votação?" />
+		
+		<p:outputLabel value="Qual é a data limite para votação?" />
+        <p:calendar id="dataLimiteVotacao" value="#{cadastroVotacaoController.votacao.dataLimite}" showOn="button"
+         				alt="Preenche a data que a votação vai ser expirada. Lembrando que a mesma é válida até às 23:59. Caso não seja preenchido data a votação é valida até que a votação seja desativada." />
+        
+        <p:outputLabel value="Você deseja ativar a votação imediatamente?" />
+        <p:selectBooleanCheckbox value="#{cadastroVotacaoController.votacao.ativa}" />
+        
+        <p:outputLabel value="Qual é o tipo de votação?" />
 	    <p:selectOneMenu id="comboTipoVotacao" required="true"
 	    			requiredMessage="É necessário quer você selecione o tipo de votação"
 	    			value="#{cadastroVotacaoController.tipoVotacaoSelecionado}"  >
@@ -27,24 +34,40 @@
 	    	<p:ajax event="change" update=":form:opcoesTipoVotacao" listener="#{cadastroVotacaoController.montarOpcaoTipoVotacao}" />
 	    </p:selectOneMenu>
     </p:panelGrid>
-    
+    <br />
     <p:outputPanel id="opcoesTipoVotacao">
-    	<p:outputPanel id="tipoSimNao" rendered="#{cadastroVotacaoController.isSimNao()}"> 
-    		Sim Não
-    	</p:outputPanel>
-    	<p:outputPanel id="tipoData" rendered="#{cadastroVotacaoController.isData()}"> 
-    		Data
-    	</p:outputPanel>	
-    	<p:outputPanel id="tipoMoeda" rendered="#{cadastroVotacaoController.isMoeda()}"> 
-    		Moeda
-    	</p:outputPanel>
-    	<p:outputPanel id="tipoNumerico" rendered="#{cadastroVotacaoController.isNumerico()}"> 
-    		Numerico
-    	</p:outputPanel>
     	<p:outputPanel id="tipoOpcao" rendered="#{cadastroVotacaoController.isOpcoes()}"> 
-    		Opções
+    		<p:panel id="cadastroOpcaoPergunta">
+	
+			   	<p:outputLabel value="Digite uma nova opção: " />
+				<p:inputText id="inputNome" value="#{cadastroVotacaoController.descricaoNovaOpcao}" alt="Digite uma nova opção a ser votada"  maxlength="2000" requiredMessage="Favor preencher a opção para a pergunta."></p:inputText>
+			
+				<p:commandButton id="btnSalvarOpcaoVotacao" value="Adicionar" actionListener="#{cadastroVotacaoController.adicionarOpcao}" update="dtOpcoesVotacao, cadastroOpcaoPergunta"></p:commandButton>
+		
+			</p:panel>
+			<p:dataTable id="dtOpcoesVotacao" var="opc" 
+					value="#{cadastroVotacaoController.votacao.opcoes}"
+					rowKey="#{opc.id}"  >
+				
+		        <p:column headerText="Opção">
+			        <h:outputText value="#{opc.descricao}" />
+			    </p:column>
+			    
+			    <p:column >
+			        <p:commandLink actionListener="#{cadastroVotacaoController.removerOpcao(opc)}" id="removerOpcaoSelecionada" >Remover</p:commandLink>
+			    </p:column>
+			</p:dataTable> 
     	</p:outputPanel>
     </p:outputPanel>
+   	
+   	<p:commandButton id="salvarNovaVotacao" value="Salvar" 
+   		actionListener="#{cadastroVotacaoController.salvarVotacao}" 
+   		update="containerNovaVotacao, opcoesTipoVotacao">
+   	</p:commandButton>
+   	
+   	<p:commandButton id="listagemVotacao" value="Ver Votações" immediate="true"
+   		actionListener="#{cadastroVotacaoController.irParaListagem}" >
+   	</p:commandButton>
     
     <br /> <br />
     

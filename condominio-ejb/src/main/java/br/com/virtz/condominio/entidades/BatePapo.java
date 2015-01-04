@@ -44,8 +44,10 @@ public class BatePapo extends Entidade implements Serializable {
 	private String mensagem;
 
 	@OneToMany(mappedBy="batePapo")
-//	@JoinTable(name = "AvaliacaoBatePapo", joinColumns = { @JoinColumn(name = "idBatePapo") }, inverseJoinColumns = { @JoinColumn(name = "idAvaliacao") })
 	private Set<Avaliacao> avaliacoes;
+	
+	@OneToMany(mappedBy="batePapo")
+	private Set<ComentarioBatePapo> comentarios;
 	
 	@Transient
 	private int qtdPositivas = 0;
@@ -104,6 +106,14 @@ public class BatePapo extends Entidade implements Serializable {
 		return qtdNegativas;
 	}
 	
+	public Set<ComentarioBatePapo> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(Set<ComentarioBatePapo> comentarios) {
+		this.comentarios = comentarios;
+	}
+
 	public void calcularAvalicoesPositivasENegativas(){
 		qtdPositivas = 0;
 		qtdNegativas = 0;

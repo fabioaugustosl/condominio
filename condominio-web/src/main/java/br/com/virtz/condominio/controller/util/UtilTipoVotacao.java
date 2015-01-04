@@ -1,5 +1,7 @@
 package br.com.virtz.condominio.controller.util;
 
+import java.util.Date;
+
 import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 
 public class UtilTipoVotacao {
@@ -9,6 +11,12 @@ public class UtilTipoVotacao {
 	private boolean moeda;
 	private boolean numerico;
 	private boolean opcoes;
+	
+	private boolean valorSimNao;
+	private Date valorData;
+	private Double valorMoeda;
+	private Double valorNumerico;
+	private Long idValorOpcao;
 
 	
 	public UtilTipoVotacao() {
@@ -60,6 +68,48 @@ public class UtilTipoVotacao {
 	public boolean isOpcoes() {
 		return opcoes;
 	}
+
+	public boolean isValorSimNao() {
+		return valorSimNao;
+	}
+
+	public void setValorSimNao(boolean valorSimNao) {
+		this.valorSimNao = valorSimNao;
+	}
+
+	public Date getValorData() {
+		return valorData;
+	}
+
+	public void setValorData(Date valorData) {
+		this.valorData = valorData;
+	}
+
+	public Double getValorMoeda() {
+		return valorMoeda;
+	}
+
+	public void setValorMoeda(Double valorMoeda) {
+		this.valorMoeda = valorMoeda;
+	}
+
+	public Double getValorNumerico() {
+		return valorNumerico;
+	}
+
+	public void setValorNumerico(Double valorNumerico) {
+		this.valorNumerico = valorNumerico;
+	}
+
+	public Long getIdValorOpcao() {
+		return idValorOpcao;
+	}
+
+	public void setIdValorOpcao(Long idValorOpcao) {
+		this.idValorOpcao = idValorOpcao;
+	}
+	
+	
 
 
 }

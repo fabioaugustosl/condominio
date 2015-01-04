@@ -1,9 +1,11 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -24,7 +26,7 @@ import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name="Votacao.recuperarPorCondominio",
-				query="Select v FROM Votacao v WHERE v.condominio = :idCondominio")
+				query="Select v FROM Votacao v WHERE v.condominio.id = :idCondominio ORDER BY v.dataLimite DESC")
 })
 public class Votacao extends Entidade implements Serializable {
 
@@ -52,10 +54,13 @@ public class Votacao extends Entidade implements Serializable {
 	@Column(name = "dataLimite")
 	private Date dataLimite;
 	
-	@OneToMany(mappedBy="votacao")
+	@Column(name = "ativa")
+	private boolean ativa;
+	
+	@OneToMany(mappedBy="votacao", cascade=CascadeType.ALL)
 	private List<OpcaoVotacao> opcoes;
 	
-	@OneToMany(mappedBy="votacao")
+	@OneToMany(mappedBy="votacao", cascade=CascadeType.REMOVE)
 	private List<Voto> votos;
 	
 	
@@ -124,5 +129,53 @@ public class Votacao extends Entidade implements Serializable {
 		this.votos = votos;
 	}
 	
+	public boolean isAtiva() {
+		return ativa;
+	}
+
+	public void setAtiva(boolean ativa) {
+		this.ativa = ativa;
+	}
+
+	
+	public OpcaoVotacao adicionarNovaOpcao(String descricao){
+		OpcaoVotacao opcao = new OpcaoVotacao();
+		opcao.setDescricao(descricao);
+		opcao.setVotacao(this);
+		
+		if(getOpcoes() == null){
+			setOpcoes(new ArrayList<OpcaoVotacao>());
+		}
+		
+		getOpcoes().add(opcao);
+		
+		return opcao;
+	}
+	
+	public void removerOpcao(OpcaoVotacao opcao){
+		
+		if(getOpcoes() != null && !getOpcoes().isEmpty()){
+			getOpcoes().remove(opcao);
+		}
+		
+	}
+	
+	public String qualStatus(){
+		if(this.ativa && !estaEncerrada()) {
+			return "Ativa";
+		} else if(!this.ativa && !estaEncerrada()) {
+			return "Inativa";
+		} else {
+			return "ENCERRADA";
+		}
+	}
+	
+	public boolean estaEncerrada(){
+		Date hoje = new Date();
+		if(hoje.after(this.getDataLimite())){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
 	
 }

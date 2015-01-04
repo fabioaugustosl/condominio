@@ -7,8 +7,10 @@ import javax.ejb.Stateless;
 
 import br.com.virtz.condominio.dao.IAvaliacaoBatePapoDAO;
 import br.com.virtz.condominio.dao.IBatePapoDAO;
+import br.com.virtz.condominio.dao.IComentarioBatePapoDAO;
 import br.com.virtz.condominio.entidades.Avaliacao;
 import br.com.virtz.condominio.entidades.BatePapo;
+import br.com.virtz.condominio.entidades.ComentarioBatePapo;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.ErroAoSalvar;
@@ -21,6 +23,10 @@ public class BatePapoService implements IBatePapoService {
 	
 	@EJB
 	private IAvaliacaoBatePapoDAO avaliacaoDAO;
+	
+	@EJB
+	private IComentarioBatePapoDAO comentarioBatePapoDAO;
+	
 
 	@Override
 	public BatePapo salvar(BatePapo batePapo) throws Exception {
@@ -77,6 +83,11 @@ public class BatePapoService implements IBatePapoService {
 		}
 		Avaliacao avaliacao = avaliacaoDAO.recuperar(batePapo, usuario);
 		return avaliacao == null? Boolean.FALSE: Boolean.TRUE;
+	}
+
+	@Override
+	public List<ComentarioBatePapo> recuperarComentarios(BatePapo batePapo) {
+		return comentarioBatePapoDAO.recuperar(batePapo);
 	}
 
 

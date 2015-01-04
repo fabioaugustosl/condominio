@@ -54,4 +54,22 @@ public class OpcaoVotacao extends Entidade implements Serializable {
 		this.votacao = votacao;
 	}
 	
+	@Override
+	public boolean equals(Object opcao) {
+		if(opcao == null){
+			return Boolean.FALSE;
+		}
+		if(!(opcao instanceof OpcaoVotacao)){
+			return Boolean.FALSE;
+		}
+		OpcaoVotacao opc = (OpcaoVotacao) opcao;
+		if(opc.getId() != null){
+			return opc.getId().equals(this.getId());
+		}
+		if(opc.getDescricao() != null){
+			return opc.getDescricao().equals(this.getDescricao());
+		}
+		return Boolean.FALSE;
+	}
+	
 }

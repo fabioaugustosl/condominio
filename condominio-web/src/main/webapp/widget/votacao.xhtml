@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+  
+   <p:outputPanel id="containerBatePapo">
+	   <p:outputPanel id="opcoesTipoVotacao">
+    	<p:outputPanel id="tipoSimNao" rendered="#{votacaoController.isSimNao()}"> 
+    		<p:selectOneRadio id="console" value="#{votacaoController.utilTipoVotacao.valorSimNao}">
+	            <f:selectItem itemLabel="Sim" itemValue="1" />
+	            <f:selectItem itemLabel="Não" itemValue="0" />
+	        </p:selectOneRadio>
+    	</p:outputPanel>
+    	<p:outputPanel id="tipoData" rendered="#{votacaoController.isData()}"> 
+    		<p:calendar id="button" value="#{votacaoController.utilTipoVotacao.valorData}" showOn="button" />
+    	</p:outputPanel>	
+    	<p:outputPanel id="tipoMoeda" rendered="#{votacaoController.isMoeda()}"> 
+    		<p:inputText id="valorTipoMoeda" value="#{votacaoController.utilTipoVotacao.valorMoeda}" >
+    			<f:convertNumber currencyCode="R$" type="currency" maxFractionDigits="2" />
+    		</p:inputText> 
+    	</p:outputPanel>
+    	<p:outputPanel id="tipoNumerico" rendered="#{votacaoController.isNumerico()}"> 
+    		<p:inputText  id="valorTipoNumerico" value="#{votacaoController.utilTipoVotacao.valorNumerico}" >
+    			<f:convertNumber type="number" maxFractionDigits="2"/>
+    		</p:inputText> 
+    	</p:outputPanel>
+    	<p:outputPanel id="tipoOpcao" rendered="#{votacaoController.isOpcoes()}"> 
+    		Opções
+    	</p:outputPanel>
+    </p:outputPanel>
+    </p:outputPanel>
+
+
+</ui:composition>
+
