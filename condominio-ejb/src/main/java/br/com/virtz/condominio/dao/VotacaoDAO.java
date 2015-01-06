@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -27,6 +28,15 @@ public class VotacaoDAO extends DAO<Votacao> implements IVotacaoDAO {
 		if(opc != null){
 			getEntityManager().remove(opc);
 		}
+	}
+
+
+	@Override
+	public List<Votacao> recuperarVotacoesAtivas(Condominio condominio) {
+		Query qry = getEntityManager().createNamedQuery("Votacao.recuperarAtivasValidasPorCondominio");
+		qry.setParameter("idCondominio", condominio.getId());
+		qry.setParameter("dataLimite", new Date());
+		return qry.getResultList();
 	}
 	
 }

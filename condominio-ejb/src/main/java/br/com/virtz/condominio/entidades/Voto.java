@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,14 +12,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name="Voto.totalVotoPorVotacao",
-				query="Select count(*) FROM Voto v WHERE v.votacao.id = :idVotacao ")
-})
+		@NamedQuery(name = "Voto.totalVotoPorVotacao", query = "Select count(*) FROM Voto v WHERE v.votacao.id = :idVotacao "),
+		@NamedQuery(name = "Voto.recuperarPorUsuario", query = "Select v FROM Voto v WHERE v.usuario.id = :idUsuario AND v.votacao.id = :idVotacao ") })
 public class Voto extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,24 +32,28 @@ public class Voto extends Entidade implements Serializable {
 	@Column(name = "sim")
 	private boolean sim;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "data")
-	private boolean data;
+	private Date data;
 
-	@Column(name = "dataInicio")
-	private boolean dataInicio;
+	@Column(name = "moeda")
+	private Double moeda;
 
-	@Column(name = "dataFim")
-	private boolean dataFim;
+	@Column(name = "numero")
+	private Double numero;
 
-	@Column(name = "valor")
-	private boolean valor;
+	@ManyToOne
+	@JoinColumn(name = "idOpcao")
+	private OpcaoVotacao opcao;
 
-	@Column(name = "total")
-	private boolean total;
-	
-	@Column(name = "opcao")
-	private int opcao;
-	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "dataVotacao")
+	private Date dataVotacao;
+
+	@ManyToOne
+	@JoinColumn(name = "idUsuario")
+	private Usuario usuario;
+
 	@ManyToOne
 	@JoinColumn(name = "idVotacao")
 	private Votacao votacao;
@@ -68,52 +74,52 @@ public class Voto extends Entidade implements Serializable {
 		this.sim = sim;
 	}
 
-	public boolean isData() {
+	public Date getData() {
 		return data;
 	}
 
-	public void setData(boolean data) {
+	public void setData(Date data) {
 		this.data = data;
 	}
 
-	public boolean isDataInicio() {
-		return dataInicio;
+	public Double getMoeda() {
+		return moeda;
 	}
 
-	public void setDataInicio(boolean dataInicio) {
-		this.dataInicio = dataInicio;
+	public void setMoeda(Double moeda) {
+		this.moeda = moeda;
 	}
 
-	public boolean isDataFim() {
-		return dataFim;
+	public Double getNumero() {
+		return numero;
 	}
 
-	public void setDataFim(boolean dataFim) {
-		this.dataFim = dataFim;
+	public void setNumero(Double numero) {
+		this.numero = numero;
 	}
 
-	public boolean isValor() {
-		return valor;
-	}
-
-	public void setValor(boolean valor) {
-		this.valor = valor;
-	}
-
-	public boolean isTotal() {
-		return total;
-	}
-
-	public void setTotal(boolean total) {
-		this.total = total;
-	}
-
-	public int getOpcao() {
+	public OpcaoVotacao getOpcao() {
 		return opcao;
 	}
 
-	public void setOpcao(int opcao) {
+	public void setOpcao(OpcaoVotacao opcao) {
 		this.opcao = opcao;
+	}
+
+	public Date getDataVotacao() {
+		return dataVotacao;
+	}
+
+	public void setDataVotacao(Date dataVotacao) {
+		this.dataVotacao = dataVotacao;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Votacao getVotacao() {
@@ -123,5 +129,5 @@ public class Voto extends Entidade implements Serializable {
 	public void setVotacao(Votacao votacao) {
 		this.votacao = votacao;
 	}
-	
+
 }

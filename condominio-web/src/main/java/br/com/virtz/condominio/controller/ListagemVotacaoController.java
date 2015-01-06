@@ -1,6 +1,5 @@
 package br.com.virtz.condominio.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,14 +7,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import org.apache.commons.lang.StringUtils;
-
-import br.com.virtz.condominio.constantes.EnumTipoVotacao;
-import br.com.virtz.condominio.controller.util.UtilTipoVotacao;
-import br.com.virtz.condominio.entidades.OpcaoVotacao;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.exception.AppException;
@@ -79,12 +73,18 @@ public class ListagemVotacaoController {
 		} catch (AppException e) {
 			throw new CondominioException(e.getMessage());
 		}
-		message.addInfo("A votação foi desativada!");
+		message.addInfo("A votação foi excluída!");
 	}
 	
 	public void irParaCadastro(){
 		navigation.redirectToPage("/votacao/cadastrarVotacao.faces");
 	}
+	
+	public void editar(Votacao votacao){
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idVotacao", votacao.getId());
+		navigation.redirectToPage("/votacao/cadastrarVotacao.faces");
+	}
+	
 	
 	public boolean estaAtiva(Votacao votacao){
 		if(votacao != null){
@@ -117,6 +117,15 @@ public class ListagemVotacaoController {
 	public boolean possoRemover(Votacao votacao){
 		if(votacao != null){
 			if(!votacao.isAtiva()  && !estaEncerrada(votacao)) {
+				return Boolean.TRUE;
+			}
+		}
+		return Boolean.FALSE;
+	}
+	
+	public boolean possoEditar(Votacao votacao){
+		if(votacao != null){
+			if(!estaEncerrada(votacao) && votacaoService.totalVotos(votacao) == 0) {
 				return Boolean.TRUE;
 			}
 		}

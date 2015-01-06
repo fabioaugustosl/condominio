@@ -38,7 +38,7 @@
 	    </p:column>
 	    
 	    <p:column headerText="Ações">
-	    	<p:panelGrid id="panelGridAcao" >
+	    	<p:panelGrid id="panelGridAcao" columns="1" >
 		    	<p:commandLink actionListener="#{listagemVotacaoController.ativarVotacao(votacao)}"
 		        	rendered="#{listagemVotacaoController.estaInativa(votacao)}" update="dtListagemVotacao"
 		         	id="ativarVotacaoSelecionada" value="Ativar" >
@@ -55,6 +55,11 @@
 		        	rendered="#{listagemVotacaoController.possoRemover(votacao)}" update="dtListagemVotacao"
 		         	id="excluirVotacaoSelecionada" value="Remover" >
 		         		<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa votação?" icon="ui-icon-alert" />
+		         </p:commandLink>
+		         
+		         <p:commandLink actionListener="#{listagemVotacaoController.editar(votacao)}"
+		        	rendered="#{listagemVotacaoController.possoEditar(votacao)}" 
+		         	id="editarVotacaoSelecionada" value="Editar" >
 		         </p:commandLink>
 	         </p:panelGrid>
 	    </p:column>

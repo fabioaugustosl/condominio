@@ -11,6 +11,7 @@ import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.entidades.Voto;
 import br.com.virtz.condominio.exception.AppException;
+import br.com.virtz.condominio.exception.ParametroObrigatorioNuloException;
 
 @Local
 public interface IVotacaoService {
@@ -21,9 +22,13 @@ public interface IVotacaoService {
 	public Votacao buscar(Long idVotacao);
 	public void removerOpcao(OpcaoVotacao opcao);
 	public List<Votacao> recuperarTodas(Condominio condominio);
+	public List<Votacao> recuperarTodasAtivas(Condominio condominio);
 	public void ativarVotacao(Votacao votacao) throws AppException;
 	public void desativarVotacao(Votacao votacao) throws AppException;
 	public void removerVotacao(Votacao votacao) throws AppException;
+	public Integer totalVotos(Votacao votacao);
+	public Voto recuperarVotoPorUsuario(Votacao votacao, Usuario usuario) throws ParametroObrigatorioNuloException;
+	public OpcaoVotacao recuperarOpcao(Long idOpcao);
 	
 }
 

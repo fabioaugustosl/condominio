@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +27,13 @@ import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name="Votacao.recuperarPorCondominio",
-				query="Select v FROM Votacao v WHERE v.condominio.id = :idCondominio ORDER BY v.dataLimite DESC")
+				query="Select v FROM Votacao v WHERE v.condominio.id = :idCondominio ORDER BY v.dataLimite DESC"),
+	@NamedQuery(name="Votacao.recuperarAtivasPorCondominio",
+				query="Select v FROM Votacao v WHERE v.condominio.id = :idCondominio AND v.ativa = 1 ORDER BY v.dataLimite DESC"),
+	@NamedQuery(name="Votacao.recuperarAtivasValidasPorCondominio",
+				query="Select v FROM Votacao v "
+						+ " WHERE v.condominio.id = :idCondominio AND v.ativa = 1 AND v.dataLimite >= :dataLimite"
+						+ " ORDER BY v.dataLimite DESC")
 })
 public class Votacao extends Entidade implements Serializable {
 
@@ -57,7 +64,7 @@ public class Votacao extends Entidade implements Serializable {
 	@Column(name = "ativa")
 	private boolean ativa;
 	
-	@OneToMany(mappedBy="votacao", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="votacao", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<OpcaoVotacao> opcoes;
 	
 	@OneToMany(mappedBy="votacao", cascade=CascadeType.REMOVE)

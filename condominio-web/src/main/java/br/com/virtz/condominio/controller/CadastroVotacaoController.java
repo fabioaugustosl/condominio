@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
@@ -57,7 +58,14 @@ public class CadastroVotacaoController {
 		Usuario usuario = sessao.getUsuarioLogado();
 		montarComboTipoVotacao();
 		utilTipoVotacao = new UtilTipoVotacao();
-		votacao = votacaoService.criarNovaVotacao(usuario, usuario.getCondominio(), null, null);
+		Object votacaoEditar = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idVotacao");
+		if(votacaoEditar == null){
+			votacao = votacaoService.criarNovaVotacao(usuario, usuario.getCondominio(), null, null);
+		} else {
+			votacao = votacaoService.buscar(Long.parseLong(votacaoEditar.toString()));
+			tipoVotacaoSelecionado = votacao.getTipoVotacao().getDescricao();
+			utilTipoVotacao.tratarTipoVotacaoExibicao(votacao.getTipoVotacao());
+		}
 	}
 
 	
@@ -108,9 +116,10 @@ public class CadastroVotacaoController {
 		
 		try{
 			votacaoService.salvarVotacao(votacao);
-			message.addInfo("A nova votação foi criada com sucesso.");
+			message.addInfo("A votação foi salva com sucesso.");
 			
 			votacao = votacaoService.criarNovaVotacao(sessao.getUsuarioLogado(), sessao.getUsuarioLogado().getCondominio(), null, null);
+			utilTipoVotacao.passarTodosParaFalso();
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new CondominioException("Ocorreu um erro inesperado ao salvar a nova votação. Favor tente novamente.");

@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.com.virtz.condominio.constantes.EnumTipoVotacao;
+import br.com.virtz.condominio.dao.IOpcaoVotacaoDAO;
 import br.com.virtz.condominio.dao.IVotacaoDAO;
 import br.com.virtz.condominio.dao.IVotoDAO;
 import br.com.virtz.condominio.entidades.Condominio;
@@ -16,6 +17,7 @@ import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.entidades.Voto;
 import br.com.virtz.condominio.exception.AppException;
+import br.com.virtz.condominio.exception.ParametroObrigatorioNuloException;
 
 @Stateless
 public class VotacaoService implements IVotacaoService {
@@ -25,6 +27,9 @@ public class VotacaoService implements IVotacaoService {
 	
 	@EJB
 	private IVotoDAO votoDAO;
+	
+	@EJB
+	private IOpcaoVotacaoDAO opcaoDAO;
 	
 
 	@Override
@@ -140,7 +145,7 @@ public class VotacaoService implements IVotacaoService {
 		}
 		
 		// Uma votação não pode ser excluída após receber votos.
-		Integer totalVotos = votoDAO.totalVotos(votacao);
+		Long totalVotos = votoDAO.totalVotos(votacao);
 		if(totalVotos != null && totalVotos > 0){
 			throw new AppException("Essa votação já recebeu votos e por isso não pode ser excluída.");
 		}
@@ -151,6 +156,36 @@ public class VotacaoService implements IVotacaoService {
 			e.printStackTrace();
 			throw new AppException("Erro salvar");
 		}
+	}
+
+
+	@Override
+	public Integer totalVotos(Votacao votacao) {
+		Long totalVotos = votoDAO.totalVotos(votacao);
+		return totalVotos != null ? totalVotos.intValue() : 0;
+	}
+
+
+	@Override
+	public List<Votacao> recuperarTodasAtivas(Condominio condominio) {
+		if(condominio == null){
+			return new ArrayList<Votacao>();
+		}
+		return votacaoDAO.recuperarVotacoesAtivas(condominio);
+	}
+	
+	@Override
+	public Voto recuperarVotoPorUsuario(Votacao votacao, Usuario usuario) throws ParametroObrigatorioNuloException{
+		if(votacao == null || usuario == null){
+			throw new ParametroObrigatorioNuloException("Parâmetros obrigatórios para pesquisa nulos.");
+		}
+		return votoDAO.recuperarPorUsuario(votacao, usuario);
+	}
+
+
+	@Override
+	public OpcaoVotacao recuperarOpcao(Long idOpcao) {
+		return opcaoDAO.rcuperarPorId(idOpcao);
 	}
 	
 
