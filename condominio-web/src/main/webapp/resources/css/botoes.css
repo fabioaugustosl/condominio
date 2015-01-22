@@ -1,0 +1,12 @@
+.botaoStatusAtivo { 
+	background: #FFFFFF url(../img/icones/icone_bola_ativo.png) no-repeat;
+}
+
+.botaoStatusInativo { 
+	background: #FFFFFF url(../img/icones/icone_bola_inativo.png) no-repeat;
+}
+
+.teste { 
+	background: #FFFFFF url(../img/icones/icone_bola_inativo.png) no-repeat;
+}
+

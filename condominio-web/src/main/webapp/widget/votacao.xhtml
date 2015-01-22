@@ -5,11 +5,15 @@
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:p="http://primefaces.org/ui">
   
-   <p:outputPanel id="containerVotacao">
-   		<p:dataTable id="dtVotacao" var="vv" 
-			value="#{votacaoController.votacoesView}"
-			rowKey="#{vv.votacao.id}" >
-			<p:outputPanel id="opcoesTipoVotacao">
+   <h:form id="formVotacao" style="width:100%">	  
+   	<p:outputPanel id="containerVotacao">
+   		<p:dataList id="dtVotacao" var="vv" value="#{votacaoController.votacoesView}" >
+			<p:outputPanel id="perguntinha" >
+				<p:outputLabel value="#{vv.votacao.assuntoVotacao}"></p:outputLabel> 
+	    	</p:outputPanel>
+	    	
+			<p:outputPanel id="opcoesTipoVotacao" rendered="#{not vv.votou}" >
+		    	
 		    	<p:outputPanel id="tipoSimNao" rendered="#{vv.util.isSimNao()}"> 
 		    		<p:selectOneRadio id="console" value="#{vv.util.valorSimNao}">
 			            <f:selectItem itemLabel="Sim" itemValue="1" />
@@ -30,17 +34,27 @@
 		    		</p:inputText> 
 		    	</p:outputPanel>
 		    	<p:outputPanel id="tipoOpcao" rendered="#{vv.util.isOpcoes()}"> 
-		    		<p:selectOneRadio id="opc" value="#{vv.util.idValorOpcao}" layout="grid" columns="1">
+		    		<p:selectOneRadio id="opc" value="#{vv.util.idValorOpcao}">
 			            <f:selectItems value="#{vv.votacao.opcoes}" var="o" itemLabel="#{o.descricao}" itemValue="#{o.id}"/>
 			        </p:selectOneRadio>
 		    	</p:outputPanel>
 		    	<div>
-		    		<p:captcha label="Captcha" />
-		    		<p:commandButton value="Votar" actionListener="#{votacaoController.votar(vv)}" ></p:commandButton>
+		    		<!-- <p:captcha label="Captcha" /> -->
+		    		<p:commandButton value="Votar" actionListener="#{votacaoController.votar(vv)}" update="dtVotacao"></p:commandButton>
+		    	</div>
+		    	
+		    	<div>
+		    		<p:commandLink id="LinkTemosVotacao" value="Ler o termo jurídico sobre a votação online." ></p:commandLink>>
 		    	</div>
 		    </p:outputPanel>
-		</p:dataTable>
+		    
+		    <p:outputPanel id="jaVotouVotacao" rendered="#{vv.votou}" >
+		    	<div style="width:100%; height:25px; background-color: yellow;">
+					<p:outputLabel value="Parabéns. Você já votou."></p:outputLabel> 
+	    		</div>
+		    </p:outputPanel>
+		</p:dataList>
     </p:outputPanel>
-
+  </h:form>
 </ui:composition>
 

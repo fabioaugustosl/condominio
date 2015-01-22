@@ -16,6 +16,7 @@ import br.com.virtz.condominio.entidades.OpcaoVotacao;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.entidades.Voto;
+import br.com.virtz.condominio.exception.ParametroObrigatorioNuloException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.service.IVotacaoService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -42,12 +43,10 @@ public class VotacaoController {
 	private List<Votacao> votacoes;
 	private List<VotacaoView> votacoesView;
 	private String tipoVotacaoSelecionado;
-	private UtilTipoVotacao utilTipoVotacao;
 		
 	@PostConstruct
 	public void init(){
 		Usuario usuario = sessao.getUsuarioLogado();
-		utilTipoVotacao = new UtilTipoVotacao();
 		votacoesView = new ArrayList<VotacaoView>();
 		
 		votacoes = votacaoService.recuperarTodasAtivas(usuario.getCondominio());
@@ -55,6 +54,16 @@ public class VotacaoController {
 			for(Votacao v : votacoes){
 				VotacaoView vv = new VotacaoView(v);
 				vv.getUtil().tratarTipoVotacaoExibicao(v.getTipoVotacao());
+				
+				Voto votoUsuario;
+				try {
+					votoUsuario = votacaoService.recuperarVotoPorUsuario(v, usuario);
+					if(votoUsuario != null){
+						vv.setVotou(Boolean.TRUE);
+					}
+				} catch (ParametroObrigatorioNuloException e) {
+				}
+				
 				votacoesView.add(vv);
 			}
 		}
@@ -108,30 +117,29 @@ public class VotacaoController {
 		this.tipoVotacaoSelecionado = tipoVotacaoSelecionado;
 	}
 
-	/*public boolean isSimNao(Votacao votacao) {
-		utilTipoVotacao.tratarTipoVotacaoExibicao(votacao.getTipoVotacao());
-		return utilTipoVotacao.isSimNao();
+	public boolean isSimNao(UtilTipoVotacao util) {
+		return util.isSimNao();
+	}
+	
+	public boolean simNao(UtilTipoVotacao util) {
+		return util.isSimNao();
 	}
 
-	public boolean isData(Votacao votacao) {
-		utilTipoVotacao.tratarTipoVotacaoExibicao(votacao.getTipoVotacao());
-		return utilTipoVotacao.isData();
+	public boolean isData(UtilTipoVotacao util) {
+		return util.isData();
 	}
 
-	public boolean isMoeda(Votacao votacao) {
-		utilTipoVotacao.tratarTipoVotacaoExibicao(votacao.getTipoVotacao());
-		return utilTipoVotacao.isMoeda();
+	public boolean isMoeda(UtilTipoVotacao util) {
+		return util.isMoeda();
 	}
 
-	public boolean isNumerico(Votacao votacao) {
-		utilTipoVotacao.tratarTipoVotacaoExibicao(votacao.getTipoVotacao());
-		return utilTipoVotacao.isNumerico();
+	public boolean isNumerico(UtilTipoVotacao util) {
+		return util.isNumerico();
 	}
 
-	public boolean isOpcoes(Votacao votacao) {
-		utilTipoVotacao.tratarTipoVotacaoExibicao(votacao.getTipoVotacao());
-		return utilTipoVotacao.isOpcoes();
-	}*/
+	public boolean isOpcoes(UtilTipoVotacao util) {
+		return util.isOpcoes();
+	}
 
 
 	public List<Votacao> getVotacoes() {

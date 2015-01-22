@@ -4,74 +4,75 @@
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:p="http://primefaces.org/ui"
-   template="/WEB-INF/templates/template.xhtml">
+   template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h1><p:outputLabel value="Reserva de áreas em comum" /></h1>
- 	<br /><br />
- 	<p:outputLabel value="Selecione a área desejada: " />
- 	<p:selectOneMenu id="comboArea" value="#{reservaController.areaSelecionada}" converter="converterEntityById" >
- 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
- 		<f:selectItems value="#{reservaController.areas}" var="area" itemLabel="#{area.nome}" itemValue="#{area}" />
- 		<p:ajax event="change" update="containerAgenda" listener="#{reservaController.recuperarEventos}" />
- 	</p:selectOneMenu>
- 	
- 	<p:outputPanel id="containerAgenda" style="margin-top:10px;">
-  		<p:schedule id="agendaReserva" value="#{reservaController.reservas}" widgetVar="agendaReserva" timeZone="GMT-3" locale="pt" >
-            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" update="novoEventoPanel" onsuccess="PF('novoEvento').show();" />
-        </p:schedule>
-    </p:outputPanel> 
-    
-    <p:outputPanel id="containerMaximoDia" rendered="#{reservaController.maximoDiasFuturo > 0}">
-    	<p:outputLabel value="Data máxima para agendamento: "  />
-    	<p:outputLabel value="#{reservaController.dataMaximaAgendamento}"  >
-    		<f:convertDateTime pattern="dd/MM/yyyy"/>
-    	</p:outputLabel>
-    	
-    </p:outputPanel>
-    
-    <p:dialog widgetVar="novoEvento" header="Agendar" showEffect="clip" hideEffect="clip" dynamic="false" appendTo="@(body)">
-        <h:panelGrid id="novoEventoPanel" columns="1">
-            
-            <p:outputLabel value="#{reservaController.mensagemConfirmacaoReserva}" id="txtMsgConfirmacao" />
- 
- 			<p:outputPanel>
-	            <p:commandButton id="btnAgendar" value="Sim" actionListener="#{reservaController.salvarReserva}" update="agendaReserva" oncomplete="PF('novoEvento').hide();" />
-	            <p:commandButton id="btnAgendarNao" value="Não" onclick="PF('novoEvento').hide();" />
-            </p:outputPanel>
-        </h:panelGrid>
-    </p:dialog>   
-    
-   
-    <script type="text/javascript">
-	    PrimeFaces.locales['pt'] = {
-	        closeText: 'Fechar',
-	        prevText: 'Anterior',
-	        nextText: 'Próximo',
-	        currentText: 'Hoje',
-	        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
-	            'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-	        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun',
-	            'Jul','Ago','Set','Out','Nov','Dez'],
-	        dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-	        dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
-	        dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
-	        weekHeader: 'Hf',
-	        firstDay: 1,
-	        isRTL: false,
-	        showMonthAfterYear: false,
-	        yearSuffix: '',
-	        month: 'Mês',
-	        week: 'Semana',
-	        day: 'Dia',
-	        allDayText : 'Hora'
-	    };
-	</script>
-	<style type="text/css">
-	    .value {
-	        width: 1000px;
-	    }
-	</style>
-
+   	<h:form id="form" style="width:100%">
+	   	<h1><p:outputLabel value="Reserva de áreas em comum" /></h1>
+	 	<br /><br />
+	 	<p:outputLabel value="Selecione a área desejada: " />
+	 	<p:selectOneMenu id="comboArea" value="#{reservaController.areaSelecionada}" converter="converterEntityById" >
+	 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+	 		<f:selectItems value="#{reservaController.areas}" var="area" itemLabel="#{area.nome}" itemValue="#{area}" />
+	 		<p:ajax event="change" update="containerAgenda" listener="#{reservaController.recuperarEventos}" />
+	 	</p:selectOneMenu>
+	 	
+	 	<p:outputPanel id="containerAgenda" style="margin-top:10px;">
+	  		<p:schedule id="agendaReserva" value="#{reservaController.reservas}" widgetVar="agendaReserva" timeZone="GMT-3" locale="pt" >
+	            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" update="novoEventoPanel" onsuccess="PF('novoEvento').show();" />
+	        </p:schedule>
+	    </p:outputPanel> 
+	    
+	    <p:outputPanel id="containerMaximoDia" rendered="#{reservaController.maximoDiasFuturo > 0}">
+	    	<p:outputLabel value="Data máxima para agendamento: "  />
+	    	<p:outputLabel value="#{reservaController.dataMaximaAgendamento}"  >
+	    		<f:convertDateTime pattern="dd/MM/yyyy"/>
+	    	</p:outputLabel>
+	    	
+	    </p:outputPanel>
+	    
+	    <p:dialog widgetVar="novoEvento" header="Agendar" showEffect="clip" hideEffect="clip" dynamic="false" appendTo="@(body)">
+	        <h:panelGrid id="novoEventoPanel" columns="1">
+	            
+	            <p:outputLabel value="#{reservaController.mensagemConfirmacaoReserva}" id="txtMsgConfirmacao" />
+	 
+	 			<p:outputPanel>
+		            <p:commandButton id="btnAgendar" value="Sim" actionListener="#{reservaController.salvarReserva}" update="agendaReserva" oncomplete="PF('novoEvento').hide();" />
+		            <p:commandButton id="btnAgendarNao" value="Não" onclick="PF('novoEvento').hide();" />
+	            </p:outputPanel>
+	        </h:panelGrid>
+	    </p:dialog>   
+	    
+	   
+	    <script type="text/javascript">
+		    PrimeFaces.locales['pt'] = {
+		        closeText: 'Fechar',
+		        prevText: 'Anterior',
+		        nextText: 'Próximo',
+		        currentText: 'Hoje',
+		        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+		            'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun',
+		            'Jul','Ago','Set','Out','Nov','Dez'],
+		        dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+		        dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+		        dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+		        weekHeader: 'Hf',
+		        firstDay: 1,
+		        isRTL: false,
+		        showMonthAfterYear: false,
+		        yearSuffix: '',
+		        month: 'Mês',
+		        week: 'Semana',
+		        day: 'Dia',
+		        allDayText : 'Hora'
+		    };
+		</script>
+		<style type="text/css">
+		    .value {
+		        width: 1000px;
+		    }
+		</style>
+	</h:form>
    </ui:define>
 </ui:composition>

@@ -27,10 +27,8 @@ public class PortalController {
         DashboardColumn column2 = new DefaultDashboardColumn();
         DashboardColumn column3 = new DefaultDashboardColumn();
          
-        column1.addWidget("Agenda");
-        column1.addWidget("Memorando");
-        column2.addWidget("Importante");
-        column3.addWidget("Troca");
+        column1.addWidget("panelWidgetTroca");
+        column2.addWidget("panelWidgetVotacao");
  
         model.addColumn(column1);
         model.addColumn(column2);

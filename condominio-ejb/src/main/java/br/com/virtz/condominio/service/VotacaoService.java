@@ -39,6 +39,7 @@ public class VotacaoService implements IVotacaoService {
 		v.setCondominio(condominio);
 		v.setTipoVotacao(tipoVotacao);
 		v.setAssuntoVotacao(assunto);
+		v.setAtiva(Boolean.TRUE);
 		return v;
 	}
 

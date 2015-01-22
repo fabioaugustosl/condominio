@@ -1,0 +1,13 @@
+@CHARSET "ISO-8859-1";
+
+.botaoStatusAtivo { 
+	background-image: url('../img/icones/icone_bola_ativo.png'); 
+}
+
+.botaoStatusInativo { 
+	background-image: url('../img/icones/icone_bola_inativo.png'); 
+}
+
+.vermelho { 
+	color: red; 
+}

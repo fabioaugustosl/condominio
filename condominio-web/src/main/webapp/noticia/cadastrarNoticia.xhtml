@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h1><p:outputLabel value="Cadastrar uma nova Notícia ou Aviso" /></h1>
+ 	<br />
+ 	
+ 	<h:form id="form" enctype="multipart/form-data">
+	    
+	    <p:panelGrid id="containerNovaNoticia" columns="2">
+	    
+			<p:outputLabel value="Título" />
+			<p:inputText id="titulo" alt="Insira o título da notícia ou aviso"
+				value="#{noticiaController.noticia.titulo}" maxlength="400" 
+				required="true" requiredMessage="Favor preencher o título da notícia ou aviso.">
+			
+			<p:outputLabel value="Texto da notícia ou aviso:" />
+	        
+	        <p:editor id="editorConteudoNoticia" widgetVar="editorWidget" value="#{noticiaController.noticia.conteudo}" 
+	        	required="true" requiredMessage="Favor preencher o texto da notícia ou aviso." 
+	        	controls="bold italic underline font size color style numbering alignleft center alignright justify undo redo image link cut copy paste indent" />
+	        
+	        <p:outputLabel value="Notícia ativa?" />
+	        <p:selectBooleanCheckbox value="#{noticiaController.noticia.ativa}" />	
+	        
+	        <p:outputLabel value="Anexos da nóticia ou aviso:" />
+	        <p:fileUpload
+			        mode="advanced"
+			        fileUploadListener="#{noticiaController.uploadArquivo}"
+			        allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" 
+			        multiple="true" sizeLimit="100000" 
+			        auto="true"
+			        dragDropSupport="false"
+			        fileLimit="5"
+			        />
+	 	</p:panelGrid>
+	 	
+	</h:form>
+   </ui:define>
+</ui:composition>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+	   	<h1><p:outputLabel value="Documentos" /></h1>
+	 	<br />
+	 	
+		<p:dataTable id="dtListagemDocumentos" var="doc" 
+				value="#{listagemDocumentoController.documentos}"
+				rowKey="#{doc.id}"
+				emptyMessage="Ainda não foi disponibilizado nenhum documento ou arquivo." >
+			
+		    <p:column headerText="Título">
+		        <h:outputText value="#{doc.titulo}" />
+		    </p:column>
+		    
+		    <p:column headerText="Data">
+		        <h:outputText value="#{doc.data}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="Descrição">
+		        <h:outputText value="#{doc.descricao}" />
+		    </p:column>
+		    
+		    <p:column headerText="Download">
+		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+			        <p:fileDownload value="#{listagemDocumentoController.download(doc.arquivo)}" />
+			    </p:commandButton>
+		    </p:column>
+		    
+		    <p:column>
+		     	<p:commandLink actionListener="#{listagemDocumentoController.editar(doc)}" 
+	         		id="editarDocSelecionada" value="Editar" immediate="true" >
+	         	</p:commandLink>
+		    </p:column>
+		    
+		    <p:column>
+		    	<p:commandLink actionListener="#{listagemDocumentoController.removerDocumento(doc)}" ajax="false"
+	         		id="excluirDocSelecionada" value="Remover" immediate="true" >
+	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover esse documento?" icon="ui-icon-alert" />
+	         	</p:commandLink>
+	         	
+	         </p:column>
+		</p:dataTable> 
+	    
+	   	<p:commandButton id="novoDocumento" value="Novo Documento" immediate="true"
+	   		actionListener="#{listagemDocumentoController.irParaCadastro}"  >
+	   	</p:commandButton>
+	   	
+	   	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+	        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+    
+	   	 <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+		    <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+		</p:dialog> 
+	    
+	 </h:form>
+	 <script type="text/javascript">
+		function start() {
+		    PF('statusDialog').show();
+		}
+		 
+		function stop() {
+		    PF('statusDialog').hide();
+		}
+	</script>
+
+  </ui:define>
+</ui:composition>

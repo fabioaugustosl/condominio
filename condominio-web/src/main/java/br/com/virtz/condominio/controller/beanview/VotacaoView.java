@@ -6,6 +6,7 @@ import br.com.virtz.condominio.entidades.Votacao;
 public class VotacaoView {
 	private Votacao votacao;
 	private UtilTipoVotacao util;
+	private boolean votou;
 
 	
 	public VotacaoView(Votacao votacao) {
@@ -13,6 +14,7 @@ public class VotacaoView {
 		this.votacao = votacao;
 		this.util = new UtilTipoVotacao();
 		this.util.tratarTipoVotacaoExibicao(votacao.getTipoVotacao());
+		this.votou = Boolean.FALSE;
 	}
 	
 
@@ -28,5 +30,12 @@ public class VotacaoView {
 		return util;
 	}
 
+	public boolean getVotou() {
+		return votou;
+	}
+
+	public void setVotou(boolean votou) {
+		this.votou = votou;
+	}
 
 }

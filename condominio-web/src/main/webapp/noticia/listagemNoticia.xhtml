@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+	   	<h1><p:outputLabel value="Notícias e avisos" /></h1>
+	 	<br />
+	 	
+		<p:dataTable id="dtListagemNoticias" var="noticia" 
+				value="#{listagemNoticiaController.noticias}"
+				rowKey="#{votacao.id}"
+				emptyMessage="Ainda não foi cadastrada nenhuma notícia ou aviso." >
+			
+	        <p:column headerText="Código">
+		        <h:outputText value="#{noticia.id}" />
+		    </p:column>
+		    
+		    <p:column headerText="Título">
+		        <h:outputText value="#{noticia.titulo}" />
+		    </p:column>
+		    
+		    <p:column headerText="Data">
+		        <h:outputText value="#{noticia.data}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="Status">
+		         <p:commandLink actionListener="#{listagemVotacaoController.ativarVotacao(votacao)}"
+			        	rendered="#{listagemVotacaoController.estaInativa(votacao)}" update="dtListagemVotacao"
+			         	id="ativarVotacaoSelecionada" value="Ativar" >
+		         		<p:confirm header="Confirmação" message="Tem certeza que deseja ativar essa votação?" icon="ui-icon-alert" />
+		         </p:commandLink>
+		         	
+		         <p:commandLink actionListener="#{listagemVotacaoController.desativarVotacao(votacao)}"
+		        	rendered="#{listagemVotacaoController.estaAtiva(votacao)}" update="dtListagemVotacao"
+		         	id="desativarVotacaoSelecionada" value="Desativar" >
+		         		<p:confirm header="Confirmação" message="Tem certeza que deseja desativar essa votação?" icon="ui-icon-alert" />
+		         </p:commandLink>
+		    </p:column>
+		    
+		    <p:column headerText="Ações">
+		    	<p:panelGrid id="panelGridAcao" columns="1" >
+			         <p:commandLink actionListener="#{listagemVotacaoController.excluirVotacao(votacao)}"
+			        	rendered="#{listagemVotacaoController.possoRemover(votacao)}" update="dtListagemVotacao"
+			         	id="excluirVotacaoSelecionada" value="Remover" >
+			         		<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa votação?" icon="ui-icon-alert" />
+			         </p:commandLink>
+			         
+			         <p:commandLink actionListener="#{listagemVotacaoController.editar(votacao)}"
+			        	rendered="#{listagemVotacaoController.possoEditar(votacao)}" 
+			         	id="editarVotacaoSelecionada" value="Editar" >
+			         </p:commandLink>
+		         </p:panelGrid>
+		    </p:column>
+		</p:dataTable> 
+	    
+	   	<p:commandButton id="novaVotacao" value="Nova Votação" immediate="true"
+	   		actionListener="#{listagemVotacaoController.irParaCadastro}"  >
+	   	</p:commandButton>
+	    
+	    <br /> <br />
+	    
+	    <p:outputLabel value="Caso deseje exibir algum termo de aceite de concordância favor verificar na tela Configurações > Termo de concordância. Ao ser cadastrado esse termo aparecerá automaticamente para aceite na tela de votação." />
+	  
+	  	<p:confirmDialog global="true" showEffect="fade" >
+	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+	 </h:form>
+  </ui:define>
+</ui:composition>

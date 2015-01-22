@@ -1,0 +1,32 @@
+/* Coluna da esquerda */
+.site-left-col{
+    width:100%;
+    margin-right:-940px;
+    float:left;
+}
+.site-left-col-resized{
+    width:100%;
+    margin-right:0;
+    float:none;
+}
+.site-left-col-inner{
+    padding:20px;
+    margin-right:940px;
+}
+.site-left-col-inner-resized{
+    padding:20px;
+    margin-right:0;
+}
+
+/* Coluna da direita */
+.site-right-col{
+    width:900px;
+    float:right;
+}
+.site-right-col-resized{
+    width:100%;
+    float:none;
+}
+.site-right-col-inner{
+    padding:20px;
+}

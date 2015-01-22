@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+        
+
+	<cc:interface>
+	    <cc:attribute name="modal" required="false" default="false" />
+	</cc:interface>
+	
+	<cc:implementation>
+		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+		 
+		<p:dialog widgetVar="statusDialog" modal="#{cc.attrs.modal}" draggable="false" closable="false" resizable="false" showHeader="false">
+			 <p:graphicImage name="/img/ajax-loader.GIF" /> 
+		</p:dialog>
+		
+	</cc:implementation>
+</html>

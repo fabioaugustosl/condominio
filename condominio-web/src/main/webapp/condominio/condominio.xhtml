@@ -4,68 +4,69 @@
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:p="http://primefaces.org/ui"
-   template="/WEB-INF/templates/template.xhtml">
+   template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h1><p:outputLabel value="#{condominioController.nomeCondominio}" /></h1>
- 	<br />
- 	<p:outputPanel id="ctCadastroBlocos" layout="block" >
-	<p:outputPanel id="cadastroBlocos" layout="block" rendered="#{condominioController.mostrarCadastrosBlocos()}">
-		<p:outputLabel value="Seu condomínio ainda não possui nenhum bloco cadastrado." />
-		<br /><br />
-		<p:outputLabel value="Quantos blocos são? " />
-		<p:spinner id="minMax" value="#{condominioController.quantidadeBlocos}" size="5" min="1" max="20" />
-		
-		<p:commandButton id="btnBloco" value="Ok" style="margin-left:10px;" 
-						actionListener="#{condominioController.sugerirBlocos}"
-						update="ctCadastroBlocos" />
-	</p:outputPanel>
-	
-	<p:outputPanel id="salvaBlocos" rendered="#{not condominioController.mostrarCadastrosBlocos()}" >
-	
-			<p:outputLabel value="Abaixo segue uma sugestão de nome e quantidade de andares de cada bloco. Favor ajustar essas informações e clicar em Ok. " />
-			<br />
+   	<h:form id="form" style="width:100%">
+	   	<h1><p:outputLabel value="#{condominioController.nomeCondominio}" /></h1>
+	 	<br />
+	 	<p:outputPanel id="ctCadastroBlocos" layout="block" >
+		<p:outputPanel id="cadastroBlocos" layout="block" rendered="#{condominioController.mostrarCadastrosBlocos()}">
+			<p:outputLabel value="Seu condomínio ainda não possui nenhum bloco cadastrado." />
+			<br /><br />
+			<p:outputLabel value="Quantos blocos são? " />
+			<p:spinner id="minMax" value="#{condominioController.quantidadeBlocos}" size="5" min="1" max="20" />
 			
-			<p:dataTable id="dtBlocos" var="bloco" value="#{condominioController.blocos}" 
-				 editable="true" style="margin-bottom:20px">
-	 
-		       <p:ajax event="rowEdit" listener="#{condominioController.onRowEdit}" update=":form:mensagens" />
-		       <p:ajax event="rowEditCancel" listener="#{condominioController.onRowCancel}" update=":form:mensagens" />
-		 
-		       <p:column headerText="Nome do Bloco" >
-		           <p:cellEditor>
-		               <f:facet name="output"><h:outputText value="#{bloco.nome}" /></f:facet>
-		               <f:facet name="input"><p:inputText value="#{bloco.nome}" style="width:100%" label="Nome"/></f:facet>
-		           </p:cellEditor>
-		       </p:column>
-		       <p:column headerText="Quantidade de andares">
-		           <p:cellEditor>
-		               <f:facet name="output"><h:outputText value="#{bloco.quantidadeAndares}" /></f:facet>
-		               <f:facet name="input"><p:inputText value="#{bloco.quantidadeAndares}" style="width:100%" label="Andares"/></f:facet>
-		           </p:cellEditor>
-		       </p:column>
-		 
-		       <p:column style="width:32px">
-		           <p:rowEditor />
-		       </p:column>
-		   </p:dataTable>
+			<p:commandButton id="btnBloco" value="Ok" style="margin-left:10px;" 
+							actionListener="#{condominioController.sugerirBlocos}"
+							update="ctCadastroBlocos" />
+		</p:outputPanel>
 		
-			<p:commandButton id="btnBlocoSalvar" value="Ok" style="margin-left:10px;" 
-							actionListener="#{condominioController.salvarBlocos}"
-							update="ctCadastroBlocos" 
-							onsuccess="PF('cadSucesso').show();" />
-	</p:outputPanel>
-	</p:outputPanel>
-	
-	
-	<p:dialog header="Cadastro dos blocos" id="cadSucesso" widgetVar="cadSucesso" height="100" 
-				dynamic="true" appendTo="@(body)" modal="true"  >
-	    <p:outputPanel layout="block" id="outputPanelDlgSucess" >
-	    <h:outputText value="Parabéns. O cadatro dos blocos de seu condomínio terminou." />
-	    </p:outputPanel>
-	    <p:commandButton id="btnEditarBloco" value="Ok" 
-							actionListener="#{condominioController.editarCondominio}" />
-	</p:dialog>  
-
+		<p:outputPanel id="salvaBlocos" rendered="#{not condominioController.mostrarCadastrosBlocos()}" >
+		
+				<p:outputLabel value="Abaixo segue uma sugestão de nome e quantidade de andares de cada bloco. Favor ajustar essas informações e clicar em Ok. " />
+				<br />
+				
+				<p:dataTable id="dtBlocos" var="bloco" value="#{condominioController.blocos}" 
+					 editable="true" style="margin-bottom:20px">
+		 
+			       <p:ajax event="rowEdit" listener="#{condominioController.onRowEdit}" update=":form:mensagens" />
+			       <p:ajax event="rowEditCancel" listener="#{condominioController.onRowCancel}" update=":form:mensagens" />
+			 
+			       <p:column headerText="Nome do Bloco" >
+			           <p:cellEditor>
+			               <f:facet name="output"><h:outputText value="#{bloco.nome}" /></f:facet>
+			               <f:facet name="input"><p:inputText value="#{bloco.nome}" style="width:100%" label="Nome"/></f:facet>
+			           </p:cellEditor>
+			       </p:column>
+			       <p:column headerText="Quantidade de andares">
+			           <p:cellEditor>
+			               <f:facet name="output"><h:outputText value="#{bloco.quantidadeAndares}" /></f:facet>
+			               <f:facet name="input"><p:inputText value="#{bloco.quantidadeAndares}" style="width:100%" label="Andares"/></f:facet>
+			           </p:cellEditor>
+			       </p:column>
+			 
+			       <p:column style="width:32px">
+			           <p:rowEditor />
+			       </p:column>
+			   </p:dataTable>
+			
+				<p:commandButton id="btnBlocoSalvar" value="Ok" style="margin-left:10px;" 
+								actionListener="#{condominioController.salvarBlocos}"
+								update="ctCadastroBlocos" 
+								onsuccess="PF('cadSucesso').show();" />
+		</p:outputPanel>
+		</p:outputPanel>
+		
+		
+		<p:dialog header="Cadastro dos blocos" id="cadSucesso" widgetVar="cadSucesso" height="100" 
+					dynamic="true" appendTo="@(body)" modal="true"  >
+		    <p:outputPanel layout="block" id="outputPanelDlgSucess" >
+		    <h:outputText value="Parabéns. O cadatro dos blocos de seu condomínio terminou." />
+		    </p:outputPanel>
+		    <p:commandButton id="btnEditarBloco" value="Ok" 
+								actionListener="#{condominioController.editarCondominio}" />
+		</p:dialog>  
+	</h:form>
    </ui:define>
 </ui:composition>

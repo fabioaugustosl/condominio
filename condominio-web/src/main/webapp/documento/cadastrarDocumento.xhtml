@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h1><p:outputLabel value="Cadastro de documentos" /></h1>
+ 	<br />
+ 	
+ 	<h:form id="form" enctype="multipart/form-data">
+	    
+	    <p:panelGrid id="containerNovoDoc" columns="2">
+	    
+			<p:outputLabel value="Título:" />
+			<p:inputText id="titulo" alt="Insira o título do documento"
+				value="#{cadastroDocumentoController.documento.titulo}" maxlength="400" 
+				required="true" requiredMessage="Favor preencher o título do documento." />
+			
+			<p:outputLabel value="Descrição:" />
+	        <p:inputTextarea id="descricaoDoc" alt="Insira a descrição do documento"
+				value="#{cadastroDocumentoController.documento.descricao}"  />
+	         
+	        <p:outputLabel value="Anexar documento:" />
+	        <p:fileUpload rendered="#{cadastroDocumentoController.documento.arquivo == null}"
+			        mode="advanced" update="containerNovoDoc"
+			        fileUploadListener="#{cadastroDocumentoController.uploadArquivo}"
+			        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX)$/" 
+			        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
+			        auto="true" dragDropSupport="false" />
+			
+			<p:outputPanel rendered="#{cadastroDocumentoController.documento.arquivo != null}">
+				<p:outputLabel value="#{cadastroDocumentoController.documento.arquivo.nomeOriginal}"></p:outputLabel>
+				<p:commandButton id="removerArq" value="Remover" immediate="true"
+			   		actionListener="#{cadastroDocumentoController.removerArquivo}" 
+			   		update="containerNovoDoc">
+			   	</p:commandButton>
+			</p:outputPanel>
+			
+	 	</p:panelGrid>
+	 	
+	 	<p:commandButton id="salvarDoc" value="Salvar" 
+	   		actionListener="#{cadastroDocumentoController.salvarDocumento}" 
+	   		update="containerNovoDoc">
+	   	</p:commandButton>
+	   	
+	 	<p:commandButton id="listagemDocumento" value="Ir para listagem" immediate="true"
+	   		actionListener="#{cadastroDocumentoController.irParaListagem}"  >
+	   	</p:commandButton>
+	 	
+	</h:form>
+   </ui:define>
+</ui:composition>
