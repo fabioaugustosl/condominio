@@ -48,7 +48,7 @@ public class Documento extends Entidade implements Serializable {
 	@Column(name = "titulo", length=400)
 	private String titulo;
 	
-	@Column(name = "descricao")
+	@Column(name = "descricao", length=2000)
 	private String descricao;
 	
 	@OneToOne(fetch= FetchType.EAGER, cascade = CascadeType.ALL)

@@ -32,8 +32,8 @@
 				<p:dataTable id="dtBlocos" var="bloco" value="#{condominioEdicaoController.blocos}" 
 					 editable="#{condominioEdicaoController.isEditavel()}" style="margin-bottom:20px">
 		 
-			       <p:ajax event="rowEdit" listener="#{condominioEdicaoController.onRowEdit}" update=":form:mensagens" />
-			       <p:ajax event="rowEditCancel" listener="#{condominioEdicaoController.onRowCancel}" update=":form:mensagens" />
+			       <p:ajax event="rowEdit" listener="#{condominioEdicaoController.onRowEdit}" />
+			       <p:ajax event="rowEditCancel" listener="#{condominioEdicaoController.onRowCancel}"  />
 			 
 			       <p:column headerText="Nome do Bloco" >
 			           <p:cellEditor>
@@ -55,7 +55,7 @@
 			
 				<p:commandButton id="btnBlocoSalvarTab1" value="Salvar" style="margin-left:10px;" rendered="#{condominioEdicaoController.isEditavel()}"
 								actionListener="#{condominioEdicaoController.salvar}"
-								update=":form:mensagens, tabConcominio" />
+								update="tabConcominio" />
 	            
 	        </p:tab>
 	        
@@ -75,7 +75,7 @@
 			       	<p:column rendered="#{condominioEdicaoController.isEditavel()}" style="width:12%" >
 			           <p:commandButton id="removerArea" value="Excluir" 
 								actionListener="#{condominioEdicaoController.excluirArea(area)}"
-								update=":form:mensagens, dtAreas" />
+								update="dtAreas" />
 			       	</p:column>
 			   	</p:dataTable>
 	            
@@ -115,7 +115,7 @@
 		        		<p:column colspan="2">
 					 	   		<p:commandButton id="btnBlocoSalvarTab2" value="Salvar" 
 												actionListener="#{condominioEdicaoController.salvarArea}"
-												update=":form:mensagens, :form:tabConcominio:dtAreas, @this" />
+												update=" :form:tabConcominio:dtAreas, @this" />
 		        		</p:column>
 		 	   		</p:row>
 		 	   		

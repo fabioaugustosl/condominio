@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+	   	<h1>Notícias e Avisos</h1>
+	 	<br />
+	 	
+	 	<table style="width:100%">
+	 		<tr>
+	 			<td style="width:70%">
+		 			<p:outputPanel id="panelNoticiaDestaque" rendered="#{exibirNoticiaController.noticia != null}">
+						<p:outputLabel id="noticiaDestaqueTitulo" value="#{exibirNoticiaController.noticia.titulo}" style="font-weight:bold"></p:outputLabel>
+						<br />
+						[<p:outputLabel id="noticiaDestaqueData" value="#{exibirNoticiaController.noticia.data}">
+							<f:convertDateTime pattern="dd/MM/yyyy"/>
+						</p:outputLabel>]
+						<br />
+						
+						<p:outputLabel id="noticiaDestaqueConteudo" style="display:block"
+							escape="false" 
+							value="#{exibirNoticiaController.noticia.conteudo}">
+						</p:outputLabel>
+						
+						<br />
+						
+						<p:galleria id="galeriaImagensNoticia" effect="slide"
+									effectSpeed="2000" var="imagem" value="#{exibirNoticiaController.arquivosImagens}">
+							<p:graphicImage value="#{imagem.caminhoCompleto}" />
+						</p:galleria>
+						
+						<p:dataTable id="dtListagemDownloads" var="arquivo"
+								rendered="#{not empty exibirNoticiaController.arquivosDownload}" 
+								value="#{exibirNoticiaController.arquivosDownload}">
+							<p:column headerText="Descrição">
+						        <h:outputText value="#{arquivo.nomeOriginal}" />
+						    </p:column>
+						    
+						    <p:column headerText="Download">
+						    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+							        <p:fileDownload value="#{exibirNoticiaController.download(arquivo)}" />
+							    </p:commandButton>
+						    </p:column>
+						
+						</p:dataTable>
+					</p:outputPanel>
+	 			</td>
+	 			<td style="width:30%" >
+		 			<p:dataList id="dlNoticiasExibicao" value="#{exibirNoticiaController.noticias}" 
+						var="noticia" rendered="#{not empty exibirNoticiaController.noticias}"   >
+						  [<p:outputLabel id="noticiaDestaqueData" value="#{noticia.data}">
+							<f:convertDateTime pattern="dd/MM/yyyy"/>
+						</p:outputLabel>] - 
+						 <p:commandLink id="linkVisualizarNoticia" actionListener="#{exibirNoticiaController.preencherNoticiaDestaque(noticia)}"
+						 	 ajax="true" value="#{noticia.titulo}"
+						  	update="@form" ></p:commandLink>
+						 
+					</p:dataList>
+	 			
+	 			</td>
+	 		</tr>
+	 	</table>
+	 	
+	 	<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+		    <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+		</p:dialog> 
+
+	 </h:form>
+	 
+	  <script type="text/javascript">
+		function start() {
+		    PF('statusDialog').show();
+		}
+		 
+		function stop() {
+		    PF('statusDialog').hide();
+		}
+	</script>
+  </ui:define>
+</ui:composition>

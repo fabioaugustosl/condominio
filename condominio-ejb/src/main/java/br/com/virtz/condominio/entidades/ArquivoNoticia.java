@@ -29,7 +29,7 @@ public class ArquivoNoticia extends Entidade implements Serializable {
 	private String caminho;
 	
 	@Column(name = "tamanho")
-	private int tamanho;
+	private long tamanho;
 	
 	@Column(name = "nome", length=100, nullable = false)
 	private String nome;
@@ -39,6 +39,10 @@ public class ArquivoNoticia extends Entidade implements Serializable {
 	
 	@Column(name = "extensao", length=5)
 	private String extensao;
+	
+	@Column(name = "destaque")
+	private Boolean destaque;
+	
 
 	public Long getId() {
 		return id;
@@ -64,11 +68,11 @@ public class ArquivoNoticia extends Entidade implements Serializable {
 		this.caminho = caminho;
 	}
 
-	public int getTamanho() {
+	public long getTamanho() {
 		return tamanho;
 	}
 
-	public void setTamanho(int tamanho) {
+	public void setTamanho(long tamanho) {
 		this.tamanho = tamanho;
 	}
 
@@ -94,6 +98,18 @@ public class ArquivoNoticia extends Entidade implements Serializable {
 
 	public void setExtensao(String extensao) {
 		this.extensao = extensao;
+	}
+
+	public boolean getDestaque() {
+		return destaque == null ? Boolean.FALSE : destaque;
+	}
+
+	public void setDestaque(boolean destaque) {
+		this.destaque = destaque;
+	}
+	
+	public String getCaminhoCompleto(){
+		return "/arquivos/"+getNome();
 	}
 	
 }

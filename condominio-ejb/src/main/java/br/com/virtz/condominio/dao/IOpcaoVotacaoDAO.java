@@ -7,6 +7,6 @@ import br.com.virtz.condominio.entidades.OpcaoVotacao;
 @Local
 public interface IOpcaoVotacaoDAO extends CrudDAO<OpcaoVotacao> {
 
-	public OpcaoVotacao rcuperarPorId(Long id);
+	public OpcaoVotacao recuperarPorId(Long id);
 
 }

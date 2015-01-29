@@ -8,7 +8,7 @@
    
    <ui:define name="content">
    	<h:form id="form" style="width:100%">
-	   	<h1><p:outputLabel value="Notícias e avisos" /></h1>
+	   	<h1>Notícias e Avisos</h1>
 	 	<br />
 	 	
 		<p:dataTable id="dtListagemNoticias" var="noticia" 
@@ -16,7 +16,7 @@
 				rowKey="#{votacao.id}"
 				emptyMessage="Ainda não foi cadastrada nenhuma notícia ou aviso." >
 			
-	        <p:column headerText="Código">
+	        <p:column headerText="Código" rendered="#{listagemNoticiaController.podeEditar()}">
 		        <h:outputText value="#{noticia.id}" />
 		    </p:column>
 		    
@@ -26,52 +26,38 @@
 		    
 		    <p:column headerText="Data">
 		        <h:outputText value="#{noticia.data}" >
-		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+		        	<f:convertDateTime pattern="dd/MM/yyyy"/>
 		        </h:outputText>
 		    </p:column>
 		    
-		    <p:column headerText="Status">
-		         <p:commandLink actionListener="#{listagemVotacaoController.ativarVotacao(votacao)}"
-			        	rendered="#{listagemVotacaoController.estaInativa(votacao)}" update="dtListagemVotacao"
-			         	id="ativarVotacaoSelecionada" value="Ativar" >
-		         		<p:confirm header="Confirmação" message="Tem certeza que deseja ativar essa votação?" icon="ui-icon-alert" />
-		         </p:commandLink>
-		         	
-		         <p:commandLink actionListener="#{listagemVotacaoController.desativarVotacao(votacao)}"
-		        	rendered="#{listagemVotacaoController.estaAtiva(votacao)}" update="dtListagemVotacao"
-		         	id="desativarVotacaoSelecionada" value="Desativar" >
-		         		<p:confirm header="Confirmação" message="Tem certeza que deseja desativar essa votação?" icon="ui-icon-alert" />
-		         </p:commandLink>
+		    <p:column headerText="Ativa?">
+		        <h:outputText rendered="#{noticia.ativa}" value="Sim" />
+	        <h:outputText rendered="#{not noticia.ativa}" value="Não" />
 		    </p:column>
 		    
-		    <p:column headerText="Ações">
-		    	<p:panelGrid id="panelGridAcao" columns="1" >
-			         <p:commandLink actionListener="#{listagemVotacaoController.excluirVotacao(votacao)}"
-			        	rendered="#{listagemVotacaoController.possoRemover(votacao)}" update="dtListagemVotacao"
-			         	id="excluirVotacaoSelecionada" value="Remover" >
-			         		<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa votação?" icon="ui-icon-alert" />
-			         </p:commandLink>
-			         
-			         <p:commandLink actionListener="#{listagemVotacaoController.editar(votacao)}"
-			        	rendered="#{listagemVotacaoController.possoEditar(votacao)}" 
-			         	id="editarVotacaoSelecionada" value="Editar" >
-			         </p:commandLink>
-		         </p:panelGrid>
+		    <p:column rendered="#{listagemNoticiaController.podeEditar()}" >
+		     	<p:commandLink actionListener="#{listagemNoticiaController.editar(noticia)}" 
+	         		id="editarNotSelecionada" value="Editar" immediate="true" >
+	         	</p:commandLink>
 		    </p:column>
+		    
+		    <p:column rendered="#{listagemNoticiaController.podeExcluir()}">
+		    	<p:commandLink actionListener="#{listagemNoticiaController.removerNoticia(noticia)}" 
+	         		id="excluirNotSelecionada" value="Remover" immediate="true" update="dtListagemNoticias" >
+	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa notícia?" icon="ui-icon-alert" />
+	         	</p:commandLink>
+	         </p:column>
 		</p:dataTable> 
 	    
-	   	<p:commandButton id="novaVotacao" value="Nova Votação" immediate="true"
-	   		actionListener="#{listagemVotacaoController.irParaCadastro}"  >
+	   	<p:commandButton id="novaNoticia" value="Nova Notícia" immediate="true"
+	   		actionListener="#{listagemNoticiaController.irParaCadastro}"  >
 	   	</p:commandButton>
 	    
-	    <br /> <br />
-	    
-	    <p:outputLabel value="Caso deseje exibir algum termo de aceite de concordância favor verificar na tela Configurações > Termo de concordância. Ao ser cadastrado esse termo aparecerá automaticamente para aceite na tela de votação." />
-	  
 	  	<p:confirmDialog global="true" showEffect="fade" >
 	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 	    </p:confirmDialog>
+
 	 </h:form>
   </ui:define>
 </ui:composition>

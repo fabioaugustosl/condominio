@@ -19,7 +19,7 @@ public abstract class DAO<T> {
 		return em;
 	}
 	
-	public T rcuperarPorId(Long id) {
+	public T recuperarPorId(Long id) {
 		return (T) getEntityManager().find(getTypeClass(), id);
 	}
 	

@@ -1,7 +1,6 @@
 package br.com.virtz.condominio.controller;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +26,7 @@ import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
 @ViewScoped
-public class NoticiaController {
+public class ListagemNoticiaController {
 	
 	@EJB
 	private INoticiaService noticiaService;
@@ -36,49 +35,81 @@ public class NoticiaController {
 	private SessaoUsuario sessao;
 	
 	@Inject
+	private ParametroSistemaLookup parametroLookup; 
+	
+	@Inject
+	private MessageHelper mensagem;
+	
+	@Inject
 	private NavigationPage navegacao;
-
+	
 	@Inject
 	private IArquivosUtil arquivoUtil;
 	
-	
-	public Noticia noticiaDestaque;
-	public Noticia noticiaSelecionada;
 	public List<Noticia> noticias;
 	
 	
 	@PostConstruct
 	public void init(){
-		noticiaDestaque = null;
-		noticias = new ArrayList<Noticia>();
-		noticiaSelecionada = null;
-		recuperarNoticiasExibicao(); 
+		noticias = listarTodas(); 
 	}
 	
 	
-	public void recuperarNoticiasExibicao(){
+	public List<Noticia> listarTodas(){
 		Usuario usuario = sessao.getUsuarioLogado();
 		
-		noticias = noticiaService.recuperarNoticiasAtivas(usuario.getCondominio().getId(), 4);
-		if(noticias != null && !noticias.isEmpty()){
-			noticiaDestaque = noticias.get(0);
-			noticias.remove(noticiaDestaque);
-		}
+		List<Noticia> noticias = noticiaService.recuperarNoticias(usuario.getCondominio().getId());
 		
+		return noticias;
 	}
 	
 	
-	public void visualizar(){
-		if(noticiaDestaque != null){
-			FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idNoticia", noticiaDestaque.getId());
-			navegacao.redirectToPage("/noticia/exibirNoticia.faces");
-		}
+	public void irParaCadastro(){
+		navegacao.redirectToPage("/noticia/cadastrarNoticia.faces");
 	}
 	
 	
-	public void preencherNoticiaDestaque(Noticia noticiaDestaque) {
-		this.noticiaDestaque = noticiaDestaque;
+	public void editar(Noticia noticia){
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idNoticia", noticia.getId());
+		irParaCadastro();
+	}	
+	 
+	
+	public void removerNoticia(Noticia noticia) throws CondominioException {
+
+		 Noticia noticiaFull = noticiaService.recuperarNoticia(noticia.getId());
+		 List<ArquivoNoticia> arquivos = noticiaFull.getArquivos();
+		 
+		 
+		 noticiaService.remover(noticia.getId());
+		 
+		 mensagem.addInfo("Notícia removida com sucesso!");
+
+		 if(arquivos != null && !arquivos.isEmpty()){
+			 for(ArquivoNoticia arq : noticiaFull.getArquivos()){
+				 File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arq.getNome());
+				 arquivoDeletar.delete();
+			 }
+		 }
 	}
+	 
+	 
+	public boolean podeEditar(){
+		 if(EnumTipoUsuario.SINDICO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
+			 return Boolean.TRUE;
+		 }
+		 return Boolean.FALSE;
+	}
+	 
+	
+	public boolean podeExcluir(){
+		 if(EnumTipoUsuario.SINDICO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
+			 return Boolean.TRUE;
+		 }
+		 return Boolean.FALSE;
+	}
+	 
+	
 
 	
 	/* GETTERS e SETTERS */
@@ -89,22 +120,6 @@ public class NoticiaController {
 	public void setNoticias(List<Noticia> noticias) {
 		this.noticias = noticias;
 	}
-
-	public Noticia getNoticiaDestaque() {
-		return noticiaDestaque;
-	}
-
-	public void setNoticiaDestaque(Noticia noticiaDestaque) {
-		this.noticiaDestaque = noticiaDestaque;
-	}
-
-	public Noticia getNoticiaSelecionada() {
-		return noticiaSelecionada;
-	}
-
-	public void setNoticiaSelecionada(Noticia noticiaSelecionada) {
-		this.noticiaSelecionada = noticiaSelecionada;
-	}
-		
+	
 	
 }

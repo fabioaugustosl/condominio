@@ -21,7 +21,7 @@
 			
 			<p:outputLabel value="Descrição:" />
 	        <p:inputTextarea id="descricaoDoc" alt="Insira a descrição do documento"
-				value="#{cadastroDocumentoController.documento.descricao}"  />
+				value="#{cadastroDocumentoController.documento.descricao}" maxlength="2000"  />
 	         
 	        <p:outputLabel value="Anexar documento:" />
 	        <p:fileUpload rendered="#{cadastroDocumentoController.documento.arquivo == null}"

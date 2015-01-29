@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -9,12 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -42,6 +43,10 @@ public class BatePapo extends Entidade implements Serializable {
 
 	@Column(name = "mensagem", length = 800)
 	private String mensagem;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data")
+	private Date data;
 
 	@OneToMany(mappedBy="batePapo")
 	private Set<Avaliacao> avaliacoes;
@@ -112,6 +117,14 @@ public class BatePapo extends Entidade implements Serializable {
 
 	public void setComentarios(Set<ComentarioBatePapo> comentarios) {
 		this.comentarios = comentarios;
+	}
+	
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
 	}
 
 	public void calcularAvalicoesPositivasENegativas(){

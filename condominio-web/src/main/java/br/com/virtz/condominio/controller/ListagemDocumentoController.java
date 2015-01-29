@@ -11,16 +11,15 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 import br.com.virtz.condominio.entidades.ArquivoDocumento;
 import br.com.virtz.condominio.entidades.Documento;
 import br.com.virtz.condominio.entidades.Usuario;
-import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.IDocumentoService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -64,6 +63,7 @@ public class ListagemDocumentoController {
 		return documentos;
 	}
 	
+	
 	public void irParaCadastro(){
 		navegacao.redirectToPage("/documento/cadastrarDocumento.faces");
 	}
@@ -103,6 +103,21 @@ public class ListagemDocumentoController {
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idDocumento", documento.getId());
 		irParaCadastro();
 	 }	
+	 
+	 
+	 public boolean podeEditar(){
+		 if(EnumTipoUsuario.SINDICO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
+			 return Boolean.TRUE;
+		 }
+		 return Boolean.FALSE;
+	 }
+	 
+	 public boolean podeExcluir(){
+		 if(EnumTipoUsuario.SINDICO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
+			 return Boolean.TRUE;
+		 }
+		 return Boolean.FALSE;
+	 }
 
 
 	// GETTERS E SETTERS

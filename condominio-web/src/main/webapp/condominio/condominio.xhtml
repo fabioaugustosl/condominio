@@ -30,8 +30,8 @@
 				<p:dataTable id="dtBlocos" var="bloco" value="#{condominioController.blocos}" 
 					 editable="true" style="margin-bottom:20px">
 		 
-			       <p:ajax event="rowEdit" listener="#{condominioController.onRowEdit}" update=":form:mensagens" />
-			       <p:ajax event="rowEditCancel" listener="#{condominioController.onRowCancel}" update=":form:mensagens" />
+			       <p:ajax event="rowEdit" listener="#{condominioController.onRowEdit}"  />
+			       <p:ajax event="rowEditCancel" listener="#{condominioController.onRowCancel}"  />
 			 
 			       <p:column headerText="Nome do Bloco" >
 			           <p:cellEditor>

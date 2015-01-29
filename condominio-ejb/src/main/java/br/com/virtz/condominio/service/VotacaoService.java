@@ -40,6 +40,7 @@ public class VotacaoService implements IVotacaoService {
 		v.setTipoVotacao(tipoVotacao);
 		v.setAssuntoVotacao(assunto);
 		v.setAtiva(Boolean.TRUE);
+		v.setVotacaoOficial(Boolean.FALSE);
 		return v;
 	}
 
@@ -70,7 +71,7 @@ public class VotacaoService implements IVotacaoService {
 
 	@Override
 	public Votacao buscar(Long idVotacao) {
-		return votacaoDAO.rcuperarPorId(idVotacao);
+		return votacaoDAO.recuperarPorId(idVotacao);
 	}
 
 
@@ -186,7 +187,7 @@ public class VotacaoService implements IVotacaoService {
 
 	@Override
 	public OpcaoVotacao recuperarOpcao(Long idOpcao) {
-		return opcaoDAO.rcuperarPorId(idOpcao);
+		return opcaoDAO.recuperarPorId(idOpcao);
 	}
 	
 

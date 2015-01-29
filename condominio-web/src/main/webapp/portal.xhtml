@@ -13,14 +13,18 @@
         <p:dashboard id="board" model="#{portalController.model}" style="width:100% !important">
             <p:ajax event="reorder" listener="#{portalController.handleReorder}" update="msgsGrowl" />
  
+            <p:panel id="panelWidgetNoticia" header="Notícias" style="height:100%;" > 
+                <ui:include src="widget/noticias.xhtml" />
+            </p:panel>
+ 
             <p:panel id="panelWidgetVotacao" header="Votação online" > 
                 <ui:include src="widget/votacao.xhtml" />
             </p:panel>
  
-            <p:panel id="panelWidgetTroca" header="Troca de idéias" style="height:500px;"> 
+            <p:panel id="panelWidgetTroca" header="Troca de idéias" style="height:100%;"> 
                 <ui:include src="widget/trocaIdeias.xhtml" />
             </p:panel>
- 
+            
         </p:dashboard>
         
         </p:outputPanel>

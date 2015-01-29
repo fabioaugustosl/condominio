@@ -70,6 +70,9 @@ public class Votacao extends Entidade implements Serializable {
 	@OneToMany(mappedBy="votacao", cascade=CascadeType.REMOVE)
 	private List<Voto> votos;
 	
+	@Column(name = "votacaoOficial")
+	private Boolean votacaoOficial;
+	
 	
 	
 	public Long getId() {
@@ -143,8 +146,16 @@ public class Votacao extends Entidade implements Serializable {
 	public void setAtiva(boolean ativa) {
 		this.ativa = ativa;
 	}
-
 	
+	
+	public Boolean getVotacaoOficial() {
+		return votacaoOficial == null ? Boolean.FALSE : votacaoOficial;
+	}
+
+	public void setVotacaoOficial(Boolean votacaoOficial) {
+		this.votacaoOficial = votacaoOficial;
+	}
+
 	public OpcaoVotacao adicionarNovaOpcao(String descricao){
 		OpcaoVotacao opcao = new OpcaoVotacao();
 		opcao.setDescricao(descricao);

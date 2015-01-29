@@ -32,7 +32,7 @@ public class DocumentoService implements IDocumentoService {
 
 	@Override
 	public Documento recuperar(Long id) {
-		Documento doc = documentoDAO.rcuperarPorId(id);
+		Documento doc = documentoDAO.recuperarPorId(id);
 		return doc;
 	}
 	

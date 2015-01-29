@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,6 +20,9 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 
 @Entity
 @XmlRootElement
+@NamedQueries({
+	@NamedQuery(name = "Usuario.recuperarPorCondominio", 
+			query = "Select u FROM Usuario u WHERE u.condominio.id = :idCondominio") })
 public class Usuario extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,6 +39,12 @@ public class Usuario extends Entidade implements Serializable {
 	@Column(name = "email", length = 100, nullable = false)
 	private String email;
 	
+	@Column(name = "telefone", length = 20)
+	private String telefone;
+	
+	@Column(name = "celular", length = 20)
+	private String celular;
+	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipoUsuario", nullable = false, length=30)
@@ -43,8 +54,17 @@ public class Usuario extends Entidade implements Serializable {
 	@JoinColumn(name="idCondominio", nullable=false)
 	private Condominio condominio;
 	
+	@Deprecated
 	@Column(name = "fotoPerfil", length = 300)
 	private String fotoPerfil;
+	
+	@ManyToOne
+	@JoinColumn(name="idApartamento")
+	private Apartamento apartamento;
+	
+	@ManyToOne
+	@JoinColumn(name="idImagem")
+	private ArquivoUsuario arquivo;
 
 	public Long getId() {
 		return id;
@@ -78,10 +98,6 @@ public class Usuario extends Entidade implements Serializable {
 		this.condominio = condominio;
 	}
 
-	public boolean isSindico() {
-		return EnumTipoUsuario.SINDICO.equals(getTipoUsuario());
-	}
-
 	public EnumTipoUsuario getTipoUsuario() {
 		return tipoUsuario;
 	}
@@ -96,6 +112,46 @@ public class Usuario extends Entidade implements Serializable {
 
 	public void setFotoPerfil(String fotoPerfil) {
 		this.fotoPerfil = fotoPerfil;
+	}
+	
+	public ArquivoUsuario getArquivo() {
+		if(arquivo == null){
+			return new ArquivoUsuarioPadrao();
+		}
+		return arquivo;
+	}
+
+	public void setArquivo(ArquivoUsuario arquivo) {
+		this.arquivo = arquivo;
+	}
+
+	public Apartamento getApartamento() {
+		return apartamento;
+	}
+
+	public void setApartamento(Apartamento apartamento) {
+		this.apartamento = apartamento;
+	}
+	
+	public boolean isSindico(){
+		if(EnumTipoUsuario.SINDICO.equals(this.tipoUsuario)){
+			return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
+	
+	public boolean isMorador(){
+		if(EnumTipoUsuario.MORADOR.equals(this.tipoUsuario)){
+			return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
+	
+	public boolean isAdministrativo(){
+		if(EnumTipoUsuario.ADMINISTRATIVO.equals(this.tipoUsuario)){
+			return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
 	}
 	
 }

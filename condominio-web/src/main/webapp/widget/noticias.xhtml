@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   
+   <h:form id="formNoticia" style="width:100%">
+   
+	   <p:outputPanel id="containerNoticia">
+		
+			<p:outputPanel id="panelNoticiaDestaque" rendered="#{noticiaController.noticiaDestaque != null}">
+				[<p:outputLabel id="noticiaDestaqueDataWidget" value="#{noticiaController.noticiaDestaque.data}">
+					<f:convertDateTime pattern="dd/MM/yyyy"/>
+				</p:outputLabel>] 
+				
+				<p:outputLabel id="noticiaDestaqueTituloWidget" value="#{noticiaController.noticiaDestaque.titulo}" style="font-weight:bold"></p:outputLabel>
+				
+				<p:outputLabel id="noticiaDestaqueConteudoWidget" style="display:block"
+					escape="false" 
+					value="#{noticiaController.noticiaDestaque.conteudoReduzido}">
+				</p:outputLabel>
+				
+				<p:commandLink id="linkVisualizarNoticia" actionListener="#{noticiaController.preencherNoticiaDestaque(noticiaController.noticiaDestaque)}"
+				  	action="#{noticiaController.visualizar}" ajax="false" value="Ver mais"></p:commandLink>
+			</p:outputPanel>
+			
+			<p:outputLabel id="noticiaTxtOutros" value="Outras Notícias" style="font-weight:bold; margin-top:10px;"></p:outputLabel>
+			<p:dataList id="dlNoticiasDestaque" value="#{noticiaController.noticias}" 
+				var="noticia" rendered="#{not empty noticiaController.noticias}" 
+				 >
+				  [<p:outputLabel id="noticiaDestaqueDataWidget" value="#{noticia.data}">
+					<f:convertDateTime pattern="dd/MM/yyyy"/>
+				</p:outputLabel>] - 
+				 <p:commandLink id="linkVisualizarNoticia" actionListener="#{noticiaController.preencherNoticiaDestaque(noticia)}"
+				  	action="#{noticiaController.visualizar}" ajax="false" value="#{noticia.titulo}"></p:commandLink>
+				 
+			</p:dataList>
+				  
+	   </p:outputPanel>
+	</h:form>
+	
+</ui:composition>
+

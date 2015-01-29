@@ -10,4 +10,5 @@ public interface IArquivosUtil {
 	public String gerarNomeArquivo(String extensao, String tipoArquivo);
 	public void arquivar(InputStream arquivo,  String nomeArquivo) throws IOException;
 	public String getMimetypeArquivo(String extensao);
+	public boolean ehImagem(String extensao);
 }

@@ -25,14 +25,13 @@ public class PortalController {
 		model = new DefaultDashboardModel();
         DashboardColumn column1 = new DefaultDashboardColumn();
         DashboardColumn column2 = new DefaultDashboardColumn();
-        DashboardColumn column3 = new DefaultDashboardColumn();
          
-        column1.addWidget("panelWidgetTroca");
-        column2.addWidget("panelWidgetVotacao");
+        column1.addWidget("panelWidgetNoticia");
+        column2.addWidget("panelWidgetTroca");
+        column1.addWidget("panelWidgetVotacao");
  
         model.addColumn(column1);
         model.addColumn(column2);
-        model.addColumn(column3);
 	}
 	
 	public void handleReorder(DashboardReorderEvent event) {

@@ -11,28 +11,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
-public class ArquivoDocumento extends Entidade implements Serializable {
+public class ArquivoUsuario extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	protected Long id;
 
 	@Column(name = "caminho", length=500)
-	private String caminho;
+	protected String caminho;
 	
 	@Column(name = "tamanho")
-	private long tamanho;
+	protected long tamanho;
 	
 	@Column(name = "nome", length=100, nullable = false)
-	private String nome;
+	protected String nome;
 
 	@Column(name = "nomeOriginal", length=500)
-	private String nomeOriginal;
+	protected String nomeOriginal;
 	
 	@Column(name = "extensao", length=5)
-	private String extensao;
+	protected String extensao;
 	
 
 	public Long getId() {
@@ -81,6 +81,10 @@ public class ArquivoDocumento extends Entidade implements Serializable {
 
 	public void setExtensao(String extensao) {
 		this.extensao = extensao;
+	}
+	
+	public String getCaminhoCompleto(){
+		return "/arquivos/"+getNome();
 	}
 
 }

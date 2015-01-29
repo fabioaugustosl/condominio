@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -77,6 +78,7 @@ public class BatePapoController {
 			batePapo.setMensagem(mensagem);
 			batePapo.setCondominio(sessao.getUsuarioLogado().getCondominio());
 			batePapo.setUsuario(sessao.getUsuarioLogado());
+			batePapo.setData(new Date());
 			try {
 				batePapoService.salvar(batePapo);
 				messageHelper.addInfo("Mensagem enviada!");

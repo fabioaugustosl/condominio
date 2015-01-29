@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+	   	<h1>Usuários</h1>
+	 	<br />
+	 	
+		<p:dataTable id="dtListagemUsuarios" var="usuario" 
+				value="#{listagemUsuarioController.usuarios}"
+				rowKey="#{usuario.id}"
+				emptyMessage="Ainda não foi cadastrado nenhum usuário." >
+			
+			<p:column>
+		        <p:graphicImage id="img" url="#{usuario.arquivo.caminhoCompleto}" alt="#{usuario.nome}" style="width:50px;" />
+		    </p:column>
+		    
+		    <p:column headerText="Morador" >
+		        <h:outputText value="#{usuario.nome}" />
+		    </p:column>
+		    
+		    <p:column headerText="Síndico">
+		    	
+		        <p:graphicImage id="imgSindicoS" url="/img/icones/icone_bola_ativo.png" rendered="#{usuario.isSindico()}" />
+		        
+		        <p:commandLink actionListener="#{listagemUsuarioController.alterarParaSindico(usuario)}" id="imgSindicoNlink" 
+		        		immediate="true" rendered="#{not usuario.isSindico()}" update="@form" >
+		        	<p:graphicImage id="imgSindicoN" url="/img/icones/icone_bola_inativo.png" title="Clique para alterar esse usuário para Síndico." />
+		        </p:commandLink>
+		    </p:column>
+		    
+		    <p:column headerText="Administrativo">
+		        <p:graphicImage id="imgAdmS" url="/img/icones/icone_bola_ativo.png" rendered="#{usuario.isAdministrativo()}"/>
+		        <p:commandLink actionListener="#{listagemUsuarioController.alterarParaAdministrativo(usuario)}" id="imgAdmNLink" 
+		        		immediate="true"  rendered="#{not usuario.isAdministrativo()}" update="@form" >
+		        	<p:graphicImage id="imgAdmN" url="/img/icones/icone_bola_inativo.png" title="Clique para alterar esse usuário para Administrativo" />
+		        </p:commandLink>
+		    </p:column>
+		    
+		    <p:column headerText="Morador">
+		        <p:graphicImage id="imgMoradorS" url="/img/icones/icone_bola_ativo.png" rendered="#{usuario.isMorador()}"/>
+		        <p:commandLink actionListener="#{listagemUsuarioController.alterarParaMorador(usuario)}" id="imgMoradorNLink" 
+		        		immediate="true" rendered="#{not usuario.isMorador()}" update="@form" >
+		        	<p:graphicImage id="imgMoradorN" url="/img/icones/icone_bola_inativo.png" title="Clique para alterar esse usuário para Administrativo"/>
+		        </p:commandLink>
+		    </p:column>
+	
+		    <p:column>
+		    	<p:commandLink actionListener="#{listagemUsuarioController.remover(usuario)}" ajax="false"
+		    		id="excluirUsuarioSelecionada" value="Remover" immediate="true" >
+	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover esse usuário" icon="ui-icon-alert" />
+	         	</p:commandLink>
+	         </p:column>
+		</p:dataTable> 
+	    
+	   	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+
+	 </h:form>
+
+  </ui:define>
+</ui:composition>

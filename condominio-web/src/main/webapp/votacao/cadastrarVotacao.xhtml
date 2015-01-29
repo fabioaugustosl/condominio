@@ -26,6 +26,9 @@
 	        <p:outputLabel value="Você deseja ativar a votação imediatamente?" />
 	        <p:selectBooleanCheckbox value="#{cadastroVotacaoController.votacao.ativa}" />
 	        
+	        <p:outputLabel value="É uma votação oficial? Caso não marque essa opção será a votação será considera apenas como enquete." />
+	        <p:selectBooleanCheckbox value="#{cadastroVotacaoController.votacao.votacaoOficial}" />
+	        
 	        <p:outputLabel value="Qual é o tipo de votação?" />
 		    <p:selectOneMenu id="comboTipoVotacao" required="true"
 		    			requiredMessage="É necessário quer você selecione o tipo de votação"
