@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/templateSimples.xhtml">
+   
+   <style type="text/css">
+ 
+   </style>
+   
+   <ui:define name="content">
+	   
+	   <h1>Bem vindo! Preencha os dados e comece agora mesmo conviver com seu condomínio também na web.</h1>
+	   		
+   		<p:outputPanel id="cadastroInicial" rendered="#{empty cadastrarUsuarioController.usuario.id}">
+	   		<p:outputLabel value="Qual seu nome?" />
+			<p:inputText id="nomeUsuario" alt="Insira seu nome. Exemplo: João Lopes"
+				value="#{cadastrarUsuarioController.usuario.nome}" maxlength="100" 
+				required="true" requiredMessage="Favor preencher o nome." />
+			
+			<p:outputLabel value="Qual seu Email? (o seu email será o seu login de acesso)" />
+			<p:inputText id="nomeUsuario" alt="Insira seu email."
+				value="#{cadastrarUsuarioController.usuario.email}" maxlength="100" 
+				required="true" requiredMessage="Favor preencher o email" />
+		    
+		    <p:outputLabel value="Qual seu telefone?" />
+			<p:inputText id="nomeUsuario" alt="Insira seu telefone residencial."
+				value="#{cadastrarUsuarioController.usuario.telefone}" maxlength="20" />
+				
+			<p:outputLabel value="Qual seu celular?" />
+				<p:inputText id="nomeUsuario" alt="Insira seu celular."
+				value="#{cadastrarUsuarioController.usuario.celular}" maxlength="20" />
+				
+			<br />
+			
+			<p:commandButton id="salvarUsuario" value="Salvar" 
+		   		actionListener="#{cadastrarUsuarioController.salvar}" 
+		   		update="@form">
+		   	</p:commandButton>
+		</p:outputPanel>
+		
+		<p:outputPanel id="mensagemSucesso" rendered="#{not empty cadastrarUsuarioController.usuario.id}">
+			Seu cadastro foi realizado com sucesso!
+			<br/>
+			Foi enviado um email de confirmação para você. Basta abri-lo e clicar no link para confirmar seu usuaário e concluir seu cadastro. 
+			É bem rápido.   
+		</p:outputPanel>
+	   
+   </ui:define>
+</ui:composition>

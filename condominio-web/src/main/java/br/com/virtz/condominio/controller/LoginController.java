@@ -71,6 +71,10 @@ public class LoginController {
 		
 		navigation.redirectToPage("/portal.faces");
 	}
+	
+	public void novoUsuario(){
+		navigation.redirectToPage("/cadastrarUsuario.faces");
+	}
 
 
 	private void metodoAuxiliarCriacaoUsuarioDesenv() throws Exception {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/templateSimples.xhtml">
+   
+   <style type="text/css">
+ 
+   </style>
+   
+   <ui:define name="content">
+	   
+	   	<p:outputPanel id="mensagemFalha" rendered="#{empty cadastrarUsuarioController.usuario.id}">
+	   		
+		</p:outputPanel>
+		
+		<p:outputPanel id="mensagemSucesso" rendered="#{not empty cadastrarUsuarioController.usuario.id}">
+			Seu cadastro foi realizado com sucesso!
+			<br/>
+			Foi enviado um email de confirmação para você. Basta abri-lo e clicar no link para confirmar seu usuaário e concluir seu cadastro. 
+			É bem rápido.   
+		</p:outputPanel>
+	   
+   </ui:define>
+</ui:composition>

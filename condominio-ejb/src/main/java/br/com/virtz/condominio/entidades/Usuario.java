@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -44,6 +47,13 @@ public class Usuario extends Entidade implements Serializable {
 	
 	@Column(name = "celular", length = 20)
 	private String celular;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "dataCadastro")
+	private Date dataCadastro;
+	
+	@Column(name = "cadastroConfirmado")
+	private Boolean cadastroConfirmado;
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -133,6 +143,38 @@ public class Usuario extends Entidade implements Serializable {
 		this.apartamento = apartamento;
 	}
 	
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
+	public Date getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+	public Boolean getCadastroConfirmado() {
+		return cadastroConfirmado;
+	}
+
+	public void setCadastroConfirmado(Boolean cadastroConfirmado) {
+		this.cadastroConfirmado = cadastroConfirmado;
+	}
+
 	public boolean isSindico(){
 		if(EnumTipoUsuario.SINDICO.equals(this.tipoUsuario)){
 			return Boolean.TRUE;	

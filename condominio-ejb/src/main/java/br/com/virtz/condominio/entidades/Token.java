@@ -29,6 +29,9 @@ public class Token  extends Entidade implements Serializable {
 	@Column(name = "TOKEN")
 	private String token;
 	
+	@Column(name = "CHAVE")
+	private String chaveEntidade;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DATA")
 	private Date data;
@@ -87,6 +90,14 @@ public class Token  extends Entidade implements Serializable {
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public String getChaveEntidade() {
+		return chaveEntidade;
+	}
+
+	public void setChaveEntidade(String chaveEntidade) {
+		this.chaveEntidade = chaveEntidade;
 	}
 
 

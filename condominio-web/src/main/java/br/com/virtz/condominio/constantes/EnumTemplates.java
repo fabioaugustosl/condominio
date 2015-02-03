@@ -1,7 +1,8 @@
 package br.com.virtz.condominio.constantes;
 
 public enum EnumTemplates {
-	PADRAO("padrao.ftl");
+	PADRAO("padrao.ftl"),
+	CONFIRMACAO_USUARIO("confirmacaoUsuario.ftl");
 
 	private String nomeArquivo;
 
