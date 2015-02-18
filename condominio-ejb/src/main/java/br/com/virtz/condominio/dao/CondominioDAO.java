@@ -30,5 +30,14 @@ public class CondominioDAO extends DAO<Condominio> implements ICondominioDAO {
 		
 		return (condominios != null && condominios.size() > 0) ? condominios.get(0) : null;
 	}
+
+	
+	@Override
+	public List<Condominio> recuperarPorCidade(Long idCidade) {
+		Query qry = getEntityManager().createNamedQuery("Condominio.recuperarPorCidade");
+		qry.setParameter("idCidade", idCidade);
+		
+		return qry.getResultList();
+	}
 	
 }

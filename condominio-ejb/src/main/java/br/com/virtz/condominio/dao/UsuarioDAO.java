@@ -15,13 +15,17 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 	public Usuario recuperarUsuarioCompleto(Long id) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT u FROM Usuario u ")
-		.append(" JOIN FETCH u.condominio c ")
-		.append(" JOIN FETCH c.areasComuns areas ")
+		.append(" LEFT JOIN FETCH u.condominio c ")
+		.append(" LEFT JOIN FETCH c.areasComuns areas ")
 		.append(" WHERE u.id = :idUsuario ");
 		
 		Query qry = getEntityManager().createQuery(sb.toString());
 		qry.setParameter("idUsuario", id);
-		return (Usuario) qry.getSingleResult();
+		List<Usuario> usuarios = qry.getResultList();
+		if(usuarios != null && !usuarios.isEmpty()){
+			return usuarios.get(0);
+		}
+		return null;
 	}
 	
 
@@ -45,6 +49,18 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		qry.setParameter("tipoUsuairo", tipoUsuario);
 		
 		qry.executeUpdate();
+	}
+
+
+	@Override
+	public Usuario recuperarUsuarioPorEmail(String email) {
+		Query qry = getEntityManager().createNamedQuery("Usuario.recuperarPorEmail");
+		qry.setParameter("email", email);
+		List<Usuario> usuarios = qry.getResultList();
+		if(usuarios != null && !usuarios.isEmpty()){
+			return usuarios.get(0);
+		}
+		return null;
 	}
 	
 }

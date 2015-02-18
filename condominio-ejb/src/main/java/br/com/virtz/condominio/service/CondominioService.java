@@ -7,9 +7,11 @@ import javax.ejb.Stateless;
 
 import br.com.virtz.condominio.dao.IAreaComumDAO;
 import br.com.virtz.condominio.dao.IBlocoDAO;
+import br.com.virtz.condominio.dao.ICidadeDAO;
 import br.com.virtz.condominio.dao.ICondominioDAO;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
+import br.com.virtz.condominio.entidades.Cidade;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Usuario;
 
@@ -18,6 +20,9 @@ public class CondominioService implements ICondominioService {
 
 	@EJB
 	private ICondominioDAO condominioDAO;
+	
+	@EJB
+	private ICidadeDAO cidadeDAO;
 	
 	@EJB
 	private IBlocoDAO blocoDAO;
@@ -69,6 +74,21 @@ public class CondominioService implements ICondominioService {
 	@Override
 	public void removerAreaComum(Long id) {
 		areaComumDAO.remover(id);
+	}
+
+	@Override
+	public List<Condominio> recuperarPorCidade(Long idCidade) {
+		return condominioDAO.recuperarPorCidade(idCidade);
+	}
+
+	@Override
+	public List<Cidade> cidadesQuePossuemCondominioCadastrado() {
+		return cidadeDAO.recuperarCidadesComCondominiosCadastrados();
+	}
+
+	@Override
+	public List<Bloco> recuperarTodosBlocosComApartamentos(Long idCondominio) {
+		return blocoDAO.recuperarComApartamentos(idCondominio);
 	}
 
 

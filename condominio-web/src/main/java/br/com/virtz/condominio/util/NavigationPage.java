@@ -1,10 +1,14 @@
 package br.com.virtz.condominio.util;
 
+import java.io.Serializable;
+
 import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.context.FacesContext;
 
-public class NavigationPage {
+public class NavigationPage implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	private NavigationPage() {
 		super();
 	}

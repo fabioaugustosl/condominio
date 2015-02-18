@@ -3,6 +3,7 @@ package br.com.virtz.condominio.entidades;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -25,7 +27,10 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Usuario.recuperarPorCondominio", 
-			query = "Select u FROM Usuario u WHERE u.condominio.id = :idCondominio") })
+			query = "Select u FROM Usuario u WHERE u.condominio.id = :idCondominio"),
+	@NamedQuery(name = "Usuario.recuperarPorEmail", 
+			query = "Select u FROM Usuario u WHERE u.email = :email") 
+})
 public class Usuario extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -41,6 +46,10 @@ public class Usuario extends Entidade implements Serializable {
 	@NotNull
 	@Column(name = "email", length = 100, nullable = false)
 	private String email;
+	
+	@NotNull
+	@Column(name = "senha", length = 100, nullable = false)
+	private String senha;
 	
 	@Column(name = "telefone", length = 20)
 	private String telefone;
@@ -61,7 +70,7 @@ public class Usuario extends Entidade implements Serializable {
 	private EnumTipoUsuario tipoUsuario;
 	
 	@ManyToOne
-	@JoinColumn(name="idCondominio", nullable=false)
+	@JoinColumn(name="idCondominio")
 	private Condominio condominio;
 	
 	@Deprecated
@@ -72,9 +81,15 @@ public class Usuario extends Entidade implements Serializable {
 	@JoinColumn(name="idApartamento")
 	private Apartamento apartamento;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="idImagem")
 	private ArquivoUsuario arquivo;
+	
+	@Transient
+	private String senhaDigitada;
+	
+	@Transient
+	private String senhaDigitadaConfirmacao;
 
 	public Long getId() {
 		return id;
@@ -130,6 +145,14 @@ public class Usuario extends Entidade implements Serializable {
 		}
 		return arquivo;
 	}
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
 	public void setArquivo(ArquivoUsuario arquivo) {
 		this.arquivo = arquivo;
@@ -157,6 +180,14 @@ public class Usuario extends Entidade implements Serializable {
 
 	public void setCelular(String celular) {
 		this.celular = celular;
+	}
+	
+	public String getSenhaDigitada() {
+		return senhaDigitada;
+	}
+
+	public void setSenhaDigitada(String senhaDigitada) {
+		this.senhaDigitada = senhaDigitada;
 	}
 
 	public Date getDataCadastro() {
@@ -194,6 +225,14 @@ public class Usuario extends Entidade implements Serializable {
 			return Boolean.TRUE;	
 		}
 		return Boolean.FALSE;
+	}
+
+	public String getSenhaDigitadaConfirmacao() {
+		return senhaDigitadaConfirmacao;
+	}
+
+	public void setSenhaDigitadaConfirmacao(String senhaDigitadaConfirmacao) {
+		this.senhaDigitadaConfirmacao = senhaDigitadaConfirmacao;
 	}
 	
 }

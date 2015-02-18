@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h1>Cadastrar um novo condomínio</h1>
+ 	<br />
+ 	
+ 	<h:form id="form" >
+	    
+	    <p:panelGrid id="containerNovaNoticia" columns="1">
+	    
+				<p:outputLabel value="Título" />
+				<p:inputText id="titulo" alt="Insira o título da notícia ou aviso"
+					value="#{cadastroNoticiaController.noticia.titulo}" maxlength="400" 
+					required="true" requiredMessage="Favor preencher o título da notícia ou aviso." />
+			
+				<p:outputLabel value="Texto da notícia ou aviso:" />
+		        <p:editor id="editorConteudoNoticia" widgetVar="editorWidget" value="#{cadastroNoticiaController.noticia.conteudo}" 
+		        	required="true" requiredMessage="Favor preencher o texto da notícia ou aviso." maxlength="10000"
+		        	controls="bold italic underline font size color style numbering alignleft center alignright justify undo redo image link cut copy paste indent" />
+	        
+		        <p:outputPanel>
+			        <p:outputLabel value="Notícia ativa?" />
+			        <p:selectBooleanCheckbox value="#{cadastroNoticiaController.noticia.ativa}" />	
+			    </p:outputPanel>
+	       
+	 	</p:panelGrid>
+	 	
+	 	
+	 	
+	 	<p:commandButton id="salvarNoticia" value="Salvar" 
+	   		actionListener="#{cadastroNoticiaController.salvarNoticia}" 
+	   		update="@form">
+	   	</p:commandButton>
+	   	
+	 	<p:commandButton id="listagemNoticia" value="Ir para listagem" immediate="true"
+	   		actionListener="#{cadastroNoticiaController.irParaListagem}"  >
+	   	</p:commandButton>
+	 	
+	 	
+	</h:form>
+   </ui:define>
+</ui:composition>

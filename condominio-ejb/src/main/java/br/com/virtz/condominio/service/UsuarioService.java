@@ -1,20 +1,32 @@
 package br.com.virtz.condominio.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.apache.commons.lang.StringUtils;
+
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
+import br.com.virtz.condominio.dao.IArquivoUsuarioDAO;
 import br.com.virtz.condominio.dao.IUsuarioDAO;
+import br.com.virtz.condominio.entidades.ArquivoUsuario;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Usuario;
+import br.com.virtz.condominio.exception.AppException;
+import br.com.virtz.condominio.geral.CriptografarSenha;
 
 @Stateless
 public class UsuarioService implements IUsuarioService {
 
 	@EJB
 	private IUsuarioDAO usuarioDAO;
+	
+	@EJB
+	private IArquivoUsuarioDAO arquivoUsuarioDAO;
+	
 
 	@Override
 	public List<Usuario> recuperarTodos() {
@@ -35,9 +47,75 @@ public class UsuarioService implements IUsuarioService {
 	}
 
 	@Override
-	public Usuario salvar(Usuario usuario) throws Exception {
-		return usuarioDAO.salvar(usuario);
+	public Usuario salvar(Usuario usuario) throws AppException {
+		
+		if(StringUtils.isNotBlank(usuario.getSenhaDigitada())){
+			CriptografarSenha criptografar = new CriptografarSenha();
+			String senha = null;
+			try {
+				senha = criptografar.hash256(usuario.getSenhaDigitada());
+			} catch (NoSuchAlgorithmException e) {
+				throw new AppException("Ocorreu um erro ao converter a senha do usuário");
+			}
+			usuario.setSenha(senha);
+		}
+		
+		try {
+			return usuarioDAO.salvar(usuario);
+		} catch (Exception e) {
+			throw new AppException("Ocorreu um erro ao salvar o usuario.");
+		}
 	}
+	
+	
+	@Override
+	public Usuario salvarNovo(Usuario usuario) throws AppException {
+		
+		if(StringUtils.isNotBlank(usuario.getSenhaDigitada()) && !usuario.getSenhaDigitada().equals(usuario.getSenhaDigitadaConfirmacao())){
+			throw new AppException("Favor digitar a senhas iguais.");
+		}
+		
+		Usuario usuarioEmail = usuarioDAO.recuperarUsuarioPorEmail(usuario.getEmail());
+		if(usuarioEmail != null){
+			// se o usuario for novo verifica se o 
+			if(usuario.getId() == null){
+				CriptografarSenha criptografar = new CriptografarSenha();
+				String senhaCriptografada = null;
+				try {
+					senhaCriptografada = criptografar.hash256(usuario.getSenhaDigitada());
+				} catch (NoSuchAlgorithmException e) {
+					throw new AppException("Ocorreu um erro ao validar a senha do usuário.");
+				}
+				
+				// se a senha for a mesma deixa passar. Ou seja, considera que eh o mesmo usuario tentando terminar o cadastro.
+				if(senhaCriptografada != null && senhaCriptografada.equals(usuarioEmail.getSenha())){
+					usuarioEmail.setNome(usuario.getNome());
+					usuarioEmail.setCelular(usuario.getCelular());
+					usuarioEmail.setTelefone(usuario.getTelefone());
+					usuario = usuarioEmail;
+				} else {
+					// se a senha não for a mesma considera que é outra pessoa mesmo tentando cadastrar com o mesmo email.
+					throw new AppException("Email já cadastrado no sistema.");
+				}
+			}
+			
+			// se o email é igual mas o id dos usuarios for diferente tem que barrar!
+			if(!usuarioEmail.getId().equals(usuario.getId())){
+				throw new AppException("Email já cadastrado no sistema.");
+			}
+		}
+		
+		if(usuario.getDataCadastro() == null){
+			usuario.setDataCadastro(new Date());
+		}
+		
+		if(usuario.getTipoUsuario() == null){
+			usuario.setTipoUsuario(EnumTipoUsuario.MORADOR);
+		}
+		
+		return salvar(usuario);
+	}
+	
 
 	@Override
 	public Usuario recuperarUsuarioCompleto(Long id) {
@@ -57,6 +135,15 @@ public class UsuarioService implements IUsuarioService {
 	@Override
 	public void alterarParaAdministrativo(Long idUsuario) {
 		usuarioDAO.alterarStatus(idUsuario, EnumTipoUsuario.ADMINISTRATIVO);
+	}
+
+	@Override
+	public ArquivoUsuario salvarArquivo(ArquivoUsuario arquivo) throws AppException {
+		try {
+			return arquivoUsuarioDAO.salvar(arquivo);
+		} catch (Exception e) {
+			throw new AppException("Ocorreu um erro ao salvar a foto do usuário.");
+		}
 	}
 
 }

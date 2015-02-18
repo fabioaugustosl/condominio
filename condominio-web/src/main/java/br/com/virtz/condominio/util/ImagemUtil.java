@@ -19,8 +19,6 @@ public class ImagemUtil implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-//	@Inject
-	private IArquivosUtil arquivoUtil;
 	
 	public BufferedImage carregarImagem(String caminho){
 		BufferedImage bi = null;
@@ -33,7 +31,7 @@ public class ImagemUtil implements Serializable {
 		return bi;
 	}
 	
-	public void salvarNovaImagem(String caminho){
+	/*public void salvarNovaImagem(String caminho){
 		BufferedImage img = carregarImagem(caminho);
 		String extensao = arquivoUtil.pegarExtensao(caminho);
 		BufferedImage bi = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
@@ -46,7 +44,7 @@ public class ImagemUtil implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	public byte[] redimensionarImagem(String arquivo, double requiredWidth, double requiredHeight) {
  
@@ -134,7 +132,7 @@ public class ImagemUtil implements Serializable {
         }
     }
 
-	public byte[] redimensionarImagemProporsionalmente(String caminho, double scale){
+	public byte[] redimensionarImagemProporsionalmente(String caminho, double scale, IArquivosUtil arquivoUtil){
 		BufferedImage img = carregarImagem(caminho);
 		String extensao = arquivoUtil.pegarExtensao(caminho);
 		BufferedImage bi = new BufferedImage((int) (scale * img.getWidth()), (int) (scale * img.getHeight()), BufferedImage.TYPE_INT_RGB); 
@@ -143,15 +141,14 @@ public class ImagemUtil implements Serializable {
 		grph.drawImage(img, 0, 0, null);
 		grph.dispose();
 		try {
-			ImageIO.write(bi, extensao, new File("/home/crisaltmann/Imagens/new_foto.jpg"));
+			ImageIO.write(bi, extensao, new File("/aquivos/crisaltmann/Imagens/new_foto.jpg"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 	
-	public byte[] cortarImagem(String caminho, double scale){
+/*	public byte[] cortarImagem(String caminho, double scale){
 		BufferedImage img = carregarImagem(caminho);
 		String extensao = arquivoUtil.pegarExtensao(caminho);
 		img = img.getSubimage(50, 50, 100, 200);
@@ -163,5 +160,5 @@ public class ImagemUtil implements Serializable {
 		//return grph.dispose();
 		return null;
 		//O método getSubimage nos retorna um novo BufferedImage, descartando o restante. Basta você substituir os valores fixos por parâmetros recuperados do front-end.
-	}
+	}*/
 }

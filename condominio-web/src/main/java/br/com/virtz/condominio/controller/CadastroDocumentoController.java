@@ -60,7 +60,6 @@ public class CadastroDocumentoController {
 		Usuario usuario = sessao.getUsuarioLogado();
 		Object documentoEditar = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idDocumento");
 		
-
 		if(documentoEditar == null){
 			criarNovoDocumento(usuario);
 		} else {

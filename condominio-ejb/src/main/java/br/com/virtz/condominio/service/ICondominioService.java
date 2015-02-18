@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
+import br.com.virtz.condominio.entidades.Cidade;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Usuario;
 
@@ -16,11 +17,14 @@ public interface ICondominioService {
 	public void remover(Long id);
 	public List<Condominio> recuperarTodos();
 	public Condominio recuperarCondominioCompleto(Usuario usuario);
+	public List<Condominio> recuperarPorCidade(Long idCidade);
+	public List<Cidade> cidadesQuePossuemCondominioCadastrado();
 	
 	// bloco
 	public Bloco salvarBloco(Bloco bloco) throws Exception;
 	public void removerBloco(Long id);
 	public List<Bloco> recuperarTodosBlocos();
+	public List<Bloco> recuperarTodosBlocosComApartamentos(Long idCondominio);
 	
 	// areas comuns
 	public AreaComum salvarAreaComum(AreaComum area) throws Exception;

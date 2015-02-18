@@ -73,7 +73,7 @@ public class LoginController {
 	}
 	
 	public void novoUsuario(){
-		navigation.redirectToPage("/cadastrarUsuario.faces");
+		navigation.redirectToPage("/usuario/cadastrarUsuario.faces");
 	}
 
 

@@ -28,12 +28,14 @@ public class ArquivoUsuario extends Entidade implements Serializable {
 	@Column(name = "nome", length=100, nullable = false)
 	protected String nome;
 
-	@Column(name = "nomeOriginal", length=500)
-	protected String nomeOriginal;
-	
 	@Column(name = "extensao", length=5)
 	protected String extensao;
 	
+	@Column(name = "largura")
+	protected Integer largura;
+	
+	@Column(name = "altura")
+	protected Integer altura;
 
 	public Long getId() {
 		return id;
@@ -67,14 +69,6 @@ public class ArquivoUsuario extends Entidade implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getNomeOriginal() {
-		return nomeOriginal;
-	}
-
-	public void setNomeOriginal(String nomeOriginal) {
-		this.nomeOriginal = nomeOriginal;
-	}
-
 	public String getExtensao() {
 		return extensao;
 	}
@@ -84,7 +78,26 @@ public class ArquivoUsuario extends Entidade implements Serializable {
 	}
 	
 	public String getCaminhoCompleto(){
+		if(getNome() == null){
+			return "/arquivos/foto.jpg";
+		}
 		return "/arquivos/"+getNome();
 	}
 
+	public Integer getLargura() {
+		return largura;
+	}
+
+	public void setLargura(Integer largura) {
+		this.largura = largura;
+	}
+
+	public Integer getAltura() {
+		return altura;
+	}
+
+	public void setAltura(Integer altura) {
+		this.altura = altura;
+	}
+	
 }

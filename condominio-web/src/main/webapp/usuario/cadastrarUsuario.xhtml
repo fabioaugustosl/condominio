@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/templateSimples.xhtml">
+   
+   <style type="text/css">
+ 
+   </style>
+   
+   <ui:define name="content">
+	   
+	   <p:messages autoUpdate="true"></p:messages>
+	   
+	   <h1>Bem vindo! Preencha os dados e comece agora mesmo a conviver com seu condomínio também na web.</h1>
+	   		
+   		<p:outputPanel id="cadastroInicial" >
+  					<p:outputLabel value="Qual seu nome?" /><br />
+				<p:inputText id="nomeUsuario" alt="Insira seu nome. Exemplo: João Lopes" 
+					value="#{cadastrarUsuarioController.usuario.nome}" maxlength="100" 
+					required="true" requiredMessage="Favor preencher o nome." />
+				<br />
+				
+				<p:outputLabel value="Qual seu Email? (o seu email será o seu login de acesso)" /><br />
+				<p:inputText id="emailUsuario" alt="Insira seu email."
+					value="#{cadastrarUsuarioController.usuario.email}" maxlength="100" 
+					required="true" requiredMessage="Favor preencher o email" />
+			    
+				<br />
+				<p:outputLabel value="Digite uma senha:" /><br />
+			   	<p:password id="senhaUsuario" value="#{cadastrarUsuarioController.usuario.senhaDigitada}" 
+			   			maxlength="20" required="true" requiredMessage="Favor inserir uma senha."
+			   			/>
+			   	<br />
+				<p:outputLabel value="Confirme sua senha:" /><br />		
+        		<p:password id="senhaUsuario2" value="#{cadastrarUsuarioController.usuario.senhaDigitadaConfirmacao}" required="true" maxlength="20" />
+
+			    <br />
+			    
+			    <p:outputLabel value="Qual seu telefone?" /><br />
+				<p:inputText id="telefoneUsuario" alt="Insira seu telefone residencial."
+					value="#{cadastrarUsuarioController.usuario.telefone}" maxlength="20" />
+				<br />
+					
+				<p:outputLabel value="Qual seu celular?" /><br />
+				<p:inputText id="celularUsuario" alt="Insira seu celular."
+					value="#{cadastrarUsuarioController.usuario.celular}" maxlength="20" />
+				
+					
+				<br/>
+				<p:commandButton id="salvarUsuarioProximoPasso" value="Próximo passo" 
+			   		actionListener="#{cadastrarUsuarioController.proximoPasso}" >
+			   	</p:commandButton>
+			
+		</p:outputPanel>
+		
+   </ui:define>
+</ui:composition>

@@ -10,12 +10,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@NamedQueries({
+	@NamedQuery(name = "Bloco.recuperarPorCondominioComApts", 
+			query = "Select b FROM Bloco b "
+					+ " JOIN FETCH b.apartamentos apts "
+					+ " WHERE b.condominio.id = :idCondominio ") })
 public class Bloco extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -89,5 +96,6 @@ public class Bloco extends Entidade implements Serializable {
 	public void setQuantidadeAndares(Integer quantidadeAndares) {
 		this.quantidadeAndares = quantidadeAndares;
 	}
+	
 			
 }

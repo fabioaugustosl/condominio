@@ -1,20 +1,25 @@
 package br.com.virtz.condominio.util;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Random;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 import javax.inject.Named;
 
 import org.apache.commons.lang.StringUtils;
+
+import br.com.virtz.condominio.exceptions.CondominioException;
 
 @Named
 @SessionScoped
@@ -60,6 +65,22 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 		return tipoArquivo+"_"+numero+numero2+"."+extensao;
 	}
 	
+	public boolean tamanhoImagemEhValido(InputStream arquivo, int larguraMinima, int alturaMinima) throws CondominioException{
+		Image image;
+		try {
+			image = ImageIO.read(arquivo);
+		} catch (IOException e) {
+			throw new CondominioException("Erro ao ler o arquivo.");
+		}
+	    int w = image.getWidth(null);
+	    int h = image.getHeight(null);
+	    
+	    if(w < larguraMinima || h < alturaMinima){
+	    	return Boolean.FALSE;
+	    }
+	    
+	    return Boolean.TRUE;
+	}
 	
 	public void arquivar(InputStream arquivo,  String nomeArquivo) throws IOException{
 		File targetFolder = new File(this.getCaminhoArquivosUpload());
@@ -76,6 +97,35 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
         out.flush();
         out.close();
 	}
+	
+	
+	public void redimensionarImagem(InputStream arquivo, String nomeArquivo, String extensao, int larguraMaxima, int alturaMaxima) throws IOException{
+        BufferedImage imagem = ImageIO.read(arquivo);
+          
+        Double novaImgLargura = (double) imagem.getWidth();  
+        Double novaImgAltura = (double) imagem.getHeight();  
+  
+        Double imgProporcao = null;  
+        if (novaImgLargura >= larguraMaxima) {  
+            imgProporcao = (novaImgAltura / novaImgLargura);  
+            novaImgLargura = (double) larguraMaxima;  
+            novaImgAltura = (novaImgLargura * imgProporcao);  
+        } 
+        if (novaImgAltura >= alturaMaxima) {  
+            imgProporcao = (novaImgLargura / novaImgAltura);  
+            novaImgAltura = (double) alturaMaxima;  
+            novaImgLargura = (novaImgAltura * imgProporcao);  
+        }  
+  
+        BufferedImage novaImagem = new BufferedImage(novaImgLargura.intValue(), novaImgAltura.intValue(), BufferedImage.TYPE_INT_RGB);  
+        Graphics g = novaImagem.getGraphics();  
+        g.drawImage(imagem.getScaledInstance(novaImgLargura.intValue(), novaImgAltura.intValue(), 10000), 0, 0, null);  
+        g.dispose();  
+        
+        File targetFolder = new File(this.getCaminhoArquivosUpload());
+        ImageIO.write(novaImagem, extensao, new File(targetFolder, nomeArquivo));  
+    } 
+	
 	
 	
 	public String getMimetypeArquivo(String extensao){

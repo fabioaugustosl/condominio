@@ -62,5 +62,9 @@ public class Apartamento extends Entidade implements Serializable {
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
+	
+	public String getNomeExibicao(){
+		return this.numero+"  [Andar: "+this.andar+"]";
+	}
 
 }
