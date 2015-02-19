@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/templateSimples.xhtml">
+   
+   <style type="text/css">
+ 
+   </style>
+   
+   <ui:define name="content">
+	   
+	   	
+		<p:outputPanel id="associacaoCondominioUsuario" >
+		
+			<p:outputLabel rendered="#{selecionarCondominioUsuarioController.sucesso}" value="Para finalizar seu cadastro precisamos que você nos informe qual é o seu condomínio."></p:outputLabel>
+					
+			<p:outputPanel id="containerCidade" rendered="#{empty selecionarCondominioUsuarioController.cidadeSelecionada and !selecionarCondominioUsuarioController.sucesso}">	
+				<div>Primeiro qual é a sua cidade?</div>   
+				<br />
+				<p:selectOneMenu id="comboCidades" value="#{selecionarCondominioUsuarioController.cidadeSelecionada}" 
+					 converter="converterEntityById" >
+			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+			 		<f:selectItems value="#{selecionarCondominioUsuarioController.cidades}" var="cidade" itemLabel="#{cidade.nomeExibicao}" itemValue="#{cidade}" />
+			 		<p:ajax event="change" update="associacaoCondominioUsuario" listener="#{selecionarCondominioUsuarioController.recuperarCondominios}" />
+			 	</p:selectOneMenu>
+				
+				<br />
+				
+				<p:commandButton id="salvarCondominio1" value="Ops. Sua cidade não está ai. Clique aqui e cadastre seu condomínio." 
+			   		actionListener="#{selecionarCondominioUsuarioController.cadastrarCondominio}">
+			   	</p:commandButton>
+			   	
+		 	</p:outputPanel>
+		 	
+		 	
+			<p:outputPanel id="containerCondominio" rendered="#{not empty selecionarCondominioUsuarioController.cidadeSelecionada and !selecionarCondominioUsuarioController.sucesso}">	
+				<div>Ótimo! Você é de <p:outputLabel value="#{selecionarCondominioUsuarioController.cidadeSelecionada.nome}"></p:outputLabel>. </div>
+				<p:outputLabel value="Agora selecione o seu condomínio."></p:outputLabel>   
+				<br />
+				<p:selectOneMenu id="comboCondominio" value="#{selecionarCondominioUsuarioController.condominioSelecionado}" 
+					 converter="converterEntityById"  >
+			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+			 		<f:selectItems value="#{selecionarCondominioUsuarioController.condominios}" var="cond" itemLabel="#{cond.nome}" itemValue="#{cond}" />
+			 		<p:ajax event="change" update="containerComboBloco" listener="#{selecionarCondominioUsuarioController.recuperarBlocos}" />
+			 	</p:selectOneMenu>
+			 	
+				<br />
+				<p:outputPanel id="containerComboBloco" >
+					<p:outputLabel rendered="#{not empty selecionarCondominioUsuarioController.condominioSelecionado}" value="Selecione seu bloco:"></p:outputLabel>
+					<br />
+				 	<p:selectOneMenu id="comboBloco" 
+				 			rendered="#{not empty selecionarCondominioUsuarioController.condominioSelecionado}" 
+				 			value="#{selecionarCondominioUsuarioController.blocoSelecionado}" 
+							converter="converterEntityById"  >
+				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+				 		<f:selectItems value="#{selecionarCondominioUsuarioController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
+				 		<p:ajax event="change" update="containerComboApartamentos"  />
+				 	</p:selectOneMenu>
+				 </p:outputPanel>
+			 	
+			 	<br />
+			 	<p:outputPanel id="containerComboApartamentos" >
+			 		<p:outputLabel rendered="#{not empty selecionarCondominioUsuarioController.blocoSelecionado}" value="Selecione seu apartamento:"></p:outputLabel>
+			 		<br />
+				 	<p:selectOneMenu id="comboApartamentos" 
+				 			rendered="#{not empty selecionarCondominioUsuarioController.blocoSelecionado}" 
+				 			value="#{selecionarCondominioUsuarioController.apartamentoSelecionado}" 
+							converter="converterEntityById"  >
+				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+				 		<f:selectItems value="#{selecionarCondominioUsuarioController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
+				 		<p:ajax event="change" update="containerBotoes"  />
+				 	</p:selectOneMenu>
+				</p:outputPanel>
+				<br />
+				<p:outputPanel id="containerBotoes">
+					<p:commandButton id="selecionarCondominio" value="Ok" 
+						rendered="#{not empty selecionarCondominioUsuarioController.apartamentoSelecionado}"
+				   		actionListener="#{selecionarCondominioUsuarioController.selecionarCondominio}"
+				   		update="associacaoCondominioUsuario" >
+				   	</p:commandButton>
+					
+					<p:commandButton id="salvarCondominio2" value="Ihh. Seu condomínio não está ai? Clique aqui e cadastre seu condomínio." 
+				   		actionListener="#{selecionarCondominioUsuarioController.cadastrarCondominio}"
+				   		rendered="#{empty selecionarCondominioUsuarioController.apartamentoSelecionado}" >
+				   	</p:commandButton>
+			   	</p:outputPanel>
+			   	
+			</p:outputPanel>
+		
+			<p:outputPanel id="containerSucesso" rendered="#{selecionarCondominioUsuarioController.sucesso}">	
+				<div>Parabéns. Seu agora sim você está pronto pra acessar o sistema.</div>   
+				
+				<p:commandButton id="salvarCondominio3" value="Ir para login" 
+			   		actionListener="#{selecionarCondominioUsuarioController.login}" >
+			   	</p:commandButton>
+				   	
+			</p:outputPanel>
+	   </p:outputPanel>
+   </ui:define>
+</ui:composition>

@@ -79,8 +79,8 @@ public class CadastrarUsuarioController implements Serializable{
 
 	 
 	 public void proximoPasso() throws AppException{
-	 	//salvar();
-	 	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idUsuario", 29);
+	 	salvar();
+	 	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idUsuario", usuario.getId());
 		navegacao.redirectToPage("/usuario/cadastrarUsuarioFoto.faces");
 	 }
 

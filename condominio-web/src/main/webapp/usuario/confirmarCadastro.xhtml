@@ -19,78 +19,15 @@
 		<p:outputPanel id="mensagemSucesso" rendered="#{confirmarUsuarioController.usuarioConfirmado}">
 			<h1>Seu cadastro foi confirmado!</h1>
 			<br />
-			<div>Agora você vai nos informar qual é o seu condomínio.</div>
+			<br />
 			
-		
-			<p:outputPanel id="containerCidade" rendered="#{empty confirmarUsuarioController.cidadeSelecionada && !confirmarUsuarioController.sucesso}">	
-				<div>Primeiro qual é a sua cidade?</div>   
+			<p:outputLabel value="Agora é só selecionar seu condomínio."></p:outputLabel>
+			<br/>
 				
-				<p:selectOneMenu id="comboCidades" value="#{confirmarUsuarioController.cidadeSelecionada}" 
-					 converter="converterEntityById" >
-			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
-			 		<f:selectItems value="#{confirmarUsuarioController.cidades}" var="cidade" itemLabel="#{cidade.nomeExibicao}" itemValue="#{cidade}" />
-			 		<p:ajax event="change" update="mensagemSucesso" listener="#{confirmarUsuarioController.recuperarCondominios}" />
-			 	</p:selectOneMenu>
-
-				<p:commandButton id="salvarCondominio1" value="Ops. Sua cidade não está ai. Clique aqui e cadastre seu condomínio." 
-			   		actionListener="#{confirmarUsuarioController.cadastrarCondominio}">
-			   	</p:commandButton>
-			   	
-		 	</p:outputPanel>
-		 	
-		 	
-			<p:outputPanel id="containerCondominio" rendered="#{not empty confirmarUsuarioController.cidadeSelecionada && !confirmarUsuarioController.sucesso}">	
-				<div>Ótimo! Você é de <p:outputLabel value="#{confirmarUsuarioController.cidadeSelecionada.nome}"></p:outputLabel>. </div>
-				<div>Agora selecione o seu condomínio. </div>   
-				
-				<p:selectOneMenu id="comboCondominio" value="#{confirmarUsuarioController.condominioSelecionado}" 
-					 converter="converterEntityById"  >
-			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
-			 		<f:selectItems value="#{confirmarUsuarioController.condominios}" var="cond" itemLabel="#{cond.nome}" itemValue="#{cond}" />
-			 		<p:ajax event="change" update="comboBloco" listener="#{confirmarUsuarioController.recuperarBlocos}" />
-			 	</p:selectOneMenu>
-			 	
-			 	<p:selectOneMenu id="comboBloco" 
-			 			rendered="#{not empty confirmarUsuarioController.condominioSelecionado}" 
-			 			value="#{confirmarUsuarioController.blocoSelecionado}" 
-						converter="converterEntityById"  >
-			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
-			 		<f:selectItems value="#{confirmarUsuarioController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
-			 		<p:ajax event="change" update="comboApartamentos"  />
-			 	</p:selectOneMenu>
-			 	
-			 	<p:selectOneMenu id="comboApartamentos" 
-			 			rendered="#{not empty confirmarUsuarioController.blocoSelecionado}" 
-			 			value="#{confirmarUsuarioController.apartamentoSelecionado}" 
-						converter="converterEntityById"  >
-			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
-			 		<f:selectItems value="#{confirmarUsuarioController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
-			 		<p:ajax event="change" update="containerBotoes"  />
-			 	</p:selectOneMenu>
-
-				<p:outputPanel id="containerBotoes">
-					<p:commandButton id="selecionarCondominio" value="Ok" 
-						rendered="#{not empty confirmarUsuarioController.apartamentoSelecionado}"
-				   		actionListener="#{confirmarUsuarioController.selecionarCondominio}"
-				   		update="mensagemSucesso" >
-				   	</p:commandButton>
-					
-					<p:commandButton id="salvarCondominio2" value="Ihh. Seu condomínio não está ai? Clique aqui e cadastre seu condomínio." 
-				   		actionListener="#{confirmarUsuarioController.cadastrarCondominio}"
-				   		rendered="#{empty confirmarUsuarioController.apartamentoSelecionado}" >
-				   	</p:commandButton>
-			   	</p:outputPanel>
-			   	
-			</p:outputPanel>
-		
-			<p:outputPanel id="containerSucesso" rendered="#{confirmarUsuarioController.sucesso}">	
-				<div>Parabéns. Seu agora sim você está pronto pra logar no sistema.</div>   
-				
-				<p:commandButton id="salvarCondominio3" value="Ir para login" 
-			   		actionListener="#{confirmarUsuarioController.login}" >
-			   	</p:commandButton>
+			<p:commandButton id="salvarCondominio3" value="Selecionar condomínio" process="@form"
+			   		actionListener="#{confirmarUsuarioController.selecionarCondominio}" >
+			</p:commandButton>
 				   	
-			</p:outputPanel>
 	   </p:outputPanel>
    </ui:define>
 </ui:composition>

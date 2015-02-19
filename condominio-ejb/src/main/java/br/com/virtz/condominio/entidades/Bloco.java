@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Bloco.recuperarPorCondominioComApts", 
-			query = "Select b FROM Bloco b "
+			query = "Select distinct b FROM Bloco b "
 					+ " JOIN FETCH b.apartamentos apts "
 					+ " WHERE b.condominio.id = :idCondominio ") })
 public class Bloco extends Entidade implements Serializable {
