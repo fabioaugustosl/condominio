@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/templateSimples.xhtml">
+   
+   <ui:define name="content">
+   	<h1><p:outputLabel value="Ótimo #{cadastrarCondominioApController.usuario.nome}! "  /> <br /><br />
+   	<p:outputLabel value="Para finalizarmos o cadastro do condomínio #{cadastrarCondominioApController.usuario.condominio.nome} precisamos cadastrar todos apartamentos."  /></h1>
+ 	<br />
+ 	
+ 	<p:messages autoUpdate="true"></p:messages>
+ 	
+ 	<h:form id="form" >
+		<p:outputLabel value="Abaixo segue uma sugestão de apartamentos. Você pode adicionar ou remover qualquer apartamento na lista abaixo."  /><br />
+		<p:outputLabel value="É muito importante que você ajuste o andar e o número de cada apartamento e de cada bloco/unidade;"  />
+		<br/>   
+	   	<p:dataGrid id="gridBlocos" var="bloco" value="#{cadastrarCondominioApController.blocos}"
+	   				columns="1" layout="grid"
+	   				 >
+	   				
+ 			<p:commandButton id="adicionarApto" value="Adicionar apartamento"  
+							actionListener="#{cadastrarCondominioApController.novoApartamento(bloco)}"
+							update="gridBlocos" />
+							
+ 			<p:dataTable id="dtListagemBloco" var="apartamento" 
+				value="#{bloco.apartamentos}" editable="true" editMode="cell" >
+				
+				<f:facet name="header">
+		           <p:outputLabel value="#{bloco.nome}"  />
+		       	</f:facet>
+			
+		        <p:column headerText="Andar">
+			        <p:cellEditor>
+		               <f:facet name="output"><h:outputText value="#{apartamento.andar}" /></f:facet>
+		               <f:facet name="input">
+		               		<p:inputText id="inputAndar" value="#{apartamento.andar}" style="width:100%">
+		               			<f:convertNumber integerOnly="true" />
+		               		</p:inputText>
+		               </f:facet>
+		           	</p:cellEditor>
+			    </p:column>
+			    
+			    <p:column headerText="Número">
+			       <p:cellEditor>
+		               <f:facet name="output"> <h:outputText value="#{apartamento.numero}" /></f:facet>
+		               <f:facet name="input">
+		               		<p:inputText id="inputNumero" value="#{apartamento.numero}" style="width:100%">
+		               		</p:inputText>
+		               </f:facet>
+		           	</p:cellEditor>
+			    </p:column>
+			    
+			    <p:column style="width:50px">
+		       		<p:commandButton icon="ui-icon-close" actionListener="#{cadastrarCondominioApController.removerApartamento(bloco, apartamento)}" 
+		         		id="excluirApto" immediate="true" ajax="false" >
+		         	</p:commandButton>
+				</p:column>
+			    
+		    </p:dataTable>
+ 		</p:dataGrid>
+ 		
+ 		<br />
+ 		
+ 		<p:commandButton id="finalizarCadastros" value="Finalizar Cadastro"  
+						actionListener="#{cadastrarCondominioApController.salvar}" 
+						onsuccess="PF('dlgSucesso').show();" />
+ 		
+	</h:form>
+	
+	<p:dialog header="Cadastro finalizado" widgetVar="dlgSucesso" modal="true" height="200">
+	    <p:outputLabel value="Parabéns. O condomínio foi cadastrado com sucesso! Agora você e os demais moradores poderão ter acesso ao sistema. " />
+	    <p:commandButton id="okCadastro" value="Ok" actionListener="#{cadastrarCondominioApController.login}" />
+	</p:dialog>
+	
+   </ui:define>
+</ui:composition>

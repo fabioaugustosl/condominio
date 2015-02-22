@@ -67,4 +67,39 @@ public class Apartamento extends Entidade implements Serializable {
 		return this.numero+"  [Andar: "+this.andar+"]";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null){
+			return false;
+		}
+		
+		if (!(obj instanceof Entidade))
+			return false;
+
+		if (obj == this)
+			return true;
+
+		if(this.getId() != null){
+			return this.getId().equals(((Apartamento)obj).getId());
+		}
+		
+		if(this.getNumero() != null){
+			return this.getNumero().equals(((Apartamento)obj).getNumero());
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public int hashCode() {
+	    int hash = 7;
+	    
+	    if(this.getId() != null){
+	    	 hash = 23 * hash + (this.getId()!= null ? this.getId().hashCode() : 0);
+		} else if(this.getNumero() != null){
+			 hash = 23 * hash + (this.getNumero()!= null ? this.getNumero().hashCode() : 0);
+		}
+		
+	    return hash;
+	}
 }

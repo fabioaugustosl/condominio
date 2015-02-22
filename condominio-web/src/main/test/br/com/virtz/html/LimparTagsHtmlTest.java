@@ -1,14 +1,15 @@
-import static org.junit.Assert.*;
+package br.com.virtz.html;
+
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import br.com.virtz.condominio.util.LimparTagHtml;
 
-
-public class LimparTagHtmlTest {
+public class LimparTagsHtmlTest {
 
 	@Test
-	public void test() {
+	public void testLimparTagHtml() {
 		String textoTags = getTextTags();
 		String textoSemTags = getTextNoTags();
 		
@@ -38,5 +39,4 @@ public class LimparTagHtmlTest {
 		sb.append("  ");
 		return sb.toString();
 	}
-
 }

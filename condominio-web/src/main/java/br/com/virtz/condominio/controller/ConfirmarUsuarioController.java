@@ -61,7 +61,7 @@ public class ConfirmarUsuarioController {
 				}
 			}
 			
-			//tokenService.invalidar(token);
+			tokenService.invalidar(token);
 			usuarioConfirmado = Boolean.TRUE;
 		} else {
 			usuarioConfirmado = Boolean.FALSE;

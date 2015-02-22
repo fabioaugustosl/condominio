@@ -67,6 +67,9 @@ public class Condominio extends Entidade implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idCidade")
 	private Cidade cidade;
+	
+	@Column(name = "email", length = 100)
+	private String email;
 
 	public Long getId() {
 		return id;
@@ -172,4 +175,12 @@ public class Condominio extends Entidade implements Serializable {
 		this.cidade = cidade;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 }

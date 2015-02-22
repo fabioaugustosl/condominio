@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -89,6 +90,19 @@ public class CondominioService implements ICondominioService {
 	@Override
 	public List<Bloco> recuperarTodosBlocosComApartamentos(Long idCondominio) {
 		return blocoDAO.recuperarComApartamentos(idCondominio);
+	}
+	
+	@Override
+	public List<Bloco> sugerirBlocos(int quantidadeBlocos, Condominio condominio){
+		List<Bloco> blocos = new ArrayList<Bloco>();
+		for(int i=0; i<quantidadeBlocos; i++){
+			Bloco b = new Bloco();
+			b.setNome("Bloco "+(i+1));
+			b.setQuantidadeAndares(4);
+			b.setCondominio(condominio);
+			blocos.add(b);
+		}
+		return blocos;
 	}
 
 

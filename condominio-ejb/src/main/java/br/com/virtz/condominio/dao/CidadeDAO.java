@@ -7,7 +7,6 @@ import javax.persistence.Query;
 
 import br.com.virtz.condominio.entidades.Cidade;
 import br.com.virtz.condominio.entidades.Condominio;
-import br.com.virtz.condominio.entidades.Usuario;
 
 @Stateless
 public class CidadeDAO extends DAO<Cidade> implements ICidadeDAO {
@@ -21,6 +20,13 @@ public class CidadeDAO extends DAO<Cidade> implements ICidadeDAO {
 		
 		Query qry = getEntityManager().createQuery(sb.toString());
 		
+		return qry.getResultList();
+	}
+
+	@Override
+	public List<Cidade> recuperarPorEstado(Long idEstado) {
+		Query qry = getEntityManager().createNamedQuery("Cidade.recuperarPorEstado");
+		qry.setParameter("idEstado", idEstado);
 		return qry.getResultList();
 	}
 

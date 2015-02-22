@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 	@NamedQuery(name = "Bloco.recuperarPorCondominioComApts", 
 			query = "Select distinct b FROM Bloco b "
-					+ " JOIN FETCH b.apartamentos apts "
+					+ " LEFT JOIN FETCH b.apartamentos apts "
 					+ " WHERE b.condominio.id = :idCondominio ") })
 public class Bloco extends Entidade implements Serializable {
 
@@ -95,6 +95,48 @@ public class Bloco extends Entidade implements Serializable {
 
 	public void setQuantidadeAndares(Integer quantidadeAndares) {
 		this.quantidadeAndares = quantidadeAndares;
+	}
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null){
+			return false;
+		}
+		
+		if (!(obj instanceof Entidade))
+			return false;
+
+		if (obj == this)
+			return true;
+
+		if(this.getId() != null){
+			return this.getId().equals(((Bloco)obj).getId());
+		}
+		
+		if(this.getNome() != null){
+			return this.getNome().equals(((Bloco)obj).getNome());
+		}
+		
+		if(this.getNumero() != null){
+			return this.getNumero().equals(((Bloco)obj).getNumero());
+		}
+		
+		return true;
+	}
+	
+	
+	@Override
+	public int hashCode() {
+	    int hash = 7;
+	    if(this.getId() != null){
+	    	hash = 23 * hash + (this.getId()!= null ? this.getId().hashCode() : 0);
+	    } else if(this.getNome() != null){
+	    	hash = 23 * hash + (this.getNome()!= null ? this.getNome().hashCode() : 0);
+		} else if(this.getNumero() != null){
+			hash = 23 * hash + (this.getNumero()!= null ? this.getNumero().hashCode() : 0);
+		}
+	    return hash;
 	}
 	
 			

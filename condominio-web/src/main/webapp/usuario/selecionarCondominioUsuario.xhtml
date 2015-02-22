@@ -15,7 +15,7 @@
 	   	
 		<p:outputPanel id="associacaoCondominioUsuario" >
 		
-			<p:outputLabel rendered="#{selecionarCondominioUsuarioController.sucesso}" value="Para finalizar seu cadastro precisamos que você nos informe qual é o seu condomínio."></p:outputLabel>
+			<p:outputLabel rendered="#{not selecionarCondominioUsuarioController.sucesso}" value="Para finalizar seu cadastro precisamos que você nos informe qual é o seu condomínio."></p:outputLabel>
 					
 			<p:outputPanel id="containerCidade" rendered="#{empty selecionarCondominioUsuarioController.cidadeSelecionada and !selecionarCondominioUsuarioController.sucesso}">	
 				<div>Primeiro qual é a sua cidade?</div>   

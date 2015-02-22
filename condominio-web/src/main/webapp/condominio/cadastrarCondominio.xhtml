@@ -4,45 +4,167 @@
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:p="http://primefaces.org/ui"
-   template="/WEB-INF/templates/default.xhtml">
+   template="/WEB-INF/templates/templateSimples.xhtml">
    
    <ui:define name="content">
    	<h1>Cadastrar um novo condomínio</h1>
  	<br />
  	
+ 	<p:messages autoUpdate="true"></p:messages>
  	<h:form id="form" >
-	    
-	    <p:panelGrid id="containerNovaNoticia" columns="1">
-	    
-				<p:outputLabel value="Título" />
-				<p:inputText id="titulo" alt="Insira o título da notícia ou aviso"
-					value="#{cadastroNoticiaController.noticia.titulo}" maxlength="400" 
-					required="true" requiredMessage="Favor preencher o título da notícia ou aviso." />
+	    <p:outputPanel id="containerCadastroInicial" layout="block" >
+		    <p:outputPanel layout="block" >
+		       	<p:outputLabel value="Nome do condomínio: "  /> <br />
+	      		<p:inputText value="#{cadastrarCondominioController.condominio.nome}" style="width:80%"   
+	      				maxlength="100"
+	      				required="true" requiredMessage="O nome do condomínio é obrigatório." /> 
+	     	</p:outputPanel>
+	     	
+	     	<p:outputPanel layout="block" >
+	     		<table style="width:80%" >
+			       	<tr>
+			       	<td style="width:80%"  >
+			       		<p:outputLabel value="Endereço: "  /> <br />
+		      			<p:inputText value="#{cadastrarCondominioController.condominio.endereco}"  
+		      					maxlength="100" style="width:90%"  
+		      					required="true" requiredMessage="O endereço do condomínio é obrigatório." /> 
+		     		</td>
+		     		<td style="width:20%"  >
+		     	   		<p:outputLabel value="Número: "  /> <br />
+		      			<p:inputText value="#{cadastrarCondominioController.condominio.numero}"  
+		      					maxlength="10"
+		      					required="true" requiredMessage="O número do condomínio é obrigatório." >
+		      				<f:convertNumber integerOnly="true" />
+		      			</p:inputText>
+		      		</td></tr>
+		      	</table>
+	     	</p:outputPanel>
+	     	
+	     	<p:outputPanel layout="block" >
+		       	<p:outputLabel value="Bairro:"  /> <br />
+	      		<p:inputText value="#{cadastrarCondominioController.condominio.bairro}" style="width:80%"   
+	      				maxlength="100"
+	      				required="true" requiredMessage="O bairro do condomínio é obrigatório." /> <br />
+	     	</p:outputPanel>
+	     	
+	     	<p:outputPanel layout="block" >
+		       	<p:outputLabel value="Complemento:"  /> <br />
+	      		<p:inputText value="#{cadastrarCondominioController.condominio.complemento}" style="width:80%"   
+	      				maxlength="100" /> <br />
+	     	</p:outputPanel>
+	     	
+	     	<p:outputPanel layout="block" id="panelEstado" >
+		       	<p:outputLabel value="Estado:"  /> <br />
+		       	<p:selectOneMenu id="comboEstado" value="#{cadastrarCondominioController.estadoSelecionado}" 
+					 converter="converterEntityById" >
+			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+			 		<f:selectItems value="#{cadastrarCondominioController.estados}" var="estado" itemLabel="#{estado.nome}" itemValue="#{estado}" />
+			 		<p:ajax event="change" update="panelCidade" listener="#{cadastrarCondominioController.recuperarCidades}" />
+			 	</p:selectOneMenu>
+	     	</p:outputPanel>
+	     	
+	     	<p:outputPanel layout="block" id="panelCidade" >
+		       	<p:outputLabel value="Cidade:"  /> <br />
+		       	<p:selectOneMenu id="comboCidades" value="#{cadastrarCondominioController.condominio.cidade}" 
+					 converter="converterEntityById" filter="true" filterMatchMode="contains" 
+					 required="true" requiredMessage="A cidade do condomínio é obrigatório." >
+			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+			 		<f:selectItems value="#{cadastrarCondominioController.cidades}" var="cidade" itemLabel="#{cidade.nomeExibicao}" itemValue="#{cidade}" />
+			 	</p:selectOneMenu>
+	     	</p:outputPanel>
+	     	
+	     	<p:outputPanel layout="block" id="panelTelefone" >
+		       	<p:outputLabel value="Telefone:"  /> <br />
+		     	<p:inputMask value="#{cadastrarCondominioController.condominio.telefone}" mask="?(99) 99999-9999" /> 
+      		</p:outputPanel>
+      		
+      		<p:outputPanel layout="block" id="panelCep" >
+		       	<p:outputLabel value="Cep:"  /> <br />
+		     	<p:inputMask value="#{cadastrarCondominioController.condominio.cep}" mask="99999-999" /> 
+      		</p:outputPanel>
+		    
+		    <p:outputPanel layout="block" id="panelEmail" >
+		       	<p:outputLabel value="Email:"  /> <br />
+		     	<p:inputText value="#{cadastrarCondominioController.condominio.email}" style="width:80%"   
+	      				maxlength="100" /> <br />
+      		</p:outputPanel>
+      		
+		    <p:outputPanel layout="block">
+		      	<p:outputLabel value="Qual é a quanntidade de blocos/prédios em seu condomínio? " />
+		      	<br />
+		      	<p:spinner id="minMax" value="#{cadastrarCondominioController.quantidadeBlocos}" size="5" min="1" max="20"  />
+		    </p:outputPanel>
+		     		
+		   	<p:outputPanel layout="block">
+		      	<p:outputLabel value="Total de apartamentos: " />
+		      	<br />
+		      	<p:inputText value="#{cadastrarCondominioController.condominio.quantidadeApartamentos}" 
+		      			size="10" maxlength="3" style="width:50px" >
+		      		<f:convertNumber integerOnly="true" />
+		      	</p:inputText>
+		    </p:outputPanel>
+		    
+		   
+		  	<p:outputPanel id="cadastroBlocos" layout="block" rendered="#{cadastrarCondominioController.mostrarCadastrosBlocos()}">
+				<p:commandButton id="btnBloco" value="Ok" style="margin-left:10px;" 
+							actionListener="#{cadastrarCondominioController.sugerirBlocos}"
+							update="containerCadastroInicial, containerSalvaBlocos" />
+			</p:outputPanel>
+		</p:outputPanel>
+		
+		
+		
+		<p:outputPanel id="containerSalvaBlocos" >
+			    <p:outputPanel id="salvaBlocos" rendered="#{not cadastrarCondominioController.mostrarCadastrosBlocos()}" >
 			
-				<p:outputLabel value="Texto da notícia ou aviso:" />
-		        <p:editor id="editorConteudoNoticia" widgetVar="editorWidget" value="#{cadastroNoticiaController.noticia.conteudo}" 
-		        	required="true" requiredMessage="Favor preencher o texto da notícia ou aviso." maxlength="10000"
-		        	controls="bold italic underline font size color style numbering alignleft center alignright justify undo redo image link cut copy paste indent" />
-	        
-		        <p:outputPanel>
-			        <p:outputLabel value="Notícia ativa?" />
-			        <p:selectBooleanCheckbox value="#{cadastroNoticiaController.noticia.ativa}" />	
-			    </p:outputPanel>
-	       
-	 	</p:panelGrid>
-	 	
-	 	
-	 	
-	 	<p:commandButton id="salvarNoticia" value="Salvar" 
-	   		actionListener="#{cadastroNoticiaController.salvarNoticia}" 
-	   		update="@form">
-	   	</p:commandButton>
-	   	
-	 	<p:commandButton id="listagemNoticia" value="Ir para listagem" immediate="true"
-	   		actionListener="#{cadastroNoticiaController.irParaListagem}"  >
-	   	</p:commandButton>
-	 	
-	 	
+					<div id="infomacao1">
+						Essa etapa é muito importante
+						Você deve indicar corretamente os blocos e a quantidade de andares de cada bloco. Essa informação é importante pois cada morador que acessar o sistema deverá ser associado a um apartamento. 
+						Por isso garanta que as informações abaixo estejam corretas.
+					</div>
+			
+					<p:outputLabel value="Abaixo segue uma sugestão de nome e quantidade de andares de cada bloco. Favor ajustar essas informações e clicar em Ok. " />
+					<br />
+					<p:commandButton id="adicionarBloco" value="Adicionar novo bloco"  
+							actionListener="#{cadastrarCondominioController.novoBloco}"
+							update="dtBlocos" />
+							
+					<p:dataTable id="dtBlocos" var="bloco" value="#{cadastrarCondominioController.blocos}" 
+						 editable="true" style="margin-bottom:20px">
+			 
+				       <p:ajax event="rowEdit" listener="#{cadastrarCondominioController.onRowEdit}"  />
+				       <p:ajax event="rowEditCancel" listener="#{cadastrarCondominioController.onRowCancel}"  />
+				 
+				       <p:column headerText="Nome do Bloco" >
+				           <p:cellEditor>
+				               <f:facet name="output"><h:outputText value="#{bloco.nome}" /></f:facet>
+				               <f:facet name="input"><p:inputText value="#{bloco.nome}" style="width:100%" label="Nome"/></f:facet>
+				           </p:cellEditor>
+				       </p:column>
+				       <p:column headerText="Quantidade de andares">
+				           <p:cellEditor>
+				               <f:facet name="output"><h:outputText value="#{bloco.quantidadeAndares}" /></f:facet>
+				               <f:facet name="input"><p:inputText value="#{bloco.quantidadeAndares}" style="width:100%" label="Andares"/></f:facet>
+				           </p:cellEditor>
+				       </p:column>
+				 
+				       <p:column style="width:32px">
+				       		<p:commandButton icon="ui-icon-close" actionListener="#{cadastrarCondominioController.removerBloco(bloco)}" 
+				         		id="excluirBloco" immediate="true" update="dtBlocos" >
+				         	</p:commandButton>
+				       </p:column>
+
+				       <p:column style="width:32px">
+				           <p:rowEditor />
+				       </p:column>
+				   </p:dataTable>
+	
+				<p:commandButton id="finalizarPassaBlocos" value="Pronto!"  
+							actionListener="#{cadastrarCondominioController.salvar}"  />
+				</p:outputPanel>
+							
+			</p:outputPanel>
+			
 	</h:form>
    </ui:define>
 </ui:composition>
