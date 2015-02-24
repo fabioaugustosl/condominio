@@ -45,8 +45,8 @@ public class CadastrarCondominioApController {
 	
 	@PostConstruct
 	public void init(){
-		Object idUsuario = "29";
-		//Object idUsuario = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idUsuario");
+		//Object idUsuario = "29";
+		Object idUsuario = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idUsuario");
 				
 		// Não preciso do id do condominio. Como o usuário já foi atualizado ele já tem vinculo com o condominio.
 		//Object idCondominio = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idCondominio");

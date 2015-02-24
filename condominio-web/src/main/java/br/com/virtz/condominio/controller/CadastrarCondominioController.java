@@ -56,8 +56,8 @@ public class CadastrarCondominioController {
 	
 	@PostConstruct
 	public void init(){
-		String idUsuario = "29";
-		//Object idUsuario = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idUsuario");
+		//String idUsuario = "29";
+		Object idUsuario = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idUsuario");
 		
 		usuario = usuarioService.recuperarUsuarioCompleto(Long.parseLong(idUsuario.toString()));
 		
