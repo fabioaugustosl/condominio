@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+	   	<h1><p:outputLabel value="Assembléias" /></h1>
+	 	<br />
+	 	
+		<p:dataTable id="dtListagemAssembleias" var="ass" 
+				value="#{listagemListagemController.assembleias}"
+				rowKey="#{ass.id}"
+				emptyMessage="Ainda não foi cadastrado nenhuma assembléia para seu condomínio." >
+			
+		    <p:column headerText="Data">
+		        <h:outputText value="#{ass.data}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="1ª chamada">
+		        <h:outputText value="#{ass.horario1}" >
+		        	<f:convertDateTime pattern="hh:mm" timeZone="GMT-03:00" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="2ª chamada">
+		        <h:outputText value="#{ass.horario1}" >
+		        	<f:convertDateTime pattern="hh:mm" timeZone="GMT-03:00" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="Download">
+		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+			        <p:fileDownload value="#{listagemAssembleiaController.download(ass.arquivoAta)}" />
+			    </p:commandButton>
+		    </p:column>
+		    
+		    <p:column headerText="Pauta">
+		    	<p:commandButton value="Pauta"   update=":form:dtPauta" actionListener="{listagemAssembleiaController.setAssembleiaSelecionada(ass)}" oncomplete="PF('dlgPauta').show();">
+		    		<f:setPropertyActionListener value="#{car}" target="{listagemAssembleiaController.assembleiaSelecionada}" />
+			    </p:commandButton>
+		    </p:column>
+		    
+		    <p:column>
+		     	<p:commandLink actionListener="#{listagemAssembleiaController.editar(ass)}" 
+		     		rendered="{listagemAssembleiaController.podeEditar()}"
+	         		id="editarAssSelecionada" value="Editar" immediate="true" >
+	         	</p:commandLink>
+		    </p:column>
+		    
+		    <p:column>
+		    	<p:commandLink actionListener="#{listagemAssembleiaController.removerAssembleia(ass)}" ajax="false"
+		    		rendered="{listagemAssembleiaController.podeExcluir()}"
+	         		id="excluirAssSelecionada" value="Remover" immediate="true" >
+	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa assembléia?" icon="ui-icon-alert" />
+	         	</p:commandLink>
+	         </p:column>
+		</p:dataTable> 
+	    
+	   	<p:commandButton id="novoDocumento" value="Novo Documento" immediate="true"
+	   		actionListener="#{listagemAssembleiaController.irParaCadastro}"  >
+	   	</p:commandButton>
+	   	
+	   	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+    
+	   	<p:dialog modal="true" id="statusDialog" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+		    <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+		</p:dialog>
+		
+
+		<p:dialog modal="true" id="dlgPauta" widgetVar="dlgPauta" header="Pauta da assembléia" 
+						draggable="false" closable="false" resizable="false" 
+						dynamic="true" width="500" height="500">
+						
+		    <p:dataTable id="dtPauta" style="width:100%"
+		    		var="pauta" 
+		    		value="#{listagemAssembleiaController.assembleiaSelecionada.pautasAprovadas}">
+
+			    <p:column >
+			        <h:outputText value="#{pauta.mensagem}" />
+			    </p:column>
+ 
+		    </p:dataTable>
+		</p:dialog> 
+		
+	    
+	 </h:form>
+	 
+	 <script type="text/javascript">
+		function start() {
+		    PF('statusDialog').show();
+		}
+		 
+		function stop() {
+		    PF('statusDialog').hide();
+		}
+	</script>
+
+  </ui:define>
+</ui:composition>
