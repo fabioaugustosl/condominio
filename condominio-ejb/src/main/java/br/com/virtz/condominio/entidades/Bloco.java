@@ -3,6 +3,7 @@ package br.com.virtz.condominio.entidades;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,7 +43,7 @@ public class Bloco extends Entidade implements Serializable {
 	@JoinColumn(name="idCondominio", nullable=false)
 	private Condominio condominio;
 	
-	@OneToMany(mappedBy="bloco")
+	@OneToMany(mappedBy="bloco", cascade = CascadeType.ALL)
 	private List<Apartamento> apartamentos;
 	
 	@Column(name="qtdAndares")

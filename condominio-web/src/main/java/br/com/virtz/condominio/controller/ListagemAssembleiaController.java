@@ -19,9 +19,7 @@ import org.primefaces.model.StreamedContent;
 
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 import br.com.virtz.condominio.entidades.ArquivoAtaAssembleia;
-import br.com.virtz.condominio.entidades.ArquivoDocumento;
 import br.com.virtz.condominio.entidades.Assembleia;
-import br.com.virtz.condominio.entidades.Documento;
 import br.com.virtz.condominio.entidades.PautaAssembleia;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
@@ -69,6 +67,7 @@ public class ListagemAssembleiaController {
 	}
 	
 	
+	@SuppressWarnings("static-access")
 	public void irParaCadastro(){
 		navegacao.redirectToPage("/assembleia/cadastrarAssembleia.faces");
 	}
@@ -133,7 +132,14 @@ public class ListagemAssembleiaController {
 		 return Boolean.FALSE;
 	 }
 
-
+	 public boolean podeInserir(){
+		 if(EnumTipoUsuario.SINDICO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
+			 return Boolean.TRUE;
+		 }
+		 return Boolean.FALSE;
+	 }
+	
+	
 	 
 	 // GETTERS E SETTERS
 	 public List<Assembleia> getAssembleias() {

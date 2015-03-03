@@ -7,63 +7,62 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h:form id="form" style="width:100%">
+   	<h:form id="form" >
 	   	<h1><p:outputLabel value="Assembléias" /></h1>
 	 	<br />
 	 	
-		<p:dataTable id="dtListagemAssembleias" var="ass" 
-				value="#{listagemListagemController.assembleias}"
-				rowKey="#{ass.id}"
-				emptyMessage="Ainda não foi cadastrado nenhuma assembléia para seu condomínio." >
+		<p:dataTable id="dtListagemDocumentos" var="assemb" 
+				value="#{listagemAssembleiaController.assembleias}"
+				rowKey="#{assemb.id}"
+				emptyMessage="Ainda não foi disponibilizado nenhum documento ou arquivo." >
 			
-		    <p:column headerText="Data">
-		        <h:outputText value="#{ass.data}" >
+		     <p:column headerText="Data">
+		        <h:outputText value="#{assemb.data}" >
 		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
 		        </h:outputText>
 		    </p:column>
 		    
 		    <p:column headerText="1ª chamada">
-		        <h:outputText value="#{ass.horario1}" >
+		        <h:outputText value="#{assemb.horario1}" >
 		        	<f:convertDateTime pattern="hh:mm" timeZone="GMT-03:00" />
 		        </h:outputText>
 		    </p:column>
 		    
 		    <p:column headerText="2ª chamada">
-		        <h:outputText value="#{ass.horario1}" >
+		        <h:outputText value="#{assemb.horario2}" >
 		        	<f:convertDateTime pattern="hh:mm" timeZone="GMT-03:00" />
 		        </h:outputText>
 		    </p:column>
 		    
 		    <p:column headerText="Download">
-		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-			        <p:fileDownload value="#{listagemAssembleiaController.download(ass.arquivoAta)}" />
+		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s"
+		    		rendered="#{not empty assemb.arquivoAta}">
+			        <p:fileDownload value="#{listagemAssembleiaController.download(assemb.arquivoAta)}" />
 			    </p:commandButton>
-		    </p:column>
+		    </p:column> 
 		    
 		    <p:column headerText="Pauta">
-		    	<p:commandButton value="Pauta"   update=":form:dtPauta" actionListener="{listagemAssembleiaController.setAssembleiaSelecionada(ass)}" oncomplete="PF('dlgPauta').show();">
-		    		<f:setPropertyActionListener value="#{car}" target="{listagemAssembleiaController.assembleiaSelecionada}" />
+		    	<p:commandButton value="Pauta" update=":form:dtPauta" oncomplete="PF('dlgPauta').show();">
+		    		<f:setPropertyActionListener value="#{assemb}" target="#{listagemAssembleiaController.assembleiaSelecionada}" />
 			    </p:commandButton>
-		    </p:column>
+		    </p:column> 
 		    
-		    <p:column>
-		     	<p:commandLink actionListener="#{listagemAssembleiaController.editar(ass)}" 
-		     		rendered="{listagemAssembleiaController.podeEditar()}"
+		    <p:column rendered="#{listagemAssembleiaController.podeEditar()}">
+		     	<p:commandLink actionListener="#{listagemAssembleiaController.editar(assemb)}" 
 	         		id="editarAssSelecionada" value="Editar" immediate="true" >
 	         	</p:commandLink>
 		    </p:column>
 		    
-		    <p:column>
-		    	<p:commandLink actionListener="#{listagemAssembleiaController.removerAssembleia(ass)}" ajax="false"
-		    		rendered="{listagemAssembleiaController.podeExcluir()}"
+		    <p:column rendered="#{listagemAssembleiaController.podeExcluir()}">
+		    	<p:commandLink actionListener="#{listagemAssembleiaController.removerAssembleia(assemb)}" ajax="false"
 	         		id="excluirAssSelecionada" value="Remover" immediate="true" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa assembléia?" icon="ui-icon-alert" />
 	         	</p:commandLink>
 	         </p:column>
 		</p:dataTable> 
 	    
-	   	<p:commandButton id="novoDocumento" value="Novo Documento" immediate="true"
-	   		actionListener="#{listagemAssembleiaController.irParaCadastro}"  >
+		<p:commandButton id="novaAssembleia" value="Nova Assembléia" immediate="true"
+		   		actionListener="#{listagemAssembleiaController.irParaCadastro}"  >
 	   	</p:commandButton>
 	   	
 	   	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
@@ -74,14 +73,13 @@
 	   	<p:dialog modal="true" id="statusDialog" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
 		    <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
 		</p:dialog>
-		
-
-		<p:dialog modal="true" id="dlgPauta" widgetVar="dlgPauta" header="Pauta da assembléia" 
-						draggable="false" closable="false" resizable="false" 
+	   	
+	   	<p:dialog modal="true" id="dlgPauta" widgetVar="dlgPauta" header="Pauta da assembléia" 
+						draggable="true" closable="true" resizable="false" 
 						dynamic="true" width="500" height="500">
 						
 		    <p:dataTable id="dtPauta" style="width:100%"
-		    		var="pauta" 
+		    		var="pauta" emptyMessage="Não existem pautas cadastradas para essa assembléia."
 		    		value="#{listagemAssembleiaController.assembleiaSelecionada.pautasAprovadas}">
 
 			    <p:column >
@@ -90,19 +88,21 @@
  
 		    </p:dataTable>
 		</p:dialog> 
-		
 	    
+	    
+	     <script type="text/javascript">
+			function start() {
+			    PF('statusDialog').show();
+			}
+			 
+			function stop() {
+			    PF('statusDialog').hide();
+			}
+		</script>
+		    
 	 </h:form>
 	 
-	 <script type="text/javascript">
-		function start() {
-		    PF('statusDialog').show();
-		}
-		 
-		function stop() {
-		    PF('statusDialog').hide();
-		}
-	</script>
+	
 
   </ui:define>
 </ui:composition>
