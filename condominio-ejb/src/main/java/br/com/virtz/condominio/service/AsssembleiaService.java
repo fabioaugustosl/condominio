@@ -5,6 +5,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.apache.commons.lang.StringUtils;
+
 import br.com.virtz.condominio.dao.IAssembleiaDAO;
 import br.com.virtz.condominio.dao.IPautaDAO;
 import br.com.virtz.condominio.entidades.Assembleia;
@@ -25,6 +27,10 @@ public class AsssembleiaService implements IAssembleiaService {
 	@Override
 	public Assembleia salvar(Assembleia assembleia) throws ErroAoSalvar {
 		try {
+			if(assembleia.getArquivoAta() != null 
+					&& StringUtils.isBlank(assembleia.getArquivoAta().getNome())){
+				assembleia.setArquivoAta(null);
+			}
 			return assembleiaDAO.salvar(assembleia);
 		} catch (Exception e) {
 			throw new ErroAoSalvar("Ocorreu um erro ao salvar a assembléia.", assembleia);

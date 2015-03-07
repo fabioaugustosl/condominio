@@ -74,15 +74,15 @@
 		    <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
 		</p:dialog>
 	   	
-	   	<p:dialog modal="true" id="dlgPauta" widgetVar="dlgPauta" header="Pauta da assembléia" 
+	   	<p:dialog modal="true" id="dlgPauta" widgetVar="dlgPauta" header="Pautas" 
 						draggable="true" closable="true" resizable="false" 
-						dynamic="true" width="500" height="500">
+						dynamic="true" width="600" >
 						
 		    <p:dataTable id="dtPauta" style="width:100%"
-		    		var="pauta" emptyMessage="Não existem pautas cadastradas para essa assembléia."
+		    		var="pauta" emptyMessage="Não existem pautas aprovadas para essa assembléia."
 		    		value="#{listagemAssembleiaController.assembleiaSelecionada.pautasAprovadas}">
 
-			    <p:column >
+			    <p:column headerText="Pauta aprovadas para assembléia">
 			        <h:outputText value="#{pauta.mensagem}" />
 			    </p:column>
  

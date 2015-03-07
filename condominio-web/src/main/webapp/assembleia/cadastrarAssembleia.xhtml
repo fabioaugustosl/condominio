@@ -11,39 +11,122 @@
  	<br />
  	
  	<h:form id="form" >
-	    
-	    <p:panelGrid columns="1" id="containerNovaAssembleia" >
-	    
-			<p:outputLabel value="Data da assembléia:" />
-			<p:calendar id="data"
-					alt="Insira a data em que a assembléia será realizada" 
-					value="#{cadastrarAssembleiaController.assembleia.data}" showOn="button" 
-					required="true" requiredMessage="Favor preencher a data de realização da assembléia."  />
-			
-			<p:outputLabel value="Horário da 1ª chamada:" />
-	       	<p:calendar id="horario1"
-					alt="Insira o horário da 1ª chamada em  que a assembléia será realizada" 
-					value="#{cadastrarAssembleiaController.assembleia.horario1}" 
-					required="true" requiredMessage="Favor preencher o horário da 1ª chamda da realização da assembléia." 
-					pattern="HH:mm a" timeOnly="true"   />
+	    <p:tabView id="tabsAssembleias" dynamic="true" activeIndex="0">
+		   	<p:tab id="tabAssembleia" title="Informações sobre a Assembléia" disabled="false">
+		        
+			    <p:panelGrid columns="1" id="containerNovaAssembleia" >
+			    
+					<p:outputLabel value="Data da assembléia:" />
+					<p:calendar id="data"
+							alt="Insira a data em que a assembléia será realizada" 
+							value="#{cadastrarAssembleiaController.assembleia.data}" showOn="button" 
+							required="true" requiredMessage="Favor preencher a data de realização da assembléia."  />
 					
-			<p:outputLabel value="Horário da 2ª chamada:" />
-	       	<p:calendar id="horario2"
-					alt="Insira o horário da 2ª chamada em  que a assembléia será realizada" 
-					value="#{cadastrarAssembleiaController.assembleia.horario2}"  
-					pattern="HH:mm a" timeOnly="true"   />
-			
-	 	</p:panelGrid>
-	 	
-	 	<p:commandButton id="salvarAssembleia" value="Salvar" 
-	   		actionListener="#{cadastrarAssembleiaController.salvarAssembleia}" 
-	   		update="containerNovaAssembleia">
-	   	</p:commandButton>
-	   	
-	 	<p:commandButton id="listagemAssembleia" value="Ir para listagem" immediate="true"
+					<p:outputLabel value="Horário da 1ª chamada:" />
+			       	<p:calendar id="horario1"
+							alt="Insira o horário da 1ª chamada em  que a assembléia será realizada" 
+							value="#{cadastrarAssembleiaController.assembleia.horario1}" 
+							required="true" requiredMessage="Favor preencher o horário da 1ª chamda da realização da assembléia." 
+							pattern="HH:mm a" timeOnly="true"   />
+							
+					<p:outputLabel value="Horário da 2ª chamada:" />
+			       	<p:calendar id="horario2"
+							alt="Insira o horário da 2ª chamada em  que a assembléia será realizada" 
+							value="#{cadastrarAssembleiaController.assembleia.horario2}"  
+							pattern="HH:mm a" timeOnly="true"   />
+					
+			 	</p:panelGrid>
+			 	
+			 	<p:commandButton id="salvarAssembleia" value="Salvar" 
+			   		actionListener="#{cadastrarAssembleiaController.salvarAssembleia}" 
+			   		update="tabsAssembleias">
+			   	</p:commandButton>
+			   	
+			 </p:tab>
+			 
+			 <p:tab id="tabPauta" title="Pauta" disabled="#{not cadastrarAssembleiaController.possoCadastrarPauta}">
+			 	
+			 	<p:outputLabel value="Insira uma nova pauta:" /> <br />
+			 	<p:inputText id="novaPauta" value="#{cadastrarAssembleiaController.novaPauta}" maxlength="1000"></p:inputText>
+			 	
+			 	<p:commandButton id="salvarPauta" value="Inserir" 
+			   		actionListener="#{cadastrarAssembleiaController.salvarPauta}" 
+			   		update="tabPauta">
+			   	</p:commandButton>
+			   	<br />
+			   	
+			   <p:dataTable id="dtPautas" var="pt" 
+						value="#{cadastrarAssembleiaController.assembleia.pautas}"
+						rowKey="#{pt.id}"
+						editable="true" editMode="cell"
+						emptyMessage="Ainda não foi dinserida nenhuma pauta para assembléia." >
+					
+			     	<p:column headerText="Pauta">
+				        <p:cellEditor>
+		                  <f:facet name="output"><h:outputText value="#{pt.mensagem}"/></f:facet>
+		                  <f:facet name="input"><p:inputText id="modelInput" value="#{pt.mensagem}" style="width:96%"/></f:facet>
+		              </p:cellEditor>
+				    </p:column>
+				    
+				    <p:column headerText="Aprovada?">
+				        <p:commandLink actionListener="#{cadastrarAssembleiaController.aprovarPauta(pt.id)}" id="imgAprovar" 
+				        		immediate="true" rendered="#{not pt.aprovada}" update="dtPautas" >
+				        	<p:graphicImage id="imgReprovado" url="/img/icones/icone_bola_inativo.png" title="Clique para aprovar a pauta."/>
+				        </p:commandLink>
+				        
+				        <p:commandLink actionListener="#{cadastrarAssembleiaController.reprovarPauta(pt.id)}" id="imgReprovar" 
+				        		immediate="true" rendered="#{pt.aprovada}" update="dtPautas" >
+				        	<p:graphicImage id="imgAprovado" url="/img/icones/icone_bola_ativo.png"  title="Clique para reprovar a pauta."/>
+				        </p:commandLink>
+				    </p:column>
+				    
+				    <p:column>
+				    	<p:commandLink actionListener="#{cadastrarAssembleiaController.removerPauta(pt)}" 
+			         		id="excluirPautaSelecionada" value="Remover" immediate="true" update="dtPautas" >
+			         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa pauta?" icon="ui-icon-alert" />
+			         	</p:commandLink>
+			         </p:column>
+				</p:dataTable> 
+			 </p:tab>
+			 
+			 <p:tab id="tabAta" title="Ata" disabled="#{not cadastrarAssembleiaController.possoCadastrarAta}">
+			 	
+			 	<p:outputPanel id="containerAnexarAta" rendered="#{cadastrarAssembleiaController.assembleia.arquivoAta.id == null}">
+				 	<p:outputLabel value="Anexar ata:" />
+			        <p:fileUpload 
+					        mode="advanced" update="@this, tabAta"
+					        fileUploadListener="#{cadastrarAssembleiaController.uploadArquivo}"
+					        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX)$/" 
+					        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
+					        auto="true" dragDropSupport="false" />
+			 	</p:outputPanel>
+				
+				<p:outputPanel id="containerAtaAnexada" rendered="#{cadastrarAssembleiaController.assembleia.arquivoAta.id != null}">
+					<p:outputLabel value="Ata anexada: "></p:outputLabel>
+					<p:outputLabel value="#{cadastrarAssembleiaController.assembleia.arquivoAta.nomeOriginal}"></p:outputLabel> <br /><br/>
+					<p:commandButton id="removerArq" value="Remover" immediate="true"
+				   		actionListener="#{cadastrarAssembleiaController.removerArquivo}" 
+				   		update="tabAta">
+				   	</p:commandButton> <br />
+				   	<p:media value="#{cadastrarAssembleiaController.assembleia.arquivoAta.caminhoCompleto}" 
+				   			height="400" width="100%"
+				   			id="mediaPDF" >
+				   	</p:media>
+			           
+				</p:outputPanel>
+			 </p:tab>
+			 
+		</p:tabView>
+		
+		<p:commandButton id="listagemAssembleia" value="Ir para listagem" immediate="true"
 	   		actionListener="#{cadastrarAssembleiaController.irParaListagem}"  >
 	   	</p:commandButton>
-	 	
+		
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+    
 	</h:form>
    </ui:define>
 </ui:composition>
