@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+     
+    <h:head>
+        <title>Pautas</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+     
+    <h:body>
+    	<p:dataList value="#{assembleiaController.assembleiaSelecionada.pautasAprovadas}" var="pauta">
+			<p:outputLabel value="#{pauta.mensagem}"></p:outputLabel>
+		</p:dataList>
+    </h:body>
+     
+</html>

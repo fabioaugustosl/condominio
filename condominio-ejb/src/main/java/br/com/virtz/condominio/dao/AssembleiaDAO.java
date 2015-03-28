@@ -18,4 +18,12 @@ public class AssembleiaDAO extends DAO<Assembleia> implements IAssembleiaDAO {
 		return qry.getResultList();
 	}
 	
+	@Override
+	public List<Assembleia> recuperarNaoRealizadas(Long idCondominio) {
+		Query qry = getEntityManager().createNamedQuery("Assembleia.recuperarNaoRealizadasPorCondominio");
+		qry.setParameter("idCondominio", idCondominio);
+		return qry.getResultList();
+	}
+	
+	
 }

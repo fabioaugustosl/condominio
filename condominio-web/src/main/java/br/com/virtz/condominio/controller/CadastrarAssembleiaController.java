@@ -84,6 +84,7 @@ public class CadastrarAssembleiaController {
 		assembleia = new Assembleia();
 		assembleia.setCondominio(usuario.getCondominio());
 		assembleia.setDataCadastro(new Date());
+		assembleia.setPermitirPautas(Boolean.TRUE);
 	}
 
 	

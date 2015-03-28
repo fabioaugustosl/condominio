@@ -34,7 +34,7 @@
 		        </h:outputText>
 		    </p:column>
 		    
-		    <p:column headerText="Download">
+		    <p:column headerText="Ata">
 		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s"
 		    		rendered="#{not empty assemb.arquivoAta}">
 			        <p:fileDownload value="#{listagemAssembleiaController.download(assemb.arquivoAta)}" />

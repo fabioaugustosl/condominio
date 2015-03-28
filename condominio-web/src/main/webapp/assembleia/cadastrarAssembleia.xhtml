@@ -35,6 +35,11 @@
 							value="#{cadastrarAssembleiaController.assembleia.horario2}"  
 							pattern="HH:mm a" timeOnly="true"   />
 					
+					<p:selectBooleanCheckbox id="permitirPautas"
+								value="#{cadastrarAssembleiaController.assembleia.permitirPautas}" 
+								itemLabel="Permitir que os moradores enviem pautas para assembléia " 
+								label="Permitir que os moradores enviem pautas para assembléia " />
+					
 			 	</p:panelGrid>
 			 	
 			 	<p:commandButton id="salvarAssembleia" value="Salvar" 

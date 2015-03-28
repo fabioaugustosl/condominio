@@ -26,9 +26,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "Assembleia.recuperarPorCondominio", 
-				query = "Select n FROM Assembleia n WHERE n.condominio.id = :idCondominio ")
+				query = "Select n FROM Assembleia n WHERE n.condominio.id = :idCondominio ORDER BY n.data DESC "),
+		@NamedQuery(name = "Assembleia.recuperarNaoRealizadasPorCondominio", 
+				query = "Select n FROM Assembleia n "
+						+ "	WHERE n.condominio.id = :idCondominio AND n.data >= CURRENT_DATE "
+						+ " ORDER BY n.data ASC ")
 })
-public class Assembleia extends Entidade implements Serializable {
+public class Assembleia extends Entidade implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -68,6 +72,9 @@ public class Assembleia extends Entidade implements Serializable {
 	
 	@Column(name = "ata", length=99999)
 	private String ata;
+	
+	@Column(name = "permitirPautas")
+	private boolean permitirPautas;
 	
 	
 	
@@ -156,7 +163,15 @@ public class Assembleia extends Entidade implements Serializable {
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
+	
 
+	public boolean getPermitirPautas() {
+		return permitirPautas;
+	}
+
+	public void setPermitirPautas(boolean permitirPautas) {
+		this.permitirPautas = permitirPautas;
+	}
 
 
 	/**
@@ -202,7 +217,5 @@ public class Assembleia extends Entidade implements Serializable {
 		}
 		return aprovadas;
 	}
-
 	
-		
 }

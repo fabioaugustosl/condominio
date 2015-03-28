@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+     
+   <h:form id="formAssembleiaConvocacao" style="width:100%">
+   
+	   <p:outputPanel id="containerConvocacaoAssembleia" rendered="#{assembleiaController.possuiAssembleiaAgendada()}" >
+		
+			<p:dataTable id="dtListagemAssembleiaGadget" var="assembleia" 
+				value="#{assembleiaController.assembleias}"
+				rowKey="#{assembleia.id}" >
+			
+			    <p:column>
+					
+					<p:outputPanel>
+						
+						Assembléia agendada para o dia 
+						<p:outputLabel value="#{assembleia.data}" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:outputLabel>
+						às <p:outputLabel value="#{assembleia.horario1}">
+							<f:convertDateTime pattern="hh:mm" />
+						</p:outputLabel>.
+					
+						<p:commandButton id="btnVerPauta" value="Ver pautas" onsuccess="PF('dialogPautasAprovadas').show();">
+					 		<f:setPropertyActionListener target="#{assembleiaController.assembleiaSelecionada}" value="#{assembleia}"></f:setPropertyActionListener>
+					 	</p:commandButton>	
+					</p:outputPanel>
+					
+					<p:outputPanel rendered="#{assembleia.permitirPautas}">
+					 	<p:commandButton id="novaPauta" actionListener="#{assembleiaController.resetPauta}" value="Enviar Pauta">
+					 		<f:setPropertyActionListener target="#{assembleiaController.assembleiaSelecionada}" value="#{assembleia}"></f:setPropertyActionListener>
+					 	</p:commandButton>
+					 	
+					 	<p:overlayPanel id="panelNovaPaula" for="novaPauta" hideEffect="fade" 
+					 			dynamic="true" style="width:300px; height:300px;"
+					 			widgetVar="panelNovaPaula">
+					        <p:inputTextarea id="txtPauta" value="#{assembleiaController.textoPauta}"></p:inputTextarea>
+					        <br />
+					        <p:commandButton actionListener="#{assembleiaController.novaPauta}" value="Enviar"
+					        	onsuccess="PF('panelNovaPaula').hide();" ></p:commandButton>
+					    </p:overlayPanel>
+					</p:outputPanel>
+			       
+			    </p:column>
+			</p:dataTable>
+			
+			<p:dialog id="dialogPautasAprovadas" modal="true" widgetVar="dialogPautasAprovadas"
+					draggable="true" closable="true" resizable="false" 
+						dynamic="true" width="500" height="400" header="Pautas Aprovadas" >
+				<p:dataList value="#{assembleiaController.assembleiaSelecionada.pautasAprovadas}" var="pauta">
+					<p:outputLabel value="#{pauta.mensagem}"></p:outputLabel>
+				</p:dataList>
+			</p:dialog>
+				  
+	   </p:outputPanel>
+	</h:form>
+	
+</ui:composition>
+

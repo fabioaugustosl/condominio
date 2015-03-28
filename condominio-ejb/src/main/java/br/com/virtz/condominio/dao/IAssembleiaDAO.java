@@ -9,4 +9,5 @@ import br.com.virtz.condominio.entidades.Assembleia;
 @Local
 public interface IAssembleiaDAO extends CrudDAO<Assembleia> {
 	public List<Assembleia> recuperar(Long idCondominio);
+	public List<Assembleia> recuperarNaoRealizadas(Long idCondominio);
 }

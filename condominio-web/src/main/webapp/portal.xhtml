@@ -10,19 +10,32 @@
 	   	<p:growl id="msgsGrowl" showDetail="true" />
  
  		<p:outputPanel id="containerDashBoard" style="width:100% !important;" >
-       
-            <p:panel id="panelWidgetNoticia" header="Notícias" style="height:100%;" > 
-                <ui:include src="widget/noticias.xhtml" />
-            </p:panel>
- 
-            <p:panel id="panelWidgetVotacao" header="Votação online" > 
-                <ui:include src="widget/votacao.xhtml" />
-            </p:panel>
- 
-            <p:panel id="panelWidgetTroca" header="Troca de idéias" style="height:100%;"> 
-                <ui:include src="widget/trocaIdeias.xhtml" />
-            </p:panel>
-            
+       		
+       		<div id="divNotificacoesImportantes">
+       			<p:panel id="panelWidgetAssembleiaConvocacao" header="Convocação para assembléia" style="height:100%;"  rendered="#{assembleiaController.possuiAssembleiaAgendada()}"> 
+	                <ui:include src="widget/assembleia.xhtml" />
+	            </p:panel>
+	   		</div>
+       		
+     		<table id="divConteudoPortal">
+	    		<tr>
+	    			<td style="width:65%;">        
+			            <p:panel id="panelWidgetNoticia" header="Notícias" style="height:100%;" > 
+			                <ui:include src="widget/noticias.xhtml" />
+			            </p:panel>
+		 			</td>
+		 			
+		 			<td style="width:35%;">
+			            <p:panel id="panelWidgetVotacao" header="Votação online" style="height:100%;"  > 
+			                <ui:include src="widget/votacao.xhtml" />
+			            </p:panel>
+			 
+			            <p:panel id="panelWidgetTroca" header="Troca de idéias" style="height:100%;"> 
+			                <ui:include src="widget/trocaIdeias.xhtml" />
+			            </p:panel>
+			        </td>
+	            </tr>
+            </table>
         
         </p:outputPanel>
 
