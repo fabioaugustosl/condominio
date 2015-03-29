@@ -23,5 +23,6 @@ public interface IUsuarioService {
 	public void alterarParaSindico(Long idUsuario);
 	public void alterarParaMorador(Long idUsuario);
 	public void alterarParaAdministrativo(Long idUsuario);
+	public String criptografarSenhaUsuario(String senha)throws AppException;
 	
 }

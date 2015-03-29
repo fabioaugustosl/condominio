@@ -52,11 +52,7 @@ public class UsuarioService implements IUsuarioService {
 		if(StringUtils.isNotBlank(usuario.getSenhaDigitada())){
 			CriptografarSenha criptografar = new CriptografarSenha();
 			String senha = null;
-			try {
-				senha = criptografar.hash256(usuario.getSenhaDigitada());
-			} catch (NoSuchAlgorithmException e) {
-				throw new AppException("Ocorreu um erro ao converter a senha do usuário");
-			}
+			senha = criptografarSenhaUsuario(usuario.getSenhaDigitada());
 			usuario.setSenha(senha);
 		}
 		
@@ -79,13 +75,8 @@ public class UsuarioService implements IUsuarioService {
 		if(usuarioEmail != null){
 			// se o usuario for novo verifica se o 
 			if(usuario.getId() == null){
-				CriptografarSenha criptografar = new CriptografarSenha();
-				String senhaCriptografada = null;
-				try {
-					senhaCriptografada = criptografar.hash256(usuario.getSenhaDigitada());
-				} catch (NoSuchAlgorithmException e) {
-					throw new AppException("Ocorreu um erro ao validar a senha do usuário.");
-				}
+				String senhaCriptografada = criptografarSenhaUsuario(usuario.getSenhaDigitada());
+				usuario.setSenha(senhaCriptografada);
 				
 				// se a senha for a mesma deixa passar. Ou seja, considera que eh o mesmo usuario tentando terminar o cadastro.
 				if(senhaCriptografada != null && senhaCriptografada.equals(usuarioEmail.getSenha())){
@@ -114,6 +105,18 @@ public class UsuarioService implements IUsuarioService {
 		}
 		
 		return salvar(usuario);
+	}
+
+	
+	public String criptografarSenhaUsuario(String senha)throws AppException {
+		CriptografarSenha criptografar = new CriptografarSenha();
+		String senhaCriptografada = null;
+		try {
+			senhaCriptografada = criptografar.hash256(senha);
+		} catch (NoSuchAlgorithmException e) {
+			throw new AppException("Ocorreu um erro ao validar a senha do usuário.");
+		}
+		return senhaCriptografada;
 	}
 	
 

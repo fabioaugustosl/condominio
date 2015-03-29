@@ -3,29 +3,21 @@ package br.com.virtz.condominio.controller;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.RequestScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
-import org.primefaces.event.CloseEvent;
-import org.primefaces.event.DashboardReorderEvent;
-import org.primefaces.event.ToggleEvent;
-import org.primefaces.model.DashboardColumn;
-import org.primefaces.model.DashboardModel;
-import org.primefaces.model.DefaultDashboardColumn;
-import org.primefaces.model.DefaultDashboardModel;
-
 import br.com.virtz.condominio.entidades.Usuario;
+import br.com.virtz.condominio.exception.AppException;
+import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class ConfiguracaoController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -38,20 +30,57 @@ public class ConfiguracaoController implements Serializable {
 
 	@Inject
 	private SessaoUsuario sessao;
+	
+	@EJB
+	private IUsuarioService usuarioService;
+	
 
 	private Usuario usuario = null;
 	private String senhaAtual = null;
 	private String senhaNova = null;
 	private String senhaNova2 = null;
+	
+	private boolean sucesso;
+	private String msgErro = null;
 
 	@PostConstruct
 	public void init() {
+		senhaAtual = null;
+		senhaNova = null;
+		senhaNova2 = null;
+		msgErro = null;
+		sucesso = false;
 		usuario = sessao.getUsuarioLogado();
 	}
 	
 	
-	public void alterarSenha(ActionEvent event){
-		messageHelper.addInfo("Senha alterada com sucesso.");
+	public void alterarSenha(ActionEvent event) throws AppException{
+		
+		String senhaAtualCript = usuarioService.criptografarSenhaUsuario(senhaAtual);
+		if(!senhaAtualCript.equals(usuario.getSenha())){
+			msgErro = "Senha atual incorreta!";
+			sucesso = false;
+			return;
+		}
+		
+		try{
+			Usuario u = usuarioService.recuperarUsuarioCompleto(usuario.getId());
+			u.setSenhaDigitada(senhaNova);
+			usuario = usuarioService.salvar(u);
+			sessao.setUsuarioLogado(usuario);
+			sucesso = true;
+			msgErro = null;
+		}catch(Exception e){
+			sucesso = false;
+			msgErro = "Ocorreu um erro ao alterar a senha.";
+		} finally {
+			senhaAtual = null;
+			senhaNova = null;
+			senhaNova2 = null;
+		}
+			
+		//TODO : enviar Email avisando
+		
 	}
 	
 
@@ -83,4 +112,13 @@ public class ConfiguracaoController implements Serializable {
 		this.senhaNova2 = senhaNova2;
 	}
 
+	public boolean isSucesso() {
+		return sucesso;
+	}
+
+	public String getMsgErro() {
+		return msgErro;
+	}
+
+	
 }
