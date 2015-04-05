@@ -1,0 +1,1321 @@
+html,
+body{
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:hover,
+select:-webkit-autofill,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:hover {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    outline: 0 !important;
+}
+
+/* BOTOES */
+.ui-button{
+	margin: 0 0 0 3px;
+	padding: 7px 12px 8px 12px !important;
+}
+
+.ui-button.ui-button-text-only .ui-button-text{
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 15px;
+}
+
+.btn {}
+
+.btn.ui-button .ui-button-text{
+	padding: 0 !important;
+}
+
+.btn.btn-lg .ui-button-text.ui-c {
+	font-size: 15px !important;
+	line-height: 19px !important;
+	padding: 2px 16px !important;
+}
+
+
+/* MENSAGENS */
+.ui-messages-error,
+.ui-message-error {
+	border-color: #ebccd1 !important;
+}
+
+.ui-messages-info,
+.ui-message-info {
+	background: #dff0d8 !important;
+	border-color: #d0e6be !important;
+	color: #468847 !important;
+}
+
+.ui-messages-success,
+.ui-message-success {
+	background: #dff0d8;
+	border-color: #d0e6be;
+	color: #468847;
+}
+
+.ui-messages-info,
+.ui-messages-warn,
+.ui-messages-error,
+.ui-messages-fatal,
+.ui-messages-success {
+	text-align: left;
+	border-radius: 2px;
+	margin: 10px 0 20px 0 !important;
+	padding: 15px !important;
+}
+
+.ui-messages-info-icon,
+.ui-messages-warn-icon,
+.ui-messages-error-icon,
+.ui-messages-fatal-icon,
+.ui-messages-success-icon {
+	display: none !important;
+}
+
+.ui-messages ul {
+	margin: 0 !important;
+}
+
+.ui-messages-info-summary,
+.ui-messages-warn-summary,
+.ui-messages-error-summary,
+.ui-messages-fatal-summary,
+.ui-messages-success-summary,
+.ui-message-info-summary,
+.ui-message-warn-summary,
+.ui-message-error-summary,
+.ui-message-fatal-summary,
+.ui-message-success-summary {
+	margin: 0 !important;
+	font-size: 13px;
+	font-weight: normal !important;
+}
+
+.panel-body .ui-messages .ui-messages-info,
+.panel-body .ui-messages .ui-messages-warn,
+.panel-body .ui-messages .ui-messages-fatal,
+.panel-body .ui-messages .ui-messages-success{
+	margin-top: 0 !important;
+	padding: 12px 10px !important;
+}
+
+
+/* TELA ERRO 500 */
+.page-500 .ui-messages .ui-messages-error{
+	background-color: transparent !important;
+	border: 0 !important;
+	color: rgba(0, 0, 0, 0.5) !important;
+	padding: 0 20px !important;
+	margin: 0 !important;
+	text-align: center !important;
+}
+
+.page-500 .ui-messages .ui-messages-error-summary{
+	font-size: 20px !important;
+	font-weight: 600 !important;
+}
+
+.page-500 .ui-messages .ui-messages-close{
+	display: none !important;
+}
+
+.page-500 .ui-button-text-only .ui-button-text {}
+
+.page-500 .header button{
+	position: absolute;
+	left: 12px;
+	top: 11px;
+}
+
+
+/* ERRO 500 - BARRA DE NOTIFICACAO */
+.page-500 .ui-notificationbar{
+	height: auto !important;
+	min-height: 200px !important;
+	max-height: 425px !important;
+	overflow-y: scroll !important;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=97);
+	filter: alpha(opacity=97);
+	-moz-opacity: 0.97;
+	-khtml-opacity: 0.97;
+	opacity: 0.97;
+	padding: 25px 10px;
+}
+.page-500 .ui-notificationbar h2{
+	color: rgb(238, 0, 0);
+	font-size: 14px;
+	text-align: left;
+	height: 31px;
+	margin-left: 20px;
+	margin-top: 0;
+	line-height: 31px;
+}
+.page-500 .ui-notificationbar .closeNotificationbar{
+	position: absolute;
+	top: 25px;
+	right: 25px;
+}
+.ui-notificationbar .ui-messages .ui-messages-error,
+.ui-notificationbar .ui-messages .ui-messages-fatal{
+	background-color: transparent !important;
+	border: 0 !important;
+	color: rgba(0, 0, 0, 0.5) !important;
+	padding: 0 20px !important;
+	margin: 0 !important;
+	text-align: left !important;
+}
+
+.ui-notificationbar .ui-messages .ui-messages-error-summary,
+.ui-notificationbar .ui-messages .ui-messages-fatal-summary{
+	font-size: 12px !important;
+	font-weight: 600 !important;
+	display: block;
+}
+
+.ui-notificationbar .ui-messages .ui-messages-close{
+	display: none !important;
+}
+
+.hidden_btn_custom{
+	display: none !important;
+}
+.visible_btn_custom{
+	visibility: visible;
+}
+
+/* TELA ERRO 404 */
+.page-404 .header .btn button {
+	position: absolute !important;
+	left: 12px !important;
+	top: 11px !important;
+}
+
+.page-404 .ui-button-text-only .ui-button-text .btn {
+	padding: 7px 12px !important;
+}
+
+.page-404 .header button {
+	position: absolute;
+	left: 12px;
+	top: 11px;
+}
+
+
+/* CUSTOMIZACAO DO SELECT */
+.ui-selectonemenu {
+	width: 100% !important;
+	height: 32px !important;
+	border-bottom-color: #d6d6d6 !important;
+}
+	
+	.ui-selectonemenu.ui-state-default{
+		box-shadow: none !important;
+		-webkit-box-shadow: none !important;
+		-moz-box-shadow: none !important;
+	}
+	
+	.ui-selectonemenu.ui-corner-all {
+		border-radius: 2px !important;
+	}
+
+	.ui-selectonemenu.ui-state-hover{
+		border: 1px solid #5671a3 !important;
+	}
+	
+	.ui-selectonemenu.ui-state-focus{
+		border: 1px solid #5671a3;
+		-webkit-box-shadow: 0 0 0 1000px white inset !important;
+	}
+
+	.ui-selectonemenu .ui-selectonemenu-label {
+		/*height: 28px !important;*/
+		/*width: 100% !important;*/
+		/*border: #fff !important;*/
+		/*border-radius: 2px;*/
+		margin: 0 !important;
+		font-weight: normal !important;
+	}
+
+	.ui-selectonemenu .ui-selectonemenu-trigger {
+		width: 32px !important;
+		background: #fff;
+		padding: 0px !important;
+		border: 0 !important;
+		box-shadow: none !important;
+		-webkit-box-shadow: none !important;
+		-moz-box-shadow: none !important;
+	}
+
+	.ui-selectonemenu .ui-selectonemenu-trigger.ui-state-focus {
+		outline: 0 !important;
+		border: 0 !important;
+	}
+	
+	.ui-selectonemenu.ui-state-focus {
+		outline: 0 !important; 
+		border: 1px solid #5671a3 !important;
+	}
+	
+	.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+		margin-top: 7px !important;
+		margin-left: 7px !important;
+	}
+	
+	.ui-selectonemenu-trigger .ui-state-default .ui-corner-right {
+		-webkit-border-radius: 0px !important;
+		border-radius: 0px !important;
+	}
+	
+	.ui-selectonemenu .ui-inputfield {
+		box-shadow: none !important;
+		padding: 4px 4px 0 8px;
+		width: 100% !important;
+	}
+	
+.ui-selectonemenu-panel .ui-selectonemenu-items .ui-state-highlight{
+	background-color: #5671a3 !important;
+	background-image: none !important;
+}
+	
+.panel-body .ui-selectmanymenu {
+	border: 0px!important;
+	border-top: #fff !important;
+	width: 100% !important;
+}
+
+
+/* BOTAO */
+.ui-toolbar-group-left {
+	float: right !important;
+}
+
+	
+/* CUSTOMIZACAO DAS TABELAS */
+.ui-datatable thead th,
+.ui-datatable tbody td,
+.ui-datatable tfoot td{
+	white-space: nowrap !important;
+}
+
+.ui-datatable .ui-widget-header th,
+.ui-datatable th{
+	background-image: none !important;
+	background-color: #ebebeb;
+	font-weight: bold;
+	font-size: 13px;
+	border-radius: 0;
+	border: 1px solid #ddd;
+	box-shadow: none;
+	color: #555555;
+	padding: 7px 7px !important;
+}
+
+.ui-datatable .ui-widget-header th.ui-state-default label,
+.ui-datatable th label{
+	margin: 0 !important;
+}
+
+.ui-datatable tr.ui-state-hover{
+	background-color: #f5f5f5 !important; }
+
+.ui-datatable tr th br{
+	display: none;
+}
+
+.ui-datatable .ui-column-filter,
+.ui-datatable .ui-inputfield {
+	width: 100% !important;
+	letter-spacing: normal;
+	word-spacing: normal;
+	text-transform: none;
+	text-indent: 0px;
+	text-shadow: none;
+	text-align: start;
+	-webkit-writing-mode: horizontal-tb;
+	display: block;
+	color: #555555;
+	background-color: #ffffff;
+	background-image: none;
+	border: 1px solid #d6d6d6;
+	border-radius: 2px;
+	box-shadow: none;
+	height: 30px;
+	padding: 5px 10px;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 1.5;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.ui-datatable .ui-column-filter:focus,
+.ui-datatable .ui-inputfield:focus {
+	outline: 0;
+	box-shadow: none;
+	border-color: #5671a3;
+}
+
+.ui-datatable tbody tr td span.ui-commandlink.ui-state-disabled{
+	display: none;
+}
+
+.ui-datatable tbody td{
+	padding: 3px 8px !important;
+	height: 40px;
+	text-transform: uppercase;
+}
+
+.ui-datatable td.acoes a{
+	margin: 0 5px;
+}
+
+.ui-datatable thead th{
+	text-transform: lowercase;
+}
+
+.ui-datatable thead th:first-letter{
+	text-transform: capitalize;
+}
+
+.ui-datatable thead th label,
+.ui-datatable thead th span{
+	white-space: nowrap;
+}
+
+.ui-datatable tbody td label,
+.ui-datatable tbody td span{
+	color: #555;
+	font-size: 13px !important;
+	margin: 0 !important;
+	font-weight: normal !important;
+	white-space: nowrap;
+	text-transform: uppercase !important;
+}
+
+.ui-datatable tbody td a{
+	white-space: nowrap;
+}
+
+.ui-datatable tr:hover{
+	background-color: #f5f5f5;
+}
+
+.ui-datatable .ui-state-highlight,
+.ui-datatable .ui-state-highlight:hover {
+	background-color: #8599a4 !important;
+	background-image: none !important;
+}
+
+.ui-state-highlight .ui-icon{
+	background-image: url("/wbc-st5/javax.faces.resource/images/ui-icons_333333_256x240.png.faces?ln=primefaces-bootstrap") !important;
+}
+
+.ui-datatable .ui-state-highlight td label,
+.ui-datatable .ui-state-highlight td span{
+	color: #fff;
+}
+
+.ui-datatable td .ui-selectonemenu{
+	vertical-align: middle;
+}
+
+.ui-datagrid-content .ui-widget-content {
+	border: 0 !important;
+}
+
+.ui-datatable .ui-paginator{
+	background: #fafafa !important;
+	border: 1px solid #e4e4e4 !important;
+	padding: 10px 15px 10px 15px !important;
+	border-bottom-right-radius: 2px !important;
+	border-bottom-left-radius: 2px !important;
+}
+
+.ui-datatable .ui-paginator .ui-state-default{
+	background-image: none !important;
+	padding: 5px 10px !important;
+	font-size: 13px !important;
+	box-shadow: none !important;
+	outline: 0 !important;
+	border: 1px solid #e4e4e4;
+	color: #7b7b7b !important;
+	border-radius: 2px !important;
+	background: #fff;
+	font-weight: normal;
+}
+
+.ui-datatable .ui-paginator .ui-state-default.ui-state-hover{
+	background-color: #fff !important;
+	border: 1px solid #5671a3 !important;
+}
+
+.ui-datatable .ui-paginator .ui-state-default.ui-state-disabled{
+	background: transparent;
+}
+
+.ui-datatable .ui-paginator .ui-state-default.ui-state-active{
+	background: #5671A3 !important;
+	border-color: #5671A3 !important;
+	color: #fff !important;
+	text-shadow: none !important;
+}
+
+.ui-datatable .ui-paginator .ui-paginator-current{
+	font-weight: normal !important;
+	float: left !important;
+	margin: 0 !important;
+	color: #888 !important;
+	line-height: 34px !important;
+	font-size: 13px !important;
+	padding: 0 !important;
+}
+
+.ui-datatable .ui-paginator .ui-paginator-rpp-options{
+	float: right !important;
+	margin: 2px 0 0 0 !important;
+	padding: 5px 10px 6px 10px!important;
+	background: #fff;
+}
+
+.ui-datatable .ui-datatable-tablewrapper{
+	overflow: auto !important;
+	width: 100% !important;
+}
+     
+th.white-space-break span,
+span.white-space-tipo-cartao {
+	white-space: pre !important;
+}
+
+td .ui-cell-editor{
+	min-width: 80px;
+}
+
+.panel-footer .ui-toolbar {
+	background: #fff !important;
+	background-image: none !important;
+	border: 0 !important;
+	padding: 0!important;
+}
+
+
+/* CUSTOMIZACAO DOS MODAIS */
+.ui-dialog .ui-dialog-titlebar{
+	background: #f8f8f8 !important;
+	padding: 12px 20px;
+	border-top-right-radius: 2px;
+	border-top-left-radius: 2px;
+}
+
+.ui-dialog .ui-dialog-title {
+	margin: 0 !important;
+	font-size: 17px !important;
+	line-height: 1.42857143;
+	font-family: inherit;
+	font-weight: 500;
+	color: #555555;
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+.ui-dialog .ui-dialog-titlebar-close{
+	margin: 0 !important;
+}
+
+.ui-dialog .ui-dialog-titlebar-close:hover{
+	background: transparent !important;
+}
+
+.ui-dialog .ui-dialog-titlebar-icon .ui-icon-closethick{
+	background-image: none;
+	text-indent: inherit !important;
+	text-align: center;
+}
+
+.ui-dialog .ui-dialog-titlebar-icon .ui-icon-closethick:after{
+	content: "x";
+	color: #555555;
+}
+
+.ui-dialog .ui-dialog.ui-widget-content{
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+.ui-dialog .ui-widget-content a.tipo-arquivo{
+	margin: 0 8px;
+}
+
+.ui-dialog .ui-dialog-buttonpane{
+	text-align: right !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane button{
+	background-image: none !important;
+	box-shadow: none !important;
+	border-radius: 2px !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane button .ui-button-text{
+	text-shadow: none !important;
+	font-size: 13px !important;
+}
+
+.ui-confirm-dialog .ui-confirm-dialog-severity{
+	margin-top: 2px;
+	display: none;
+}
+
+.ui-dialog.ui-widget-content .ui-dialog-content,
+.ui-widget{
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+	font-size: 13px !important;
+}
+
+.ui-dialog.ui-widget-content .ui-dialog-content {
+	padding: 0 !important;
+	overflow: inherit !important;
+}
+
+.ui-dialog.ui-confirm-dialog .ui-dialog-content,
+.ui-dialog.ui-widget-content .ui-dialog-content .content{
+	padding: 15px !important;
+	text-align: left;
+}
+
+.overflow-auto {
+	overflow: auto !important;
+}
+
+
+/* CAMPOS OBRIGATORIOS */
+.ui-outputlabel-rfi {
+	color: #e14430 !important;
+}
+
+
+/* CUSTOMIZACAO DO CAMPO DATA */
+th.calendar input.ui-inputfield.hasDatepicker{
+	width: 75% !important;
+}
+
+th.calendar button.ui-datepicker-trigger{
+	width: 25% !important;
+	height: 30px !important;
+}
+
+th.calendar span[id*="form:"],
+.calendar span[id*="form:"]{
+	display: block;
+}
+
+.calendar input{
+	color: #555555;
+	margin: 0;
+	outline: medium none;
+	padding: 4px;
+	font-weight: normal;
+	border: 1px solid #d6d6d6;
+	border-top-color: #c2c2c2;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	display: block;
+	width: 75%;
+	height: 32px;
+	font-size: 13px;
+	line-height: 1.42857143;
+	background-color: #ffffff;
+	background-image: none;
+	float: left;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	cursor: text;
+	text-shadow: none;
+}
+
+.calendar input.hasDatepicker:-webkit-autofill,
+.calendar input.hasDatepicker:-webkit-autofill:focus,
+.calendar input.hasDatepicker:-webkit-autofill:hover {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    outline: 0 !important;
+}
+
+.calendar input.hasDatepicker:focus {
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-color: #5671a3;
+}
+
+.calendar button.ui-datepicker-trigger{
+	background-image: none !important;
+	background-color: #eeeeee;
+	height: 32px;
+	width: 25%;
+	padding: 6px 12px;
+	margin: 0;
+	border: 1px solid #d6d6d6;
+	border-left: 0;
+	border-radius: 2px;
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+}
+
+.calendar button.ui-datepicker-trigger span.ui-icon-calendar{
+	display: block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+span.ui-icon-calendar:before {
+	content: "\e011";
+	display: block;
+	margin-top: 0;
+	color: gray;
+	font-size: 13px;
+	height: 18px;
+}
+
+.calendar button span.ui-button-text{
+	display: none;
+}
+
+/* CUSTOMIZACAO DO CAMPO DATA DENTRO DAS TABELAS */
+.ui-datepicker th {
+	padding: 0 !important;
+}
+
+.ui-datepicker td {
+	padding: 0 1px !important;
+}
+
+.ui-datepicker td a.ui-state-default {
+	text-align: center;
+	border-radius: 2px !important;
+	padding: 0 !important;
+	box-shadow: none !important;
+	text-shadow: none !important;
+	background-image: none !important;
+	background-color: #F9F9f9 !important;
+}
+
+.ui-datepicker td a.ui-state-default:hover {
+	background: #fff !important;
+}
+
+.ui-datepicker td a.ui-state-highlight{
+	background-color: #354f7c !important;
+}
+
+.ui-datepicker .ui-widget-header{
+	background-color: #fff !important;
+}
+
+.ui-datepicker tbody .ui-state-disabled{
+	background-color: #fff !important;
+}
+
+
+/* INPUT */
+.ui-inputfield {
+	padding: 6px 12px !important;
+	width: 100%;
+}
+
+/* TOOLTIP */
+.ui-tooltip{
+	/* background-color: #445e8c !important; */
+}
+
+/* LABEL */
+label {
+	margin-bottom: 5px !important;
+	display: inline-block !important;
+	font-weight: 600 !important;
+	white-space: nowrap !important;
+}
+
+.label {
+	margin-top: 6px !important;
+}
+
+.label.label-success {
+	margin-top: 0px !important;
+}
+
+.form-inline .control-label {
+	margin-bottom: 5px !important;
+	font-weight: 600 !important;
+}
+
+/* */
+.uppercase{
+	text-transform: uppercase !important;
+}
+
+/* detailRequestDuplicate */
+.registration-fee {
+	display: block;
+	text-align: left;
+	margin: 3px 0;
+}
+
+
+/* CUSTOMIZACAO DO COMPONENTE FILE UPLOAD */
+.ui-fileupload .ui-fileupload-buttonbar {
+	border: 1px solid #ddd;
+}
+
+.ui-fileupload-buttonbar{
+	padding: 3px 1px !important;
+}
+
+.ui-fileupload-buttonbar .ui-button {
+  border-color: #dddddd;
+  border-bottom-color: #cecece;
+  background: #f4f4f4;
+  border-radius: 2px !important;
+  font-weight: 400 !important;
+  padding: 6px 10px 6px 26px !important;
+}
+
+.ui-fileupload-buttonbar .ui-button .ui-button-text.ui-c  {
+  padding: 0;
+}
+
+.ui-fileupload-buttonbar .ui-button:hover {
+  color: #555555;
+  border-color: #d5d5d5;
+  border-bottom-color: #bcbcbc;
+  background: #eaeaea !important;
+}
+
+.ui-fileupload-buttonbar .ui-button:active {
+  background: none;
+  background: #ebebeb !important;
+  border-color: #c6c6c6;
+  border-bottom-color: #c6c6c6 !important;
+  color: #555555;
+  -webkit-box-shadow: 0 0 12px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1) inset;
+}
+
+.ui-fileupload-content{
+	padding: 0 !important;
+	min-height: 37px;
+}
+
+	.ui-fileupload-content .ui-fileupload-cancel{
+		background-image: none;
+	}
+	
+	.ui-fileupload-content .ui-fileupload-cancel .ui-button-text{
+		padding: 0 !important;
+	}
+
+	.ui-fileupload-content .ui-progressbar{
+		margin: 0 !important;
+	}
+
+.ui-fileupload-files {
+	margin: 0 0 0 8px !important;
+}
+
+.ui-fileupload-files td {
+	padding: 0 10px 0 4px !important;
+}
+
+	.ui-fileupload-files td.ui-fileupload-preview{
+		padding: 0 !important;
+	}
+
+.uploaded-file{
+	position: absolute;
+	left: 10px;
+	top: 50px;
+}
+
+.panel-body span[id*='fileUpload']{
+	display: block;
+	position: relative;
+}
+
+
+/* FILE UPLOAD MESSAGE ERROR */
+
+.ui-fileupload .ui-fileupload-content .ui-messages {
+	display: block !important;
+}
+
+.ui-fileupload .ui-fileupload-content .ui-messages .ui-messages-error {
+	border: 0px !important;
+	background-color: #e66454 !important;
+	color: #fff !important;
+	font-size: 11px !important;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+	line-height: 20px !important;
+	padding: 0 6px !important;
+	display: inline-block !important;
+	font-weight: 600 !important;
+	position: absolute !important;
+	left: 10px !important;
+	top: 40px !important;
+	z-index: 9999999;
+}
+
+.ui-fileupload .ui-fileupload-content .ui-messages .ui-messages-error .ui-messages-error-summary {
+	font-size: 11px !important;
+} 
+
+.ui-fileupload .ui-fileupload-content .ui-messages .ui-messages-error .ui-messages-close {
+	display: none !important;	
+}
+
+
+/* PROGRESSBAR */
+.ui-progressbar .ui-progressbar-label{
+	color: #e1e1e1;
+	font-weight: normal !important;
+}
+
+.ui-progressbar.ui-widget-content{
+	margin: 10px 0 !important;
+	border: none !important;
+}
+
+.ui-progressbar .ui-progressbar-value.ui-widget-header{
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent) !important;
+	background-image: -moz-linear-gradient(center top, #54f7c, #445e8c);
+	background-color: #445e8c !important;
+	background-size: 10px 10px;
+	background-repeat: repeat !important;
+}
+
+
+/* LOADER */
+.ui-dialog-loader{
+	border: none !important;
+	box-shadow: none !important;
+	background-color: transparent;
+	opacity: 1.0;}
+
+.ui-widget-overlay {
+    filter:alpha(opacity=50);
+    opacity: 0.5;
+}
+
+.ui-dialog.ui-widget-content.ui-dialog-loader,
+.ui-dialog.ui-dialog-loader{
+	background: none !important;
+	background-image: none !important;
+	background-color: transparent !important;
+}
+
+.ui-dialog.ui-dialog-loader .ui-dialog-content.ui-widget-content{
+	background-image: none !important;
+	background: none !important;
+	padding: 20px !important;
+	color: #fff;
+	text-align: center;
+}
+
+.ui-dialog.ui-dialog-loader .ui-dialog-content.ui-widget-content .loading{
+	display: block;
+	margin-top: 10px;
+	font-weight: bold;
+}
+
+.ui-dialog.ui-dialog-loader .ui-dialog-titlebar{
+	display: none;
+}
+
+
+/* RADIO BUTTON */
+.ui-radiobutton .ui-radiobutton-box.ui-state-active{
+	outline: 0 !important;
+	border: 0 !important;
+}
+
+.radio span[id*="radio"],
+.checkbox span[id*="checkbox"]{
+	margin-left: 5px;
+}
+
+.form-inline div[class*="col"] span{
+	display: block;
+	padding-top: 7px;
+}
+
+.form-inline .checkbox label,
+.form-inline .radio label{
+	padding: 0 !important;
+}
+
+.form-inline .radio .ui-radiobutton{
+	float: left;
+}
+
+.form-inline div.col-sm-12 div[class*="col"] label span[id*="form:"]{
+	float: left;
+	padding-top: 0 !important;
+}
+
+.form-horizontal .checkbox,
+.form-horizontal .radio{
+	display: block !important;
+	padding-left: 0 !important;
+	font-weight: normal !important;
+	line-height: 17px;
+}
+
+.ui-chkbox {
+	float: left;
+}
+
+.ui-radiobutton .ui-icon-bullet {
+	background-position: -81px -145px !important;
+	height: 12px !important;
+}
+
+
+/* Customização P1 */
+
+/* Tela Cadastrar Usuario */
+
+label.ui-state-error {
+	color: black !important;
+	background: #fff !important;
+}
+
+input.ui-inputfield.ui-state-error {
+	color: #333333 !important;
+	border: 1px solid #d38e99 !important;
+}
+
+.ui-selectonemenu {
+	border-bottom-color: 0px !important;
+}
+
+.ui-selectonemenu.ui-state-error,
+.ui-selectmanymenu.ui-state-error,
+textarea.ui-state-error {
+	color: #333333 !important;
+	border: 1px solid #d38e99 !important;
+}
+
+
+/* Tela - Faca seu Pedido > Bloqueio de Cartao */
+.motivoBloqueio {
+	color: #c6c6c6 !important;
+}
+
+
+/* CUSTOMIZACAO BREADCRUMB */
+.ui-breadcrumb{
+	margin: -18px -18px 18px -18px !important;
+	border: 0 !important;
+	border-bottom: 1px solid #eee !important;
+	background: #fafafa !important;
+	padding: 6px 18px !important;
+	border-radius: 0; 
+}
+
+.ui-breadcrumb ul li a{
+	color: #999;
+	font-size: 12px;
+	line-height: 18px;
+	height: 18px;
+}
+
+.ui-breadcrumb li:last-child a{
+	color: #555555;
+}
+
+.ui-breadcrumb li:last-child:before {
+	display: none;
+}
+
+.ui-breadcrumb li:first-child{
+	display: none;
+}
+
+.ui-breadcrumb li:nth-child(2){
+	display: none;
+}
+
+.ui-breadcrumb li.ui-breadcrumb-chevron.ui-icon.ui-icon-triangle-1-e,
+.ui-breadcrumb li.ui-icon{
+	background-image: none !important;
+	width: 0;
+	height: 0;
+}
+
+.ui-breadcrumb li + li:before{
+	color: #ccc;
+	content: "\f054";
+	font-family: FontAwesome;
+	font-size: 7px;
+	display: inline-block;
+	top: 8px;
+	left: 0px;
+	position: relative;
+	padding: 0;
+	font-weight: normal;
+	width: 15px;
+	text-align: center;
+	margin: 0 2px;
+}
+
+
+/*======= PRIMEIRA LETRA DA PRIMEIRA PALAVRA MAIUSCULA E DEMAIS MINUSCULAS ======*/
+
+/* TITULO DAS TELAS*/
+.theme-clean .page-header h1{
+	text-transform: lowercase;
+}
+
+.theme-clean .page-header h1:first-letter {
+	text-transform: capitalize;
+}
+
+
+/* BOTOES */ 
+.ui-button,
+btn{
+	text-transform: lowercase;
+}
+
+.ui-button:first-letter,
+btn:first-letter {
+	text-transform: capitalize;
+}
+
+.btnExcluirItem {
+	margin-left: 35px !important;
+}
+
+
+/* TITULO DOS PAINEIS */
+.panel-heading {
+	text-transform: lowercase;
+}
+
+.panel-heading:first-letter,
+.panel-heading .panel-title:first-letter {
+	text-transform: capitalize !important;
+}
+
+
+/* TITULO DOS MODAIS */
+.ui-dialog-title{
+	text-transform: lowercase;
+}
+
+.ui-dialog-title:first-letter {
+	text-transform: capitalize;
+}
+
+
+/* LABELS */
+label{
+	text-transform: lowercase;
+}
+
+label:first-letter{
+	text-transform: capitalize;
+}
+
+.btn-primary[disabled] {
+	background: #445D8A !important;
+	border-color: #445D8A !important;
+	color: #fff !important;
+}
+
+
+/* Botao Secundario - btn-secondary */
+.btn-secondary {
+	background: #758BB4 !important;
+	border-color: #758BB4 !important;
+	color: #fff !important;
+}
+
+	.btn-secondary:hover {
+		background: #657CA7 !important;
+		border-color: #657CA7 !important;
+		color: #fff !important;	
+	}
+	
+	.btn-secondary:focus {
+		background: #657CA7 !important;
+		border-color: #657CA7 !important;
+		color: #fff !important;	
+	}
+	
+	.btn-secondary:active {
+		background: #657CA7 !important;
+		border-color: #657CA7 !important;
+		color: #fff !important;	
+	}
+	
+.btn-secondary[disabled] {
+	background: #93A3C1 !important;
+	border-color: #93A3C1 !important;
+	color: #fff !important;
+	opacity: 0.55 !important;
+}
+
+
+/* NOTIFICATION HELP */
+.notification-help {
+	z-index: 1500;
+	opacity: .98;
+	height: 250px !important;
+	text-align: justify;
+	padding: 0 !important;
+	border-left: 0;
+	border-right: 0;
+	border-top: 0;
+	border-bottom: 1px solid #d3d3d3;
+}
+
+	.notification-help .title-screen-help-system{
+		display: block;
+		padding: 0 10px;
+		background-color: #8599a4;
+		color: #fff;
+		overflow: hidden;
+	}
+	
+		.notification-help .title-screen-help-system h6{
+			text-transform: uppercase;
+			font-size: smaller;
+		}
+		
+		.notification-help .title-screen-help-system span{
+			display: block;
+			font-size: 11px;
+			padding: 6px 0;
+		}
+	
+	.notification-help .content-help{
+		padding: 0 10px 10px 10px;
+		overflow-x: auto;
+		height: 219px;
+	}
+
+		.notification-help .content-help h4{
+			font-weight: bold;
+		}
+
+		
+/* DIVERSOS */
+.vertical-middle{
+	vertical-align: middle;
+}
+
+.red {
+	color: #FF0000;
+}
+
+.clear-both{
+	clear: both;
+}
+
+.ui-helper-hidden-accessible:hover,
+.ui-helper-hidden-accessible:active{
+	border: 0 !important;
+}
+
+div.col-sm-12 div[class*="col"] label.checkbox span[id*="form:"]{
+	padding: 0;
+	margin-left: 5px;
+	display: initial;
+}
+
+div.col-sm-12 div[class*="col"] label span[id*="form:"]{}
+
+.ui-radiobutton{
+	margin: 0 !important;
+	outline: 0 !important;
+}
+
+.ui-radiobutton .ui-radiobutton .ui-radiobutton-box {
+	float: left;
+}
+
+label.no-text-transform{
+	text-transform: none !important;
+}
+
+button[disabled="disabled"],
+.ui-state-disabled {
+	pointer-events: auto !important;
+	cursor: not-allowed !important;
+}
+
+.ui-chkbox .ui-state-disabled {
+	cursor: not-allowed !important;
+}
+
+.list-style-type-dic li{
+	list-style-type: disc;
+	margin-left: 20px;
+}
+
+
+/* CUSTOMIZACAO DO INPUT TYPE FILE */
+.input-file{
+	clear: both;
+	position: relative;
+}
+
+	.input-file input[type="text"]{
+		padding: 6px 12px !important;
+	}
+
+	.input-file .file-name{
+		position: absolute;
+		top: 1px;
+		left: 12px;
+		background: #eeeeee;
+		padding: 6px 0 0 12px;
+		width: 69%;
+	}
+	
+.btn-file-upload{
+	overflow: hidden;
+	margin: 0;
+	position: absolute;
+	right: 16px;
+	top: 5px;
+	font-size: 11px;
+	line-height: 12px !important;
+	padding: 4px 7px !important;
+}
+
+	.btn-file-upload input[type="file"] {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 0;
+		padding: 0;
+		font-size: 20px;
+		cursor: pointer;
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}

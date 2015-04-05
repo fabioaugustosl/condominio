@@ -68,14 +68,14 @@
 						actionListener="#{cadastrarCondominioApController.salvar}" 
 						onsuccess="PF('dlgSucesso').show();" />
  		
+		<p:dialog header="Cadastro finalizado" widgetVar="dlgSucesso" modal="true">
+		    <p:outputLabel value="Parabéns.  "  /> <br />
+		    <p:outputLabel value="O condomínio foi cadastrado com sucesso! Agora você e os demais moradores poderão ter acesso ao sistema. " />
+		    <br/><br/>
+		    <p:commandButton id="okCadastro" value="Ok" actionListener="#{cadastrarCondominioApController.login}" />
+		</p:dialog>
+		
 	</h:form>
-	
-	<p:dialog header="Cadastro finalizado" widgetVar="dlgSucesso" modal="true">
-	    <p:outputLabel value="Parabéns.  "  /> <br />
-	    <p:outputLabel value="O condomínio foi cadastrado com sucesso! Agora você e os demais moradores poderão ter acesso ao sistema. " />
-	    <br/><br/>
-	    <p:commandButton id="okCadastro" value="Ok" actionListener="#{cadastrarCondominioApController.login}" />
-	</p:dialog>
 	
    </ui:define>
 </ui:composition>

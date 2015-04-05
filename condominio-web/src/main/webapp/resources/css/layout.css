@@ -1,7 +1,7 @@
 /* Coluna da esquerda */
 .site-left-col{
     width:100%;
-    margin-right:-940px;
+    margin-right:-80%;
     float:left;
 }
 .site-left-col-resized{
@@ -10,17 +10,17 @@
     float:none;
 }
 .site-left-col-inner{
-    padding:20px;
-    margin-right:940px;
+    padding:10px;
+    margin-right:80%;
 }
 .site-left-col-inner-resized{
-    padding:20px;
+    padding:10px;
     margin-right:0;
 }
 
 /* Coluna da direita */
 .site-right-col{
-    width:900px;
+    width:75%;
     float:right;
 }
 .site-right-col-resized{
@@ -28,5 +28,22 @@
     float:none;
 }
 .site-right-col-inner{
-    padding:20px;
+    padding:10px;
+}
+
+/* "Menu" */
+.menu{
+    padding:20px 0;
+    text-align:center;
+    width:100%;
+    display:block;
+    clear:both;
+    font-size:14px;
+    color:#fff;
+    background:#000;
+}
+.menu a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/templateSimples.xhtml">
+   
+   <style type="text/css">
+   
+  /*  	html { 
+  background: url(#{request.contextPath}/img/wallpaper.jpg) no-repeat center center fixed !important; 
+  -webkit-background-size: cover !important;
+  -moz-background-size: cover !important;
+  -o-background-size: cover !important;
+  background-size: cover !important;
+   } */
+   
+   </style>
+   
+   <ui:define name="content">
+   		<h1 class="form-header">    		
+			Bem vindo ao seu Concomínio.
+		</h1>
+   		<div id="signin-form_id" class="panel">
+		   	<h:form id="formLogin">
+			   <!-- p:outputPanel style="width:300px; height:400px; display:block;background:#F6F6F6; margin-top:10%; margin-left:40%; padding:10px;" -->
+			   <h:panelGroup id="panelLogin">
+					<p:focus context="panelLogin" />
+					
+					<div class="msg">
+						<p:messages id="messagesLogin" />
+					</div>
+					
+			   		<p:outputPanel >
+			   			
+			   			<div class="form-group signin-user w-icon">
+							<p:inputText id="login" value="#{loginController.login}" 
+									styleClass="form-control input-lg" required="true"  
+										requiredMessage="Você não preencheu o login (email)." 
+										placeholder="Usuário" 
+										label="Email: " />
+							<span class="fa fa-user signin-form-icon"></span>
+						</div>
+						
+			   			<div class="form-group signin-user w-icon">
+							<p:password id="Senha" value="#{loginController.senha}" 
+									styleClass="form-control input-lg" label="Senha" maxlength="10" 
+									placeholder="Senha" />
+							<span class="fa fa-lock signin-form-icon"></span>
+						</div>
+		      			
+		      		</p:outputPanel>
+		      	<!-- /p:outputPanel -->
+		      	
+		      	<div class="form-actions">
+					<p:commandButton id="btnEntrarLogin" value="Entrar" actionListener="#{loginController.logar}" update="panelLogin" 
+							styleClass="btn btn-primary btn-block btn-lg"/>
+				</div>
+			
+				<p:commandLink value="#{msgs.COMUM_MSG_esqueciMinhaSenha}" styleClass="forgot" 
+						actionListener="#{loginController.esqueciMinhaSenha}" update="panelLogin"/>
+				
+		      	</h:panelGroup>
+		      
+		      	<div class="text-center clear-both padding-sm-vr">
+					<p:commandLink value="Quero me cadastrar" immediate="true" action="#{loginController.novoUsuario}" />
+					<br/>
+				</div>
+		   </h:form>
+		</div>
+   </ui:define>
+   
+</ui:composition>

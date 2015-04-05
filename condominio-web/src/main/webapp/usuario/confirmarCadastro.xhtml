@@ -11,6 +11,8 @@
    </style>
    
    <ui:define name="content">
+   
+   	<h:form id="form" >   
 	   
 	   	<p:outputPanel id="mensagemFalha" rendered="#{not confirmarUsuarioController.usuarioConfirmado}">
 	   		
@@ -29,5 +31,6 @@
 			</p:commandButton>
 				   	
 	   </p:outputPanel>
+	 </h:form>
    </ui:define>
 </ui:composition>

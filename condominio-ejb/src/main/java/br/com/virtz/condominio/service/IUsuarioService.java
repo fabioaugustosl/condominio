@@ -24,5 +24,6 @@ public interface IUsuarioService {
 	public void alterarParaMorador(Long idUsuario);
 	public void alterarParaAdministrativo(Long idUsuario);
 	public String criptografarSenhaUsuario(String senha)throws AppException;
+	public Usuario recuperarUsuario(String email);
 	
 }

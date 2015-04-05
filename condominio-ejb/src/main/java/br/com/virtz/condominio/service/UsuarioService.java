@@ -126,6 +126,11 @@ public class UsuarioService implements IUsuarioService {
 	}
 	
 	@Override
+	public Usuario recuperarUsuario(String email) {
+		return usuarioDAO.recuperarUsuarioPorEmail(email);
+	}
+	
+	@Override
 	public void alterarParaSindico(Long idUsuario){
 		usuarioDAO.alterarStatus(idUsuario, EnumTipoUsuario.SINDICO);
 	}

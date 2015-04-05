@@ -4,33 +4,58 @@
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:p="http://primefaces.org/ui"
-   template="/WEB-INF/templates/templateSimples.xhtml">
-   
-   <style type="text/css">
-   
-   	html { 
-  background: url(#{request.contextPath}/img/wallpaper.jpg) no-repeat center center fixed !important; 
-  -webkit-background-size: cover !important;
-  -moz-background-size: cover !important;
-  -o-background-size: cover !important;
-  background-size: cover !important;
-   }
-   
-   </style>
+   template="/WEB-INF/templates/templateLogin.xhtml">
    
    <ui:define name="content">
-	   <p:outputPanel style="width:300px; height:400px; display:block;background:#F6F6F6; margin-top:10%; margin-left:40%; padding:10px;">
-	   		<p:outputPanel >
-	   			<p:outputLabel id="labelintroducao" value="Bem vindo ao seu Concomínio."  />
-	   			<br/>
-	   			<p:inputText id="login" value="${loginController.login}" label="Email: "  />
-	   			<p:inputText id="Senha" value="senha" label="Senha: " />
-	   			 <br/>
-	   			 <br/>
-      			<p:commandButton value="Entrar" action="${loginController.logar}" style="width:100%; height:40px; backgroung:#C5C4F4"></p:commandButton>
-      			<br />
-      			<p:commandButton value="Quero me cadastrar" action="${loginController.novoUsuario}" style="width:100%; height:40px; backgroung:#C5C4F4"></p:commandButton>
-      		</p:outputPanel>
-      	</p:outputPanel>
-   </ui:define>
+    
+    	<h1 class="form-header">    		
+			Meu Condomínio 
+		</h1>
+    	
+    	<div id="signin-form_id" class="panel">
+			<h:form id="formLogin">
+			<h:panelGroup id="panelLogin">
+				<p:focus context="panelLogin" />
+				
+				<div class="msg">
+					<p:messages id="messagesLogin" />
+				</div>
+				
+				<div class="form-group signin-user w-icon">
+					<p:inputText id="username" value="#{loginController.login}" styleClass="form-control input-lg" 
+						required="true" label="username" 
+						requiredMessage="Você não preencheu o email (login)." placeholder="Email" />
+					<span class="fa fa-user signin-form-icon"></span>
+				</div>
+				
+				<div class="form-group signin-user w-icon">
+					<p:password id="password" value="#{loginController.senha}" 
+							styleClass="form-control input-lg" label="password" 
+							maxlength="10" placeholder="Senha"
+							required="true"
+							requiredMessage="Você não preencheu sua senha."  />
+					<span class="fa fa-lock signin-form-icon"></span>
+				</div>
+				
+				<div class="form-actions">
+					<p:commandButton id="btnConectarLogin" value="Entrar" actionListener="#{loginController.logar}" update="panelLogin" styleClass="btn btn-primary btn-block btn-lg"/>
+				</div>
+			
+				<p:commandLink value="Esqueci minha senha" styleClass="forgot" actionListener="#{loginController.esqueciMinhaSenha}" update="panelLogin"/>
+			</h:panelGroup>
+			
+			<div class="text-center clear-both padding-sm-vr">
+				<p:commandLink value="Quero me cadastrar" immediate="true" action="#{loginController.novoUsuario}" />
+				<br /><br />
+			</div>
+		</h:form>
+			
+			<div class="clear-both">
+           		<h:outputText value="Versão: 1.00" styleClass="version pull-left" />
+           		<a href="http://www.virtz.com.br" target="_blank" class="logo-company pull-right"></a>
+           	</div>
+		</div>   
+		
+	</ui:define>
+   
 </ui:composition>

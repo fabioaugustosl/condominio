@@ -7,10 +7,15 @@
 <h:head>
    <title>Condomínio</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <h:outputStylesheet name="css/screen.css" />
+   <!--h:outputStylesheet name="css/screen.css" /-->
    <h:outputStylesheet name="css/layout.css" />
-   <h:outputStylesheet name="css/menu.css" />
+   <!--h:outputStylesheet name="css/menu.css" /-->
    <h:outputStylesheet name="css/botoes.css" />
+   
+   <h:outputStylesheet library="css" name="bootstrap.css" /> <!-- NAO DEVE SER ALTERADO -->
+	<h:outputStylesheet library="css" name="condominio.css" /> <!-- NAO DEVE SER ALTERADO -->
+	<!-- h:outputStylesheet library="css" name="theme-condominio.css" /--> <!-- NAO DEVE SER ALTERADO -->
+	<!-- h:outputStylesheet library="css" name="customizacoes.css" /--> <!-- AS ALTERACOES DEVEM SER REALIZADAS NESTE ARQUIVO -->
 </h:head>
 <h:body>
   <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
@@ -20,12 +25,7 @@
 		</p:dialog>
 		
 		<div class="menu">
-			<div style="float:left;">
-				<p:commandLink value="Principal" actionListener="#{configuracaoController.irParaPrincipal}"></p:commandLink>
-				<p:outputLabel style="margin:50%;" value="Topo principal"></p:outputLabel>
-			</div>
-		   	
-		   	<h:form id="formMenuConfiguracoes">
+			<h:form id="formMenuConfiguracoes">
 				<div style="float:right; margin:5px; padding:0px;">
 					<p:graphicImage id="icoConfiguracao" url="/img/icones/ico_configuracao.png" height="30" style="cursor:pointer;"></p:graphicImage>
 					
@@ -60,7 +60,7 @@
 			    </div>
 			    <div class="site-right-col">
 			        <div class="site-right-col-inner">
-						<p:messages id="mensagens" autoUpdate="true" ></p:messages>
+						<p:messages id="mensagens" autoUpdate="#{empty autoUpdateMSG ? true : autoUpdateMSG}" ></p:messages>
 						<ui:insert name="content">Aqui vai ser o conteúdo.</ui:insert>
 			        </div>
 			    </div>

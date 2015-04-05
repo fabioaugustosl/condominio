@@ -7,14 +7,18 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 
 import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
-import br.com.virtz.condominio.email.EnviarEmailPadrao;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Condominio;
@@ -24,6 +28,7 @@ import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
+import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
@@ -43,9 +48,13 @@ public class LoginController {
 	private SessaoUsuario sessao;
 	
 	@Inject
+	private MessageHelper messageHelper;
+	
+	@Inject
 	private ParametroSistemaLookup parametroLookup;
 	
 	private String login;
+	private String senha;
 	
 	@Inject
 	private LeitorTemplate leitor;
@@ -60,20 +69,39 @@ public class LoginController {
 	public void logar() throws Exception{
 		
 		//metodoAuxiliarCriacaoUsuarioDesenv();
-				
-		Usuario u = usuarioService.recuperarUsuarioCompleto(1l);
-		sessao.setUsuarioLogado(u);
-		
-		// iniciar lookups
-		parametroLookup.iniciarLookup(u.getCondominio());
-		
-		//testeEnvioEmail();
-		
-		navigation.redirectToPage("/portal.faces");
+		UsernamePasswordToken tokenShiro = new UsernamePasswordToken(login, usuarioService.criptografarSenhaUsuario(senha));
+		Subject usuarioAtual = SecurityUtils.getSubject();
+		try{
+			usuarioAtual.login(tokenShiro);
+			
+			Usuario u = usuarioService.recuperarUsuario(login);
+			sessao.setUsuarioLogado(u);
+			
+			// iniciar lookups
+			parametroLookup.iniciarLookup(u.getCondominio());
+			
+			//testeEnvioEmail();
+			
+			navigation.redirectToPage("/portal.faces");
+		} catch (AuthenticationException ae) {
+			messageHelper.addError("Usuário ou senha inválido(s).");
+		}
 	}
+	
 	
 	public void novoUsuario(){
 		navigation.redirectToPage("/usuario/cadastrarUsuario.faces");
+	}
+	
+	
+	public void esqueciMinhaSenha() throws Exception{
+		
+	}
+	
+	
+	public void sair(){
+		Subject currentUser = SecurityUtils.getSubject();
+		currentUser.logout();
 	}
 
 
@@ -120,16 +148,26 @@ public class LoginController {
 	}
 
 
+	
+	
+	
+	
 	public String getLogin() {
 		return login;
 	}
 
-
 	public void setLogin(String login) {
 		this.login = login;
 	}
-	
-	
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+		
 	
 		
 }
