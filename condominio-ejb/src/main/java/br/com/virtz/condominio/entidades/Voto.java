@@ -20,7 +20,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "Voto.totalVotoPorVotacao", query = "Select count(*) FROM Voto v WHERE v.votacao.id = :idVotacao "),
-		@NamedQuery(name = "Voto.recuperarPorUsuario", query = "Select v FROM Voto v WHERE v.usuario.id = :idUsuario AND v.votacao.id = :idVotacao ") })
+		@NamedQuery(name = "Voto.recuperarPorUsuario", query = "Select v FROM Voto v WHERE v.usuario.id = :idUsuario AND v.votacao.id = :idVotacao "),
+		@NamedQuery(name = "Voto.recuperarPorApto", 
+					query = "Select v FROM Voto v "
+							+ " JOIN v.usuario u "
+							+ " JOIN u.apartamento ap "
+							+ "	WHERE v.votacao.id = :idVotacao AND ap.id = :idApto")})
 public class Voto extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;

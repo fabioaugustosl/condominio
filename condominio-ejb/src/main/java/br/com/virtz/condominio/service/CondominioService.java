@@ -105,5 +105,10 @@ public class CondominioService implements ICondominioService {
 		return blocos;
 	}
 
+	@Override
+	public Bloco recuperarBloco(Long idBloco) {
+		return blocoDAO.recuperarBlocoCompleto(idBloco);
+	}
+
 
 }

@@ -3,6 +3,7 @@ package br.com.virtz.condominio.dao;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import br.com.virtz.condominio.entidades.Usuario;
@@ -25,11 +26,24 @@ public class VotoDAO extends DAO<Voto> implements IVotoDAO {
 		Query qry = getEntityManager().createNamedQuery("Voto.recuperarPorUsuario");
 		qry.setParameter("idVotacao", votacao.getId());
 		qry.setParameter("idUsuario", usuario.getId());
-		List<Voto> votos = qry.getResultList();
-		return (votos == null || votos.isEmpty()) ? null :votos.get(0);
+		try {
+			return (Voto) qry.getSingleResult();
+		}catch (NoResultException ex){
+			return null;
+		}
 	}
 	
+	@Override
+	public Voto recuperarPorApto(Long idVotacao, Long idApto) {
+		Query qry = getEntityManager().createNamedQuery("Voto.recuperarPorApto");
+		qry.setParameter("idVotacao", idVotacao);
+		qry.setParameter("idApto", idApto);
+		try {
+			return (Voto) qry.getSingleResult();
+		}catch (NoResultException ex){
+			return null;
+		}
+	}
 	
-
 	
 }

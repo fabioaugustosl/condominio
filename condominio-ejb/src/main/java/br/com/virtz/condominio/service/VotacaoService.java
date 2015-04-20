@@ -189,6 +189,26 @@ public class VotacaoService implements IVotacaoService {
 	public OpcaoVotacao recuperarOpcao(Long idOpcao) {
 		return opcaoDAO.recuperarPorId(idOpcao);
 	}
+
+
+	@Override
+	public void validarSeUsuarioPodeVotar(Votacao votacao, Usuario usuario) throws AppException {
+		if(usuario == null || votacao == null){
+			throw new AppException("Não foi possível verificar se o usuário pode votar ou não.");
+		}
+		
+		if(usuario.getApartamento() == null){
+			throw new AppException("Não é permitido morador sem apartamento cadastro votar. Favor acesse seu cadastro e informe qual apartamento você mora.");
+		}
+		
+		
+		Voto v = votoDAO.recuperarPorApto(votacao.getId(), usuario.getApartamento().getId());
+		
+		if(v != null){
+			throw new AppException("Outro morador do mesmo apartamento já votou. Só é permitido 1 voto por apartamento.");
+		}
+		
+	}
 	
 
 }

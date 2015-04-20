@@ -22,7 +22,7 @@
 	   		
    		<p:outputPanel id="cadastroInicialFoto" rendered="#{not cadastrarUsuarioFotoController.cadastroFinalizado}">
 	   				
-	   				 <p:fileUpload mode="advanced" immediate="true"
+	   				 <p:fileUpload mode="advanced" immediate="true" label="Selecionar arquivo"
 				        fileUploadListener="#{cadastrarUsuarioFotoController.uploadArquivo}"
 				        allowTypes="/(\.|\/)(JPg|jpg|jpeg|JPEG|png|PNG)$/"  
 				        multiple="false" sizeLimit="1000000" 

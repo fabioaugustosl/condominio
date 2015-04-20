@@ -1,12 +1,19 @@
-.botaoStatusAtivo { 
-	background: #FFFFFF url(../img/icones/icone_bola_ativo.png) no-repeat;
+.btnAtivo {
+    background-image: url("#{resource['img/icones:icone_bola_ativo.png']}") !important;
+    width: 23px;
+    height: 23px;
+    background-position: 0px 0px;
 }
 
-.botaoStatusInativo { 
-	background: #FFFFFF url(../img/icones/icone_bola_inativo.png) no-repeat;
+.btnInativo {
+    background-image: url("#{resource['img/icones:icone_bola_inativo.png']}") !important;
+    width: 23px;
+    height: 23px;
+    background-position: 0px 0px;
 }
 
-.teste { 
-	background: #FFFFFF url(../img/icones/icone_bola_inativo.png) no-repeat;
+.iconOnlyButton{
+    background: transparent !important;
+    border: none !important;
+    margin: 0;
 }
-

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h1><p:outputLabel value="Configurações" /></h1>
+ 	<br />
+ 	
+ 	<h:form id="form" >
+	    
+   	 	<p:outputLabel value="Qual a quantidade máxima de dias futuros que uma área comum pode ser agendada?" /> <br />
+	 	<p:inputMask  id="qtdDiaAgendaAreaComum" value="#{parametroController.parametroMaximoDias.valor}" 
+	 			mask="9?999" maxlength="4" placeHolder=" "/>
+	 	
+	 	<!-- p:outputLabel value="Deve enviar email avisando sobre reserva de área comum?" /> <br / -->
+	 	
+	 	<p:commandButton id="salvarConfiguracao" value="Salvar" 
+	   		actionListener="#{parametroController.salvar}" >
+	   	</p:commandButton>
+	
+    
+	</h:form>
+   </ui:define>
+</ui:composition>

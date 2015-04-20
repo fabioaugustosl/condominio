@@ -29,6 +29,6 @@ public interface IVotacaoService {
 	public Integer totalVotos(Votacao votacao);
 	public Voto recuperarVotoPorUsuario(Votacao votacao, Usuario usuario) throws ParametroObrigatorioNuloException;
 	public OpcaoVotacao recuperarOpcao(Long idOpcao);
-	
+	public void validarSeUsuarioPodeVotar(Votacao votacao, Usuario usuario) throws AppException;
 }
 

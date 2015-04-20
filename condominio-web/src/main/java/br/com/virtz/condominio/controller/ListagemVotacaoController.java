@@ -88,28 +88,21 @@ public class ListagemVotacaoController {
 	
 	public boolean estaAtiva(Votacao votacao){
 		if(votacao != null){
-			if(votacao.isAtiva() && !this.estaEncerrada(votacao)){
-				return Boolean.TRUE;
-			}
+			return "ATIVA".equals(votacao.qualStatus());
 		}
 		return Boolean.FALSE;
 	}
 	
 	public boolean estaInativa(Votacao votacao){
 		if(votacao != null){
-			if(votacao.isAtiva() && !this.estaEncerrada(votacao)){
-				return Boolean.FALSE;
-			}
+			return "INATIVA".equals(votacao.qualStatus());
 		}
 		return Boolean.TRUE;
 	}
 	
 	public boolean estaEncerrada(Votacao votacao){
 		if(votacao != null){
-			Date hoje = new Date();
-			if(hoje.after(votacao.getDataLimite())){
-				return Boolean.TRUE;
-			}
+			return "ENCERRADA".equals(votacao.qualStatus());
 		}
 		return Boolean.FALSE;
 	}

@@ -98,7 +98,7 @@
 			 	
 			 	<p:outputPanel id="containerAnexarAta" rendered="#{cadastrarAssembleiaController.assembleia.arquivoAta.id == null}">
 				 	<p:outputLabel value="Anexar ata:" />
-			        <p:fileUpload 
+			        <p:fileUpload label="Selecionar arquivo"
 					        mode="advanced" update="@this, tabAta"
 					        fileUploadListener="#{cadastrarAssembleiaController.uploadArquivo}"
 					        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX)$/" 

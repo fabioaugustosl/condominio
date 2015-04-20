@@ -1,0 +1,29 @@
+.textAreaPadrao{
+	width: 100%;
+	height:80px;
+	border:1px solid #3366FF;
+	border-left: 3px solid #3366FF;
+	box-shadow: none !important;
+}
+
+.inputPadrao {
+	width:100%;
+	border:1px solid #3366FF;
+	border-left: 3px solid #3366FF;
+	box-shadow: none !important;
+}
+
+
+.selectPadrao {
+	width:100%;
+	border:1px solid #3366FF;
+	border-left: 3px solid #3366FF;
+	box-shadow: none !important;
+}
+
+.selectPadrao label.ui-inputfield {
+	box-shadow: none !important;
+}
+.selectPadrao div.ui-selectonemenu .ui-selectonemenu-trigger {
+	width: 20px !important;
+}

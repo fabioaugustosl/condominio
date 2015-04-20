@@ -55,12 +55,19 @@ public class ReservaController {
 	private String mensagemConfirmacaoReserva = null ;
 	private ParametroSistema maximoDias = null;
 	
+	private boolean podeRemoverReserva;
+	private String mensagemExclusaoReserva = null;
+	
+	
 	@PostConstruct
 	public void init(){
 		reservas = new DefaultScheduleModel();
 		usuario = sessao.getUsuarioLogado();
 		areas = usuario.getCondominio().getAreasComuns();
 		maximoDias = parametroLookup.buscar(EnumParametroSistema.QUANTIDADE_DIAS_MAXIMO_PARA_AGENDAR_AREA_COMUM);
+		areaSelecionada = null;
+		podeRemoverReserva = false;
+		mensagemExclusaoReserva = null;
 	}
 
 
@@ -74,10 +81,20 @@ public class ReservaController {
 		}
 	}
 
-     
+	
+	public void onEventSelect(SelectEvent selectEvent) {
+        evento = (ScheduleEvent) selectEvent.getObject();
+        podeRemoverReserva = verificarSePodeRemoverReserva();
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        mensagemExclusaoReserva = "Tem certeza que você deseja remover a reserva do(a)"+getAreaSelecionada().getNome()+" para o dia "+sdf.format(evento.getStartDate())+"?";
+    }
+    
+	
     public void onDateSelect(SelectEvent selectEvent) throws AppException {
     	if(getAreaSelecionada() == null){
-    		throw new AppException("Favor selecionar uma área para efetuar a reserva.");
+    		return;
+    		//throw new AppException("Favor selecionar uma área para efetuar a reserva.");
     	}
     	
     	Date dataSelecionada = (Date) selectEvent.getObject();
@@ -94,15 +111,15 @@ public class ReservaController {
     	if(usuario != null){
     		nomeUsuario = usuario.getNome();
     	}
-        evento = new DefaultScheduleEvent(nomeUsuario, dataSelecionada, dataSelecionada);
+        evento = new DefaultScheduleEvent(nomeUsuario+" ["+usuario.getEmail()+"]", dataSelecionada, dataSelecionada);
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String txtArea = " para o(a) "+getAreaSelecionada().getNome();
 		mensagemConfirmacaoReserva = "Você confirma a reserva"+txtArea+" para o dia "+sdf.format(evento.getStartDate())+"?";
     }
      
-   
-	public void salvarReserva(ActionEvent actionEvent) throws AppException {
+
+	public void salvarReserva() throws AppException {
         if(evento.getId() == null) {
         	reservas.addEvent(evento);
         } else {
@@ -136,10 +153,20 @@ public class ReservaController {
         
         try {
 			reservaService.salvar(reserva);
+			areaSelecionada = null;
 		} catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar a reserva.");
 		}
 	}
+	
+	public void removerReserva() throws AppException {
+        if(evento != null) {
+        	reservaService.remover(getAreaSelecionada(), evento.getDescription(), evento.getStartDate());
+        	message.addInfo("A reserva foi removida com sucesso!");
+        }
+        
+        
+    }
 	
 	
 	/**
@@ -157,6 +184,27 @@ public class ReservaController {
 	}
 	
 	
+	public boolean verificarSePodeRemoverReserva() {
+		if(usuario.isAdministrativo() || usuario.isSindico()){
+			return Boolean.TRUE;
+		}
+		
+		if(getAreaSelecionada() != null){
+			String email = recuperarEmailDaReserva();
+			if(usuario.getEmail().equals(email)){
+				return Boolean.TRUE;
+			}
+		}
+		
+		return Boolean.FALSE;
+	}
+
+
+	private String recuperarEmailDaReserva() {
+		String  emailReserva = evento.getDescription().substring(evento.getDescription().indexOf("["));
+		emailReserva = emailReserva.substring(0, emailReserva.indexOf("]"));
+		return emailReserva;
+	}
 	
 	/*  GETTERS e SETTERs	 */
 	public String getMensagemConfirmacaoReserva(){
@@ -190,5 +238,21 @@ public class ReservaController {
 		return 0;
 	}
 
+	public boolean isPodeRemoverReserva() {
+		return podeRemoverReserva;
+	}
+
+	public void setPodeRemoverReserva(boolean podeRemoverReserva) {
+		this.podeRemoverReserva = podeRemoverReserva;
+	}
+
+	public String getMensagemExclusaoReserva() {
+		return mensagemExclusaoReserva;
+	}
+
+	public void setMensagemExclusaoReserva(String mensagemExclusaoReserva) {
+		this.mensagemExclusaoReserva = mensagemExclusaoReserva;
+	}
+	
 	
 }

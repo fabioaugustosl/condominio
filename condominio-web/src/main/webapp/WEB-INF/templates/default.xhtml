@@ -7,15 +7,16 @@
 <h:head>
    <title>Condomínio</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <!--h:outputStylesheet name="css/screen.css" /-->
-   <h:outputStylesheet name="css/layout.css" />
-   <!--h:outputStylesheet name="css/menu.css" /-->
-   <h:outputStylesheet name="css/botoes.css" />
    
-   <h:outputStylesheet library="css" name="bootstrap.css" /> <!-- NAO DEVE SER ALTERADO -->
+   
+    <h:outputStylesheet library="css" name="bootstrap.css" /> <!-- NAO DEVE SER ALTERADO -->
 	<h:outputStylesheet library="css" name="condominio.css" /> <!-- NAO DEVE SER ALTERADO -->
-	<!-- h:outputStylesheet library="css" name="theme-condominio.css" /--> <!-- NAO DEVE SER ALTERADO -->
-	<!-- h:outputStylesheet library="css" name="customizacoes.css" /--> <!-- AS ALTERACOES DEVEM SER REALIZADAS NESTE ARQUIVO -->
+	<h:outputStylesheet library="css" name="layout.css" />
+	<h:outputStylesheet library="css" name="botoes.css" />
+	<h:outputStylesheet library="css" name="componentes_forms.css" />
+	
+	<h:outputScript name="js/util.js" target="body"/>
+	 
 </h:head>
 <h:body>
   <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
@@ -26,10 +27,20 @@
 		
 		<div class="menu">
 			<h:form id="formMenuConfiguracoes">
-				<div style="float:right; margin:5px; padding:0px;">
+				<div style="float:right; margin:10px; padding:0px;">
 					<p:graphicImage id="icoConfiguracao" url="/img/icones/ico_configuracao.png" height="30" style="cursor:pointer;"></p:graphicImage>
 					
-					 <ui:include src="/painel/alterarSenha.xhtml" />		    	
+					<p:overlayPanel widgetVar="panelConfiguracao" id="panelConfiguracao" 
+						for="icoConfiguracao" hideEffect="fade" dynamic="false" styleClass="menuConfiguracoesDiv">
+			        	<p:menu styleClass="menuConfiguracoes">
+					        <p:submenu label="Usuário">
+					            <p:menuitem value="Alterar Senha" onclick="PF('dialogAlterarSenha').show(); PF('panelConfiguracao').hide();" />
+					            <p:menuitem value="Meus dados" outcome="/usuario/atualizarUsuario.faces" />
+					        </p:submenu>
+					    </p:menu>
+			    	</p:overlayPanel>
+			    	
+					<ui:include src="/painel/alterarSenha.xhtml" />		    	
 				</div> 
 			</h:form>
 		</div>
@@ -47,13 +58,11 @@
 							<p:menuitem value="Usuários" outcome="/usuario/listagemUsuario.faces" />
 						</p:submenu>
 						<p:submenu label="Geral">
-							<p:menuitem value="Gerenciar Votações" outcome="/votacao/cadastrarVotacao.faces" />
+							<p:menuitem value="Gerenciar Votações" rendered="#{principalController.ehSindico()}" 
+									outcome="/votacao/cadastrarVotacao.faces" />
 						</p:submenu>
-						<p:submenu label="Informações">
-							<p:menuitem value="Meus Dados" url="www.google.com" />
-						</p:submenu>
-						<p:submenu label="Configurações">
-							<p:menuitem value="Gerais" url="www.google.com" />
+						<p:submenu label="Configurações" rendered="#{principalController.ehSindico()}">
+							<p:menuitem value="Gerais" outcome="/configuracao/configuracao.faces" />
 						</p:submenu>
 					</p:panelMenu>
 			        </div>

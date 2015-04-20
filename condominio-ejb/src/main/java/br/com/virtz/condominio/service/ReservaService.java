@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -33,6 +34,11 @@ public class ReservaService implements IReservaService {
 	@Override
 	public List<Reserva> recuperar(AreaComum area) {
 		return reservaDAO.recuperar(area);
+	}
+	
+	@Override
+	public void remover(AreaComum areaReservada, String nomeUsuarioReserva, Date dataInicioReserva){
+		
 	}
 	
 }

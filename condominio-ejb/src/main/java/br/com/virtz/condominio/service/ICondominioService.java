@@ -26,6 +26,7 @@ public interface ICondominioService {
 	public List<Bloco> recuperarTodosBlocos();
 	public List<Bloco> recuperarTodosBlocosComApartamentos(Long idCondominio);
 	public List<Bloco> sugerirBlocos(int quantidadeBlocos, Condominio condominio);
+	public Bloco recuperarBloco(Long idBloco);
 	
 	// areas comuns
 	public AreaComum salvarAreaComum(AreaComum area) throws Exception;

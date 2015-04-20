@@ -23,7 +23,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 	@NamedQuery(name = "Bloco.recuperarPorCondominioComApts", 
 			query = "Select distinct b FROM Bloco b "
 					+ " LEFT JOIN FETCH b.apartamentos apts "
-					+ " WHERE b.condominio.id = :idCondominio ") })
+					+ " WHERE b.condominio.id = :idCondominio "),
+	@NamedQuery(name = "Bloco.recuperarBlocoCompleto", 
+			query = "Select distinct b FROM Bloco b "
+					+ " LEFT JOIN FETCH b.apartamentos apts "
+					+ " WHERE b.id = :idBloco ")
+})
 public class Bloco extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;

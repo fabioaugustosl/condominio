@@ -26,8 +26,11 @@
 				
 				<p:outputLabel value="Qual seu Email? (o seu email será o seu login de acesso)" /><br />
 				<p:inputText id="emailUsuario" alt="Insira seu email."
-					value="#{cadastrarUsuarioController.usuario.email}" maxlength="100" 
-					required="true" requiredMessage="Favor preencher o email" />
+						validatorMessage="O email digitado é inválido."
+						value="#{cadastrarUsuarioController.usuario.email}" maxlength="100" 
+						required="true" requiredMessage="Favor preencher o email" >
+					<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+				</p:inputText>
 			    
 				<br />
 				<p:outputLabel value="Digite uma senha:" /><br />

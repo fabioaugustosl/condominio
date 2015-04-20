@@ -180,9 +180,9 @@ public class Votacao extends Entidade implements Serializable {
 	
 	public String qualStatus(){
 		if(this.ativa && !estaEncerrada()) {
-			return "Ativa";
+			return "ATIVA";
 		} else if(!this.ativa && !estaEncerrada()) {
-			return "Inativa";
+			return "INATIVA";
 		} else {
 			return "ENCERRADA";
 		}

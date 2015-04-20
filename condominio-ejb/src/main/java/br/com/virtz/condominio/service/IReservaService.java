@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -13,5 +14,6 @@ public interface IReservaService {
 	public void remover(Long id);
 	public List<Reserva> recuperarTodos();
 	public List<Reserva> recuperar(AreaComum area);
+	public void remover(AreaComum areaReservada, String nomeUsuarioReserva, Date dataInicioReserva);
 	
 }

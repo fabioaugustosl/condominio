@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <style type="text/css">
+ 
+   </style>
+   
+   <ui:define name="content">
+	
+	<script>
+		$(document).ready(function() {
+		    $(".telefoneFix").blur();
+		});
+	</script>
+	
+	
+	<h:form id="form" enctype="multipart/form-data" >  
+	   	<h1>Atualizar meus dados</h1>
+	   	
+	   	<h5><p:outputLabel value="Seu email(login) é #{atualizarUsuarioController.usuario.email}."/></h5>
+   		<table id="divConteudo" class="tabelaPadrao">
+    		<tr>
+    			<td style="width:50%; align:top;">        
+		            <p:outputPanel id="atualizacaoUsuario" >
+		  				<p:outputLabel value="Nome: " /><br />
+						<p:inputText id="nomeUsuario" alt="Insira seu nome. Exemplo: João Lopes" 
+							value="#{atualizarUsuarioController.usuario.nome}" maxlength="100" styleClass="inputPadrao"
+							required="true" requiredMessage="Favor preencher o nome." />
+						<br />
+									    
+					    <p:outputLabel value="Telefone: " /><br />
+						<p:inputText  id="telefoneUsuario" value="#{atualizarUsuarioController.usuario.telefone}"
+								    styleClass="inputPadrao telefoneFix"
+								    maxlength="20" alt="Insira seu telefone residencial." 
+								    style="width:30%"
+								    validatorMessage="Telefone digitado inválido!"
+								    onfocus="phoneMaskHandler(event);" onblur="phoneMaskHandler(event);">
+						    <f:validateRegex pattern="(^(\(?(\d{2})\)?\s?-?\s?(\d{4}|\d{5})\s?-?\s?(\d{4}))$)?" />
+						</p:inputText>
+						<br />
+							
+						<p:outputLabel value="Celular: " /><br />
+						<p:inputText  id="celularUsuario" value="#{atualizarUsuarioController.usuario.celular}"
+								    styleClass="inputPadrao telefoneFix"
+								     maxlength="20" alt="Insira seu celular." 
+								    style="width:30%"
+								    validatorMessage="Celular digitado inválido!"
+								    onfocus="phoneMaskHandler(event);" onblur="phoneMaskHandler(event);">
+						    <f:validateRegex pattern="(^(\(?(\d{2})\)?\s?-?\s?(\d{4}|\d{5})\s?-?\s?(\d{4}))$)?" />
+						</p:inputText>
+						
+				</p:outputPanel>
+				
+				<p:outputPanel id="blocoEapartamento">
+					<p:outputLabel value="Bloco: "></p:outputLabel>
+					<br />
+				 	<p:selectOneMenu id="comboBloco"  styleClass="selectPadrao" style="width:50%"
+					 			value="#{atualizarUsuarioController.blocoSelecionado}" 
+								converter="converterEntityById"  >
+					 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+					 		<f:selectItems value="#{atualizarUsuarioController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
+					 		<p:ajax event="change" update="containerComboApartamentos"  />
+					 	</p:selectOneMenu>
+					 </p:outputPanel>
+				 	
+				 	<br />
+				 	<p:outputPanel id="containerComboApartamentos" >
+				 		<p:outputLabel rendered="#{not empty atualizarUsuarioController.blocoSelecionado}" value="Apartamento:"></p:outputLabel>
+				 		<br />
+					 	<p:selectOneMenu id="comboApartamentos"  styleClass="selectPadrao"  style="width:50%"
+					 			rendered="#{not empty atualizarUsuarioController.blocoSelecionado}" 
+					 			value="#{atualizarUsuarioController.usuario.apartamento}" 
+								converter="converterEntityById"  >
+					 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+					 		<f:selectItems value="#{atualizarUsuarioController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
+					 	</p:selectOneMenu>
+				</p:outputPanel>
+	 			</td>
+	 			
+	 			<td style="width:50%; align:top;">
+	 				<p:fileUpload mode="advanced" immediate="true" label="Selecionar arquivo"
+				        fileUploadListener="#{atualizarUsuarioController.uploadArquivo}"
+				        allowTypes="/(\.|\/)(JPg|jpg|jpeg|JPEG|png|PNG)$/"  
+				        multiple="false" sizeLimit="1000000" 
+				        invalidFileMessage="Arquivo não válido." 
+				        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
+				        update="@form"  />
+			        
+			 				<p:outputPanel  id="containerCortadorImagem" rendered="#{empty atualizarUsuarioController.caminhoImagem}" >
+			     				<p:graphicImage id="imagemUsuario" url="/arquivos/usuario/foto.jpg" width="300" />
+			     			</p:outputPanel>	 
+			     			
+					<p:outputPanel id="cadastroFoto" rendered="#{not empty atualizarUsuarioController.caminhoImagem}">
+				      			
+				      			<p:imageCropper id="cortadorImagem"
+				      			
+				      				value="#{atualizarUsuarioController.imagemCortada}" 
+				      				rendered="#{not empty atualizarUsuarioController.caminhoImagem}"
+				   					initialCoords="0,0,300,375" maxSize="600,750" minSize="300,375"
+				 					image="#{atualizarUsuarioController.caminhoImagem}" />
+				   		
+						
+					</p:outputPanel>
+	 			</td>
+	 		</tr>
+		 </table>
+   		
+		<br />
+		<p:commandButton id="salvarUsuario" value="Salvar" 
+	   		actionListener="#{atualizarUsuarioController.cortar}" 
+	   		update="@form" process="@form" oncomplete="subirTela()" >
+	   	</p:commandButton>
+
+		</h:form>
+   </ui:define>
+</ui:composition>

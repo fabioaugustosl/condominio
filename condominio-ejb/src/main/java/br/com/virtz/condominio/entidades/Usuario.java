@@ -29,7 +29,10 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 	@NamedQuery(name = "Usuario.recuperarPorCondominio", 
 			query = "Select u FROM Usuario u WHERE u.condominio.id = :idCondominio"),
 	@NamedQuery(name = "Usuario.recuperarPorEmail", 
-			query = "Select u FROM Usuario u WHERE u.email = :email") 
+			query = "Select u FROM Usuario u "
+					+ " LEFT JOIN FETCH u.condominio c "
+					+ " LEFT JOIN FETCH c.areasComuns areas "
+					+ " WHERE u.email = :email")
 })
 public class Usuario extends Entidade implements Serializable {
 

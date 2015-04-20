@@ -33,7 +33,7 @@
 	 	
 	 	<div>
 	 		<p:outputLabel value="Anexar arquivo" />
-	        <p:fileUpload mode="advanced" update="@this, dtArquivosNoticia"
+	        <p:fileUpload mode="advanced" update="@this, dtArquivosNoticia" label="Selecionar arquivo"
 		        fileUploadListener="#{cadastroNoticiaController.uploadArquivo}"
 		        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX|JPg|jpg|jpeg|JPEG|png|PNG)$/" 
 		        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. "

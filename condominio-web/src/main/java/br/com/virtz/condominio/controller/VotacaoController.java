@@ -93,6 +93,14 @@ public class VotacaoController {
 		
 		votacaoService.votar(voto);
 	}
+	
+	
+	public boolean possuiVotacaoEmAndamento(){
+		if(votacoesView == null || votacoesView.isEmpty()){
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
 
 	
 	/* GETTERS E SETTERS*/

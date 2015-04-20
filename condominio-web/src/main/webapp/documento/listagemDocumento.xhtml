@@ -36,16 +36,14 @@
 			    </p:commandButton>
 		    </p:column>
 		    
-		    <p:column>
+		    <p:column rendered="{listagemDocumentoController.podeEditar()}">
 		     	<p:commandLink actionListener="#{listagemDocumentoController.editar(doc)}" 
-		     		rendered="{listagemDocumentoController.podeEditar()}"
-	         		id="editarDocSelecionada" value="Editar" immediate="true" >
+		     		id="editarDocSelecionada" value="Editar" immediate="true" >
 	         	</p:commandLink>
 		    </p:column>
 		    
-		    <p:column>
+		    <p:column rendered="{listagemDocumentoController.podeExcluir()}">
 		    	<p:commandLink actionListener="#{listagemDocumentoController.removerDocumento(doc)}" ajax="false"
-		    		rendered="{listagemDocumentoController.podeExcluir()}"
 	         		id="excluirDocSelecionada" value="Remover" immediate="true" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover esse documento?" icon="ui-icon-alert" />
 	         	</p:commandLink>

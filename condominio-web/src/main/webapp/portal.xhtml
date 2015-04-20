@@ -14,21 +14,22 @@
  		<p:outputPanel id="containerDashBoard" style="width:100% !important;" >
        		
        		<div id="divNotificacoesImportantes">
-       			<p:panel id="panelWidgetAssembleiaConvocacao" header="Convocação para assembléia" style="height:100%;"  rendered="#{assembleiaController.possuiAssembleiaAgendada()}"> 
+       			<p:panel id="panelWidgetAssembleiaConvocacao" header="Convocação para assembléia" style="height:100%;"  
+       				rendered="#{assembleiaController.possuiAssembleiaAgendada()}"> 
 	                <ui:include src="widget/assembleia.xhtml" />
 	            </p:panel>
 	   		</div>
        		
-     		<table id="divConteudoPortal">
+     		<table id="divConteudoPortal" class="tabelaPadrao">
 	    		<tr>
-	    			<td style="width:65%;">        
+	    			<td style="width:65%; top:0;">        
 			            <p:panel id="panelWidgetNoticia" header="Notícias" style="height:100%;" > 
 			                <ui:include src="widget/noticias.xhtml" />
 			            </p:panel>
 		 			</td>
 		 			
-		 			<td style="width:35%;">
-			            <p:panel id="panelWidgetVotacao" header="Votação online" style="height:100%;"  > 
+		 			<td style="width:35%; top:0;">
+			            <p:panel id="panelWidgetVotacao" header="Votação online" style="height:100%;" rendered="#{votacaoController.possuiVotacaoEmAndamento()}" > 
 			                <ui:include src="widget/votacao.xhtml" />
 			            </p:panel>
 			 

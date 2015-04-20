@@ -8,7 +8,7 @@
    
    <ui:define name="content">
    	<h:form id="form" style="width:100%">
-	   	<h1><p:outputLabel value="Reserva de áreas em comum" /></h1>
+	   	<h1><p:outputLabel value="Reservar área em comum" /></h1>
 	 	<br /><br />
 	 	<p:outputLabel value="Selecione a área desejada: " />
 	 	<p:selectOneMenu id="comboArea" value="#{reservaController.areaSelecionada}" converter="converterEntityById" >
@@ -19,7 +19,8 @@
 	 	
 	 	<p:outputPanel id="containerAgenda" style="margin-top:10px;">
 	  		<p:schedule id="agendaReserva" value="#{reservaController.reservas}" widgetVar="agendaReserva" timeZone="GMT-3" locale="pt" >
-	            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" update="novoEventoPanel" onsuccess="PF('novoEvento').show();" />
+	            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" update="novoEventoPanelContainer" onsuccess="PF('novoEvento').show();" />
+	            <p:ajax event="eventSelect" listener="#{reservaController.onEventSelect}" update="removerEventoPanelContainer" oncomplete="PF('removerEvento').show();" />
 	        </p:schedule>
 	    </p:outputPanel> 
 	    
@@ -31,17 +32,48 @@
 	    	
 	    </p:outputPanel>
 	    
-	    <p:dialog widgetVar="novoEvento" header="Agendar" showEffect="clip" hideEffect="clip" dynamic="false" appendTo="@(body)">
-	        <h:panelGrid id="novoEventoPanel" columns="1">
-	            
-	            <p:outputLabel value="#{reservaController.mensagemConfirmacaoReserva}" id="txtMsgConfirmacao" />
-	 
-	 			<p:outputPanel>
-		            <p:commandButton id="btnAgendar" value="Sim" actionListener="#{reservaController.salvarReserva}" update="agendaReserva" oncomplete="PF('novoEvento').hide();" />
-		            <p:commandButton id="btnAgendarNao" value="Não" onclick="PF('novoEvento').hide();" />
-	            </p:outputPanel>
-	        </h:panelGrid>
-	    </p:dialog>   
+	    <p:dialog id="novoEvento" widgetVar="novoEvento" header="Agendar" showEffect="fade" hideEffect="fade" dynamic="false" appendTo="@(body)" >
+		    <p:outputPanel id="novoEventoPanelContainer" >
+		        <p:outputPanel id="novoEventoPanel" rendered="#{reservaController.areaSelecionada != null}" >
+		            
+		            <p:outputLabel value="#{reservaController.mensagemConfirmacaoReserva}" id="txtMsgConfirmacao"  />
+		 			
+		 			<p:outputPanel>
+			            <p:commandButton id="btnAgendar"  process="@this"  value="Sim" actionListener="#{reservaController.salvarReserva}" immediate="true"
+			            	 update="@form" oncomplete="PF('novoEvento').hide();"  />
+			            <p:commandButton id="btnAgendarNao" value="Não" onclick="PF('novoEvento').hide();" />
+		            </p:outputPanel>
+		        </p:outputPanel>
+		        <p:outputPanel id="eventoErro" rendered="#{reservaController.areaSelecionada == null}"  >
+		            
+		            <p:outputLabel value="Favor selecionar uma área para efetuar a reserva." id="txtMsgErro" />
+		 			<br />
+		            <p:commandButton id="btnAgendarOK" value="OK" onclick="PF('novoEvento').hide();" />
+		        </p:outputPanel>
+	        </p:outputPanel>
+	    </p:dialog>  
+	    
+	     <p:dialog id="removerEvento" widgetVar="removerEvento" header="Remover agendamento" showEffect="fade" hideEffect="fade" dynamic="false" appendTo="@(body)" >
+			<p:outputPanel id="removerEventoPanelContainer" >
+		        <p:outputPanel id="removerEventoPanel" rendered="#{reservaController.podeRemoverReserva}" >
+		            
+		            <p:outputLabel value="#{reservaController.mensagemExclusaoReserva}" id="txtMsgRemoverReserva"  />
+		 			
+		 			<p:outputPanel>
+		             	<p:commandButton id="btnRemoverAgendaSim"  process="@this"  value="Sim" actionListener="#{reservaController.removerReserva}" immediate="true"
+			            	 update="@form" oncomplete="PF('removerEvento').hide();"  />
+			            	
+					 	<p:commandButton id="btnRemoverNao" value="Não" onclick="PF('removerEvento').hide();" />
+		            </p:outputPanel>
+		        </p:outputPanel>
+		        <p:outputPanel id="eventoErro" rendered="#{!reservaController.podeRemoverReserva}"  >
+		            
+		            <p:outputLabel value="Você não tem permissão para remover essa reserva." id="txtMsgErro" />
+		 			<br />
+		            <p:commandButton id="btnFecharRemReser" value="OK" onclick="PF('removerEvento').hide();" />
+		        </p:outputPanel>
+	        </p:outputPanel>
+	    </p:dialog>    
 	    
 	   
 	    <script type="text/javascript">
