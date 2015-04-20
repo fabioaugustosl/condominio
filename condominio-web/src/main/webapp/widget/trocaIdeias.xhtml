@@ -7,20 +7,24 @@
    
    <h:form id="formTroca" style="width:100%">
    
+   		<script>
+    		function envairMSG(){
+				$("#divEnviarMsg").show("slow");
+				//PF('btnAbreEnvia').hide();
+			}
+		</script>
+		
 	   <p:outputPanel id="containerBatePapo">
 		   <p:outputPanel id="painelNovoBatePapo">
-		   	 	<p:accordionPanel >
-	        		<p:tab title="Envie sua mensagem">
-		            	<h:panelGrid columns="2" cellpadding="10">
-		                	<p:inputTextarea rows="5" cols="30" style="width:100%;" maxlength="800" 
-		                		counterTemplate="{0}" autoResize="false" value="#{batePapoController.mensagem}"  />
-		                	<p:commandLink id="enviarMensagemBatePapo" update=":formTroca:containerBatePapo" 
-		                			actionListener="#{batePapoController.enviarMensagem}" >
-						        <h:outputText value="Enviar" />
-						    </p:commandLink>
-		            	</h:panelGrid>
-	        		</p:tab>
-	        	</p:accordionPanel>
+		   		<p:commandButton id="btnAbreEnvia" value="Enviar Mensagem" styleClass="btn btn-primary btn-block btn-lg" widgetVar="btnAbreEnvia" onclick="envairMSG()"/>
+		   		
+		   	 	<div id="divEnviarMsg" style="display:none" >
+			   	 	<p:inputTextarea style="width:100%;" maxlength="800" styleClass="textAreaPadrao" 
+			        		counterTemplate="{0}" autoResize="false" value="#{batePapoController.mensagem}"  />
+			        <p:commandLink id="enviarMensagemBatePapo" update=":formTroca:containerBatePapo" actionListener="#{batePapoController.enviarMensagem}" >
+						<h:outputText value="Enviar" />
+					</p:commandLink>
+				</div>
 		   </p:outputPanel>
 		   <p:outputPanel id="painelBatePapoMensagens">
 				<p:dataScroller id="dataScrollerBatePapo" value="#{batePapoController.batePapos}" var="papo" chunkSize="10" mode="inline" style="width:100%; height:100%;" >

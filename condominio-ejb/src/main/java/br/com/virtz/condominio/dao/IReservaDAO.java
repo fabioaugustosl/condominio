@@ -12,4 +12,5 @@ import br.com.virtz.condominio.entidades.Reserva;
 public interface IReservaDAO extends CrudDAO<Reserva> {
 	public List<Reserva> recuperar(AreaComum area);
 	public Reserva recuperar(AreaComum area, String nomeUsuario, Date dataInicioReserva);
+	public Reserva recuperarPorAreaEmailEData(AreaComum area, String emailUsuario, Date dataInicioReserva) ;
 }

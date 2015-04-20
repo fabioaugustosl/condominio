@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.dao;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -9,10 +10,12 @@ import javax.persistence.Query;
 
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Reserva;
+import br.com.virtz.condominio.geral.DataUtil;
 
 @Stateless
 public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 
+	
 	@Override
 	public List<Reserva> recuperar(AreaComum area) {
 		StringBuilder sb = new StringBuilder();
@@ -34,6 +37,26 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 		qry.setParameter("idAreaComum", area.getId());
 		qry.setParameter("nomeUsuario", nomeUsuario);
 		qry.setParameter("data", dataInicioReserva);
+		try {
+			return (Reserva) qry.getSingleResult();
+		}catch (NoResultException e) {
+			return null;
+		}
+		
+	}
+	
+	
+	@Override
+	public Reserva recuperarPorAreaEmailEData(AreaComum area, String emailUsuario, Date dataInicioReserva) {
+		
+		DataUtil util = new DataUtil();
+				
+		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorAreaEmailEData");
+		qry.setParameter("idAreaComum", area.getId());
+		qry.setParameter("emailUsuario", emailUsuario);
+		Calendar dt = Calendar.getInstance();
+		dt.setTime(util.limparHora(dataInicioReserva));
+		qry.setParameter("data", dt);
 		try {
 			return (Reserva) qry.getSingleResult();
 		}catch (NoResultException e) {

@@ -17,7 +17,7 @@
 			    <p:panelGrid columns="1" id="containerNovaAssembleia" >
 			    
 					<p:outputLabel value="Data da assembléia:" />
-					<p:calendar id="data"
+					<p:calendar id="data" 
 							alt="Insira a data em que a assembléia será realizada" 
 							value="#{cadastrarAssembleiaController.assembleia.data}" showOn="button" 
 							required="true" requiredMessage="Favor preencher a data de realização da assembléia."  />
@@ -52,7 +52,7 @@
 			 <p:tab id="tabPauta" title="Pauta" disabled="#{not cadastrarAssembleiaController.possoCadastrarPauta}">
 			 	
 			 	<p:outputLabel value="Insira uma nova pauta:" /> <br />
-			 	<p:inputText id="novaPauta" value="#{cadastrarAssembleiaController.novaPauta}" maxlength="1000"></p:inputText>
+			 	<p:inputText id="novaPauta" styleClass="inputPadrao" value="#{cadastrarAssembleiaController.novaPauta}" maxlength="1000"></p:inputText>
 			 	
 			 	<p:commandButton id="salvarPauta" value="Inserir" 
 			   		actionListener="#{cadastrarAssembleiaController.salvarPauta}" 

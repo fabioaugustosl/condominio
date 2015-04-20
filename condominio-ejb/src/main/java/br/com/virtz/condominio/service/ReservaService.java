@@ -37,8 +37,9 @@ public class ReservaService implements IReservaService {
 	}
 	
 	@Override
-	public void remover(AreaComum areaReservada, String nomeUsuarioReserva, Date dataInicioReserva){
-		
+	public void remover(AreaComum areaReservada, String emailUsuarioReserva, Date dataInicioReserva){
+		Reserva r = reservaDAO.recuperarPorAreaEmailEData(areaReservada, emailUsuarioReserva, dataInicioReserva);
+		reservaDAO.remover(r.getId());
 	}
 	
 }

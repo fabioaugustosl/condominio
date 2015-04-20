@@ -6,7 +6,7 @@
    xmlns:p="http://primefaces.org/ui">
      
    <h:form id="formAssembleiaConvocacao" style="width:100%">
-   
+   		<p:growl id="msgsGrowlAssembleia" showDetail="true" />
 	   <p:outputPanel id="containerConvocacaoAssembleia" rendered="#{assembleiaController.possuiAssembleiaAgendada()}" >
 		
 			<p:dataTable id="dtListagemAssembleiaGadget" var="assembleia" 
@@ -36,12 +36,11 @@
 					 	</p:commandButton>
 					 	
 					 	<p:overlayPanel id="panelNovaPaula" for="novaPauta" hideEffect="fade" 
-					 			dynamic="true" style="width:300px; height:300px;"
+					 			dynamic="true" style="width:600px; height:200px;"
 					 			widgetVar="panelNovaPaula">
-					        <p:inputTextarea id="txtPauta" value="#{assembleiaController.textoPauta}"></p:inputTextarea>
-					        <br />
+					        <p:inputTextarea id="txtPauta" styleClass="textAreaPadrao" value="#{assembleiaController.textoPauta}" style="height:150px"></p:inputTextarea>					        <br />
 					        <p:commandButton actionListener="#{assembleiaController.novaPauta}" value="Enviar"
-					        	onsuccess="PF('panelNovaPaula').hide();" ></p:commandButton>
+					        	onsuccess="PF('panelNovaPaula').hide();" update=":formAssembleiaConvocacao:msgsGrowlAssembleia" ></p:commandButton>
 					    </p:overlayPanel>
 					</p:outputPanel>
 			       
@@ -51,7 +50,8 @@
 			<p:dialog id="dialogPautasAprovadas" modal="true" widgetVar="dialogPautasAprovadas"
 					draggable="true" closable="true" resizable="false" 
 						dynamic="true" width="500" height="400" header="Pautas Aprovadas" >
-				<p:dataList value="#{assembleiaController.assembleiaSelecionada.pautasAprovadas}" var="pauta">
+				<p:dataList id="dataListPautas" value="#{assembleiaController.assembleiaSelecionada.pautasAprovadas}" var="pauta" style="border:0px; width:100%; height:100%; overflow:auto;" 
+						emptyMessage="Ainda não foi aprovada nenhuma pauta para essa assembléia.">
 					<p:outputLabel value="#{pauta.mensagem}"></p:outputLabel>
 				</p:dataList>
 			</p:dialog>

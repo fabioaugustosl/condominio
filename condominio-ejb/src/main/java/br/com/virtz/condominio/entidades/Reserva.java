@@ -22,7 +22,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 	@NamedQuery(name = "Reserva.recuperarPorAreaNomeEData", 
 			query = "Select r FROM Reserva r "
-					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.nome = :nomeUsuario AND r.data = :data ")
+					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.nome = :nomeUsuario AND r.data = :data "),
+	@NamedQuery(name = "Reserva.recuperarPorAreaEmailEData", 
+			query = "Select r FROM Reserva r "
+					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.email = :emailUsuario AND r.data = :data ")
 })
 public class Reserva extends Entidade implements Serializable {
 

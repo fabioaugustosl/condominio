@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,12 +21,16 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.Token;
 import br.com.virtz.condominio.entidades.Usuario;
+import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.service.ICondominioService;
+import br.com.virtz.condominio.service.ITokenService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
+import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
 
@@ -44,6 +47,9 @@ public class LoginController {
 	@EJB
 	private ICondominioService condominioService;
 	
+	@EJB
+	private ITokenService tokenService;
+	
 	@Inject
 	private SessaoUsuario sessao;
 	
@@ -53,8 +59,14 @@ public class LoginController {
 	@Inject
 	private ParametroSistemaLookup parametroLookup;
 	
+	@Inject
+	private IArquivosUtil arquivoUtil;
+
+	
+	
 	private String login;
 	private String senha;
+	private String emailEsqueciMinhaSenha = null; 
 	
 	@Inject
 	private LeitorTemplate leitor;
@@ -94,8 +106,40 @@ public class LoginController {
 	}
 	
 	
-	public void esqueciMinhaSenha() throws Exception{
+	/**
+	 * Procedimento:
+	 *  0 - Verifica se o email existe
+	 *  1 - Gerar um token
+	 *  2 - Enviar email para email digitado
+	 *  3 - Quando o sujeito clicar no link ele poderá digitar uma nova senha
+	 * @throws Exception
+	 */
+	public void esqueciMinhaSenha() throws AppException{
+		if(StringUtils.isNotBlank(emailEsqueciMinhaSenha)){
+			
+			Usuario usuario = usuarioService.recuperarUsuario(emailEsqueciMinhaSenha);
+			if(usuario == null ){
+				throw new AppException("O email digitado não existe em nossa base de dados.");
+			}
+			
+			Token token = tokenService.novoToken(usuario.getId().toString());
+			
+			// TODO - terminar envio de email
+			enviarEmailEsqueciMinhaSenha(token);
+			
+			messageHelper.addInfo("Aguarde alguns minutos, acesse seu email para concluir a recuperação de senha.");
+		}
+	}
+	
+	
+	private void enviarEmailEsqueciMinhaSenha(Token token) {
+		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
+		mapParametrosEmail.put("token", token.getToken());
 		
+		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
+		String msg = leitor.processarTemplate(caminho, EnumTemplates.ESQUECI_MINHA_SENHA.getNomeArquivo(), mapParametrosEmail);
+		Email email = new Email("fabioaugustosl@gmail.com", "fabioaugustosl@gmail.com", "teste Fabio", msg);
+   	//	enviarEmail.enviar(email);
 	}
 	
 	
@@ -167,7 +211,15 @@ public class LoginController {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-		
+
+	public String getEmailEsqueciMinhaSenha() {
+		return emailEsqueciMinhaSenha;
+	}
+
+	public void setEmailEsqueciMinhaSenha(String emailEsqueciMinhaSenha) {
+		this.emailEsqueciMinhaSenha = emailEsqueciMinhaSenha;
+	}
+	
 	
 		
 }

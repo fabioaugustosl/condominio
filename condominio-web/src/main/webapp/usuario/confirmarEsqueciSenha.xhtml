@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/templateSimples.xhtml">
+   
+   <style type="text/css">
+ 
+   </style>
+   
+   <ui:define name="content">
+   
+   	<h:form id="form" >  
+   		<p:messages autoUpdate="true"></p:messages> 
+	   
+	   	<p:outputPanel id="mensagemFalha" rendered="#{not confirmarEsqueciSenhaController.emailConfirmado}">
+	   		Seu token é inválido. Favor tentar novamente. <br />
+	   		Para isso basta acessar a tela de login em clicar em esqueci minha senha.
+		</p:outputPanel>
+		
+		<p:outputPanel id="mensagemSucessoContainer" rendered="#{confirmarEsqueciSenhaController.emailConfirmado}">
+			<p:outputPanel id="mensagemSucesso" rendered="#{not confirmarEsqueciSenhaController.senhaAtualizada}">
+				<h1>Pronto. <br /> Agora basta apenas você digitar sua nova senha.</h1>
+				<br />
+				<br />
+				
+				<p:outputLabel value="Digite uma senha:" /><br />
+			   	<p:password id="senhaUsuario" value="#{confirmarEsqueciSenhaController.usuario.senhaDigitada}" 
+			   			maxlength="20" required="true" requiredMessage="Favor inserir uma senha."
+			   			/>
+			   	<br />
+				<p:outputLabel value="Confirme sua senha:" /><br />		
+	       		<p:password id="senhaUsuario2" value="#{confirmarEsqueciSenhaController.usuario.senhaDigitadaConfirmacao}" required="true" maxlength="20" />
+	
+			    <br />
+					
+				<p:commandButton id="salvarSeanha" value="Salvar" 
+				   		actionListener="#{confirmarEsqueciSenhaController.salvar}" 
+				   		update="@form">
+				</p:commandButton>
+			</p:outputPanel>
+			
+			<p:outputPanel id="sucessoEHIsso" rendered="#{confirmarEsqueciSenhaController.senhaAtualizada}">
+				<h1>Agora sim. Sua senha foi alterada e você está pronto para acessar o sistema.</h1>
+				<br />
+				<br />
+				<br />
+				<p:commandLink actionListener="#{confirmarEsqueciSenhaController.irParaLogin()}"
+					 value="Para isso basta clicar aqui."
+					 immediate="true"></p:commandLink>
+			</p:outputPanel>
+					   	
+	   </p:outputPanel>
+	 </h:form>
+   </ui:define>
+</ui:composition>

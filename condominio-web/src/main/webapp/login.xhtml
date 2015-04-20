@@ -8,6 +8,12 @@
    
    <ui:define name="content">
     
+    	<script>
+    		function esqueciMinhaSenha(){
+				$("#divEsqueciMinhaSenha").show("slow");
+			}
+		</script>
+		
     	<h1 class="form-header">    		
 			Meu Condomínio 
 		</h1>
@@ -41,19 +47,35 @@
 					<p:commandButton id="btnConectarLogin" value="Entrar" actionListener="#{loginController.logar}" update="panelLogin" styleClass="btn btn-primary btn-block btn-lg"/>
 				</div>
 			
-				<p:commandLink value="Esqueci minha senha" styleClass="forgot" actionListener="#{loginController.esqueciMinhaSenha}" update="panelLogin"/>
+				<p:commandLink value="Esqueci minha senha" styleClass="forgot" onclick="esqueciMinhaSenha()" />
+		
 			</h:panelGroup>
 			
 			<div class="text-center clear-both padding-sm-vr">
 				<p:commandLink value="Quero me cadastrar" immediate="true" action="#{loginController.novoUsuario}" />
 				<br /><br />
 			</div>
-		</h:form>
 			
+			</h:form>	
+			<h:form id="formEsqueci">			
+				<div  style="display:none" id="divEsqueciMinhaSenha">
+					<br />
+					<span>Para recuperar sua senha basta inserir seu email no campo abaixo:</span> <br />
+					<p:inputText id="inputEsqueciminhasenha" value="#{loginController.emailEsqueciMinhaSenha}" 
+						styleClass="form-control input-lg" 
+						placeholder="Email" />
+						
+					<p:commandLink value="Enviar" 
+						actionListener="#{loginController.esqueciMinhaSenha}" update=":formLogin:panelLogin"/>
+				</div>
+							
+		</h:form>
+			<h:form id="formCad">
 			<div class="clear-both">
            		<h:outputText value="Versão: 1.00" styleClass="version pull-left" />
            		<a href="http://www.virtz.com.br" target="_blank" class="logo-company pull-right"></a>
            	</div>
+           	</h:form>
 		</div>   
 		
 	</ui:define>

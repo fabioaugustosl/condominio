@@ -25,8 +25,11 @@ import br.com.virtz.condominio.entidades.ParametroSistema;
 import br.com.virtz.condominio.entidades.Reserva;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
+import br.com.virtz.condominio.geral.DataUtil;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
+import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.service.IReservaService;
+import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.MessageHelper;
 
@@ -37,6 +40,9 @@ public class ReservaController {
 	@EJB
 	private IReservaService reservaService;
 	
+	@EJB
+	private IUsuarioService usuarioService;
+	
 	@Inject
 	private SessaoUsuario sessao;
 	
@@ -46,10 +52,14 @@ public class ReservaController {
 	@Inject
 	private MessageHelper message;
 	
+	@Inject
+	private PrincipalController principalController;
+	
 	private ScheduleModel reservas;
 	private ScheduleEvent evento = new DefaultScheduleEvent();
 	
 	private Set<AreaComum> areas;
+	private List<Usuario> usuarios;
 	private Usuario usuario;
 	private AreaComum areaSelecionada = null;
 	private String mensagemConfirmacaoReserva = null ;
@@ -68,6 +78,13 @@ public class ReservaController {
 		areaSelecionada = null;
 		podeRemoverReserva = false;
 		mensagemExclusaoReserva = null;
+		
+		// se for sindico pode agendar para outros moradores
+		if(principalController.ehSindico() || principalController.ehAdministrativo()){
+			usuarios = usuarioService.recuperarTodos(usuario.getCondominio());
+		} else {
+			usuarios = null;
+		}
 	}
 
 
@@ -76,7 +93,7 @@ public class ReservaController {
 		if(getAreaSelecionada() != null){
 			List<Reserva> reservasPersistidas = reservaService.recuperar(getAreaSelecionada());
 			for(Reserva r : reservasPersistidas){
-				reservas.addEvent(new DefaultScheduleEvent(r.getUsuario().getNome(), r.getData().getTime(), r.getData().getTime()));
+				reservas.addEvent(new DefaultScheduleEvent(montarNomeEvento(usuario), r.getData().getTime(), r.getData().getTime()));
 			}
 		}
 	}
@@ -111,34 +128,50 @@ public class ReservaController {
     	if(usuario != null){
     		nomeUsuario = usuario.getNome();
     	}
-        evento = new DefaultScheduleEvent(nomeUsuario+" ["+usuario.getEmail()+"]", dataSelecionada, dataSelecionada);
+        evento = new DefaultScheduleEvent(montarNomeEvento(usuario), dataSelecionada, dataSelecionada);
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String txtArea = " para o(a) "+getAreaSelecionada().getNome();
 		mensagemConfirmacaoReserva = "Você confirma a reserva"+txtArea+" para o dia "+sdf.format(evento.getStartDate())+"?";
     }
+
+
+	private String montarNomeEvento(Usuario usuario) {
+		return usuario.getNome()+" ["+usuario.getEmail()+"]";
+	}
      
 
 	public void salvarReserva() throws AppException {
-        if(evento.getId() == null) {
-        	reservas.addEvent(evento);
-        } else {
-        	reservas.updateEvent(evento);
-        }
-        
-        salvar();
-        
+		salvar();
+
+		if(evento.getId() == null) {
+			reservas.addEvent(evento);
+		} else {
+			reservas.updateEvent(evento);
+		}
+		
         evento = new DefaultScheduleEvent();
         this.mensagemConfirmacaoReserva = "";
         
         message.addInfo("Sua reserva foi confirmada com sucesso!");
     }
+	
+	public void mensagemSucesso(){
+		message.addInfo("Sua reserva foi confirmada com sucesso!");
+	}
 
 
 	private void salvar() throws AppException {
 		Calendar data = Calendar.getInstance();
 		data.setTime(evento.getStartDate());
 
+		DataUtil dt = new DataUtil();
+		// não pode marcar evento retroativo
+		Date dataHoje = dt.limparHora(new Date());
+		if(dataHoje.after(dt.limparHora(data.getTime()))){
+			throw new AppException("Não é permitido marcar eventos retroativos.");
+		}
+		
 		// se data acima do limite deve rolar uma exceção
 		Date dataMaxima = getDataMaximaAgendamento();
 		if(dataMaxima != null && data.after(getDataMaximaAgendamento())){
@@ -153,7 +186,6 @@ public class ReservaController {
         
         try {
 			reservaService.salvar(reserva);
-			areaSelecionada = null;
 		} catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar a reserva.");
 		}
@@ -161,11 +193,11 @@ public class ReservaController {
 	
 	public void removerReserva() throws AppException {
         if(evento != null) {
-        	reservaService.remover(getAreaSelecionada(), evento.getDescription(), evento.getStartDate());
+        	String email = recuperarEmailDaReserva();
+        	reservaService.remover(getAreaSelecionada(), email, evento.getStartDate());
+        	reservas.deleteEvent(evento);
         	message.addInfo("A reserva foi removida com sucesso!");
         }
-        
-        
     }
 	
 	
@@ -189,20 +221,18 @@ public class ReservaController {
 			return Boolean.TRUE;
 		}
 		
-		if(getAreaSelecionada() != null){
-			String email = recuperarEmailDaReserva();
-			if(usuario.getEmail().equals(email)){
-				return Boolean.TRUE;
-			}
+		String email = recuperarEmailDaReserva();
+		if(usuario.getEmail().equals(email)){
+			return Boolean.TRUE;
 		}
-		
+				
 		return Boolean.FALSE;
 	}
 
 
 	private String recuperarEmailDaReserva() {
-		String  emailReserva = evento.getDescription().substring(evento.getDescription().indexOf("["));
-		emailReserva = emailReserva.substring(0, emailReserva.indexOf("]"));
+		String  emailReserva = evento.getTitle().substring(evento.getTitle().indexOf("["));
+		emailReserva = emailReserva.substring(1, emailReserva.indexOf("]"));
 		return emailReserva;
 	}
 	
@@ -252,6 +282,22 @@ public class ReservaController {
 
 	public void setMensagemExclusaoReserva(String mensagemExclusaoReserva) {
 		this.mensagemExclusaoReserva = mensagemExclusaoReserva;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 	
