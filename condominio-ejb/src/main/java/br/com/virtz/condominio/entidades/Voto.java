@@ -16,6 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import br.com.virtz.condominio.constantes.EnumTipoVotacao;
+
 @Entity
 @XmlRootElement
 @NamedQueries({
@@ -35,7 +37,7 @@ public class Voto extends Entidade implements Serializable {
 	private Long id;
 
 	@Column(name = "sim")
-	private boolean sim;
+	private Boolean sim;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data")
@@ -71,11 +73,11 @@ public class Voto extends Entidade implements Serializable {
 		this.id = id;
 	}
 
-	public boolean isSim() {
+	public Boolean isSim() {
 		return sim;
 	}
 
-	public void setSim(boolean sim) {
+	public void setSim(Boolean sim) {
 		this.sim = sim;
 	}
 
@@ -133,6 +135,25 @@ public class Voto extends Entidade implements Serializable {
 
 	public void setVotacao(Votacao votacao) {
 		this.votacao = votacao;
+	}
+	
+	/**
+	 * De acordo com o tipo de votacao retorna um object. Quem receber deve fazer o cast.
+	 * @return
+	 */
+	public Object getOpcaoVotada(EnumTipoVotacao tipoVotacao){
+		if(tipoVotacao.equals(EnumTipoVotacao.SIM_NAO)){
+			return isSim();
+		} else if(tipoVotacao.equals(EnumTipoVotacao.DATA)) {
+			return getData();
+		} else if(tipoVotacao.equals(EnumTipoVotacao.MOEDA)) {
+			return getMoeda();
+		} else if(tipoVotacao.equals(EnumTipoVotacao.NUMERICA)) {
+			return getNumero();
+		} else if(tipoVotacao.equals(EnumTipoVotacao.OPCOES)) {
+			return getOpcao();
+		}
+		return null;
 	}
 
 }

@@ -69,6 +69,10 @@
 			        	rendered="#{listagemVotacaoController.possoEditar(votacao)}" 
 			         	id="editarVotacaoSelecionada" value="Editar" >
 			         </p:commandLink>
+			         
+			         <p:commandLink actionListener="#{listagemVotacaoController.verResultado(votacao)}"
+			        	id="resultadoVotacaoSelecionada" value="Resultado" update="@form" onsuccess="PF('dialogResultado').show()" >
+			         </p:commandLink>
 		         </p:panelGrid>
 		    </p:column>
 		</p:dataTable> 
@@ -85,8 +89,25 @@
 	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 	    </p:confirmDialog>
-	
-			 	
+	    
+	    
+	    <p:dialog id="dialogResultado" modal="true" widgetVar="dialogResultado"
+					draggable="true" closable="true" resizable="false" 
+						dynamic="true" width="500"  header="Resultado da Votação" appendTo="@(body)" >
+			<p:dataTable id="gridResultado" value="#{listagemVotacaoController.resultadoVotacaoSelecionada.keySet()}"
+					emptyMessage="Nenhum voto foi computado para essa votação." var="res" >
+				
+				<p:column headerText="Opção">
+			        <p:outputLabel value="#{res}"></p:outputLabel>
+			    </p:column>
+			    
+			    <p:column headerText="Votos">
+			        <p:outputLabel value="#{listagemVotacaoController.resultadoVotacaoSelecionada[res]}"></p:outputLabel>
+			    </p:column>
+				
+			</p:dataTable>
+		</p:dialog>
+
 			 	
 	 </h:form>
   </ui:define>

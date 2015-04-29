@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
@@ -30,5 +31,6 @@ public interface IVotacaoService {
 	public Voto recuperarVotoPorUsuario(Votacao votacao, Usuario usuario) throws ParametroObrigatorioNuloException;
 	public OpcaoVotacao recuperarOpcao(Long idOpcao);
 	public void validarSeUsuarioPodeVotar(Votacao votacao, Usuario usuario) throws AppException;
+	public Map<String, Integer> recuperarResultado(Long idVotacao) throws AppException;
 }
 

@@ -29,6 +29,11 @@
 	        </p:outputPanel>
 	        
 	        <p:outputPanel>
+	        	<p:selectBooleanCheckbox value="#{cadastroVotacaoController.votacao.resultadoParcial}" />
+	        	<p:outputLabel value=" Você deseja permitir a visualização do resultado parcial?" />
+	        </p:outputPanel>
+	        
+	        <p:outputPanel>
 	        	<p:selectBooleanCheckbox value="#{cadastroVotacaoController.votacao.votacaoOficial}" />
 	        	<p:outputLabel value=" É uma votação oficial? Caso não marque essa opção será a votação será considera apenas como enquete." />
 	        </p:outputPanel>

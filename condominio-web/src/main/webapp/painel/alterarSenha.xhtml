@@ -7,37 +7,40 @@
    
     <p:dialog id="dialogAlterarSenha" modal="true" widgetVar="dialogAlterarSenha"
 				draggable="true" closable="true" resizable="false" 
-				dynamic="true" width="450" height="220" header="Alterar Senha" >
-		
-		<p:outputPanel id="blocoSucessoAlterarSenha" >
-			<p:outputLabel value="Senha alterada com sucesso." rendered="#{configuracaoController.isSucesso()}" ></p:outputLabel>
-			<br />
+				dynamic="true" width="450" height="310" header="Alterar Senha" >
+		<h:form id="formAlterarSenha">
+		<p:outputPanel id="blocoSucessoAlterarSenha" style="text-align:left;" layout="block">
+			<p:outputPanel layout="block">
+				<p:outputLabel value="Senha alterada com sucesso." rendered="#{configuracaoController.isSucesso()}" ></p:outputLabel>
+			</p:outputPanel>
 			<p:commandButton  value="Fechar" onclick="PF('dialogAlterarSenha').hide();" rendered="#{configuracaoController.isSucesso()}" ></p:commandButton>
-			<br />
-			<p:outputLabel value="#{configuracaoController.msgErro}" rendered="#{not empty configuracaoController.msgErro}" ></p:outputLabel>
+			<p:outputPanel layout="block">
+				<p:outputLabel value="#{configuracaoController.msgErro}" rendered="#{not empty configuracaoController.msgErro}" ></p:outputLabel>
+			</p:outputPanel>
 		
-			<h:panelGrid columns="2" id="gridAlterarSenha" cellpadding="5" rendered="#{not configuracaoController.isSucesso()}">  
+			<p:outputPanel id="gridAlterarSenha"  rendered="#{not configuracaoController.isSucesso()}">  
 				<p:outputLabel for="senhaAtual" value="Digite sua senha atual:"></p:outputLabel>                 
 		        <p:outputPanel>
-			        <p:password id="senhaAtual" value="#{configuracaoController.senhaAtual}" label="Senha atual" requiredMessage="Campo obrigatório" required="true" />
+			        <p:password id="senhaAtual" value="#{configuracaoController.senhaAtual}" label="Senha atual" styleClass="inputPadrao" requiredMessage="Campo obrigatório" required="true" />
 			        <p:message id="msgSenha" for="senhaAtual"></p:message>
-		        </p:outputPanel>
+		        </p:outputPanel> <br />
 		        
 		       	<p:outputLabel for="novaSenha" value="Digite sua NOVA senha:"></p:outputLabel>
 		        <p:outputPanel>
-			        <p:password id="novaSenha" value="#{configuracaoController.senhaNova}" match="novaSenha2" requiredMessage="Campo obrigatório" validatorMessage="A nova senha deve ser repetida corretamente." label="Nova senha" required="true" />
+			        <p:password id="novaSenha" value="#{configuracaoController.senhaNova}" match="novaSenha2" styleClass="inputPadrao" requiredMessage="Campo obrigatório" validatorMessage="A nova senha deve ser repetida corretamente." label="Nova senha" required="true" />
 			        <p:message id="msgNovaSenha" for="novaSenha"></p:message>
-		  		</p:outputPanel>
+		  		</p:outputPanel> <br />
 		  		
 		        <p:outputLabel for="novaSenha2" value="REPITA sua nova senha:"></p:outputLabel>
 			     <p:outputPanel>
-			        <p:password id="novaSenha2" value="#{configuracaoController.senhaNova2}" requiredMessage="Campo obrigatório" label="Repita a nova senha" required="true" />
+			        <p:password id="novaSenha2" value="#{configuracaoController.senhaNova2}" requiredMessage="Campo obrigatório" styleClass="inputPadrao" label="Repita a nova senha" required="true" />
 			        <p:message id="msgNovaSenha2" for="novaSenha2"></p:message>
 		         </p:outputPanel>
-		    </h:panelGrid>
-		    <p:commandButton  value="Alterar" actionListener="#{configuracaoController.alterarSenha}" update="blocoSucessoAlterarSenha" rendered="#{not configuracaoController.isSucesso()}"></p:commandButton>
+		    </p:outputPanel>
+		    <p:commandButton  value="Alterar" actionListener="#{configuracaoController.alterarSenha}"
+		    	process="formAlterarSenha" update="blocoSucessoAlterarSenha" rendered="#{not configuracaoController.isSucesso()}"></p:commandButton>
 	    </p:outputPanel>
-	    
+	    </h:form>
 	    
 	</p:dialog>
 </ui:composition>

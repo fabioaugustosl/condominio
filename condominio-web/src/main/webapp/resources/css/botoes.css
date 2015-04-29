@@ -12,6 +12,21 @@
     background-position: 0px 0px;
 }
 
+.btnGostei {
+    background-image: url("#{resource['img/icones:gostei.png']}") !important;
+    width: 10px !important;
+    height: 10px !important;
+    background-position: 0px 0px;
+}
+
+.btnNaoGostei {
+    background-image: url("#{resource['img/icones:nao_gostei.png']}") !important;
+    width: 10px !important;
+    height: 10px !important;
+    background-position: 0px 0px;
+}
+
+
 .iconOnlyButton{
     background: transparent !important;
     border: none !important;

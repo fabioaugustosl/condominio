@@ -48,7 +48,7 @@ public class UtilTipoVotacao {
 		}
 	}
 	
-
+	
 	public boolean isSimNao() {
 		return simNao;
 	}

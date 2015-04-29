@@ -64,6 +64,9 @@ public class Votacao extends Entidade implements Serializable {
 	@Column(name = "ativa")
 	private boolean ativa;
 	
+	@Column(name = "resultadoParcial")
+	private boolean resultadoParcial;
+	
 	@OneToMany(mappedBy="votacao", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<OpcaoVotacao> opcoes;
 	
@@ -146,8 +149,15 @@ public class Votacao extends Entidade implements Serializable {
 	public void setAtiva(boolean ativa) {
 		this.ativa = ativa;
 	}
-	
-	
+		
+	public boolean isResultadoParcial() {
+		return resultadoParcial;
+	}
+
+	public void setResultadoParcial(boolean resultadoParcial) {
+		this.resultadoParcial = resultadoParcial;
+	}
+
 	public Boolean getVotacaoOficial() {
 		return votacaoOficial == null ? Boolean.FALSE : votacaoOficial;
 	}

@@ -3,6 +3,7 @@ package br.com.virtz.condominio.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,6 +17,7 @@ import br.com.virtz.condominio.entidades.OpcaoVotacao;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.entidades.Voto;
+import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exception.ParametroObrigatorioNuloException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.service.IVotacaoService;
@@ -43,7 +45,7 @@ public class VotacaoController {
 	private List<Votacao> votacoes;
 	private List<VotacaoView> votacoesView;
 	private String tipoVotacaoSelecionado;
-		
+			
 	@PostConstruct
 	public void init(){
 		Usuario usuario = sessao.getUsuarioLogado();
@@ -54,6 +56,14 @@ public class VotacaoController {
 			for(Votacao v : votacoes){
 				VotacaoView vv = new VotacaoView(v);
 				vv.getUtil().tratarTipoVotacaoExibicao(v.getTipoVotacao());
+				
+				try {
+					if(v.isResultadoParcial()){
+						vv.setResultadoVotacaoSelecionada(votacaoService.recuperarResultado(v.getId()));
+					}
+				} catch (AppException e1) {
+					// ocorreu um erro ao recuperar o resultado parcial
+				}
 				
 				Voto votoUsuario;
 				try {
@@ -68,6 +78,8 @@ public class VotacaoController {
 			}
 		}
 	}
+	
+	
 	
 	public void votar(VotacaoView votacaoView){
 		Usuario usuario =  sessao.getUsuarioLogado();
@@ -101,6 +113,7 @@ public class VotacaoController {
 		}
 		return Boolean.TRUE;
 	}
+	
 
 	
 	/* GETTERS E SETTERS*/
@@ -165,7 +178,8 @@ public class VotacaoController {
 	public void setVotacoesView(List<VotacaoView> votacoesView) {
 		this.votacoesView = votacoesView;
 	}
-	
+
+
 	
 }
 

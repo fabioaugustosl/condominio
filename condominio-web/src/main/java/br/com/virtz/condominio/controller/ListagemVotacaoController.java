@@ -1,7 +1,9 @@
 package br.com.virtz.condominio.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -41,12 +43,14 @@ public class ListagemVotacaoController {
 	
 	
 	private List<Votacao> votacoes;
+	private Map<String, Integer> resultadoVotacaoSelecionada;
 	
 	
 	@PostConstruct
 	public void init(){
 		Usuario usuario = sessao.getUsuarioLogado();
 		votacoes = votacaoService.recuperarTodas(usuario.getCondominio());
+		resultadoVotacaoSelecionada = new HashMap<String, Integer>();
 	}
 	
 	public void ativarVotacao(Votacao votacao) throws CondominioException{
@@ -125,6 +129,17 @@ public class ListagemVotacaoController {
 		return Boolean.FALSE;
 	}
 	
+	public void verResultado(Votacao votacao){
+		if(votacao != null){
+			try {
+				resultadoVotacaoSelecionada = votacaoService.recuperarResultado(votacao.getId());
+			} catch (AppException e) {
+				resultadoVotacaoSelecionada = null;
+				e.printStackTrace();
+			}
+		}
+	}
+	
 
 	
 	/* GETTERS E SETTERS*/
@@ -136,7 +151,16 @@ public class ListagemVotacaoController {
 	public void setVotacoes(List<Votacao> votacoes) {
 		this.votacoes = votacoes;
 	}
-	
+
+	public Map<String, Integer> getResultadoVotacaoSelecionada() {
+		return resultadoVotacaoSelecionada;
+	}
+
+	public void setResultadoVotacaoSelecionada(
+			Map<String, Integer> resultadoVotacaoSelecionada) {
+		this.resultadoVotacaoSelecionada = resultadoVotacaoSelecionada;
+	}
+		
 	
 }
 

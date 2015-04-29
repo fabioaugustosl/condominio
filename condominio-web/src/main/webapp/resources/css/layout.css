@@ -88,3 +88,20 @@
     vertical-align: top;
 }
 
+.trocaIdeiaHora{
+	font-size: 0.8em;
+	color:#A7DBD8;
+}
+
+.trocaIdeiaNome{
+	height: 18px; 
+	width:100%; 
+	background: #031634;	
+}
+
+.trocaIdeiaNome span{
+	font-size: 0.8em;
+	color:#E0E4CC;
+}
+
+

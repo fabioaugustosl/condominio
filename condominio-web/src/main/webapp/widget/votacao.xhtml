@@ -6,6 +6,7 @@
    xmlns:p="http://primefaces.org/ui">
   
    <h:form id="formVotacao" style="width:100%">	  
+
    	<p:outputPanel id="containerVotacao">
    		<p:dataList id="dtVotacao" var="vv" value="#{votacaoController.votacoesView}" >
 			<p:outputPanel id="perguntinha" >
@@ -41,10 +42,11 @@
 		    	<div>
 		    		<!-- <p:captcha label="Captcha" /> -->
 		    		<p:commandButton value="Votar" actionListener="#{votacaoController.votar(vv)}" update="dtVotacao, msgsGrowl"></p:commandButton>
+		    		
 		    	</div>
 		    	
 		    	<div>
-		    		<p:commandLink id="LinkTemosVotacao" value="Ler o termo jurídico sobre a votação online." ></p:commandLink>>
+		    		<p:commandLink id="LinkTemosVotacao" value="Ler o termo jurídico sobre a votação online." ></p:commandLink>
 		    	</div>
 		    </p:outputPanel>
 		    
@@ -53,8 +55,37 @@
 					<p:outputLabel value="Parabéns. Você já votou."></p:outputLabel> 
 	    		</div>
 		    </p:outputPanel>
+		    
+		    
+		    <p:outputPanel id="verResultadoParcial" rendered="#{vv.votacao.isResultadoParcial()}"> 
+				<p:commandButton id="btnResultadoParcial" value="Resultado Parcial" ></p:commandButton>
+			
+   				 <p:overlayPanel widgetVar="dialogResultadoParcial" id="dialogResultadoParcial" 
+					for="btnResultadoParcial" hideEffect="fade" dynamic="true" >
+		        	
+		        	<p:dataTable id="gridResultadoParcial" value="#{vv.resultadoVotacaoSelecionada.keySet()}"
+							emptyMessage="Nenhum voto foi computado para essa votação." var="res"  >
+						
+						<p:column headerText="Opção">
+					        <p:outputLabel value="#{res}"></p:outputLabel>
+					    </p:column>
+					    
+					    <p:column headerText="Votos">
+					        <p:outputLabel value="#{vv.resultadoVotacaoSelecionada[res]}"></p:outputLabel>
+					    </p:column>
+						
+					</p:dataTable>
+		        	
+		    	</p:overlayPanel>
+			</p:outputPanel>
+		
 		</p:dataList>
     </p:outputPanel>
+    
+		
+    
+    			
+      
   </h:form>
 </ui:composition>
 

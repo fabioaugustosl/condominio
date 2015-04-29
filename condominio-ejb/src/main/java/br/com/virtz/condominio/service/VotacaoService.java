@@ -3,10 +3,12 @@ package br.com.virtz.condominio.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import br.com.virtz.condominio.bean.ResultadoVotacao;
 import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 import br.com.virtz.condominio.dao.IOpcaoVotacaoDAO;
 import br.com.virtz.condominio.dao.IVotacaoDAO;
@@ -40,6 +42,7 @@ public class VotacaoService implements IVotacaoService {
 		v.setTipoVotacao(tipoVotacao);
 		v.setAssuntoVotacao(assunto);
 		v.setAtiva(Boolean.TRUE);
+		v.setResultadoParcial(Boolean.FALSE);
 		v.setVotacaoOficial(Boolean.FALSE);
 		return v;
 	}
@@ -208,6 +211,23 @@ public class VotacaoService implements IVotacaoService {
 			throw new AppException("Outro morador do mesmo apartamento já votou. Só é permitido 1 voto por apartamento.");
 		}
 		
+	}
+
+
+	@Override
+	public Map<String, Integer> recuperarResultado(Long idVotacao)throws AppException {
+		Votacao votacao = votacaoDAO.recuperarPorId(idVotacao);
+		return getResultadoVotacao(votacao);
+	}
+	
+	private Map<String, Integer> getResultadoVotacao(Votacao votacao){
+		ResultadoVotacao resultado = new ResultadoVotacao(votacao.getTipoVotacao());
+		
+		for(Voto v : votacao.getVotos()){
+			resultado.contabilizarVoto(v.getOpcaoVotada(votacao.getTipoVotacao()));
+		}
+		
+		return resultado.resultado();
 	}
 	
 

@@ -33,18 +33,23 @@
 			                <h:panelGrid columns="2" cellpadding="5">
 			                    
 			                    <p:outputPanel id="trocaIdeiaContainerFoto">
-			 						 <p:graphicImage id="img" url="#{papo.usuario.arquivo.caminhoCompleto}" alt="#{papo.usuario.nome}" style="width:50px;" />
+			                    	<div class="trocaIdeiaNome">
+			                    		<h:outputText value="#{papo.usuario.nome}" />
+			                    	</div>
+													                    	
+			 						<p:graphicImage id="img" url="#{papo.usuario.arquivo.caminhoCompleto}" alt="#{papo.usuario.nome}" style="width:50px;" />
 			 					</p:outputPanel>
 			                    <p:outputPanel id="trocaIdeiaContainerMensagem">
-			                    	[<p:outputLabel id="noticiaDestaqueDataWidget" value="#{papo.data}">
-										<f:convertDateTime pattern="dd/MM/yyyy HH:ii"/>
-									</p:outputLabel>] -
-			                    	<h:outputText value="#{papo.usuario.nome}" />
 			                    	<h:outputText value="#{papo.mensagem}" style="font-weight: bold"/><br />
-			                    	<h:outputText value="+ #{papo.qtdPositivas}" /> <h:outputText value="  - #{papo.qtdNegativas}" />
+			                    	<div class="trocaIdeiaHora">
+				                    	[<p:outputLabel id="noticiaDestaqueDataWidget" value="#{papo.data}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00" />
+										</p:outputLabel>]
+			                    	</div>
 			                    	
-			                    	<p:commandButton id="positivarBP" value="(+)" actionListener="#{batePapoController.positivar(papo)}" update="dataScrollerBatePapo"></p:commandButton>
-			                    	<p:commandButton id="negativarBP" value="(-)" actionListener="#{batePapoController.negativar(papo)}" update="dataScrollerBatePapo"></p:commandButton>
+			                    	<p:commandButton id="positivarBP" styleClass="iconOnlyButton" icon="btnGostei" actionListener="#{batePapoController.positivar(papo)}" update="dataScrollerBatePapo"></p:commandButton><h:outputText value="+ #{papo.qtdPositivas}" />
+			                    	<p:commandButton id="negativarBP" styleClass="iconOnlyButton" icon="btnNaoGostei" actionListener="#{batePapoController.negativar(papo)}" update="dataScrollerBatePapo" ></p:commandButton> <h:outputText value="  - #{papo.qtdNegativas}" />
+			                    	<p:commandLink value="Excluir" style="margin-left:10px" actionListener="#{batePapoController.excluir(papo)}" rendered="#{batePapoController.podeExcluir(papo)}" ></p:commandLink>
 			                    </p:outputPanel>
 			
 			                </h:panelGrid>

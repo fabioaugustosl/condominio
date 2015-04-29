@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 
+import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 import br.com.virtz.condominio.entidades.BatePapo;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.ErroAoSalvar;
@@ -34,16 +35,17 @@ public class BatePapoController {
 	
 	private List<BatePapo> batePapos;
 	private String mensagem;
+	private Usuario usuario;
 	
 	@PostConstruct
 	public void init(){
 		mensagem = null;
-		batePapos = listarTodos(); 
+		batePapos = listarTodos();
+		usuario = sessao.getUsuarioLogado();
 	}
 	
 	
 	public List<BatePapo> listarTodos(){
-		Usuario usuario = sessao.getUsuarioLogado();
 		
 		List<BatePapo> batePapos = batePapoService.recuperarTodos(usuario.getCondominio());
 		for(BatePapo bp : batePapos){
@@ -71,6 +73,21 @@ public class BatePapoController {
 		}
 	}
 	
+	
+	 public boolean podeExcluir(BatePapo papo){
+		 if(papo.getUsuario().getId().equals(usuario.getId()) || EnumTipoUsuario.SINDICO.equals(usuario.getTipoUsuario())){
+			 return Boolean.TRUE;
+		 }
+		 return Boolean.FALSE;
+	 }
+	 
+	 public void excluir(BatePapo papo){
+		 if(papo != null){
+			 batePapoService.remover(papo.getId());
+			 messageHelper.addInfo("Mensagem removida!");
+		 }
+	 }
+	 
 	
 	public void enviarMensagem(ActionEvent actionEvent) {
 		if(StringUtils.isNotBlank(this.mensagem)){
