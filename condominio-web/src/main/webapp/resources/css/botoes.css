@@ -14,15 +14,15 @@
 
 .btnGostei {
     background-image: url("#{resource['img/icones:gostei.png']}") !important;
-    width: 10px !important;
-    height: 10px !important;
+    width: 20px !important;
+    height: 20px !important;
     background-position: 0px 0px;
 }
 
 .btnNaoGostei {
     background-image: url("#{resource['img/icones:nao_gostei.png']}") !important;
-    width: 10px !important;
-    height: 10px !important;
+    width: 20px !important;
+    height: 20px !important;
     background-position: 0px 0px;
 }
 

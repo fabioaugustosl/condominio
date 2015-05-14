@@ -30,7 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "Assembleia.recuperarNaoRealizadasPorCondominio", 
 				query = "Select n FROM Assembleia n "
 						+ "	WHERE n.condominio.id = :idCondominio AND n.data >= CURRENT_DATE "
-						+ " ORDER BY n.data ASC ")
+						+ " ORDER BY n.data ASC "),
+		@NamedQuery(name = "Assembleia.recuperarIdUltimaAssembleiaDoCondominio", 
+						query = "Select max(n.id) FROM Assembleia n "
+								+ "	WHERE n.condominio.id = :idCondominio AND n.data < CURRENT_DATE "
+								+ " ORDER BY n.data DESC ")
 })
 public class Assembleia extends Entidade implements Serializable{
 

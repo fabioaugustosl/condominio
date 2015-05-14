@@ -85,6 +85,11 @@ public class AssembleiaService implements IAssembleiaService {
 		}
 		
 	}
+
+	@Override
+	public Assembleia recuperarUltimaAssembleiasRealizadas(Long idCondominio) {
+		return assembleiaDAO.recuperarUltimaAssembleia(idCondominio);
+	}
 	
 
 }

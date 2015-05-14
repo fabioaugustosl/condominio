@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
+import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.session.SessaoUsuario;
 
 @ManagedBean
@@ -20,8 +21,12 @@ public class PrincipalController implements Serializable {
 	@Inject
 	private SessaoUsuario sessao;
 	
+	private Condominio condominio = null;
+	
+	
 	@PostConstruct
 	public void init(){
+		condominio = sessao.getUsuarioLogado().getCondominio();
 	}
 		 
 	 
@@ -31,6 +36,7 @@ public class PrincipalController implements Serializable {
 		 }
 		 return Boolean.FALSE;
 	}
+	
 	 
 	public boolean ehAdministrativo(){
 		 if(EnumTipoUsuario.ADMINISTRATIVO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
@@ -39,5 +45,10 @@ public class PrincipalController implements Serializable {
 		 return Boolean.FALSE;
 	}
 
-			
+
+	public Condominio getCondominio() {
+		return condominio;
+	}
+
+				
 }

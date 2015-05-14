@@ -23,9 +23,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name="BatePapo.recuperarTodosPorCondominio",
-				query="SELECT distinct b FROM BatePapo b JOIN FETCH b.avaliacoes a WHERE b.condominio.id = :idCondominio")
+				query="SELECT distinct b FROM BatePapo b LEFT JOIN FETCH b.avaliacoes a WHERE b.condominio.id = :idCondominio ORDER BY b.id DESC")
 })
-public class BatePapo extends Entidade implements Serializable {
+public class BatePapo extends Entidade implements Serializable, Comparable<BatePapo> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -139,6 +139,20 @@ public class BatePapo extends Entidade implements Serializable {
 			}
 		}
 
+	}
+
+	@Override
+	public int compareTo(BatePapo o) {
+		if(o == null){
+			return 1;
+		}
+		if(this.getId() == null && o.getId() != null){
+			return -1;
+		} else if(this.getId() == null && o.getId() == null){
+			return 0;
+		}
+		
+		return this.getId().compareTo(o.getId());
 	}
 
 }

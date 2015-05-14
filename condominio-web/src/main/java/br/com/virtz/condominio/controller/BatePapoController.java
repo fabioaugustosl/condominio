@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.controller;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +14,9 @@ import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
+import br.com.virtz.condominio.entidades.Avaliacao;
 import br.com.virtz.condominio.entidades.BatePapo;
+import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.ErroAoSalvar;
 import br.com.virtz.condominio.service.IBatePapoService;
@@ -40,41 +43,64 @@ public class BatePapoController {
 	@PostConstruct
 	public void init(){
 		mensagem = null;
-		batePapos = listarTodos();
 		usuario = sessao.getUsuarioLogado();
+		batePapos = listarTodos(usuario.getCondominio());
 	}
 	
 	
-	public List<BatePapo> listarTodos(){
+	public List<BatePapo> listarTodos(Condominio condominio){
 		
-		List<BatePapo> batePapos = batePapoService.recuperarTodos(usuario.getCondominio());
-		for(BatePapo bp : batePapos){
-			bp.calcularAvalicoesPositivasENegativas();
-		}
+		List<BatePapo> batePapos = batePapoService.recuperarTodos(condominio);
+		contarAvaliacoes(batePapos);
 		
 		return batePapos;
 	}
 
+
+	private void contarAvaliacoes(List<BatePapo> batePapos) {
+		for(BatePapo bp : batePapos){
+			bp.calcularAvalicoesPositivasENegativas();
+		}
+	}
+
 	public void positivar(BatePapo batePapo){
 		try {
-			batePapoService.avaliarNegativamente(batePapo, sessao.getUsuarioLogado(), null);
+			Avaliacao avaliacao = batePapoService.avaliarPositivamente(batePapo, sessao.getUsuarioLogado(), null);
+			adicionarNovaAvaliacao(batePapo, avaliacao);
+			contarAvaliacoes(batePapos);
 		} catch (ErroAoSalvar e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			messageHelper.addError("Ocorreu um erro ao positivar mensagem.");
 		}
 	}
-	
+
+
 	public void negativar(BatePapo batePapo){
 		try {
-			batePapoService.avaliarNegativamente(batePapo, sessao.getUsuarioLogado(), null);
+			Avaliacao avaliacao = batePapoService.avaliarNegativamente(batePapo, sessao.getUsuarioLogado(), null);
+			adicionarNovaAvaliacao(batePapo, avaliacao);
+			contarAvaliacoes(batePapos);
 		} catch (ErroAoSalvar e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			messageHelper.addError("Ocorreu um erro ao negativar mensagem.");
 		}
 	}
 	
 	
-	 public boolean podeExcluir(BatePapo papo){
+
+	private void adicionarNovaAvaliacao(BatePapo batePapo, Avaliacao avaliacao) {
+		for(BatePapo bp : batePapos){
+			if(bp.equals(batePapo)){
+				if(bp.getAvaliacoes() == null){
+					bp.setAvaliacoes(new HashSet<Avaliacao>());
+				}
+				bp.getAvaliacoes().add(avaliacao);
+			}
+		}
+	}
+	
+	
+	public boolean podeExcluir(BatePapo papo){
 		 if(papo.getUsuario().getId().equals(usuario.getId()) || EnumTipoUsuario.SINDICO.equals(usuario.getTipoUsuario())){
 			 return Boolean.TRUE;
 		 }
@@ -83,6 +109,7 @@ public class BatePapoController {
 	 
 	 public void excluir(BatePapo papo){
 		 if(papo != null){
+			 batePapos.remove(papo);
 			 batePapoService.remover(papo.getId());
 			 messageHelper.addInfo("Mensagem removida!");
 		 }
@@ -97,7 +124,8 @@ public class BatePapoController {
 			batePapo.setUsuario(sessao.getUsuarioLogado());
 			batePapo.setData(new Date());
 			try {
-				batePapoService.salvar(batePapo);
+				batePapo = batePapoService.salvar(batePapo);
+				batePapos.add(batePapo);
 				messageHelper.addInfo("Mensagem enviada!");
 				this.mensagem = null;
 			} catch (Exception e) {

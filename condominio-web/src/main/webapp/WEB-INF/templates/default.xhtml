@@ -27,6 +27,9 @@
 		
 		<div class="menu">
 			<h:form id="formMenuConfiguracoes">
+				<div style="float:left; margin:10px; padding:0px;">
+					<p:outputLabel id="labelCondominioPrincipal" value="#{principalController.condominio.nome}"></p:outputLabel>
+				</div>
 				<div style="float:right; margin:10px; padding:0px;">
 					<p:graphicImage id="icoConfiguracao" url="/img/icones/ico_configuracao.png" height="30" style="cursor:pointer;"></p:graphicImage>
 					
@@ -58,8 +61,10 @@
 							<p:menuitem value="Usuários" outcome="/usuario/listagemUsuario.faces" />
 						</p:submenu>
 						<p:submenu label="Geral">
-							<p:menuitem value="Gerenciar Votações" rendered="#{principalController.ehSindico()}" 
+							<p:menuitem value="Votações" rendered="#{principalController.ehSindico()}" 
 									outcome="/votacao/cadastrarVotacao.faces" />
+							<p:menuitem value="Mensagem Síndico" rendered="#{principalController.ehSindico()}" 
+									outcome="/sindico/listagemMensagemSindico.faces" />
 						</p:submenu>
 						<p:submenu label="Configurações" rendered="#{principalController.ehSindico()}">
 							<p:menuitem value="Gerais" outcome="/configuracao/configuracao.faces" />

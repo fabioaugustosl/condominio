@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+     
+   <h:form id="formUltimaAssembleia" style="width:100%">
+	   
+	   <p:outputPanel id="containerUltimaAssembleia" rendered="#{ultimaAssembleiaController.possuiUltimaAssembleia()}" >
+		
+				<div >
+					Última assembléia realizada dia 
+					<p:outputLabel value="#{ultimaAssembleiaController.assembleia.data}" >
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:outputLabel>
+					às <p:outputLabel value="#{ultimaAssembleiaController.assembleia.horario1}">
+						<f:convertDateTime pattern="hh:mm" />
+					</p:outputLabel> horas.
+				</div>
+				
+				<p:commandButton value="Download ATA" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s"
+		    		rendered="#{not empty ultimaAssembleiaController.assembleia.arquivoAta}">
+			        <p:fileDownload value="#{ultimaAssembleiaController.download()}" />
+			    </p:commandButton>	
+			    
+			    <p:outputPanel id="panelUltimaAssembleiaNaoTemAta" rendered="#{empty ultimaAssembleiaController.assembleia.arquivoAta}" >
+			    	<p:outputLabel value="Ainda não foi disponibilizada a ata desta assembléia.">
+					</p:outputLabel>
+			    </p:outputPanel>
+			    
+			    <div>
+				    <p:commandLink id="btnLinkUltimaAssembleiaListar" value="Ver todas as assembléias"
+				    	actionListener="#{ultimaAssembleiaController.irParaListagem()}">
+				    </p:commandLink>
+			    </div>
+					
+	   </p:outputPanel>
+	   
+	</h:form>
+	
+</ui:composition>
+

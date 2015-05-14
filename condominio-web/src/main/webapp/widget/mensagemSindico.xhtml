@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   
+   <h:form id="formMensagemSindico" style="width:100%">
+   
+   		<script>
+    		
+		</script>
+		
+	   <p:outputPanel id="containerMensagemSindico">
+	   		<p:messages autoUpdate="false" id="msgSindico"></p:messages>
+		   	<p:outputPanel id="painelNovoBatePapo">
+			   	 	<p:inputTextarea style="width:100%;" maxlength="800" styleClass="textAreaPadrao" 
+			        		counterTemplate="{0}" autoResize="false" value="#{mensagemSindicoController.mensagem}"  />
+			    	<p:commandButton id="btnEnviaMsgSindico" 
+			    			value="Enviar " styleClass="btn btn-primary btn-block btn-lg" 
+			    			update="@form"  actionListener="#{mensagemSindicoController.enviarMensagem}" />
+		   	</p:outputPanel>
+	    </p:outputPanel>
+	</h:form>
+	
+</ui:composition>
+
