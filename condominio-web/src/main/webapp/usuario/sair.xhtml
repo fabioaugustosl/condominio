@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+   		<br />
+	   	<h1>Tem certeza que deseja sair do sistema de condomínio?</h1>
+	 	<br />
+	 	<br />
+	 	<br />
+	 	<p:commandButton value="Sim"  styleClass="ui-confirmdialog-yes" 
+	 			icon="ui-icon-check"  actionListener="#{usuarioSairController.sair()}" />
+	    <p:commandButton value="Não" styleClass="ui-confirmdialog-no" 
+	    		icon="ui-icon-close" actionListener="#{usuarioSairController.nao()}" />
+	    
+	 </h:form>
+
+  </ui:define>
+</ui:composition>

@@ -20,7 +20,7 @@
 
 /* Coluna da direita */
 .site-right-col{
-    width:75%;
+    width:80%;
     float:right;
 }
 .site-right-col-resized{
@@ -41,7 +41,7 @@
     font-size:14px;
     color:#fff;
     height:80px;
-    background:#0B486B;
+    background:#6190C8;
 }
 .menu a{
     color:#fff;
@@ -54,7 +54,7 @@
 	width:250px; 
 	padding:0; 
 	border:0 ;
-	background:#79BD9A;
+	background:#2A5EAA;
 	clear:both;
 }
 
@@ -73,7 +73,7 @@
 	border:0px; 
 	padding:0px; 
 	margin:0px;
-	background:#79BD9A;
+	background:#2A5EAA;
 }
 
 .tabelaPadrao {
@@ -105,3 +105,31 @@
 }
 
 
+
+
+
+
+.header-btn-text {
+  padding: 0 8px;
+}
+
+.header-btn {
+  background: -webkit-linear-gradient(top,rgba(255,255,255,.3) 0,rgba(255,255,255,.2) 100%);
+  background: linear-gradient(to bottom,rgba(255,255,255,.3) 0,rgba(255,255,255,.2) 100%);
+  border-radius: 3px;
+  color: #f3f3f3;
+  display: block;
+  float: left;
+  font-weight: 700;
+  height: 30px;
+  line-height: 30px;
+  margin-right: 8px;
+  min-width: 30px;
+  padding: 0;
+  position: relative;
+  text-decoration: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

@@ -154,4 +154,9 @@ public class UsuarioService implements IUsuarioService {
 		}
 	}
 
+	@Override
+	public List<Usuario> recuperarSindicos(Long idCondominio) {
+		return usuarioDAO.recuperarSindicos(idCondominio);
+	}
+
 }

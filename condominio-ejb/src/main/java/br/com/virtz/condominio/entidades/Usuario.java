@@ -28,6 +28,8 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 @NamedQueries({
 	@NamedQuery(name = "Usuario.recuperarPorCondominio", 
 			query = "Select u FROM Usuario u WHERE u.condominio.id = :idCondominio"),
+	@NamedQuery(name = "Usuario.recuperarSindicosPorCondominio", 
+			query = "Select u FROM Usuario u WHERE u.condominio.id = :idCondominio AND u.tipoUsuario = 'SINDICO'"),
 	@NamedQuery(name = "Usuario.recuperarPorEmail", 
 			query = "Select u FROM Usuario u "
 					+ " LEFT JOIN FETCH u.condominio c "

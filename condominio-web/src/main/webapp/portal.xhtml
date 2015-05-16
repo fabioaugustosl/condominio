@@ -27,14 +27,20 @@
 			                <ui:include src="widget/noticias.xhtml" />
 			            </p:panel>
 			            
-			            <p:panelGrid columns="2" layout="grid">
-			            	<p:panel id="panelWidgetUltimaAssembleia" header="Última Assembléia" style="height:100%;"  rendered="#{ultimaAssembleiaController.possuiUltimaAssembleia()}" >            
-								<ui:include src="widget/ultimaAssembleia.xhtml" />
-							</p:panel>
-							<p:panel id="panelWidgetMsgSindico" header="Fale com o síndico" style="height:100%;"  >
-						    	<ui:include src="widget/mensagemSindico.xhtml" />
-						    </p:panel>
-						</p:panelGrid>
+			            <table style="width:100%">
+			            	<tr>
+			            		<td style="width:50%">
+					            	<p:panel id="panelWidgetUltimaAssembleia" header="Última Assembléia" style="height:100%;"  rendered="#{ultimaAssembleiaController.possuiUltimaAssembleia()}" >            
+										<ui:include src="widget/ultimaAssembleia.xhtml" />
+									</p:panel>
+								</td>
+								<td style="width:50%">
+									<p:panel id="panelWidgetMsgSindico" header="Fale com o síndico" style="height:100%;"  >
+								    	<ui:include src="widget/mensagemSindico.xhtml" />
+								    </p:panel>
+								</td>
+						    </tr>
+						</table>
 		 			</td>
 		 			
 		 			<td style="width:35%; top:0;">

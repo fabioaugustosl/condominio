@@ -47,6 +47,12 @@
 			    </p:commandButton>
 		    </p:column> 
 		    
+		    <p:column rendered="#{listagemAssembleiaController.ehSindico()}" headerText="Lembrete">
+		     	<p:commandButton value="Enviar Lembrete" update=":form:textLembrete" oncomplete="PF('dlgLembrete').show();">
+		    		<f:setPropertyActionListener value="#{assemb}" target="#{listagemAssembleiaController.assembleiaSelecionada}" />
+			    </p:commandButton>
+		    </p:column>
+		    
 		    <p:column rendered="#{listagemAssembleiaController.podeEditar()}">
 		     	<p:commandLink actionListener="#{listagemAssembleiaController.editar(assemb)}" 
 	         		id="editarAssSelecionada" value="Editar" immediate="true" >
@@ -87,6 +93,20 @@
 			    </p:column>
  
 		    </p:dataTable>
+		</p:dialog> 
+		
+		
+		<p:dialog modal="true" id="dlgLembrete" widgetVar="dlgLembrete" header="Envio de Lembrete" 
+						draggable="true" closable="true" resizable="false" 
+						dynamic="true" width="400" >
+			<p:outputLabel value="Insira uma mensagem de lembrete:"></p:outputLabel>
+			<p:inputTextarea id="textLembrete" style="width:100%;" maxlength="1000" styleClass="textAreaPadrao" 
+			        		counterTemplate="{0}" autoResize="false" value="#{listagemAssembleiaController.mensagemLembrete}"  />
+	    	<p:commandButton id="btnEnviaMsgLembrete" 
+	    			value="Enviar " styleClass="btn btn-primary btn-block btn-lg"
+	    			actionListener="#{listagemAssembleiaController.enviarLembrete}"
+	    			oncomplete="PF('dlgLembrete').hide();" />		
+    
 		</p:dialog> 
 	    
 	    

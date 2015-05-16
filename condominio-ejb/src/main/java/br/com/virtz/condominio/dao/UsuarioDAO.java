@@ -62,5 +62,13 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		}
 		return null;
 	}
+
+
+	@Override
+	public List<Usuario> recuperarSindicos(Long idCondominio) {
+		Query qry = getEntityManager().createNamedQuery("Usuario.recuperarSindicosPorCondominio");
+		qry.setParameter("idCondominio", idCondominio);
+		return qry.getResultList();
+	}
 	
 }

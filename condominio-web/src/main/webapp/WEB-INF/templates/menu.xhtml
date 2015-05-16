@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   
+    <p:panelMenu style="width:100%">
+		<p:submenu label="Condomínio">
+			<p:menuitem value="Reservar Área" outcome="/condominio/reservarArea.faces" />
+			<p:menuitem value="Documentos" outcome="/documento/listagemDocumento.faces" />
+			
+			<p:menuitem value="Assembléias" outcome="/assembleia/listagemAssembleia.faces" />
+			<p:menuitem value="Usuários" outcome="/usuario/listagemUsuario.faces" />
+		</p:submenu>
+		<p:submenu label="Geral">
+			<p:menuitem value="Notícias e Avisos" outcome="/noticia/listagemNoticia.faces" />
+			<p:menuitem value="Votações" rendered="#{principalController.ehSindico()}" 
+					outcome="/votacao/cadastrarVotacao.faces" />
+			<p:menuitem value="Mensagem Síndico" rendered="#{principalController.ehSindico()}" 
+					outcome="/sindico/listagemMensagemSindico.faces" />
+		</p:submenu>
+		<p:submenu label="Configurações" rendered="#{principalController.ehSindico()}">
+			<p:menuitem value="Meu Condomínio" outcome="/condominio/condominio.faces" rendered="#{principalController.ehSindico()}" />
+			<p:menuitem value="Gerais" outcome="/configuracao/configuracao.faces" rendered="#{principalController.ehSindico()}" />
+		</p:submenu>
+	</p:panelMenu>
+	
+</ui:composition>

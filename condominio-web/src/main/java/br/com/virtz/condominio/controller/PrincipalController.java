@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.session.SessaoUsuario;
 
 @ManagedBean
@@ -22,11 +23,13 @@ public class PrincipalController implements Serializable {
 	private SessaoUsuario sessao;
 	
 	private Condominio condominio = null;
+	private Usuario usuario = null;
 	
 	
 	@PostConstruct
 	public void init(){
-		condominio = sessao.getUsuarioLogado().getCondominio();
+		usuario = sessao.getUsuarioLogado();
+		condominio = usuario.getCondominio();
 	}
 		 
 	 
@@ -45,10 +48,15 @@ public class PrincipalController implements Serializable {
 		 return Boolean.FALSE;
 	}
 
-
+	
+	
 	public Condominio getCondominio() {
 		return condominio;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	
 				
 }

@@ -3731,6 +3731,7 @@ body,
 html {
   padding: 0;
   margin: 0;
+  background: #E0EEEE;
 }
 body:before,
 body:after {

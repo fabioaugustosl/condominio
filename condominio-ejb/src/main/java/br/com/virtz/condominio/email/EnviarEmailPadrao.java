@@ -34,41 +34,7 @@ public class EnviarEmailPadrao implements EnviarEmail {
         }
     }
 	
-	public boolean enviar1(Email email) {
-        try {
-        	Session sessaoEmail = getSessaoG();
-            MimeMessage m = new MimeMessage(sessaoEmail);
-            Address de = new InternetAddress(email.getDe());
-            Address[] para = InternetAddress.parse(email.getParaToString());  
-            m.setFrom(de);
-            m.setRecipients(Message.RecipientType.TO, para);
-            m.setSubject(email.getAssunto());
-            m.setContent(email.getMensagem(), "text/html; charset=utf-8");
-            Transport.send(m);
-            return Boolean.TRUE;
-        } catch (javax.mail.MessagingException e) {
-            e.printStackTrace();
-            return Boolean.FALSE;
-        }
-    }
-	
-	public boolean enviar2(Email email) {
-        try {
-        	Session sessaoEmail = getSessaoG2();
-            MimeMessage m = new MimeMessage(sessaoEmail);
-            Address de = new InternetAddress(email.getDe());
-            Address[] para = InternetAddress.parse(email.getParaToString());  
-            m.setFrom(de);
-            m.setRecipients(Message.RecipientType.TO, para);
-            m.setSubject(email.getAssunto());
-            m.setContent(email.getMensagem(), "text/html; charset=utf-8");
-            Transport.send(m);
-            return Boolean.TRUE;
-        } catch (javax.mail.MessagingException e) {
-            e.printStackTrace();
-            return Boolean.FALSE;
-        }
-    }
+
 	
 
 	private Session getSessao() {
@@ -84,7 +50,7 @@ public class EnviarEmailPadrao implements EnviarEmail {
         Session session = Session.getDefaultInstance(props,
                     new javax.mail.Authenticator() {
                          protected PasswordAuthentication getPasswordAuthentication()   {
-                               return new PasswordAuthentication("fabioaugustosl@gmail.com", "Fabio159216");
+                               return new PasswordAuthentication("contatovirtz@gmail.com", "#xupagalo");
                          }
                     });
 

@@ -92,9 +92,7 @@ public class LoginController {
 			
 			// iniciar lookups
 			parametroLookup.iniciarLookup(u.getCondominio());
-			
-			testeEnvioEmail();
-			
+
 			navigation.redirectToPage("/portal.faces");
 		} catch (AuthenticationException ae) {
 			messageHelper.addError("Usuário ou senha inválido(s).");
@@ -181,22 +179,7 @@ public class LoginController {
 	}
 
 
-	private void testeEnvioEmail() {
-		Map<Object, Object> map = new HashMap<Object, Object>();
-        map.put("titulo", "Fábio");
-        
-        String caminho = arquivosUtil.getCaminhaPastaTemplatesEmail();
-		String msg = leitor.processarTemplate(caminho, EnumTemplates.PADRAO.getNomeArquivo(), map);
-		
-		Email email = new Email("contato@virtz.com.br", "fabioaugustosl@gmail.com", "teste Fabio", msg);
-		enviarEmail.enviar(email);
-		
-	}
 
-
-	
-	
-	
 	
 	public String getLogin() {
 		return login;

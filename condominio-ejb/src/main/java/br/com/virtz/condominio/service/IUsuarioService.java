@@ -17,6 +17,7 @@ public interface IUsuarioService {
 	public ArquivoUsuario salvarArquivo(ArquivoUsuario arquivo) throws AppException ;
 	public void remover(Long id);
 	public List<Usuario> recuperarTodos();
+	public List<Usuario> recuperarSindicos(Long idCondominio);
 	public Usuario recuperarUsuarioCompleto(Long id);
 	public List<Usuario> recuperarTodos(Condominio condominio);
 	
