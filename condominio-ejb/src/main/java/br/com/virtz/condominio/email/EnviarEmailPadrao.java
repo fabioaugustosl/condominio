@@ -34,9 +34,47 @@ public class EnviarEmailPadrao implements EnviarEmail {
         }
     }
 	
+	public boolean enviar1(Email email) {
+        try {
+        	Session sessaoEmail = getSessaoG();
+            MimeMessage m = new MimeMessage(sessaoEmail);
+            Address de = new InternetAddress(email.getDe());
+            Address[] para = InternetAddress.parse(email.getParaToString());  
+            m.setFrom(de);
+            m.setRecipients(Message.RecipientType.TO, para);
+            m.setSubject(email.getAssunto());
+            m.setContent(email.getMensagem(), "text/html; charset=utf-8");
+            Transport.send(m);
+            return Boolean.TRUE;
+        } catch (javax.mail.MessagingException e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+    }
+	
+	public boolean enviar2(Email email) {
+        try {
+        	Session sessaoEmail = getSessaoG2();
+            MimeMessage m = new MimeMessage(sessaoEmail);
+            Address de = new InternetAddress(email.getDe());
+            Address[] para = InternetAddress.parse(email.getParaToString());  
+            m.setFrom(de);
+            m.setRecipients(Message.RecipientType.TO, para);
+            m.setSubject(email.getAssunto());
+            m.setContent(email.getMensagem(), "text/html; charset=utf-8");
+            Transport.send(m);
+            return Boolean.TRUE;
+        } catch (javax.mail.MessagingException e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+    }
+	
+
 	private Session getSessao() {
         Properties props = new Properties();
         /** Parâmetros de conexão com servidor Gmail */
+        props.put("mail.smtp.ssl.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
@@ -54,6 +92,27 @@ public class EnviarEmailPadrao implements EnviarEmail {
         session.setDebug(true);
         return session;
 	}
+	
+	/*private Session getSessaoG2() {
+        Properties props = new Properties();
+        *//** Parâmetros de conexão com servidor Gmail *//*
+        props.put("mail.smtp.ssl.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        Session session = Session.getDefaultInstance(props,
+                    new javax.mail.Authenticator() {
+                         protected PasswordAuthentication getPasswordAuthentication()   {
+                               return new PasswordAuthentication("fabioaugustosl@gmail.com", "Fabio159216");
+                         }
+                    });
+
+        *//** Ativa Debug para sessão *//*
+        session.setDebug(true);
+        return session;
+	}*/
 }
 
 

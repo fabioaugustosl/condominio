@@ -18,6 +18,7 @@ import org.apache.shiro.subject.Subject;
 import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
+import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Condominio;
@@ -74,9 +75,9 @@ public class LoginController {
 	@Inject
 	private ArquivosUtil arquivosUtil;
 	
-	/*@EJB
-	private EnviarEmailPadrao enviarEmail;
-	*/
+	@EJB
+	private EnviarEmail enviarEmail;
+	
 	
 	public void logar() throws Exception{
 		
@@ -92,7 +93,7 @@ public class LoginController {
 			// iniciar lookups
 			parametroLookup.iniciarLookup(u.getCondominio());
 			
-			//testeEnvioEmail();
+			testeEnvioEmail();
 			
 			navigation.redirectToPage("/portal.faces");
 		} catch (AuthenticationException ae) {
@@ -187,8 +188,9 @@ public class LoginController {
         String caminho = arquivosUtil.getCaminhaPastaTemplatesEmail();
 		String msg = leitor.processarTemplate(caminho, EnumTemplates.PADRAO.getNomeArquivo(), map);
 		
-		Email email = new Email("fabioaugustosl@gmail.com", "fabioaugustosl@gmail.com", "teste Fabio", msg);
-//		enviarEmail.enviar(email);
+		Email email = new Email("contato@virtz.com.br", "fabioaugustosl@gmail.com", "teste Fabio", msg);
+		enviarEmail.enviar(email);
+		
 	}
 
 

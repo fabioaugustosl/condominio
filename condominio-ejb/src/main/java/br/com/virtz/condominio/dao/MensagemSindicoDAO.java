@@ -19,6 +19,7 @@ public class MensagemSindicoDAO extends DAO<MensagemSindico> implements IMensage
 		
 		Query qry = getEntityManager().createNamedQuery("MensagemSindico.recuperarPorCondominio");
 		qry.setParameter("idCondominio", idCondominio);
+		qry.setMaxResults(300);
 		
 		return qry.getResultList();
 	}

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "MensagemSindico.recuperarPorCondominio", 
-				query = "Select n FROM MensagemSindico n WHERE n.condominio.id = :idCondominio ")
+				query = "Select n FROM MensagemSindico n WHERE n.condominio.id = :idCondominio")
 })
 public class MensagemSindico extends Entidade implements Serializable {
 

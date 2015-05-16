@@ -14,7 +14,13 @@
 		<p:dataTable id="dtListagemMsgSindico" var="msg" 
 				value="#{listagemMensagemSindicoController.mensagens}"
 				rowKey="#{msg.id}"
+				rows="20"
+                paginator="true"  paginatorPosition="bottom"
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="20, 50, 100"
 				emptyMessage="Ainda não foram enviadas nenhuma mensagem para o síndico através do site." >
+				
+				
 			
 		     <p:column headerText="Data">
 		        <h:outputText value="#{msg.data}" >
