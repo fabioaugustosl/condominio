@@ -13,7 +13,7 @@
 	 	
 	 	<table style="width:100%">
 	 		<tr>
-	 			<td style="width:70%">
+	 			<td style="width:70%; top:0;">
 		 			<p:outputPanel id="panelNoticiaDestaque" rendered="#{exibirNoticiaController.noticia != null}">
 						<p:outputLabel id="noticiaDestaqueTitulo" value="#{exibirNoticiaController.noticia.titulo}" style="font-weight:bold"></p:outputLabel>
 						<br />
@@ -50,7 +50,7 @@
 						</p:dataTable>
 					</p:outputPanel>
 	 			</td>
-	 			<td style="width:30%" >
+	 			<td style="width:30%; top:0;" >
 		 			<p:dataList id="dlNoticiasExibicao" value="#{exibirNoticiaController.noticias}" 
 						var="noticia" rendered="#{not empty exibirNoticiaController.noticias}"   >
 						  [<p:outputLabel id="noticiaDestaqueData" value="#{noticia.data}">
