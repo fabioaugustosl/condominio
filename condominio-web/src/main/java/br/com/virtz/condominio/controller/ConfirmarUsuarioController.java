@@ -74,7 +74,11 @@ public class ConfirmarUsuarioController {
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idUsuario", usuario.getId());
 		navegacao.redirectToPage("selecionarCondominioUsuario.faces");
 	}
+
 	
+	public void irParaLogin(){
+		navegacao.redirectToPage("../login.faces");
+	}
 	
 	
 	/* GETTERS e SETTERS*/

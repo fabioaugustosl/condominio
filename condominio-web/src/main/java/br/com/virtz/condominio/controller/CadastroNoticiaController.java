@@ -49,10 +49,11 @@ public class CadastroNoticiaController {
 	
 	private Noticia noticia;
 	private UploadedFile arquivo;
+	private Usuario usuario = null;
 	
 	@PostConstruct
 	public void init(){
-		Usuario usuario = sessao.getUsuarioLogado();
+		usuario = sessao.getUsuarioLogado();
 		Object noticiaEditar = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idNoticia");
 		
 
@@ -80,6 +81,7 @@ public class CadastroNoticiaController {
 		
 		try{
 			noticiaService.salvarNoticia(noticia);
+			criarNovaNoticia(usuario);
 			message.addInfo("A Notícia foi salva com sucesso.");
 		}catch(Exception e){
 			e.printStackTrace();

@@ -4,25 +4,24 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.CroppedImage;
 
 import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
-import br.com.virtz.condominio.constantes.EnumTipoUsuario;
+import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.ArquivoUsuario;
 import br.com.virtz.condominio.entidades.Token;
@@ -60,6 +59,9 @@ public class CadastrarUsuarioFotoController implements Serializable{
 
 	@Inject
 	private LeitorTemplate leitor;
+	
+	@EJB
+	private EnviarEmail enviarEmail;
 	
 	@Inject
 	private NavigationPage navegacao;
@@ -100,7 +102,7 @@ public class CadastrarUsuarioFotoController implements Serializable{
         	
         	// enviar email confirmação
         	try{
-        		enviarEmailConfirmacaoCadastro(token);
+        		enviarEmailConfirmacaoCadastro(usuario, token);
         	}catch(Exception e){
         		message.addInfo("Ocorreu uma falha ao enviar email de confirmação pra você!");
         	}
@@ -115,15 +117,23 @@ public class CadastrarUsuarioFotoController implements Serializable{
 
 
 
-	private void enviarEmailConfirmacaoCadastro(Token token) {
+	private void enviarEmailConfirmacaoCadastro(Usuario usuario, Token token) {
+		// recuperar url da aplicação
+		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		StringBuffer sb = origRequest.getRequestURL();
+		sb.append("confimarCadastro.faces?token=").append(token.getToken());
+
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
-		mapParametrosEmail.put("nomeUsuairo", usuario.getNome());
-		mapParametrosEmail.put("token", token.getToken());
+		mapParametrosEmail.put("nomeUsuario", usuario.getNome());
+		mapParametrosEmail.put("link", sb.toString());
+		
+		
 		
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
 		String msg = leitor.processarTemplate(caminho, EnumTemplates.CONFIRMACAO_USUARIO.getNomeArquivo(), mapParametrosEmail);
-		Email email = new Email("fabioaugustosl@gmail.com", "fabioaugustosl@gmail.com", "teste Fabio", msg);
-   	//	enviarEmail.enviar(email);
+		
+		Email email = new Email(EnumTemplates.CONFIRMACAO_USUARIO.getDe(), usuario.getEmail(), EnumTemplates.CONFIRMACAO_USUARIO.getAssunto(), msg);
+		enviarEmail.enviar(email);
 	}
 
 	

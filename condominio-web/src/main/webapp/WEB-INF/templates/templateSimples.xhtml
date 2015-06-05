@@ -11,6 +11,12 @@
 	  
 	<title>Condominio</title>
 	
+	<h:outputStylesheet library="css" name="bootstrap.css" /> 
+	<h:outputStylesheet library="css" name="condominio.css" /> 
+	<h:outputStylesheet library="css" name="componentes_forms.css" />
+	<h:outputStylesheet library="css" name="layout_sem_login.css" />
+	
+	
 </h:head>
 
 <h:body>
@@ -21,8 +27,18 @@
 	</p:dialog>
 	
 	
-	
-		<ui:insert name="content">Aqui vai ser o conteúdo.</ui:insert>
+	<div class="container">
+	  <div class="page-header-entrada row">
+	  	<div id="divLogo"></div>
+	  </div>
+
+	  <div class="row">
+	    <div role="main">
+	    <ui:insert name="content">Aqui vai ser o conteúdo.</ui:insert>
+	    </div>
+	  </div>
+  	</div>
+		
 	
 
 </h:body>

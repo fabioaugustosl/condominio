@@ -12,7 +12,7 @@
    
    <ui:define name="content">
 	   
-	   	
+	<h:form id="form" >   
 		<p:outputPanel id="associacaoCondominioUsuario" >
 		
 			<p:outputLabel rendered="#{not selecionarCondominioUsuarioController.sucesso}" value="Para finalizar seu cadastro precisamos que você nos informe qual é o seu condomínio."></p:outputLabel>
@@ -24,7 +24,7 @@
 					 converter="converterEntityById" >
 			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 			 		<f:selectItems value="#{selecionarCondominioUsuarioController.cidades}" var="cidade" itemLabel="#{cidade.nomeExibicao}" itemValue="#{cidade}" />
-			 		<p:ajax event="change" update="associacaoCondominioUsuario" listener="#{selecionarCondominioUsuarioController.recuperarCondominios}" />
+			 		<p:ajax event="change"  update="associacaoCondominioUsuario" listener="#{selecionarCondominioUsuarioController.recuperarCondominios}" />
 			 	</p:selectOneMenu>
 				
 				<br />
@@ -99,5 +99,6 @@
 				   	
 			</p:outputPanel>
 	   </p:outputPanel>
+	</h:form>
    </ui:define>
 </ui:composition>

@@ -42,9 +42,10 @@ public class NoticiaController {
 	private IArquivosUtil arquivoUtil;
 	
 	
-	public Noticia noticiaDestaque;
-	public Noticia noticiaSelecionada;
-	public List<Noticia> noticias;
+	private Noticia noticiaDestaque;
+	private Noticia noticiaSelecionada;
+	private ArquivoNoticia imagemNoticiaDestaque = null;
+	private List<Noticia> noticias;
 	
 	
 	@PostConstruct
@@ -63,8 +64,22 @@ public class NoticiaController {
 		if(noticias != null && !noticias.isEmpty()){
 			noticiaDestaque = noticias.get(0);
 			noticias.remove(noticiaDestaque);
+			montarImagemNoticia(noticiaDestaque);
 		}
 		
+	}
+	
+	
+	private void montarImagemNoticia(Noticia noticia) {
+		imagemNoticiaDestaque = null;
+		if(noticia.getArquivos() != null && !noticia.getArquivos().isEmpty()){
+			for(ArquivoNoticia a : noticia.getArquivos()){
+				if(arquivoUtil.ehImagem(a.getExtensao())){
+					imagemNoticiaDestaque = a;
+					break;
+				}
+			}
+		}
 	}
 	
 	
@@ -105,6 +120,11 @@ public class NoticiaController {
 	public void setNoticiaSelecionada(Noticia noticiaSelecionada) {
 		this.noticiaSelecionada = noticiaSelecionada;
 	}
+
+	public ArquivoNoticia getImagemNoticiaDestaque() {
+		return imagemNoticiaDestaque;
+	}
+	
 		
 	
 }

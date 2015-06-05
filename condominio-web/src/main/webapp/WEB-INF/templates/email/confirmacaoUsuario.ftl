@@ -4,11 +4,21 @@
 	
 	<body>
 	
-		<h1>${titulo}</h1>
+		<h1>Olá ${nomeUsuario}!</h1>
+		<br />
+		<br />
+		<h3>Bem vindo ao sistema de condomínio.</h3>
 		
 		<br/>
-		
-		Este é um email padrão do sistema.
+		<p>Seu cadastro foi realizado com sucesso!</p>
+		<p>Para finalizar basta clicar no link abaixo e confirmar seu cadastro.</p>
+		<br  />
+		<br  />
+		<p>Para finalizar basta clicar no link abaixo e confirmar seu cadastro.</p>
+		<a href="${link}" target="_blank">${link}</a>
+		<br  />
+		<br  />
+		<p>Obrigado. </p>
 	</body>
 
 </html>

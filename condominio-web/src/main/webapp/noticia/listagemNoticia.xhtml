@@ -43,7 +43,7 @@
 		    
 		    <p:column rendered="#{listagemNoticiaController.podeExcluir()}">
 		    	<p:commandLink actionListener="#{listagemNoticiaController.removerNoticia(noticia)}" 
-	         		id="excluirNotSelecionada" value="Remover" immediate="true" update="dtListagemNoticias" >
+	         		id="excluirNotSelecionada" value="Remover" immediate="true" update="@form" ajax="false" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa notícia?" icon="ui-icon-alert" />
 	         	</p:commandLink>
 	         </p:column>

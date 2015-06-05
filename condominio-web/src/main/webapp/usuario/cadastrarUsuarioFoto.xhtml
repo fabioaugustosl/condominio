@@ -42,6 +42,8 @@
         				<!-- <p:commandButton value="Pronto!" action="#{cadastrarUsuarioFotoController.cortar}"
         					process="cortadorImagem, @this" update="imagemUsuario" icon="ui-icon-scissors"/> -->
 
+						<br />
+						
 						<p:commandButton id="salvarUsuario" value="Finalizar o Cadastro" 
 					   		actionListener="#{cadastrarUsuarioFotoController.cortar}" 
 					   		update="@form" process="cortadorImagem, @this">
@@ -51,10 +53,12 @@
 		</p:outputPanel>
 		
 		<p:outputPanel id="mensagemSucesso" rendered="#{cadastrarUsuarioFotoController.cadastroFinalizado}">
-			Seu cadastro foi realizado com sucesso!
+			<h1>Seu cadastro foi realizado com sucesso!</h1>
 			<br/>
+			<p>
 			Foi enviado um email de confirmação para você. Basta abri-lo e clicar no link para confirmar seu usuaário e concluir seu cadastro. 
-			É bem rápido.   
+			É bem rápido.
+			</p>   
 		</p:outputPanel>
 		
 	  </h:form>

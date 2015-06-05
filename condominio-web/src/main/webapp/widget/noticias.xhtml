@@ -7,6 +7,24 @@
    
    <h:form id="formNoticia" style="width:100%">
    
+   		<style>
+   		 .containerNoticiasDestaque{
+   		 	background-color: #f6f6f6;
+   		 }
+   		 
+   		 .noticiasDestaque div{
+   		 	border: none;
+   		 }
+   		 
+   		 .containerImg img {
+		    max-width:400px;
+		    max-height:400px;
+		    width: auto;
+		    height: auto;
+		}
+   		
+   		</style>
+   
 	   <p:outputPanel id="containerNoticia">
 		
 			<p:outputPanel id="panelNoticiaDestaque" rendered="#{noticiaController.noticiaDestaque != null}">
@@ -16,27 +34,33 @@
 				
 				<p:outputLabel id="noticiaDestaqueTituloWidget" value="#{noticiaController.noticiaDestaque.titulo}" style="font-weight:bold"></p:outputLabel>
 				
-				<p:outputLabel id="noticiaDestaqueConteudoWidget" style="display:block"
+				<p:outputLabel id="noticiaDestaqueConteudoWidget" style="display:block; font-weight:none; font-style: italic;"
 					escape="false" 
-					value="#{noticiaController.noticiaDestaque.conteudoReduzido}">
+					value="#{noticiaController.noticiaDestaque.conteudoReduzido} ...">
 				</p:outputLabel>
+				
+				<p:outputPanel styleClass="containerImg" rendered="#{noticiaController.imagemNoticiaDestaque != null}">
+						<p:graphicImage  
+							value="#{noticiaController.imagemNoticiaDestaque.caminhoCompleto}" />
+				</p:outputPanel>
 				
 				<p:commandLink id="linkVisualizarNoticia" actionListener="#{noticiaController.preencherNoticiaDestaque(noticiaController.noticiaDestaque)}"
 				  	action="#{noticiaController.visualizar}" ajax="false" value="Ver mais"></p:commandLink>
 			</p:outputPanel>
 			
-			<p:outputLabel id="noticiaTxtOutros" value="Outras Notícias" style="font-weight:bold; margin-top:10px;"></p:outputLabel>
-			<p:dataList id="dlNoticiasDestaque" value="#{noticiaController.noticias}" 
-				var="noticia" rendered="#{not empty noticiaController.noticias}" 
-				 >
-				  [<p:outputLabel id="noticiaDestaqueDataWidget" value="#{noticia.data}">
-					<f:convertDateTime pattern="dd/MM/yyyy"/>
-				</p:outputLabel>] - 
-				 <p:commandLink id="linkVisualizarNoticia" actionListener="#{noticiaController.preencherNoticiaDestaque(noticia)}"
-				  	action="#{noticiaController.visualizar}" ajax="false" value="#{noticia.titulo}"></p:commandLink>
-				 
-			</p:dataList>
-				  
+			<div style="containerNoticiasDestaque">
+				<p:outputLabel id="noticiaTxtOutros" value="Outras Notícias" style="font-weight:bold; margin-top:10px;"></p:outputLabel>
+				<p:dataList id="dlNoticiasDestaque" value="#{noticiaController.noticias}" styleClass="noticiasDestaque" 
+					var="noticia" rendered="#{not empty noticiaController.noticias}" >
+					  [<p:outputLabel id="noticiaDestaqueDataWidget" value="#{noticia.data}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</p:outputLabel>] - 
+					 <p:commandLink id="linkVisualizarNoticia" actionListener="#{noticiaController.preencherNoticiaDestaque(noticia)}"
+					  	action="#{noticiaController.visualizar}" ajax="false" value="#{noticia.titulo}"></p:commandLink>
+					 
+				</p:dataList>
+			</div>
+			
 	   </p:outputPanel>
 	</h:form>
 	
