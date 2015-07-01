@@ -19,6 +19,8 @@
 					outcome="/votacao/cadastrarVotacao.faces" />
 			<p:menuitem value="Mensagem Síndico" rendered="#{principalController.ehSindico()}" 
 					outcome="/sindico/listagemMensagemSindico.faces" />
+			<p:menuitem value="Indicações de seus vizinhos"  
+					outcome="/indicacao/listagemIndicacao.faces" />
 		</p:submenu>
 		<p:submenu label="Configurações" rendered="#{principalController.ehSindico()}">
 			<p:menuitem value="Meu Condomínio" outcome="/condominio/condominio.faces" rendered="#{principalController.ehSindico()}" />

@@ -6,7 +6,7 @@
    xmlns:p="http://primefaces.org/ui">
   
    <h:form id="formVotacao" style="width:100%">	  
-
+	<p:growl id="msgsGrowlVotacao" showDetail="true" autoUpdate="false"  />
    	<p:outputPanel id="containerVotacao">
    		<p:dataList id="dtVotacao" var="vv" value="#{votacaoController.votacoesView}" >
 			<p:outputPanel id="perguntinha" >
@@ -41,7 +41,7 @@
 		    	</p:outputPanel>
 		    	<div>
 		    		<!-- <p:captcha label="Captcha" /> -->
-		    		<p:commandButton value="Votar" actionListener="#{votacaoController.votar(vv)}" update="dtVotacao, msgsGrowl"></p:commandButton>
+		    		<p:commandButton value="Votar" actionListener="#{votacaoController.votar(vv)}" update="dtVotacao, :formVotacao:msgsGrowlVotacao"></p:commandButton>
 		    		
 		    	</div>
 		    	

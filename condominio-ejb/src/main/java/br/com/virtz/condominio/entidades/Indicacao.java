@@ -1,9 +1,9 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,8 +22,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.apache.commons.lang.StringEscapeUtils;
 
 @Entity
 @XmlRootElement
@@ -52,18 +52,23 @@ public class Indicacao extends Entidade implements Serializable {
 	@JoinColumn(name = "idUsuario")
 	private Usuario usuario;
 
+	@Column(name = "nome", length=100)
+	private String nome;
+	
 	@Column(name = "comentario", length=10000)
 	private String comentario;
 	
-	@OneToMany(mappedBy="indicacao", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<ArquivoIndicacao> arquivos;
+	@OneToMany(mappedBy="indicacao", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<ArquivoIndicacao> arquivos;
 	
 	@OneToMany(mappedBy="indicacao", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<AvaliacaoIndicacao> avaliacoes;
 
-	@ManyToOne
-	@JoinColumn(name = "idCategoria")
-	private CategoriaServicoProduto categoria;
+	@ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name = "CategoriaIndicacao", 
+    			joinColumns = @JoinColumn(name = "idIndicacao"), 
+    			inverseJoinColumns = @JoinColumn(name = "idCategoria"))
+	private Set<CategoriaServicoProduto> categorias;
 	
 	
 	
@@ -115,11 +120,11 @@ public class Indicacao extends Entidade implements Serializable {
 		this.comentario = comentario;
 	}
 
-	public List<ArquivoIndicacao> getArquivos() {
+	public Set<ArquivoIndicacao> getArquivos() {
 		return arquivos;
 	}
 
-	public void setArquivos(List<ArquivoIndicacao> arquivos) {
+	public void setArquivos(Set<ArquivoIndicacao> arquivos) {
 		this.arquivos = arquivos;
 	}
 
@@ -131,22 +136,31 @@ public class Indicacao extends Entidade implements Serializable {
 		this.avaliacoes = avaliacoes;
 	}
 
-	public CategoriaServicoProduto getCategoria() {
-		return categoria;
+	public Set<CategoriaServicoProduto> getCategorias() {
+		return categorias;
 	}
 
-	public void setCategoria(CategoriaServicoProduto categoria) {
-		this.categoria = categoria;
+	public void setCategorias(Set<CategoriaServicoProduto> categorias) {
+		this.categorias = categorias;
+	}
+	
+	public String getNome() {
+		return nome;
 	}
 
-	public ArquivoIndicacao getArquivoNoticiaDestaque(){
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public ArquivoIndicacao getArquivoDestaque(){
 		if(this.arquivos != null && !this.arquivos.isEmpty()){
 			for(ArquivoIndicacao arq : this.arquivos){
 				if(arq.getDestaque()){
 					return arq;
 				}
 			}
-			return this.arquivos.get(0);
+			ArquivoIndicacao a = this.arquivos.iterator().next();
+			return a;
 		}
 		return null;
 	}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+     
+   <h:form id="formIndicacao" style="width:100%">
+	   <style>
+	   .ui-carousel-header{
+	   	height:36px !important;
+	   }
+	   .ui-carousel-header-title{
+	   	width: 70% !important;
+	   }
+	   </style>
+	   <p:outputPanel id="panelIndicacoes" rendered="#{not empty indicacaoController.indicacoes}" style="width:100%">
+		   <p:carousel value="#{indicacaoController.indicacoes}" style="height:340px; width:100%;" itemStyleClass="indItem" autoPlayInterval="10"
+		   			headerText="Olha o que seus vizinhos indicaram pra você" var="ind" 
+		   			numVisible="3" >
+		   
+		   		<p:outputPanel style="width:210px;height:280px; margin:3px; ">
+		   			
+		   			<p:outputLabel id="labelTituloIndicacaro" value="#{ind.nome}"></p:outputLabel>
+		   			
+		   			<p:graphicImage rendered="#{not empty ind.arquivoDestaque}" 
+		   				value="#{ind.arquivoDestaque.caminhoCompleto}" />
+		   			 
+		   			<p:outputLabel id="labelDescricaoIndicacaro" rendered="#{empty ind.arquivoDestaque}"  
+		   						value="#{ind.comentario}"></p:outputLabel>
+		        	
+		        
+		        </p:outputPanel>
+		 
+		    </p:carousel>
+		</p:outputPanel>
+	</h:form>
+	
+</ui:composition>
+

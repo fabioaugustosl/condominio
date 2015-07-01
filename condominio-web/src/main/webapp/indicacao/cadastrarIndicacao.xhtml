@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h1>Indicar um produto/serviço aos seus vizinhos</h1>
+ 	<br />
+ 	
+ 	<h:form id="form" enctype="multipart/form-data">
+	    
+	    <p:outputPanel id="containerNovaIndicacao" >
+	    
+				<p:outputLabel value="Nome da pessoa/empresa ou nome do produto:" /> <br />
+				<p:inputText id="nome" alt="Insira nome da pessoa/empresa que forneceu o serviço ou o nome do produto que você deseja indicar" styleClass="inputPadrao"
+					value="#{cadastrarIndicacaoController.indicacao.nome}" maxlength="100" 
+					required="true" requiredMessage="Favor preencher o nome da pessoa/empresa ou produto." />
+				<br />
+				
+				<p:outputLabel value="Classifique o serviço/produto: (ex.: pintor, armários, marceneiro, etc)" for="tags" />
+		        <p:autoComplete id="tags" multiple="true" value="#{cadastrarIndicacaoController.categoriasSelecionadas}" 
+		        				completeMethod="#{cadastrarIndicacaoController.completarCategoria}"
+		                        var="tag" itemLabel="#{tag.nome}" itemValue="#{tag}" converter="converterEntityById"
+		                        forceSelection="true" 
+		                        required="true" requiredMessage="Favor classificar o serviço/produto.">
+		            <p:column>
+		                <h:outputText value="#{tag.nome}" />
+		            </p:column>
+		        </p:autoComplete>
+		        <br />
+		        
+				<p:outputLabel value="Comentário:" /> <br />
+		        <p:inputTextarea id="comentarioIndicacao" alt="Insira um comentário detalhando o porque você deseja indicar esse produto ou serviço para seus vizinhos." styleClass="textAreaPadrao"
+					value="#{cadastrarIndicacaoController.indicacao.comentario}" maxlength="10000"  />
+		        <br />
+	        	
+	 	</p:outputPanel>
+	 	
+	 	<div>
+	 		<p:outputLabel value="Anexar fotos: (máximo 5 fotos)" />
+	        <p:fileUpload mode="advanced" update="@this, dtArquivosNoticia" label="Selecionar arquivo"
+		        fileUploadListener="#{cadastrarIndicacaoController.uploadArquivo}" fileLimit="5"
+		        allowTypes="/(\.|\/)(JPg|jpg|jpeg|JPEG|png|PNG)$/" 
+		        multiple="false" sizeLimit="100000000" fileLimitMessage="Permitido apenas 5 fotos. "
+		        invalidFileMessage="Arquivo não válido." invalidSizeMessage="O arquivo é muito grande."
+		        auto="true" dragDropSupport="false" />
+	 	
+		 	<p:dataTable id="dtArquivosNoticia" var="arqNoticia"
+		 		value="#{cadastrarIndicacaoController.indicacao.arquivos}"
+		 		rowKey="#{arqNoticia.id}"
+		 		emptyMessage="Ainda não foi anexado nenhum arquivo" >
+
+			    <p:column headerText="Nome">
+			        <h:outputText value="#{arqNoticia.nomeOriginal}" />
+			    </p:column>
+			    
+			    <p:column >
+			    	<p:commandButton id="removerArq" value="Remover" immediate="true"
+				   		actionListener="#{cadastrarIndicacaoController.removerArquivo(arqNoticia)}" 
+				   		update="dtArquivosNoticia">
+				   	</p:commandButton>
+			    </p:column>
+		    	
+			</p:dataTable>	
+	 	</div>
+	 	
+	 	<br />
+	 	
+	 	
+	 	<p:commandButton id="salvarIndicacao" value="Salvar" 
+	   		actionListener="#{cadastrarIndicacaoController.salvarIndicacao}" 
+	   		update="@form">
+	   	</p:commandButton>
+	   	
+	 	<p:commandButton id="listagemIndicacao" value="Ir para listagem" immediate="true"
+	   		actionListener="#{cadastrarIndicacaoController.irParaListagem}"  >
+	   	</p:commandButton>
+	 	
+	 	
+	</h:form>
+   </ui:define>
+</ui:composition>
