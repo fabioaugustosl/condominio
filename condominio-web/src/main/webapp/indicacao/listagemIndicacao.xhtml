@@ -8,6 +8,17 @@
    
    <ui:define name="content">
    	<h:form id="form" style="width:100%">
+   			
+   		<style>
+	  		.gridIndicacao{ 
+	   			max-width: 180px; 
+	   			max-height: 180px;
+	   			width: auto;
+    			height: auto; 
+	   		}
+	   	</style>
+	   
+   	
 	   	<h1>Veja as indicações de seus vizinhos!</h1>
 	 	<br />
 	 	
@@ -25,19 +36,21 @@
 	            <p:commandButton type="button" value="Mais" icon="ui-icon-circle-triangle-s"/>
 	        </f:facet>
 	 
-	        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+	        <h:panelGrid columns="2" style="width:100%; border-bottom:1px solid #C3C3C3;"  columnClasses="logo,detail" >
 	        
-	            <p:graphicImage rendered="#{indicacao.arquivoDestaque != null}" name="#{indicacao.arquivoDestaque.caminhoCompleto}" /> 
-	 
 	            <p:outputPanel>
 	                <h:panelGrid columns="2" cellpadding="5">
-	                    <h:outputText value="Quem indicou:" />
+	                    <h:outputText value="Quem indicou:"  style="font-weight: bold" />
 	                    <h:outputText value="#{indicacao.usuario.nome}" />
 	 
-	                    <h:outputText value="Comentário:" />
-	                    <h:outputText value="#{indicacao.comentario}" style="font-weight: bold"/>
+	                    <h:outputText value="Comentário:" style="font-weight: bold" />
+	                    <h:outputText value="#{indicacao.comentario}" />
 	                </h:panelGrid>
 	            </p:outputPanel>
+
+	            <p:graphicImage styleClass="gridIndicacao" rendered="#{indicacao.arquivoDestaque != null}" 
+	            	value="#{indicacao.arquivoDestaque.caminhoCompleto}" /> 
+	 
 	        </h:panelGrid>
 	    </p:dataScroller>
 	    

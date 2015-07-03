@@ -116,4 +116,13 @@ public class ArquivoIndicacao extends Entidade implements Serializable {
 		return "/arquivos/"+getNome();
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		ArquivoIndicacao a = (ArquivoIndicacao) obj;
+		if(this.getId() == null || a.getId() == null){
+			return this.getNomeOriginal().endsWith(a.getNomeOriginal());
+		}
+		return this.getId().equals(a.getId());
+	}
+	
 }

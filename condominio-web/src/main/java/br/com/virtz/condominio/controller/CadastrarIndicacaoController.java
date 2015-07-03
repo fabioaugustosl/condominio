@@ -160,7 +160,7 @@ public class CadastrarIndicacaoController {
          
         for (int i = 0; i < todasCategorias.size(); i++) {
         	CategoriaServicoProduto nomeCat = todasCategorias.get(i);
-            if(nomeCat.getNome().toLowerCase().startsWith(query)) {
+            if(nomeCat.getNome().toLowerCase().startsWith(query.toLowerCase())) {
                 categoriasFiltradas.add(nomeCat);
             }
         }

@@ -57,6 +57,9 @@ public class IndicacaoController {
 	}
 	
 	
+	public void irParaListagem(){
+		navegacao.redirectToPage("/indicacao/listagemIndicacao.faces");
+	}
 
 	
 	/* GETTERS e SETTERS */
