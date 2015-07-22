@@ -13,6 +13,8 @@ import javax.faces.event.ExceptionQueuedEventContext;
 
 import org.apache.commons.lang.StringUtils;
 
+import br.com.virtz.condominio.exceptions.CondominioException;
+
 
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 
@@ -89,6 +91,10 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 		if(exception.getCause() != null){
 			// tenta até o terceiro nível a tradução da mensagem
 			Throwable cause = exception.getCause();
+			if(cause instanceof br.com.virtz.condominio.exceptions.CondominioException){
+				CondominioException ce = (CondominioException) cause;
+				return ce.getMensagem();
+			}
 			for(int i = 0; i < 20; i++){
 				if(cause.getLocalizedMessage() == null){
 					return cause.toString();

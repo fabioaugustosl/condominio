@@ -27,7 +27,10 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Usuario.recuperarPorCondominio", 
-			query = "Select u FROM Usuario u WHERE u.condominio.id = :idCondominio"),
+			query = "Select u FROM Usuario u "
+					+ "	LEFT JOIN u.apartamento ap "
+					+ "	LEFT JOIN u.arquivo arq "
+					+ " WHERE u.condominio.id = :idCondominio "),
 	@NamedQuery(name = "Usuario.recuperarSindicosPorCondominio", 
 			query = "Select u FROM Usuario u WHERE u.condominio.id = :idCondominio AND u.tipoUsuario = 'SINDICO'"),
 	@NamedQuery(name = "Usuario.recuperarPorEmail", 

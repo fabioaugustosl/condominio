@@ -17,6 +17,8 @@
 			<p:menuitem value="Notícias e Avisos" outcome="/noticia/listagemNoticia.faces" />
 			<p:menuitem value="Votações" rendered="#{principalController.ehSindico()}" 
 					outcome="/votacao/cadastrarVotacao.faces" />
+			<p:menuitem value="Enviar Mensagem" rendered="#{principalController.ehSindico()}" 
+					outcome="/enviarmsg/enviar.faces" />
 			<p:menuitem value="Mensagem Síndico" rendered="#{principalController.ehSindico()}" 
 					outcome="/sindico/listagemMensagemSindico.faces" />
 			<p:menuitem value="Indicações de seus vizinhos"  

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+	   	<h1>Enviar Mensagens aos Condôminos</h1>
+	 	<br />
+	 	
+	 	<p:tabView>
+			<p:ajax event="tabChange" update=":form:dtListagemUsuarios"/>
+	        <p:tab title="Email">
+	            <p:outputLabel>Assunto:</p:outputLabel><br />
+	            <p:inputText value="#{enviarMensagemUsuarioController.assunto}" id="campoAssunto" styleClass="inputPadrao"></p:inputText>
+	            <br /><br />
+	            <p:outputLabel>Mensagem:</p:outputLabel><br />
+	            <p:editor id="editorCorpoEmail" widgetVar="editorWidget" value="#{enviarMensagemUsuarioController.mensagem}" 
+		        	maxlength="10000"
+		        	controls="bold italic underline font size color style numbering alignleft center alignright justify undo redo image link cut copy paste indent" />
+	        	<br />
+	        	<p:commandButton id="enviarEmail" value="Enviar" 
+			   		actionListener="#{enviarMensagemUsuarioController.enviarEmail}" update="@form">
+			   		<p:confirm header="Confirmação" message="Tem certeza que deseja enviar este email para os condôminos selecionados?" icon="ui-icon-alert" />
+			   	</p:commandButton>
+	        </p:tab>
+	        <p:tab title="SMS">
+	        	<p:outputPanel deferred="true">
+			        <h3>Créditos para envio de SMS: R$ 0,00</h3>
+			    </p:outputPanel>
+			    <br />
+	            <p:outputLabel>Digite a mensagem:</p:outputLabel>
+	            <br />
+	            <p:inputTextarea id="msgSMS" alt="Digite a mensagem" styleClass="textAreaPadrao"
+						value="#{cadastroDocumentoController.documento.descricao}" maxlength="140"
+						counter="msgSMSCounter" counterTemplate="{0} caracteres restantes."  />
+				<h:outputText id="msgSMSCounter" />
+				<br />
+				<p:commandButton id="enviarSMS" value="Enviar" disabled="true" 
+			   		actionListener="#{enviarMensagemUsuarioController.enviarSms}">
+			   		<p:confirm header="Confirmação" message="Tem certeza que deseja enviar este SMS para os condôminos selecionados?" icon="ui-icon-alert" />
+			   	</p:commandButton>
+	        </p:tab>
+	    </p:tabView>
+	 	
+		<p:dataTable id="dtListagemUsuarios" var="usuario" 
+				value="#{enviarMensagemUsuarioController.usuarios}"
+				rowKey="#{usuario.id}" selection="#{enviarMensagemUsuarioController.usuariosSelecionados}"
+				emptyMessage="Ainda não foi cadastrado nenhum usuário." >
+			
+	        <f:facet name="header">
+	            Condôminos
+	        </f:facet>
+	        
+        	<p:column selectionMode="multiple" style="width:40px;text-align:center"/>
+        	
+		    <p:column headerText="Morador" >
+		        <h:outputText value="#{usuario.nome}" />
+		    </p:column>
+		    
+		    <p:column headerText="Email">
+		    	<h:outputText value="#{usuario.email}" />
+		    </p:column>
+		    
+		    <p:column headerText="Celular">
+		    	<h:outputText value="#{usuario.celular}" />
+		    </p:column>
+		</p:dataTable> 
+		
+		<p:outputLabel>O envio de email e sms só será possível se o condômino tiver cadastrados seus dados corretamente. Caso não tenha cadastrados essas informações a mensagem não será enviada.</p:outputLabel>
+	    
+	    
+	   	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+
+	 </h:form>
+
+  </ui:define>
+</ui:composition>
