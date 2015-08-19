@@ -61,14 +61,26 @@ public class VotacaoService implements IVotacaoService {
 	
 
 	@Override
-	public boolean votar(Voto voto) {
+	public boolean votar(Voto voto) throws AppException {
+		// verifica os campos obrigatórios
+		if (voto == null || voto.getUsuario() == null || voto.getVotacao() == null){
+			throw new AppException("Dados faltantes para computar seu voto. Fazer tentar novamente.");
+		}
+		
+		// verifica se o usuário já votou
+		Voto v = votoDAO.recuperarPorUsuario(voto.getVotacao(), voto.getUsuario());
+		if(v != null){
+			throw new AppException("Você já votou!");
+		}
+		
+		// TODO : verificar se o pode haver mais de um voto por apto se não puder deve validar.
+				
 		try {
 			votoDAO.salvar(voto);
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new AppException("Ocorreu um erro genérico ao computar o voto.");
 		}
-		return false;
 	}
 	
 

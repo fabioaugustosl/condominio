@@ -48,18 +48,17 @@ public class ListagemNoticiaController {
 	
 	public List<Noticia> noticias;
 	
+	Usuario usuario = null;
 	
 	@PostConstruct
 	public void init(){
+		usuario = sessao.getUsuarioLogado();
 		noticias = listarTodas(); 
 	}
 	
 	
 	public List<Noticia> listarTodas(){
-		Usuario usuario = sessao.getUsuarioLogado();
-		
 		List<Noticia> noticias = noticiaService.recuperarNoticias(usuario.getCondominio().getId());
-		
 		return noticias;
 	}
 	
@@ -80,7 +79,7 @@ public class ListagemNoticiaController {
 		 Noticia noticiaFull = noticiaService.recuperarNoticia(noticia.getId());
 		 List<ArquivoNoticia> arquivos = noticiaFull.getArquivos();
 		 
-		 
+		 noticias.remove(noticia);
 		 noticiaService.remover(noticia.getId());
 		 
 		 mensagem.addInfo("Notícia removida com sucesso!");

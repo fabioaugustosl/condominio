@@ -147,12 +147,12 @@ public class BatePapo extends Entidade implements Serializable, Comparable<BateP
 			return 1;
 		}
 		if(this.getId() == null && o.getId() != null){
-			return -1;
+			return -11;
 		} else if(this.getId() == null && o.getId() == null){
 			return 0;
 		}
 		
-		return this.getId().compareTo(o.getId());
+		return o.getId().compareTo(this.getId());
 	}
 
 }

@@ -122,6 +122,7 @@ public class CadastrarAssembleiaController {
 				assembleia.getPautas().add(p);
 				
 				assembleiaService.salvar(assembleia);
+				assembleia = assembleiaService.recuperar(assembleia.getId());
 				message.addInfo("Pauta inserida com sucesso.");
 				novaPauta = null;
 			}catch(Exception e){

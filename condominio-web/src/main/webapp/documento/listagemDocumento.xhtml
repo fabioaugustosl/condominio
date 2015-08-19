@@ -26,6 +26,10 @@
 		        </h:outputText>
 		    </p:column>
 		    
+		    <p:column headerText="Título">
+		        <h:outputText value="#{doc.titulo}" />
+		    </p:column>
+		    
 		    <p:column headerText="Descrição">
 		        <h:outputText value="#{doc.descricao}" />
 		    </p:column>
@@ -36,14 +40,14 @@
 			    </p:commandButton>
 		    </p:column>
 		    
-		    <p:column rendered="{listagemDocumentoController.podeEditar()}">
+		    <p:column rendered="#{listagemDocumentoController.podeEditar()}">
 		     	<p:commandLink actionListener="#{listagemDocumentoController.editar(doc)}" 
 		     		id="editarDocSelecionada" value="Editar" immediate="true" >
 	         	</p:commandLink>
 		    </p:column>
 		    
-		    <p:column rendered="{listagemDocumentoController.podeExcluir()}">
-		    	<p:commandLink actionListener="#{listagemDocumentoController.removerDocumento(doc)}" ajax="false"
+		    <p:column rendered="#{listagemDocumentoController.podeExcluir()}">
+		    	<p:commandLink actionListener="#{listagemDocumentoController.removerDocumento(doc)}" update="dtListagemDocumentos"
 	         		id="excluirDocSelecionada" value="Remover" immediate="true" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover esse documento?" icon="ui-icon-alert" />
 	         	</p:commandLink>

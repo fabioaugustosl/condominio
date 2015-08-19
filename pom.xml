@@ -10,10 +10,10 @@
 
    <modules>
       <module>condominio-ejb</module>
-      <module>condominio-web</module>
       <module>condominio-util</module>
+      <module>condominio-web</module>
       <module>condominio-ear</module>
-   <module></module></modules>
+   </modules>
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.controller;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -126,6 +127,7 @@ public class BatePapoController {
 			try {
 				batePapo = batePapoService.salvar(batePapo);
 				batePapos.add(batePapo);
+				Collections.sort(batePapos);
 				messageHelper.addInfo("Mensagem enviada!");
 				this.mensagem = null;
 			} catch (Exception e) {

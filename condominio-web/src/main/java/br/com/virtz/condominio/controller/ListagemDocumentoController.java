@@ -88,14 +88,20 @@ public class ListagemDocumentoController {
 
 		 Documento documento = documentoService.recuperar(doc.getId());
 		 
-		 String nomeArquivo = documento.getArquivo().getNome();
+		 String nomeArquivo = null;
+		 if(documento.getArquivo() != null){
+			 nomeArquivo = documento.getArquivo().getNome();
+		 }
 		 
+		 documentos.remove(documento);
 		 documentoService.remover(doc.getId());
 		 
 		 messageHelper.addInfo("Documento removido com sucesso!");
 
-		 File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+nomeArquivo);
-		 arquivoDeletar.delete();
+		 if(nomeArquivo != null){
+			 File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+nomeArquivo);
+			 arquivoDeletar.delete();
+		 }
 	 }
 	 
 	 

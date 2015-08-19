@@ -19,7 +19,7 @@ public interface IVotacaoService {
 	
 	public Votacao criarNovaVotacao(Usuario usuario, Condominio condominio, EnumTipoVotacao tipoVotacao, String assunto);
 	public boolean salvarVotacao(Votacao votacao);
-	public boolean votar(Voto voto);
+	public boolean votar(Voto voto) throws AppException;
 	public Votacao buscar(Long idVotacao);
 	public void removerOpcao(OpcaoVotacao opcao);
 	public List<Votacao> recuperarTodas(Condominio condominio);
