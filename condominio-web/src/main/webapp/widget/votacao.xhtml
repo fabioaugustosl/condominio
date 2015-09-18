@@ -16,9 +16,8 @@
 			<p:outputPanel id="opcoesTipoVotacao" rendered="#{not vv.votou}" >
 		    	
 		    	<p:outputPanel id="tipoSimNao" rendered="#{vv.util.isSimNao()}"> 
-		    		<p:selectOneRadio id="console" value="#{vv.util.valorSimNao}">
-			            <f:selectItem itemLabel="Sim" itemValue="1" />
-			            <f:selectItem itemLabel="Não" itemValue="0" />
+		    		<p:selectOneRadio id="consoleSN" value="#{vv.util.valorSimNao}">
+			            <f:selectItems value="#{vv.util.opcoesSimNao.entrySet()}" var="o"  itemValue="#{o.key}" itemLabel="#{o.value}" />
 			        </p:selectOneRadio>
 		    	</p:outputPanel>
 		    	<p:outputPanel id="tipoData" rendered="#{vv.util.isData()}"> 

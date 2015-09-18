@@ -89,6 +89,7 @@ public class SelecionarCondominioUsuarioController {
 	
 	
 	public void cadastrarCondominio(){
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idUsuario", usuario.getId());
 		navegacao.redirectToPage("/condominio/cadastrarCondominio.faces");
 	}
 	

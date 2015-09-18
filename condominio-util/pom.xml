@@ -13,6 +13,22 @@
 		<artifactId>freemarker</artifactId>
 		<version>2.3.20</version>
 	</dependency>
+	
+	<dependency>
+	   <groupId>org.jrimum</groupId>
+	   <artifactId>jrimum-bopepo</artifactId>
+	   <version>0.2.3-SNAPSHOT</version>
+	 </dependency>
   </dependencies>
+  
+  <repositories>
+  <repository>
+   <id>jrimum.org</id>
+   <url>http://jrimum.org/maven/content/groups/public/</url>
+   <snapshots>
+      <enabled>true</enabled>
+   </snapshots>
+ </repository>
+ </repositories>
 
 </project>

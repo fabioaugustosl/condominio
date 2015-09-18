@@ -50,10 +50,11 @@
 		        </p:commandLink>
 		    </p:column>
 	
-		    <p:column>
+		    <p:column style="text-align:center">
 		    	<p:commandLink actionListener="#{listagemUsuarioController.remover(usuario)}" ajax="false"
-		    		id="excluirUsuarioSelecionada" value="Remover" immediate="true" >
+		    		id="excluirUsuarioSelecionada" immediate="true" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover esse usuário" icon="ui-icon-alert" />
+	         			<p:graphicImage id="imgDeletarUsu" url="/img/icones/deletar.png" title="Clique para deletar esse morador." />
 	         	</p:commandLink>
 	         </p:column>
 		</p:dataTable> 

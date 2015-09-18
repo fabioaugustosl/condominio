@@ -20,8 +20,6 @@
                 rowsPerPageTemplate="20, 50, 100"
 				emptyMessage="Ainda não foram enviadas nenhuma mensagem para o síndico através do site." >
 				
-				
-			
 		     <p:column headerText="Data">
 		        <h:outputText value="#{msg.data}" >
 		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
@@ -36,10 +34,11 @@
 		        <h:outputText value="#{msg.mensagem}"></h:outputText>
 		    </p:column>
 		    
-		    <p:column >
+		    <p:column style="text-align:center">
 		    	<p:commandLink actionListener="#{listagemMensagemSindicoController.removerMensagem(msg)}" ajax="false"
-	         		id="excluirMsgSelecionada" value="Remover" immediate="true" >
+	         		id="excluirMsgSelecionada" immediate="true" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa mensagem?" icon="ui-icon-alert" />
+	         			<p:graphicImage id="imgDeletarMes" url="/img/icones/deletar.png" title="Clique para deletar essa mensagem." />
 	         	</p:commandLink>
 	         </p:column>
 		</p:dataTable> 

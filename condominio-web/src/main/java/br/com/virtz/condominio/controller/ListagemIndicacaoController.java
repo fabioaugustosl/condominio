@@ -97,6 +97,8 @@ public class ListagemIndicacaoController {
 		 Indicacao indicacaoFull = indicacaoService.recuperarIndicacao(indicacao.getId());
 		 Set<ArquivoIndicacao> arquivos = indicacaoFull.getArquivos();
 		 
+		 indicacoes.remove(indicacao);
+		 
 		 indicacaoService.remover(indicacao.getId());
 		 
 		 mensagem.addInfo("Indicação removida com sucesso!");

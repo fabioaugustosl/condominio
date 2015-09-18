@@ -53,21 +53,25 @@
 			    </p:commandButton>
 		    </p:column>
 		    
-		    <p:column rendered="#{listagemAssembleiaController.podeEditar()}">
+		    <p:column rendered="#{listagemAssembleiaController.podeEditar()}" style="text-align:center">
 		     	<p:commandLink actionListener="#{listagemAssembleiaController.editar(assemb)}" 
-	         		id="editarAssSelecionada" value="Editar" immediate="true" >
+	         		id="editarAssSelecionada" immediate="true" >
+	         		<p:graphicImage id="imgEditarAss" url="/img/icones/editar.png" 
+		     				title="Clique para editar essa assembléia." />
 	         	</p:commandLink>
 		    </p:column>
 		    
-		    <p:column rendered="#{listagemAssembleiaController.podeExcluir()}">
+		    <p:column rendered="#{listagemAssembleiaController.podeExcluir()}" style="text-align:center">
 		    	<p:commandLink actionListener="#{listagemAssembleiaController.removerAssembleia(assemb)}" ajax="false"
-	         		id="excluirAssSelecionada" value="Remover" immediate="true" >
+	         		id="excluirAssSelecionada" immediate="true" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa assembléia?" icon="ui-icon-alert" />
+	         			<p:graphicImage id="imgDeletarAss" url="/img/icones/deletar.png" title="Clique para deletar esse documento." />
 	         	</p:commandLink>
 	         </p:column>
 		</p:dataTable> 
 	    
 		<p:commandButton id="novaAssembleia" value="Nova Assembléia" immediate="true"
+				rendered="#{listagemAssembleiaController.ehSindico()}"
 		   		actionListener="#{listagemAssembleiaController.irParaCadastro}"  >
 	   	</p:commandButton>
 	   	

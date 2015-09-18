@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+	   	<h1><p:outputLabel value="Geração de boleto" /></h1>
+	 	<br />
+	 	
+	 	<p:outputLabel value="Valor do condomínio:" /> <br />
+		<p:inputText id="valorCondo" styleClass="inputPadrao" 
+					required="true" requiredMessage="Favor preencher o valor do condominio"
+					value="#{geracaoBoletoController.cobranca.valorBase}" maxlength="10" style="width:100px">
+					<f:convertNumber pattern="#0.00"/>
+		</p:inputText> 
+			 	
+	 	
+	 	<br />
+	 	
+	 	<p:outputLabel value="Ano de referência:" /> <br />
+		<p:inputText id="anoRef" styleClass="inputPadrao" required="true" requiredMessage="Favor preencher o ano de refência"
+					value="#{geracaoBoletoController.cobranca.anoReferencia}" maxlength="4" style="width:100px">
+			<f:convertNumber integerOnly="true" groupingUsed="false"/>
+		</p:inputText>
+		
+		
+		<br />
+	 	
+	 	<p:outputLabel value="Mês de referência:" /> <br />
+		<p:inputText id="mesRef" styleClass="inputPadrao" required="true" requiredMessage="Favor preencher o mês de refência"
+					value="#{geracaoBoletoController.cobranca.mesReferencia}" maxlength="2" style="width:100px">
+			<f:convertNumber integerOnly="true" groupingUsed="false" />
+		</p:inputText>
+		
+		
+		<br />
+	 	
+	 	<p:outputLabel value="Instruções :" /> <br />
+		<p:inputText id="inst1" styleClass="inputPadrao" 
+					value="#{geracaoBoletoController.cobranca.instrucaoLinha1}" maxlength="100"></p:inputText>
+		<p:inputText id="inst2" styleClass="inputPadrao" 
+					value="#{geracaoBoletoController.cobranca.instrucaoLinha2}" maxlength="100"></p:inputText>
+	 	
+		<br /><br />
+		
+		<p:dataTable id="dtListagemUsuariosBoleto" var="usuario" 
+				value="#{geracaoBoletoController.usuarios}"
+				rowKey="#{usuario.id}"
+				emptyMessage="Ainda não foi cadastrado nenhum usuário." >
+			
+			<p:column>
+		        <p:graphicImage id="img" url="#{usuario.arquivo.caminhoCompleto}" alt="#{usuario.nome}" style="width:50px;" />
+		    </p:column>
+		    
+		    <p:column headerText="Morador" >
+		        <h:outputText value="#{usuario.nome}" />
+		    </p:column>
+		    
+		    <p:column headerText="#">
+		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+			        <p:fileDownload value="#{geracaoBoletoController.download(usuario)}" />
+			    </p:commandButton>
+		   </p:column>
+		</p:dataTable>
+		    
+		
+	    
+	   	 <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+		    <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+		</p:dialog> 
+	    
+	 </h:form>
+	 <script type="text/javascript">
+		function start() {
+		    PF('statusDialog').show();
+		}
+		 
+		function stop() {
+		    PF('statusDialog').hide();
+		}
+	</script>
+
+  </ui:define>
+</ui:composition>

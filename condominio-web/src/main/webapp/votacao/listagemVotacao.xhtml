@@ -61,17 +61,21 @@
 			        
 			         <p:commandLink actionListener="#{listagemVotacaoController.excluirVotacao(votacao)}"
 			        	rendered="#{listagemVotacaoController.possoRemover(votacao)}" update="dtListagemVotacao"
-			         	id="excluirVotacaoSelecionada" value="Remover" >
+			         	id="excluirVotacaoSelecionada" >
 			         		<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa votação?" icon="ui-icon-alert" />
+			         		<p:graphicImage id="imgDeletarVot" url="/img/icones/deletar.png" title="Clique para deletar essa votação." />
 			         </p:commandLink>
 			         
 			         <p:commandLink actionListener="#{listagemVotacaoController.editar(votacao)}"
 			        	rendered="#{listagemVotacaoController.possoEditar(votacao)}" 
-			         	id="editarVotacaoSelecionada" value="Editar" >
+			         	id="editarVotacaoSelecionada" >
+			         	<p:graphicImage id="imgEditarVotacao" url="/img/icones/editar.png" 
+		     				title="Clique para editar essa votação." />
 			         </p:commandLink>
 			         
 			         <p:commandLink actionListener="#{listagemVotacaoController.verResultado(votacao)}"
-			        	id="resultadoVotacaoSelecionada" value="Resultado" update="@form" onsuccess="PF('dialogResultado').show()" >
+			        	id="resultadoVotacaoSelecionada" update="@form" onsuccess="PF('dialogResultado').show()" >
+			        	<p:graphicImage id="imgResultadoVot" url="/img/icones/resultado.png" title="Clique para ver o resultado dessa votação." />
 			         </p:commandLink>
 		         </p:panelGrid>
 		    </p:column>

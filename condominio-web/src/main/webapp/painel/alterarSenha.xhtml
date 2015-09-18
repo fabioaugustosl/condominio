@@ -13,7 +13,9 @@
 			<p:outputPanel layout="block">
 				<p:outputLabel value="Senha alterada com sucesso." rendered="#{configuracaoController.isSucesso()}" ></p:outputLabel>
 			</p:outputPanel>
-			<p:commandButton  value="Fechar" onclick="PF('dialogAlterarSenha').hide();" rendered="#{configuracaoController.isSucesso()}" ></p:commandButton>
+			<p:commandButton  value="Fechar" onclick="PF('dialogAlterarSenha').hide();" 
+								rendered="#{configuracaoController.isSucesso()}" 
+								actionListener="#{configuracaoController.resetAlteracaoSenha}"></p:commandButton>
 			<p:outputPanel layout="block">
 				<p:outputLabel value="#{configuracaoController.msgErro}" rendered="#{not empty configuracaoController.msgErro}" ></p:outputLabel>
 			</p:outputPanel>

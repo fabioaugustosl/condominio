@@ -25,20 +25,24 @@
 				value="#{cadastroDocumentoController.documento.descricao}" maxlength="2000"  />
 	        <br />
 	        
-	        <p:outputLabel value="Anexar documento:" /><br />
-	        <p:fileUpload rendered="#{cadastroDocumentoController.documento.arquivo == null}"
-			        mode="advanced" update="containerNovoDoc" label="Selecionar arquivo"
-			        fileUploadListener="#{cadastroDocumentoController.uploadArquivo}"
-			        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX)$/" 
-			        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
-			        auto="true" dragDropSupport="false" />
-			<br />
-			<p:outputPanel rendered="#{cadastroDocumentoController.documento.arquivo != null}">
-				<p:outputLabel value="#{cadastroDocumentoController.documento.arquivo.nomeOriginal}"></p:outputLabel>
-				<p:commandButton id="removerArq" value="Remover" immediate="true"
-			   		actionListener="#{cadastroDocumentoController.removerArquivo}" 
-			   		update="containerNovoDoc">
-			   	</p:commandButton>
+	        <p:outputPanel id="painelArquivo" >
+	        
+		        <p:outputLabel value="Anexar documento:" /><br />
+		      
+		        <p:fileUpload rendered="#{cadastroDocumentoController.documento.arquivo == null}"
+				        mode="advanced" update="painelArquivo" label="Selecionar arquivo"
+				        fileUploadListener="#{cadastroDocumentoController.uploadArquivo}"
+				        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX)$/" 
+				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
+				        auto="true" dragDropSupport="false" />
+				<br />
+				<p:outputPanel rendered="#{cadastroDocumentoController.documento.arquivo != null}">
+					<p:outputLabel value="#{cadastroDocumentoController.documento.arquivo.nomeOriginal}"></p:outputLabel>
+					<p:commandButton id="removerArq" value="Remover" immediate="true"
+				   		actionListener="#{cadastroDocumentoController.removerArquivo}" 
+				   		update="painelArquivo">
+				   	</p:commandButton>
+				</p:outputPanel>
 			</p:outputPanel>
 			
 	 	</p:outputPanel>

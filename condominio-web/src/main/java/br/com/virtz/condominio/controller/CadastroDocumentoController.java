@@ -85,6 +85,7 @@ public class CadastroDocumentoController {
 		try{
 			documentoService.salvar(documento);
 			message.addInfo("O documento foi salvo com sucesso.");
+			documento = null;
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new CondominioException("Ocorreu um erro inesperado ao salvar a novo documento. Favor tente novamente.");
@@ -124,7 +125,7 @@ public class CadastroDocumentoController {
 			
 			message.addInfo("Arquivo "+nomeAntigo+" foi anexado com sucesso.");
         } catch (IOException e) {
-            e.printStackTrace();
+            message.addError("Ocorreu um erro ao fazer upload do arquivo. Favor acessar novamente na tela.");
         }
     }
 	

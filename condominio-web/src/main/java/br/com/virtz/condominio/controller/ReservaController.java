@@ -174,7 +174,7 @@ public class ReservaController {
 		
 		// se data acima do limite deve rolar uma exceção
 		Date dataMaxima = getDataMaximaAgendamento();
-		if(dataMaxima != null && data.after(getDataMaximaAgendamento())){
+		if(dataMaxima != null && data.after(dataMaxima)){
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			throw new AppException("A reserva não foi realizada. A data limite para agendamentos é "+sdf.format(dataMaxima)+". ");
 		}
@@ -209,7 +209,7 @@ public class ReservaController {
 	public Date getDataMaximaAgendamento(){
 		if(maximoDias != null){
 			Calendar c = Calendar.getInstance();
-			c.add(Calendar.DATE, getMaximoDiasFuturo());
+			c.add(Calendar.DAY_OF_YEAR, getMaximoDiasFuturo());
 			return c.getTime();
 		}
 		return null;

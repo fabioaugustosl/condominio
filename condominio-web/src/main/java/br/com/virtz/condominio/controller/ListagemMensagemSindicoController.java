@@ -47,18 +47,18 @@ public class ListagemMensagemSindicoController {
 	
 	
 	private List<MensagemSindico> mensagens;
+	Usuario usuario = null;
+	
 	
 	@PostConstruct
 	public void init(){
+		usuario =  sessao.getUsuarioLogado();
 		mensagens = listarTodos(); 
 	}
 	
 	
 	public List<MensagemSindico> listarTodos(){
-		Usuario usuario = sessao.getUsuarioLogado();
-		
 		List<MensagemSindico> lista = mensagemSindicoService.recuperarTodos(usuario.getCondominio().getId());
-		
 		return lista;
 	}
 	

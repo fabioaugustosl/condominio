@@ -35,16 +35,19 @@
 	        <h:outputText rendered="#{not noticia.ativa}" value="Não" />
 		    </p:column>
 		    
-		    <p:column rendered="#{listagemNoticiaController.podeEditar()}" >
+		    <p:column rendered="#{listagemNoticiaController.podeEditar()}"  style="text-align:center">
 		     	<p:commandLink actionListener="#{listagemNoticiaController.editar(noticia)}" 
-	         		id="editarNotSelecionada" value="Editar" immediate="true" >
+	         		id="editarNotSelecionada"  immediate="true" >
+	         		<p:graphicImage id="imgEditarNot" url="/img/icones/editar.png" 
+		     				title="Clique para editar essa notícia." />
 	         	</p:commandLink>
 		    </p:column>
 		    
-		    <p:column rendered="#{listagemNoticiaController.podeExcluir()}">
+		    <p:column rendered="#{listagemNoticiaController.podeExcluir()}" style="text-align:center">
 		    	<p:commandLink actionListener="#{listagemNoticiaController.removerNoticia(noticia)}" 
-	         		id="excluirNotSelecionada" value="Remover" immediate="true" update="dtListagemNoticias"  >
+	         		id="excluirNotSelecionada" immediate="true" update="dtListagemNoticias"  >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa notícia?" icon="ui-icon-alert" />
+	         			<p:graphicImage id="imgDeletarNot" url="/img/icones/deletar.png" title="Clique para deletar essa notícia." />
 	         	</p:commandLink>
 	         </p:column>
 		</p:dataTable> 

@@ -104,7 +104,8 @@ public class ListagemAssembleiaController {
 				StreamedContent file = new DefaultStreamedContent(stream, arquivoUtil.getMimetypeArquivo(arquivo.getExtensao()), arquivo.getNomeOriginal());
 				return file;
 			} catch (FileNotFoundException e) {
-				throw new CondominioException("O arquivo para download não foi encontrado.");
+				messageHelper.addError("O arquivo para download não foi encontrado.");
+//				throw new CondominioException("O arquivo para download não foi encontrado.");
 			}
 		 }
 		 return null;

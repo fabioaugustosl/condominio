@@ -165,5 +165,15 @@ public class Indicacao extends Entidade implements Serializable {
 		return null;
 	}
 	
+	public String getNomesCategoriasPorExtenso(){
+		StringBuilder sb = new StringBuilder();
+		if(getCategorias() != null && !getCategorias().isEmpty()){
+			for(CategoriaServicoProduto cat : getCategorias()){
+				sb.append(cat.getNome()).append(" ");
+			}
+		}
+		return sb.toString();
+	}
+	
 	
 }

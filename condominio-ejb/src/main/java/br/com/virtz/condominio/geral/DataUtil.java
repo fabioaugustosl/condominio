@@ -22,4 +22,14 @@ public class DataUtil {
 		return d.getTime();
 	}
 	
+	
+	public Calendar agora() {
+		Calendar d = Calendar.getInstance();
+		d.setTime(new Date());
+		d.set(Calendar.MILLISECOND, 0);
+		d.set(Calendar.SECOND, 0);
+		d.set(Calendar.MINUTE, 0);
+		d.set(Calendar.HOUR, 0);
+		return d;
+	}
 }

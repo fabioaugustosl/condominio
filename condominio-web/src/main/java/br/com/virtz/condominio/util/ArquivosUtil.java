@@ -49,7 +49,7 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 	
 	
 	public String getCaminhoArquivosUpload(){
-		return FacesContext.getCurrentInstance().getExternalContext().getRealPath("/arquivos/");
+		return System.getProperty("jboss.server.base.dir")+"/arquivos/";  //FacesContext.getCurrentInstance().getExternalContext().getRealPath("/arquivos/");
 	}
 	
 	

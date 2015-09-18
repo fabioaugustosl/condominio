@@ -37,7 +37,7 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 			query = "Select u FROM Usuario u "
 					+ " LEFT JOIN FETCH u.condominio c "
 					+ " LEFT JOIN FETCH c.areasComuns areas "
-					+ " WHERE u.email = :email")
+					+ " WHERE u.email = :email and u.cadastroConfirmado = 1")
 })
 public class Usuario extends Entidade implements Serializable {
 

@@ -1,6 +1,8 @@
 package br.com.virtz.condominio.controller.util;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 
@@ -17,10 +19,15 @@ public class UtilTipoVotacao {
 	private Double valorMoeda;
 	private Double valorNumerico;
 	private Long idValorOpcao;
+	
+	private Map<Integer, String> opcoesSimNao = null;
 
 	
 	public UtilTipoVotacao() {
 		super();
+		opcoesSimNao = new HashMap<Integer, String>();
+		opcoesSimNao.put(0, "Não");
+		opcoesSimNao.put(1, "Sim");
 		passarTodosParaFalso();
 	}
 	
@@ -108,8 +115,10 @@ public class UtilTipoVotacao {
 	public void setIdValorOpcao(Long idValorOpcao) {
 		this.idValorOpcao = idValorOpcao;
 	}
-	
-	
 
+	public Map<Integer, String> getOpcoesSimNao() {
+		return opcoesSimNao;
+	}
+	
 
 }

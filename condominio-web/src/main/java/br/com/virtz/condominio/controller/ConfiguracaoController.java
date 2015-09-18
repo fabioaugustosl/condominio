@@ -83,6 +83,10 @@ public class ConfiguracaoController implements Serializable {
 		
 	}
 	
+	
+	public void resetAlteracaoSenha(){
+		sucesso = Boolean.FALSE;
+	}
 
 	public void irParaPrincipal() {
 		navegacao.redirectToPage("/portal.faces");
