@@ -34,10 +34,13 @@
 		        <h:outputText value="#{doc.descricao}" />
 		    </p:column>
 		    
-		    <p:column headerText="Download">
-		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+		    <p:column headerText="Download" style="text-align:center">
+		    	<p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" 
+		     		id="downloadDocSelecionada" immediate="true" >
 			        <p:fileDownload value="#{listagemDocumentoController.download(doc.arquivo)}" />
-			    </p:commandButton>
+		     		<p:graphicImage id="imgDownDoc" url="/img/icones/download.png" 
+		     				title="Clique para baixar esse documento." />
+	         	</p:commandLink>
 		    </p:column>
 		    
 		    <p:column rendered="#{listagemDocumentoController.podeEditar()}" style="text-align:center">

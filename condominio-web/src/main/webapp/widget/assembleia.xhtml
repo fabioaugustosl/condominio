@@ -5,6 +5,16 @@
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:p="http://primefaces.org/ui">
      
+    <style > 
+		  #formAssembleiaConvocacao\:dataListPautas_content.ui-widget-content{
+			border: none;
+		  }
+	     #formAssembleiaConvocacao\:dataListPautas_content ul {
+		    /*list-style-type: none !important;*/
+		    padding: 5px;
+		}
+	</style>
+	
    <h:form id="formAssembleiaConvocacao" style="width:100%">
    		<p:growl id="msgsGrowlAssembleia" showDetail="true" />
 	   <p:outputPanel id="containerConvocacaoAssembleia" rendered="#{assembleiaController.possuiAssembleiaAgendada()}" >

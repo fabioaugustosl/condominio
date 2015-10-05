@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "Documento.recuperarPorCondominio", 
-				query = "Select n FROM Documento n WHERE n.condominio.id = :idCondominio AND n.ativo = 1 ") })
+				query = "Select n FROM Documento n WHERE n.condominio.id = :idCondominio AND n.ativo = 1 ORDER BY n.id DESC") })
 public class Documento extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;

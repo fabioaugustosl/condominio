@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,12 +14,17 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Random;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import javax.imageio.ImageIO;
 import javax.inject.Named;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import br.com.virtz.condominio.exceptions.CondominioException;
 
@@ -48,10 +55,31 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 	}
 	
 	
-	public String getCaminhoArquivosUpload(){
-		return System.getProperty("jboss.server.base.dir")+"/arquivos/";  //FacesContext.getCurrentInstance().getExternalContext().getRealPath("/arquivos/");
+	public String converterCaminhoImagemWindows(String caminho){
+		return caminho.replace("/", "\\");
 	}
 	
+	public String getCaminhoArquivosUpload(){
+		return getCaminhoBaseArquivos()+"/arquivos/";
+	}
+	
+	public String getCaminhoBaseArquivos(){
+		return System.getProperty("jboss.server.base.dir");
+	}
+	
+	public String getCaminhoUploadArquivosTemporario(){
+		return FacesContext.getCurrentInstance().getExternalContext().getRealPath("/arquivos/"); 
+	}
+	
+	public String getCaminhoBaseArquivosTemporario(){
+		return FacesContext.getCurrentInstance().getExternalContext().getRealPath("/"); 
+	}
+	
+	public void copiarArquivos(String nomeArquivo) throws IOException{
+		File arquivoDestino = new File(this.getCaminhoArquivosUpload());
+		File arquivoOrigem = new File(this.getCaminhoBaseArquivosTemporario()+nomeArquivo);
+		FileUtils.copyFile(arquivoOrigem, arquivoDestino);
+	}
 	
 	public String pegarExtensao(String caminho){
 		String extensao = caminho.substring(caminho.lastIndexOf(".") + 1);
@@ -84,7 +112,11 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 	}
 	
 	public void arquivar(InputStream arquivo,  String nomeArquivo) throws IOException{
-		File targetFolder = new File(this.getCaminhoArquivosUpload());
+		arquivar(arquivo, this.getCaminhoArquivosUpload(), nomeArquivo);
+	}
+	
+	public void arquivar(InputStream arquivo, String pasta, String nomeArquivo) throws IOException{
+		File targetFolder = new File(pasta);
 			
 		OutputStream out = new FileOutputStream(new File(targetFolder, nomeArquivo));
 			
@@ -100,7 +132,24 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 	}
 	
 	
-	public void redimensionarImagem(InputStream arquivo, String nomeArquivo, String extensao, int larguraMaxima, int alturaMaxima) throws IOException{
+	public StreamedContent exibir(String img){
+		File arq = new File(getCaminhoBaseArquivos()+img);
+		
+		try {
+			FacesContext context = FacesContext.getCurrentInstance();
+
+		    if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+		        return new DefaultStreamedContent();
+		    }
+			StreamedContent stream  = new DefaultStreamedContent(new FileInputStream(arq), new MimetypesFileTypeMap().getContentType(arq));
+			return stream;
+			
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+	}
+	
+	public void redimensionarImagem(InputStream arquivo, String pasta, String nomeArquivo, String extensao, int larguraMaxima, int alturaMaxima) throws IOException{
         BufferedImage imagem = ImageIO.read(arquivo);
           
         Double novaImgLargura = (double) imagem.getWidth();  
@@ -123,7 +172,7 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
         g.drawImage(imagem.getScaledInstance(novaImgLargura.intValue(), novaImgAltura.intValue(), 10000), 0, 0, null);  
         g.dispose();  
         
-        File targetFolder = new File(this.getCaminhoArquivosUpload());
+        File targetFolder = new File(pasta);
         ImageIO.write(novaImagem, extensao, new File(targetFolder, nomeArquivo));  
     } 
 	

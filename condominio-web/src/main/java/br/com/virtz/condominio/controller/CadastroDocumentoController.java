@@ -77,7 +77,7 @@ public class CadastroDocumentoController {
 	
 	public void salvarDocumento(ActionEvent event) throws CondominioException {
 		if(documento == null || documento.getArquivo() == null){
-			throw new CondominioException("Nenhuma documento encontrado para ser salva.");
+			throw new CondominioException("Nenhum documento encontrado para ser salva.");
 		}
 		
 		documento.setData(new Date());

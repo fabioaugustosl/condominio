@@ -20,6 +20,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @NamedQueries({
+	@NamedQuery(name = "Reserva.recuperarQtdReservasPorArea", 
+			query = "Select count(*) FROM Reserva r "
+					+ "	WHERE r.areaComum.id = :idAreaComum "),
 	@NamedQuery(name = "Reserva.recuperarPorAreaNomeEData", 
 			query = "Select r FROM Reserva r "
 					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.nome = :nomeUsuario AND r.data = :data "),

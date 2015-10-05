@@ -45,10 +45,18 @@ public class VotacaoController {
 	private List<Votacao> votacoes;
 	private List<VotacaoView> votacoesView;
 	private String tipoVotacaoSelecionado;
+	
+	private Usuario usuario = null;
 			
 	@PostConstruct
 	public void init(){
-		Usuario usuario = sessao.getUsuarioLogado();
+		usuario = sessao.getUsuarioLogado();
+		montarVotacoesView(usuario);
+	}
+
+
+
+	private void montarVotacoesView(Usuario usuario) {
 		votacoesView = new ArrayList<VotacaoView>();
 		
 		votacoes = votacaoService.recuperarTodasAtivas(usuario.getCondominio());
@@ -103,7 +111,13 @@ public class VotacaoController {
 			voto.setOpcao(opcao);
 		}  
 		
-		votacaoService.votar(voto);
+		try {
+			votacaoService.votar(voto);
+			montarVotacoesView(usuario);
+			message.addInfo("Seu voto foi computado!");
+		} catch (AppException e) {
+			message.addError("Ocorreu um erro ao salvar a votação.");
+		}
 	}
 	
 	

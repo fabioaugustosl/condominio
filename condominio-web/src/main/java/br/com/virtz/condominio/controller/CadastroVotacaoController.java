@@ -110,7 +110,7 @@ public class CadastroVotacaoController {
 			throw new CondominioException("Você selecionou o tipo de votação por opções, porém devem ser cadastradas no mínimo duas (2) opções.");
 		}
 		
-		if(votacao.getDataLimite().before(new Date())){
+		if(votacao.getDataLimite() != null && votacao.getDataLimite().before(new Date())){
 			throw new CondominioException("A data limite da votação deve ser maior que a data atual.");
 		}
 		

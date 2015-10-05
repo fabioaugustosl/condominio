@@ -32,4 +32,21 @@ public class DataUtil {
 		d.set(Calendar.HOUR, 0);
 		return d;
 	}
+	
+	
+	public Date adicionarDias(Date data, Integer quantidadeDiasParaAdicionar){
+		Calendar c = Calendar.getInstance();
+		c.setTime(data);
+		c.add(Calendar.DATE, quantidadeDiasParaAdicionar);
+		return c.getTime();
+	}
+	
+	
+	public boolean dataEhMaiorQueHoje(Date data) {
+		Date dataHoje = limparHora(new Date());
+		if(dataHoje.after(limparHora(data))){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
 }

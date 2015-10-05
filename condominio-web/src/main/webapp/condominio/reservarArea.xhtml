@@ -36,7 +36,7 @@
 		 	</p:selectOneMenu>
 	 	</p:outputPanel>
 	 	
-	 	<p:outputPanel id="containerAgenda" style="margin-top:30px;">
+	 	<p:outputPanel id="containerAgenda" style="margin-top:30px;margin-left:20px; width:80%;">
 	  		<p:schedule id="agendaReserva" value="#{reservaController.reservas}" widgetVar="agendaReserva" timeZone="GMT-3" locale="pt" >
 	            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" update="novoEventoPanelContainer" onsuccess="PF('novoEvento').show();" />
 	            <p:ajax event="eventSelect" listener="#{reservaController.onEventSelect}" update="removerEventoPanelContainer" oncomplete="PF('removerEvento').show();" />

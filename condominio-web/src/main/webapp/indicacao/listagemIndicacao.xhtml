@@ -57,8 +57,9 @@
 	                </h:panelGrid>
 	            </p:outputPanel>
 
-	            <p:graphicImage styleClass="gridIndicacao" rendered="#{indicacao.arquivoDestaque != null}" 
-	            	value="#{indicacao.arquivoDestaque.caminhoCompleto}" /> 
+	            <p:graphicImage  id="imgIndicacao"
+	            		styleClass="gridIndicacao" rendered="#{indicacao.arquivoDestaque != null}"    
+			 			url="/imagem?arquivo=#{indicacao.arquivoDestaque.caminhoCompleto}"/>
 	 
 	        </h:panelGrid>
 	    </p:dataScroller>

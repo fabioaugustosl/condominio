@@ -62,6 +62,7 @@
 			
 				</p:panel>
 				<p:dataTable id="dtOpcoesVotacao" var="opc" 
+						emptyMessage="Nenhuma opção cadastrada ainda."
 						value="#{cadastroVotacaoController.votacao.opcoes}"
 						rowKey="#{opc.id}"  >
 					
@@ -70,7 +71,8 @@
 				    </p:column>
 				    
 				    <p:column >
-				        <p:commandLink actionListener="#{cadastroVotacaoController.removerOpcao(opc)}" id="removerOpcaoSelecionada" >Remover</p:commandLink>
+				        <p:commandLink actionListener="#{cadastroVotacaoController.removerOpcao(opc)}" 
+				        	id="removerOpcaoSelecionada" update="dtOpcoesVotacao" >Remover</p:commandLink>
 				    </p:column>
 				</p:dataTable> 
 	    	</p:outputPanel>

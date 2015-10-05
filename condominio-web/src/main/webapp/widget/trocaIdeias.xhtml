@@ -38,7 +38,11 @@
 			                    		<h:outputText value="#{papo.usuario.nome}" />
 			                    	</div>
 													                    	
-			 						<p:graphicImage id="img" url="#{papo.usuario.arquivo.caminhoCompleto}" alt="#{papo.usuario.nome}" style="width:50px;" />
+			 						<p:graphicImage  id="img" 
+			 							alt="#{papo.usuario.nome}" 
+			 							url="/imagem?arquivo=#{papo.usuario.arquivo.caminhoCompleto}"
+			 						 	style="width:50px;"/>
+			 						
 			 					</p:outputPanel>
 			                    <p:outputPanel id="trocaIdeiaContainerMensagem">
 			                    	<h:outputText value="#{papo.mensagem}" style="font-weight: bold"/><br />

@@ -40,8 +40,8 @@
 				</p:outputLabel>
 				
 				<p:outputPanel styleClass="containerImg" rendered="#{noticiaController.imagemNoticiaDestaque != null}">
-						<p:graphicImage  
-							value="#{noticiaController.imagemNoticiaDestaque.caminhoCompleto}" />
+					<p:graphicImage  id="imgNoticia" 
+			 			url="/imagem?arquivo=#{noticiaController.imagemNoticiaDestaque.caminhoCompleto}" />
 				</p:outputPanel>
 				
 				<p:commandLink id="linkVisualizarNoticia" actionListener="#{noticiaController.preencherNoticiaDestaque(noticiaController.noticiaDestaque)}"

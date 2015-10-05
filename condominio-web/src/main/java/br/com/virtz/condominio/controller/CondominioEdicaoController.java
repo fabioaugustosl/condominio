@@ -79,6 +79,8 @@ public class CondominioEdicaoController {
 				areas = new ArrayList<AreaComum>();
 			}
 			areas.add(area);
+			condominio.getAreasComuns().add(area);
+			area= null;
 		} catch (Exception e) {
 			throw new Exception("Ocorreu um erro ao salvar a(s) áreas(s). Favor acesse o menu novamente e repita o processo.");
 		} finally {
@@ -97,9 +99,16 @@ public class CondominioEdicaoController {
     }
     
     public void excluirArea(AreaComum area){
-    	condominioService.removerAreaComum(area.getId());
-    	
-    	message.addInfo("A área comum "+area.getNome()+" foi excluída com sucesso.");
+    	try{ 
+	    	condominioService.removerAreaComum(area.getId());
+	    	
+	    	areas.remove(area);
+			condominio.getAreasComuns().remove(area);
+	    	
+	    	message.addInfo("A área comum "+area.getNome()+" foi excluída com sucesso.");
+    	} catch(Exception e){
+    		message.addError("Ocorreu um erro ao excluir a área. ");
+    	}
     }
     
     public void novaArea(){

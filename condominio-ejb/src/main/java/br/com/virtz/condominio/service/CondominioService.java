@@ -74,6 +74,8 @@ public class CondominioService implements ICondominioService {
 
 	@Override
 	public void removerAreaComum(Long id) {
+		//TODO : validar se a area possui alguma reserva para ela.
+		
 		areaComumDAO.remover(id);
 	}
 

@@ -17,7 +17,8 @@
 				emptyMessage="Ainda não foi cadastrado nenhum usuário." >
 			
 			<p:column>
-		        <p:graphicImage id="img" url="#{usuario.arquivo.caminhoCompleto}" alt="#{usuario.nome}" style="width:50px;" />
+				<p:graphicImage id="img" url="/imagem?arquivo=#{usuario.arquivo.caminhoCompleto}" 
+					alt="#{usuario.nome}" style="width:50px;"/>
 		    </p:column>
 		    
 		    <p:column headerText="Morador" >

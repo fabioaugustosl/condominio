@@ -81,6 +81,11 @@ public class CadastrarUsuarioFotoController implements Serializable{
 		usuario.setArquivo(new ArquivoUsuario());
 	}
 
+	
+	 public void redirecionarPaginaInicial() throws AppException{
+			navegacao.redirectToPage("../login.faces");
+		 }
+
 
    
 	public void salvar(ActionEvent actionEvent) throws AppException {
@@ -150,6 +155,7 @@ public class CadastrarUsuarioFotoController implements Serializable{
 				if(caminhoImagem != null){
 					removerArquivo(caminhoImagem);
 				}
+				
 			} catch (IOException e) {
 				throw new CondominioException("Ocorreu um erro ao recortar a foto.");
 			}
@@ -171,11 +177,13 @@ public class CadastrarUsuarioFotoController implements Serializable{
         try {
         	
         	if(!arquivoUtil.tamanhoImagemEhValido(event.getFile().getInputstream(), 300, 375)){
-        		throw new CondominioException("Erro. A imagem deve ter largura mínima de 300 e altura mínima de 375 pixels.");
+        		message.addError("Erro. A imagem deve ter largura mínima de 300 e altura mínima de 375 pixels.");
+        		return;
         	}
             
         	ArquivoUsuario arquivo = createArquivo(event.getFile().getSize());
-        	arquivoUtil.redimensionarImagem(event.getFile().getInputstream(), arquivo.getNome(), arquivo.getExtensao(), 600, 750);
+        	arquivoUtil.redimensionarImagem(event.getFile().getInputstream(), arquivoUtil.getCaminhoUploadArquivosTemporario(), arquivo.getNome(), arquivo.getExtensao(), 600, 750);
+//        	arquivoUtil.copiarArquivos(arquivo.getCaminhoCompleto());
         	this.caminhoImagem = arquivo.getCaminhoCompleto();
         } catch (IOException e) {
             throw new CondominioException("Ocorreu um erro ao realizar o upload da imagem.");

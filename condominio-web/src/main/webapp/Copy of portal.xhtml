@@ -14,40 +14,38 @@
  		<p:outputPanel id="containerDashBoard" style="width:100% !important;" >
        		
        		<div id="divNotificacoesImportantes">
-       			
+       			<p:panel id="panelWidgetAssembleiaConvocacao" header="Convocação para assembléia" style="height:100%;"  
+       				rendered="#{assembleiaController.possuiAssembleiaAgendada()}"> 
+	                <ui:include src="widget/assembleia.xhtml" />
+	            </p:panel>
 	   		</div>
        		
      		<table id="divConteudoPortal" class="tabelaPadrao">
 	    		<tr>
-	    			<td style="width:25%; top:0;">
-			            <!-- p:panel id="panelWidgetAgendaComum" header="Agenda" style="height:100%;"  >            
-							<ui:include src="widget/agendaComum.xhtml" />
-						</p:panel -->
-						
-			            <p:panel id="panelWidgetUltimaAssembleia" header="Última Assembléia" style="height:100%;"  rendered="#{ultimaAssembleiaController.possuiUltimaAssembleia()}" >            
-							<ui:include src="widget/ultimaAssembleia.xhtml" />
-						</p:panel>
-						
-						<p:panel id="panelWidgetMsgSindico" header="Fale com o síndico" style="height:100%;"  >
-					    	<ui:include src="widget/mensagemSindico.xhtml" />
-					    </p:panel>
-			        </td>
-			        
-	    			<td style="width:50%; top:0;">  
-			    		<p:panel id="panelWidgetAssembleiaConvocacao" header="Convocação para assembléia" style="height:100%;"  
-		       				rendered="#{assembleiaController.possuiAssembleiaAgendada()}"> 
-			                <ui:include src="widget/assembleia.xhtml" />
-			            </p:panel>      
-			            
-			            <p:panel id="panelWidgetNoticia" header="Notícias" style="height:100%;"
-			            		rendered="#{noticiaController.noticias.size() > 0}" > 
+	    			<td style="width:65%; top:0;">        
+			            <p:panel id="panelWidgetNoticia" header="Notícias" style="height:100%;" > 
 			                <ui:include src="widget/noticias.xhtml" />
 			            </p:panel>
 			            
-			            <ui:include src="widget/indicacao.xhtml" />
+			            <table style="width:100%">
+			            	<tr>
+			            		<td style="width:50%">
+					            	<p:panel id="panelWidgetUltimaAssembleia" header="Última Assembléia" style="height:100%;"  rendered="#{ultimaAssembleiaController.possuiUltimaAssembleia()}" >            
+										<ui:include src="widget/ultimaAssembleia.xhtml" />
+									</p:panel>
+								</td>
+								<td style="width:50%">
+									<p:panel id="panelWidgetMsgSindico" header="Fale com o síndico" style="height:100%;"  >
+								    	<ui:include src="widget/mensagemSindico.xhtml" />
+								    </p:panel>
+								</td>
+						    </tr>
+						</table>
+						
+						<ui:include src="widget/indicacao.xhtml" />
 		 			</td>
 		 			
-		 			<td style="width:25%; top:0;">
+		 			<td style="width:35%; top:0;">
 			            <p:panel id="panelWidgetVotacao" header="Votação online" style="height:100%;" rendered="#{votacaoController.possuiVotacaoEmAndamento()}" > 
 			                <ui:include src="widget/votacao.xhtml" />
 			            </p:panel>

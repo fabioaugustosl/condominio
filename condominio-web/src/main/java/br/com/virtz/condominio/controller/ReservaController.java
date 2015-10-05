@@ -10,7 +10,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
 import org.primefaces.event.SelectEvent;
@@ -27,7 +26,6 @@ import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.geral.DataUtil;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
-import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.service.IReservaService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -167,14 +165,13 @@ public class ReservaController {
 
 		DataUtil dt = new DataUtil();
 		// não pode marcar evento retroativo
-		Date dataHoje = dt.limparHora(new Date());
-		if(dataHoje.after(dt.limparHora(data.getTime()))){
+		if(dt.dataEhMaiorQueHoje(data.getTime())){
 			throw new AppException("Não é permitido marcar eventos retroativos.");
 		}
 		
 		// se data acima do limite deve rolar uma exceção
 		Date dataMaxima = getDataMaximaAgendamento();
-		if(dataMaxima != null && data.after(dataMaxima)){
+		if(dataMaxima != null && data.getTime().after(dataMaxima)){
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			throw new AppException("A reserva não foi realizada. A data limite para agendamentos é "+sdf.format(dataMaxima)+". ");
 		}
@@ -207,10 +204,9 @@ public class ReservaController {
 	 * @return
 	 */
 	public Date getDataMaximaAgendamento(){
-		if(maximoDias != null){
-			Calendar c = Calendar.getInstance();
-			c.add(Calendar.DAY_OF_YEAR, getMaximoDiasFuturo());
-			return c.getTime();
+		if(maximoDias != null && maximoDias.getValor() !=null ){
+			DataUtil dt =new DataUtil();
+			return dt.adicionarDias(new Date(), Integer.parseInt(maximoDias.getValor()));
 		}
 		return null;
 	}

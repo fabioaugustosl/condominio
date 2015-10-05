@@ -52,7 +52,8 @@
 	         </p:column>
 		</p:dataTable> 
 	    
-	   	<p:commandButton id="novaNoticia" value="Nova Notícia" immediate="true"
+	   	<p:commandButton id="novaNoticia" value="Nova Notícia" immediate="true" 
+	   		rendered="#{listagemNoticiaController.podeEditar()}"
 	   		actionListener="#{listagemNoticiaController.irParaCadastro}"  >
 	   	</p:commandButton>
 	    

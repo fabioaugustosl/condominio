@@ -5,34 +5,42 @@
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:p="http://primefaces.org/ui">
    
-    <p:panelMenu style="width:100%">
-		<p:submenu label="Condomínio">
-			<p:menuitem value="Reservar Área" outcome="/condominio/reservarArea.faces" />
-			<p:menuitem value="Documentos" outcome="/documento/listagemDocumento.faces" />
-			
-			<p:menuitem value="Assembléias" outcome="/assembleia/listagemAssembleia.faces" />
-			<p:menuitem value="Moradores"  rendered="#{principalController.ehSindico()}" outcome="/usuario/listagemUsuario.faces" />
-		</p:submenu>
-		<p:submenu label="Geral">
-			<p:menuitem value="Notícias e Avisos" outcome="/noticia/listagemNoticia.faces" />
-			<p:menuitem value="Votações" rendered="#{principalController.ehSindico()}" 
-					outcome="/votacao/cadastrarVotacao.faces" />
-			<p:menuitem value="Enviar Mensagem" rendered="#{principalController.ehSindico()}" 
-					outcome="/enviarmsg/enviar.faces" />
-			<p:menuitem value="Mensagem Síndico" rendered="#{principalController.ehSindico()}" 
-					outcome="/sindico/listagemMensagemSindico.faces" />
-			<p:menuitem value="Indicações de seus vizinhos"  
-					outcome="/indicacao/listagemIndicacao.faces" />
-		</p:submenu>
-		<p:submenu label="Financeiro" rendered="#{principalController.ehSindico()}">
-			<p:menuitem value="Configurar cobrança"  rendered="#{principalController.ehSindico()}" outcome="/boleto/geracaoBoleto.faces" />
-			<p:menuitem value="Emissão de boleto"  rendered="#{principalController.ehSindico()}" outcome="/boleto/geracaoBoleto.faces" />
-		</p:submenu>
-		
-		<p:submenu label="Configurações" rendered="#{principalController.ehSindico()}">
-			<p:menuitem value="Meu Condomínio" outcome="/condominio/condominio.faces" rendered="#{principalController.ehSindico()}" />
-			<p:menuitem value="Gerais" outcome="/configuracao/configuracao.faces" rendered="#{principalController.ehSindico()}" />
-		</p:submenu>
-	</p:panelMenu>
+		<nav class="dropdownmenu">
+		  <ul>
+		    <!-- Exemplo de menu sem submenu -->
+		    <!-- li><a href="http://www.jochaho.com/wordpress/about-pritesh-badge/">About Me</a></li-->
+		    
+		    <li><a href="#"><p:graphicImage id="icoCondMenu" url="/img/icones/ico_condominio.png" ></p:graphicImage> <span id="titulosubmenu">Condomínio</span></a>
+		      <ul id="submenu">
+		      	<li><p:link value="Reservar Área" outcome="/condominio/reservarArea.faces" ></p:link></li>
+		      	<li><p:link value="Documentos" outcome="/documento/listagemDocumento.faces" ></p:link></li>
+		      	<li><p:link value="Assembléias" outcome="/assembleia/listagemAssembleia.faces" ></p:link></li>
+		      	<li><p:link value="Moradores" rendered="#{principalController.ehSindico()}" outcome="/usuario/listagemUsuario.faces" ></p:link></li>
+		      </ul>
+		    </li>
+		    <li><a href="#"><p:graphicImage id="icoComumMenu" url="/img/icones/ico_comum.png" /> <span id="titulosubmenu">Geral</span></a>
+			    <ul id="submenu">
+					<li><p:link value="Notícias e Avisos" outcome="/noticia/listagemNoticia.faces" /></li>
+					<li><p:link value="Votações" rendered="#{principalController.ehSindico()}" outcome="/votacao/cadastrarVotacao.faces" /></li>
+					<li><p:link value="Enviar Mensagem" rendered="#{principalController.ehSindico()}" outcome="/enviarmsg/enviar.faces" /></li>
+					<li><p:link value="Mensagem Síndico" rendered="#{principalController.ehSindico()}" outcome="/sindico/listagemMensagemSindico.faces" /></li>
+					<li><p:link value="Indicações de seus vizinhos" outcome="/indicacao/listagemIndicacao.faces" /></li>
+				</ul>
+			</li>
+			<li><a href="#"><p:graphicImage id="icoFinanceiroMenu" url="/img/icones/ico_financeiro.png" /> <span id="titulosubmenu">Financeiro</span></a>
+				<ul id="submenu">
+				<li><p:link value="Configurar cobrança"  rendered="#{principalController.ehSindico()}" outcome="/boleto/geracaoBoleto.faces" /></li>
+				<li><p:link value="Emissão de boleto" outcome="/boleto/geracaoBoleto.faces" /></li>
+				</ul>
+			</li>
+			<li><a href="#"><p:graphicImage id="icoConfigMenu" url="/img/icones/ico_configuracao_menu.png" /> <span id="titulosubmenu">Configurações</span></a>
+				<ul id="submenu">
+				<li><p:link value="Meu Condomínio" outcome="/condominio/condominio.faces" rendered="#{principalController.ehSindico()}" /></li>
+				<li><p:link value="Gerais" outcome="/configuracao/configuracao.faces" rendered="#{principalController.ehSindico()}" /></li>
+				</ul>
+			</li>
+		  </ul>
+		</nav>
+
 	
 </ui:composition>

@@ -15,8 +15,6 @@
 	<h:outputStylesheet library="css" name="botoes.css" />
 	<h:outputStylesheet library="css" name="componentes_forms.css" />
 	
-	<h:outputStylesheet library="css" name="menu_horizontal.css" />
-	
 	<h:outputScript name="js/util.js" target="body"/>
 	 
 </h:head>
@@ -24,7 +22,7 @@
   <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
   
   	<p:dialog id="statusDialog" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" appendTo="@(body)">
-		    <p:graphicImage library="" url="/img/ajax-loader.GIF" />
+		    <p:graphicImage url="img/ajax-loader.gif" />
 		</p:dialog>
 		
 		<div class="menu">
@@ -60,13 +58,20 @@
 				</div> 
 			</h:form>
 		</div>
-		<div id="containerMenu">
-			<ui:include src="menu.xhtml" />	
+		
+		<div class="site-cols-wrapper">
+			    <div class="site-left-col">
+			        <div class="site-left-col-inner">
+			           <ui:include src="menu.xhtml" />	
+			        </div>
+			    </div>
+			    <div class="site-right-col">
+			        <div class="site-right-col-inner">
+						<p:messages id="mensagens" autoUpdate="#{empty autoUpdateMSG ? true : autoUpdateMSG}" ></p:messages>
+						<ui:insert name="content">Aqui vai ser o conteúdo.</ui:insert>
+			        </div>
+			    </div>
 		</div>
-		<div style="width:100%; padding:10px;">
-			<p:messages id="mensagens" autoUpdate="#{empty autoUpdateMSG ? true : autoUpdateMSG}" ></p:messages>
-			<ui:insert name="content">Aqui vai ser o conteúdo.</ui:insert>
-        </div>
 
 </h:body>
 </html>

@@ -14,7 +14,7 @@
 	 	<table style="width:100%">
 	 		<tr>
 	 			<td style="width:70%; top:0;">
-		 			<p:outputPanel id="panelNoticiaDestaque" rendered="#{exibirNoticiaController.noticia != null}">
+		 			<p:outputPanel id="panelNoticiaDestaque" rendered="#{exibirNoticiaController.noticia != null}" style="width:90%;">
 						<p:outputLabel id="noticiaDestaqueTitulo" value="#{exibirNoticiaController.noticia.titulo}" style="font-weight:bold"></p:outputLabel>
 						<br />
 						[<p:outputLabel id="noticiaDestaqueData" value="#{exibirNoticiaController.noticia.data}">
@@ -29,9 +29,10 @@
 						
 						<br />
 						
-						<p:galleria id="galeriaImagensNoticia" effect="slide"
-									effectSpeed="2000" var="imagem" value="#{exibirNoticiaController.arquivosImagens}">
-							<p:graphicImage value="#{imagem.caminhoCompleto}" />
+						<p:galleria id="galeriaImagensNoticia" transitionInterval="10000"
+							 var="imagem" value="#{exibirNoticiaController.arquivosImagens}">
+							<p:graphicImage     
+					 			url="/imagem?arquivo=#{imagem.caminhoCompleto}"/>
 						</p:galleria>
 						
 						<p:dataTable id="dtListagemDownloads" var="arquivo"
@@ -50,18 +51,19 @@
 						</p:dataTable>
 					</p:outputPanel>
 	 			</td>
-	 			<td style="width:30%; top:0;" >
-		 			<p:dataList id="dlNoticiasExibicao" value="#{exibirNoticiaController.noticias}" 
-						var="noticia" rendered="#{not empty exibirNoticiaController.noticias}"   >
-						  [<p:outputLabel id="noticiaDestaqueData" value="#{noticia.data}">
-							<f:convertDateTime pattern="dd/MM/yyyy"/>
-						</p:outputLabel>] - 
-						 <p:commandLink id="linkVisualizarNoticia" actionListener="#{exibirNoticiaController.preencherNoticiaDestaque(noticia)}"
-						 	 ajax="true" value="#{noticia.titulo}"
-						  	update="@form" ></p:commandLink>
-						 
-					</p:dataList>
-	 			
+	 			<td style="width:30%; top:0; margin:0px; padding:0px;" >
+	 				<div style="position: absolute; float: right; top:25%;  ">
+			 			<p:dataList id="dlNoticiasExibicao" value="#{exibirNoticiaController.noticias}" 
+							var="noticia" rendered="#{not empty exibirNoticiaController.noticias}"   >
+							  [<p:outputLabel id="noticiaDestaqueData" value="#{noticia.data}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</p:outputLabel>] - 
+							 <p:commandLink id="linkVisualizarNoticia" actionListener="#{exibirNoticiaController.preencherNoticiaDestaque(noticia)}"
+							 	 ajax="true" value="#{noticia.titulo}"
+							  	update="@form" ></p:commandLink>
+							 
+						</p:dataList>
+	 			</div>
 	 			</td>
 	 		</tr>
 	 	</table>

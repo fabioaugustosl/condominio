@@ -31,8 +31,8 @@
 		   			
 		   			<p:outputLabel id="labelTituloIndicacaro" value="#{ind.nome}"></p:outputLabel>
 		   			
-		   			<p:graphicImage rendered="#{not empty ind.arquivoDestaque}" styleClass="imgIndicacaoDestaque"
-		   				value="#{ind.arquivoDestaque.caminhoCompleto}" />
+		   			<p:graphicImage rendered="#{not empty ind.arquivoDestaque}" styleClass="imgIndicacaoDestaque" 
+		   				id="imgDestaque" url="/imagem?arquivo=#{ind.arquivoDestaque.caminhoCompleto}" />
 		   			 
 		   			<p:outputLabel id="labelDescricaoIndicacaro" rendered="#{empty ind.arquivoDestaque}"  
 		   						value="#{ind.comentario}"></p:outputLabel>

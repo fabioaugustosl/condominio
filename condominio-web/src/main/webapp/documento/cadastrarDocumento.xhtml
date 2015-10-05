@@ -32,7 +32,9 @@
 		        <p:fileUpload rendered="#{cadastroDocumentoController.documento.arquivo == null}"
 				        mode="advanced" update="painelArquivo" label="Selecionar arquivo"
 				        fileUploadListener="#{cadastroDocumentoController.uploadArquivo}"
-				        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX)$/" 
+				        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX|xlsx|xls|XLSX|XLS|txt)$/" 
+				        invalidFileMessage="Tipo do arquivo inválido"
+				        invalidSizeMessage="Tamanho do arquivo inválido"
 				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
 				        auto="true" dragDropSupport="false" />
 				<br />

@@ -24,7 +24,7 @@
 	   				
 	   				 <p:fileUpload mode="advanced" immediate="true" label="Selecionar arquivo"
 				        fileUploadListener="#{cadastrarUsuarioFotoController.uploadArquivo}"
-				        allowTypes="/(\.|\/)(JPg|jpg|jpeg|JPEG|png|PNG)$/"  
+				        allowTypes="/(\.|\/)(JPG|jpg|jpeg|JPEG|png|PNG)$/"  
 				        multiple="false" sizeLimit="1000000" 
 				        invalidFileMessage="Arquivo não válido." 
 				        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
@@ -58,7 +58,12 @@
 			<p>
 			Foi enviado um email de confirmação para você. Basta abri-lo e clicar no link para confirmar seu usuaário e concluir seu cadastro. 
 			É bem rápido.
-			</p>   
+			</p> 
+			<br />
+			<br />
+			<br />
+			<p:commandButton id="redirecionar" value="Voltar para página inicial" actionListener="#{cadastrarUsuarioFotoController.redirecionarPaginaInicial}">
+			</p:commandButton>  
 		</p:outputPanel>
 		
 	  </h:form>
