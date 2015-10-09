@@ -154,6 +154,14 @@ public class Usuario extends Entidade implements Serializable {
 		return arquivo;
 	}
 	
+
+	public boolean existeFotoParaUsuario() {
+		if(arquivo == null){
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+	
 	public String getSenha() {
 		return senha;
 	}

@@ -58,9 +58,11 @@ public class ReservaController {
 	
 	private Set<AreaComum> areas;
 	private List<Usuario> usuarios;
-	private Usuario usuario;
+	private Usuario usuario = null;
+	private Usuario usuarioLogado = null;
 	private AreaComum areaSelecionada = null;
 	private String mensagemConfirmacaoReserva = null ;
+	private String mensagemErroReserva = null ;
 	private ParametroSistema maximoDias = null;
 	
 	private boolean podeRemoverReserva;
@@ -70,8 +72,8 @@ public class ReservaController {
 	@PostConstruct
 	public void init(){
 		reservas = new DefaultScheduleModel();
-		usuario = sessao.getUsuarioLogado();
-		areas = usuario.getCondominio().getAreasComuns();
+		usuarioLogado = sessao.getUsuarioLogado();
+		areas = usuarioLogado.getCondominio().getAreasComuns();
 		maximoDias = parametroLookup.buscar(EnumParametroSistema.QUANTIDADE_DIAS_MAXIMO_PARA_AGENDAR_AREA_COMUM);
 		areaSelecionada = null;
 		podeRemoverReserva = false;
@@ -79,7 +81,7 @@ public class ReservaController {
 		
 		// se for sindico pode agendar para outros moradores
 		if(principalController.ehSindico() || principalController.ehAdministrativo()){
-			usuarios = usuarioService.recuperarTodos(usuario.getCondominio());
+			usuarios = usuarioService.recuperarTodos(usuarioLogado.getCondominio());
 		} else {
 			usuarios = null;
 		}
@@ -88,10 +90,11 @@ public class ReservaController {
 
 	public void recuperarEventos() {
 		reservas.clear();
+		Usuario usu = usuario == null ? usuarioLogado : usuario;
 		if(getAreaSelecionada() != null){
 			List<Reserva> reservasPersistidas = reservaService.recuperar(getAreaSelecionada());
 			for(Reserva r : reservasPersistidas){
-				reservas.addEvent(new DefaultScheduleEvent(montarNomeEvento(usuario), r.getData().getTime(), r.getData().getTime()));
+				reservas.addEvent(new DefaultScheduleEvent(montarNomeEvento(usu), r.getData().getTime(), r.getData().getTime()));
 			}
 		}
 	}
@@ -107,30 +110,32 @@ public class ReservaController {
     
 	
     public void onDateSelect(SelectEvent selectEvent) throws AppException {
+    	
     	if(getAreaSelecionada() == null){
     		return;
     		//throw new AppException("Favor selecionar uma área para efetuar a reserva.");
     	}
-    	
+    	    	
     	Date dataSelecionada = (Date) selectEvent.getObject();
     	
     	// validar se existe uma reserva para área nessa data.
-    	for(ScheduleEvent event :reservas.getEvents()){
+    	for(ScheduleEvent event : reservas.getEvents()){
     		if(event.getStartDate().equals(dataSelecionada)){
     			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    			throw new AppException("Já existe uma reserva cadastrada para o(a) "+getAreaSelecionada().getNome()+" no dia "+sdf.format(dataSelecionada));
+    			mensagemErroReserva = "Já existe uma reserva cadastrada para o(a) "+getAreaSelecionada().getNome()+" no dia "+sdf.format(dataSelecionada)+".";
+    			mensagemConfirmacaoReserva =null;
+    			return;
     		}
     	}
     	
-    	String nomeUsuario = "";
-    	if(usuario != null){
-    		nomeUsuario = usuario.getNome();
-    	}
-        evento = new DefaultScheduleEvent(montarNomeEvento(usuario), dataSelecionada, dataSelecionada);
+    	Usuario usu = (usuario == null) ? usuarioLogado : usuario;
+    	
+        evento = new DefaultScheduleEvent(montarNomeEvento(usu), dataSelecionada, dataSelecionada);
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String txtArea = " para o(a) "+getAreaSelecionada().getNome();
 		mensagemConfirmacaoReserva = "Você confirma a reserva"+txtArea+" para o dia "+sdf.format(evento.getStartDate())+"?";
+		mensagemErroReserva = null;
     }
 
 
@@ -149,7 +154,10 @@ public class ReservaController {
 		}
 		
         evento = new DefaultScheduleEvent();
-        this.mensagemConfirmacaoReserva = "";
+        this.mensagemConfirmacaoReserva = null;
+        mensagemErroReserva = null;
+        
+        usuario = null;
         
         message.addInfo("Sua reserva foi confirmada com sucesso!");
     }
@@ -160,6 +168,7 @@ public class ReservaController {
 
 
 	private void salvar() throws AppException {
+		
 		Calendar data = Calendar.getInstance();
 		data.setTime(evento.getStartDate());
 
@@ -176,10 +185,12 @@ public class ReservaController {
 			throw new AppException("A reserva não foi realizada. A data limite para agendamentos é "+sdf.format(dataMaxima)+". ");
 		}
 		
+		Usuario usu = (usuario == null) ? usuarioLogado : usuario;
+		
 		Reserva reserva = new Reserva();
         reserva.setAreaComum(getAreaSelecionada());
         reserva.setData(data);
-        reserva.setUsuario(this.usuario);
+        reserva.setUsuario(usu);
         
         try {
 			reservaService.salvar(reserva);
@@ -213,12 +224,13 @@ public class ReservaController {
 	
 	
 	public boolean verificarSePodeRemoverReserva() {
-		if(usuario.isAdministrativo() || usuario.isSindico()){
+		if(usuarioLogado.isAdministrativo() || usuarioLogado.isSindico()){
 			return Boolean.TRUE;
 		}
 		
+		Usuario usu = (usuario == null) ? usuarioLogado : usuario;
 		String email = recuperarEmailDaReserva();
-		if(usuario.getEmail().equals(email)){
+		if(usu.getEmail().equals(email)){
 			return Boolean.TRUE;
 		}
 				
@@ -294,6 +306,10 @@ public class ReservaController {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public String getMensagemErroReserva() {
+		return mensagemErroReserva;
 	}
 	
 	

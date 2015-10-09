@@ -21,10 +21,10 @@
 	 
 </h:head>
 <h:body>
-  <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+  		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
   
-  	<p:dialog id="statusDialog" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" appendTo="@(body)">
-		    <p:graphicImage library="" url="/img/ajax-loader.GIF" />
+  		<p:dialog id="statusDialog" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" appendTo="@(body)">
+		    <p:graphicImage library="img" url="ajax-loader.GIF" />
 		</p:dialog>
 		
 		<div class="menu">
@@ -33,6 +33,7 @@
 					<p:outputLabel id="labelCondominioPrincipal" value="#{principalController.condominio.nome}"></p:outputLabel>
 				</div>
 				<div style="float:right; margin:10px; padding:0px;">
+				
 				
 					<h:outputLink value="#{facesContext.externalContext.requestContextPath}/portal.faces" style="float:right;">
 						<p:graphicImage id="icoPrincipal" url="/img/icones/ico_principal.png" height="26" style="cursor:pointer;"></p:graphicImage>
@@ -57,6 +58,8 @@
 			    	</p:overlayPanel>
 			    	
 					<ui:include src="/painel/alterarSenha.xhtml" />		    	
+
+					<ui:include src="/painel/notificacoes.xhtml" />		  
 				</div> 
 			</h:form>
 		</div>

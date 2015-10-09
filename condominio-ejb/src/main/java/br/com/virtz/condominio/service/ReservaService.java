@@ -1,14 +1,18 @@
 package br.com.virtz.condominio.service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import freemarker.template.utility.DateUtil;
 import br.com.virtz.condominio.dao.IReservaDAO;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Reserva;
+import br.com.virtz.condominio.exception.AppException;
+import br.com.virtz.condominio.geral.DataUtil;
 
 @Stateless
 public class ReservaService implements IReservaService {
@@ -18,6 +22,11 @@ public class ReservaService implements IReservaService {
 
 	@Override
 	public Reserva salvar(Reserva reserva) throws Exception {
+		DataUtil dtUtil = new DataUtil();
+		Calendar d = Calendar.getInstance();
+		Date data = dtUtil.limparHora(reserva.getData().getTime());
+		d.setTime(data);
+		reserva.setData(d);
 		return reservaDAO.salvar(reserva);
 	}
 
@@ -37,8 +46,11 @@ public class ReservaService implements IReservaService {
 	}
 	
 	@Override
-	public void remover(AreaComum areaReservada, String emailUsuarioReserva, Date dataInicioReserva){
+	public void remover(AreaComum areaReservada, String emailUsuarioReserva, Date dataInicioReserva) throws AppException{
 		Reserva r = reservaDAO.recuperarPorAreaEmailEData(areaReservada, emailUsuarioReserva, dataInicioReserva);
+		if (r == null){
+			throw new AppException("Ocorreu um erro ao recuperar a reserva para excluí-la.");
+		}
 		reservaDAO.remover(r.getId());
 	}
 	

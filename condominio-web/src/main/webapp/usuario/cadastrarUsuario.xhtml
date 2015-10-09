@@ -45,6 +45,7 @@
         		<p:password id="senhaUsuario2"  validatorMessage="A senha repetida não foi igual. Favor digitar novamente a senha de forma idêntica."
 		        		value="#{cadastrarUsuarioController.usuario.senhaDigitadaConfirmacao}" 
 		        		styleClass="inputPadrao" style="width:200px;"
+		        		requiredMessage="Favor inserir uma confirmação de senha."
 		        		required="true" maxlength="20" />
 
 			    <br />
@@ -53,7 +54,7 @@
 				<p:inputMask id="telefoneUsuario" alt="Insira seu telefone residencial."
 					value="#{cadastrarUsuarioController.usuario.telefone}" maxlength="20" 
 					styleClass="inputPadrao" style="width:200px;"
-					mask="(99) 9999-9999?9"/>
+					mask="(99) 9999-9999"/>
     			
 				<br />
 					

@@ -14,9 +14,12 @@ import org.apache.commons.lang.StringUtils;
 
 import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
+import br.com.virtz.condominio.constantes.EnumTipoNotificacao;
 import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.entidades.Usuario;
+import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
+import br.com.virtz.condominio.service.INotificacaoService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.MessageHelper;
@@ -27,6 +30,9 @@ public class EnviarMensagemUsuarioController {
 
 	@EJB
 	private IUsuarioService usuarioService;
+	
+	@EJB
+	private INotificacaoService notificacaoService;
 	
 	@Inject
 	private SessaoUsuario sessao;
@@ -44,20 +50,19 @@ public class EnviarMensagemUsuarioController {
 	private String mensagem = null;
 	private String assunto = null;
 	
+	private Usuario usuario = null;
 	
 	
 	@PostConstruct
 	public void init(){
+		usuario = sessao.getUsuarioLogado();
 		usuarios = listarTodos(); 
 		usuariosSelecionados = new ArrayList<Usuario>();
 	}
 	
 	
 	public List<Usuario> listarTodos(){
-		Usuario usuario = sessao.getUsuarioLogado();
-		
 		List<Usuario> usuarios = usuarioService.recuperarTodos(usuario.getCondominio());
-		
 		return usuarios;
 	}
 	
@@ -78,12 +83,37 @@ public class EnviarMensagemUsuarioController {
 			enviarEmail.enviar(email);
 		}
 		
-		usuariosSelecionados = new ArrayList<Usuario>();
-		this.assunto = null;
-		this.mensagem = null;
+		resetarDadosTela();
 		msgHelper.addInfo("Sua mensagem foi enviada aos condôminos selecionados!");
 	}
 
+	
+	public void enviarNotificacao(ActionEvent event) throws CondominioException {
+		if(StringUtils.isBlank(this.mensagem)){
+			throw new CondominioException("Você não preencheu a mensagem a ser enviada.");
+		}
+		if(usuariosSelecionados == null || usuariosSelecionados.isEmpty()){
+			throw new CondominioException("É necessário preencher pelo menos um condômino.");
+		}
+		
+		for(Usuario u : usuariosSelecionados){
+			try {
+				notificacaoService.salvarNovaNotificacao(usuario.getCondominio(), u, EnumTipoNotificacao.AVISO, this.mensagem);
+			} catch (AppException e) {
+				msgHelper.addInfo("Ocorreu um erro ao enviar notificação para o usuário: "+u.getNome());
+			}
+		}
+		
+		resetarDadosTela();
+		msgHelper.addInfo("Sua mensagem foi enviada aos condôminos selecionados!");
+	}
+
+
+	private void resetarDadosTela() {
+		usuariosSelecionados = new ArrayList<Usuario>();
+		this.assunto = null;
+		this.mensagem = null;
+	}
 	
 	public void enviarSms(ActionEvent event) throws CondominioException {
 		

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   
+		<h:form id="formNotificacoes">
+			<p:outputPanel id="linkNotificacao" style="cursor:pointer; float:right;  margin-right:5px;">
+				<p:graphicImage id="icoSemNotificacao" url="/img/icones/ico_sem_notificacao.png" 
+					rendered="#{notificacaoController.qtdNotificacoes == 0}"></p:graphicImage>
+				<p:graphicImage id="icoNotificacao" url="/img/icones/ico_notificacao.png" 
+					rendered="#{notificacaoController.qtdNotificacoes > 0}"
+					style="cursor:pointer;"></p:graphicImage>
+			</p:outputPanel>
+			
+			<p:overlayPanel widgetVar="panelNotificacao" id="panelNotificacao" style="width:450px;"
+						for="icoNotificacao" hideEffect="fade" dynamic="true" styleClass="menuConfiguracoesDiv">
+	        	  <p:dataGrid value="#{notificacaoController.notificacoes}" var="notificacao" 
+	        	  		 columns="1" layout="grid" >
+        
+			        <p:outputPanel style="height:40px; width:100%; background-color:#FAFAFA; border-top:1px solid black;" layout="block">
+			        	<p:outputLabel value="#{notificacao.texto}"></p:outputLabel>
+			        </p:outputPanel>
+					
+			    </p:dataGrid>
+	    	</p:overlayPanel>
+	    </h:form>
+	    
+</ui:composition>

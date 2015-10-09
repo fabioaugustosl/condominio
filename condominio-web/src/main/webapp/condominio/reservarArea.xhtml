@@ -14,6 +14,7 @@
 	   	<h1><p:outputLabel value="Reservar área em comum" /></h1>
 	 	<br /><br />
 	 	<p:outputLabel value="Para agendar uma área comum basta selecioná-la abaixo e clicar na data desejada." />
+	 	<br /><p:outputLabel value="Para excluir um agendamento basta selecionar a área abaixo e clicar sobre seu nome." />
 	 	<br />
 	 	<div>
 		 	<p:outputLabel value="Selecione a área que você deseja reservar: " />
@@ -29,7 +30,7 @@
 		 	<div>
 			 	<p:outputLabel value="Qual usuário está realizando a reserva? " />
 		 	</div>
-		 	<p:selectOneMenu id="comboUsuario" value="#{reservaController.usuario}" 
+		 	<p:selectOneMenu id="comboUsuario" value="#{reservaController.usuario}" immediate="true"
 		 		styleClass="selectPadrao" converter="converterEntityById" style="width:50%" >
 		 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 		 		<f:selectItems value="#{reservaController.usuarios}" var="usu" itemLabel="#{usu.nome} [#{usu.email}]" itemValue="#{usu}" />
@@ -38,7 +39,9 @@
 	 	
 	 	<p:outputPanel id="containerAgenda" style="margin-top:30px;margin-left:20px; width:80%;">
 	  		<p:schedule id="agendaReserva" value="#{reservaController.reservas}" widgetVar="agendaReserva" timeZone="GMT-3" locale="pt" >
-	            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" update="novoEventoPanelContainer" onsuccess="PF('novoEvento').show();" />
+	            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" process="@form"
+	             update="novoEventoPanelContainer"  
+	             onsuccess="PF('novoEvento').show();" onerror="alert('error'); " onstart="" />
 	            <p:ajax event="eventSelect" listener="#{reservaController.onEventSelect}" update="removerEventoPanelContainer" oncomplete="PF('removerEvento').show();" />
 	        </p:schedule>
 	    </p:outputPanel> 
@@ -53,7 +56,7 @@
 	    
 	    <p:dialog id="novoEvento" widgetVar="novoEvento" header="Agendar" showEffect="fade" hideEffect="fade" dynamic="false" appendTo="@(body)" >
 		    <p:outputPanel id="novoEventoPanelContainer" >
-		        <p:outputPanel id="novoEventoPanel" rendered="#{reservaController.areaSelecionada != null}" >
+		        <p:outputPanel id="novoEventoPanel" rendered="#{reservaController.areaSelecionada != null &amp;&amp; reservaController.mensagemConfirmacaoReserva != null}" >
 		            
 		            <p:outputLabel value="#{reservaController.mensagemConfirmacaoReserva}" id="txtMsgConfirmacao"  />
 		 			
@@ -68,6 +71,13 @@
 		            <p:outputLabel value="Favor selecionar uma área para efetuar a reserva." id="txtMsgErro" />
 		 			<br />
 		            <p:commandButton id="btnAgendarOK" value="OK" onclick="PF('novoEvento').hide();" />
+		        </p:outputPanel>
+		        
+		        <p:outputPanel id="eventoErroPersonalizado" rendered="#{reservaController.areaSelecionada != null &amp;&amp; reservaController.mensagemErroReserva != null}"  >
+		            
+		            <p:outputLabel value="#{reservaController.mensagemErroReserva}" id="txtMsgErroReserva" />
+		 			<br />
+		            <p:commandButton id="btnAgendarOKErro" value="OK" onclick="PF('novoEvento').hide();" />
 		        </p:outputPanel>
 	        </p:outputPanel>
 	    </p:dialog>  

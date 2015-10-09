@@ -96,7 +96,7 @@ public class CadastrarUsuarioFotoController implements Serializable{
 	private void salvar() throws AppException {
 		
         try {
-        	if(usuario.getArquivo() != null){
+        	if(usuario.existeFotoParaUsuario() && usuario.getArquivo() != null){
         		ArquivoUsuario arq = usuarioService.salvarArquivo(usuario.getArquivo());
         		usuario.setArquivo(arq);
         	}
@@ -115,9 +115,7 @@ public class CadastrarUsuarioFotoController implements Serializable{
         	cadastroFinalizado = Boolean.TRUE;
         } catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar seu usuário. Favor tentar novamente.");
-		} finally{
-			usuario = null;
-		}
+		} 
 	}
 
 

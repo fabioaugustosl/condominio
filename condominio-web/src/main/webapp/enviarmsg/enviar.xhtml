@@ -23,10 +23,27 @@
 		        	controls="bold italic underline font size color style numbering alignleft center alignright justify undo redo image link cut copy paste indent" />
 	        	<br />
 	        	<p:commandButton id="enviarEmail" value="Enviar" 
+	        		process="campoAssunto, editorCorpoEmail :form:dtListagemUsuarios, @this" 
 			   		actionListener="#{enviarMensagemUsuarioController.enviarEmail}" update="@form">
 			   		<p:confirm header="Confirmação" message="Tem certeza que deseja enviar este email para os condôminos selecionados?" icon="ui-icon-alert" />
 			   	</p:commandButton>
 	        </p:tab>
+	        
+	        
+	        <p:tab title="Notificação">
+	        	<p:outputLabel>Digite a mensagem:</p:outputLabel>
+	            <br />
+	            <p:inputTextarea id="msgNotificacao" alt="Digite a mensagem" styleClass="textAreaPadrao"
+						value="#{enviarMensagemUsuarioController.mensagem}" maxlength="200"
+						counter="msgNotCounter" counterTemplate="{0} caracteres restantes."  />
+				<h:outputText id="msgNotCounter" />
+				<br />
+				<p:commandButton id="enviarNotificacao" value="Enviar" process="msgNotificacao, :form:dtListagemUsuarios, @this" 
+			   		actionListener="#{enviarMensagemUsuarioController.enviarNotificacao}" update="@form">
+			   		<p:confirm header="Confirmação" message="Tem certeza que deseja enviar esta notificação para os condôminos selecionados?" icon="ui-icon-alert" />
+			   	</p:commandButton>
+	        </p:tab>
+	        
 	        <p:tab title="SMS">
 	        	<p:outputPanel deferred="true">
 			        <h3>Créditos para envio de SMS: R$ 0,00</h3>
@@ -35,7 +52,7 @@
 	            <p:outputLabel>Digite a mensagem:</p:outputLabel>
 	            <br />
 	            <p:inputTextarea id="msgSMS" alt="Digite a mensagem" styleClass="textAreaPadrao"
-						value="#{cadastroDocumentoController.documento.descricao}" maxlength="140"
+						value="#{enviarMensagemUsuarioController.mensagem}" maxlength="140"
 						counter="msgSMSCounter" counterTemplate="{0} caracteres restantes."  />
 				<h:outputText id="msgSMSCounter" />
 				<br />

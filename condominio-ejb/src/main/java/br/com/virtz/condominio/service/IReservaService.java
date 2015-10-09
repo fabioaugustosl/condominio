@@ -7,6 +7,7 @@ import javax.ejb.Local;
 
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Reserva;
+import br.com.virtz.condominio.exception.AppException;
 
 @Local
 public interface IReservaService {
@@ -14,6 +15,6 @@ public interface IReservaService {
 	public void remover(Long id);
 	public List<Reserva> recuperarTodos();
 	public List<Reserva> recuperar(AreaComum area);
-	public void remover(AreaComum areaReservada, String nomeUsuarioReserva, Date dataInicioReserva);
+	public void remover(AreaComum areaReservada, String nomeUsuarioReserva, Date dataInicioReserva) throws AppException;
 	
 }

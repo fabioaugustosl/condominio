@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import br.com.virtz.condominio.entidades.ArquivoNoticia;
 import br.com.virtz.condominio.entidades.Noticia;
 
 @Local
