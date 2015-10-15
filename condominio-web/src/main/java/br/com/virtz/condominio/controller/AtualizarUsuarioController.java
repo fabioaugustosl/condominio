@@ -115,6 +115,7 @@ public class AtualizarUsuarioController implements Serializable{
 		}
 	}
 
+
 	private void salvar() throws AppException {
 		
         try {
@@ -138,8 +139,9 @@ public class AtualizarUsuarioController implements Serializable{
         	}
             
         	ArquivoUsuario arquivo = createArquivo(event.getFile().getSize());
-        	arquivoUtil.redimensionarImagem(event.getFile().getInputstream(), arquivo.getNome(), arquivo.getExtensao(), 600, 750);
+        	arquivoUtil.redimensionarImagem(event.getFile().getInputstream(), arquivoUtil.getCaminhoUploadArquivosTemporario(), arquivo.getNome(), arquivo.getExtensao(), 600, 750);
         	this.caminhoImagem = arquivo.getCaminhoCompleto();
+        	
         	trocouFoto = true;
         } catch (IOException e) {
             throw new CondominioException("Ocorreu um erro ao realizar o upload da imagem.");
@@ -212,5 +214,10 @@ public class AtualizarUsuarioController implements Serializable{
 	public void setBlocoSelecionado(Bloco blocoSelecionado) {
 		this.blocoSelecionado = blocoSelecionado;
 	}
+
+	public boolean isTrocouFoto() {
+		return trocouFoto;
+	}
+	
 	
 }

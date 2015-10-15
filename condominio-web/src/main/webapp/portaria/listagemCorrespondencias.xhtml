@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+	   	<h1><p:outputLabel value="Verifique suas correnpondências e itens para entrega deixados na portaria." /></h1>
+	 	<br />
+	 	
+		<p:dataTable id="dtListagemCorrespondencias" var="carta" 
+				value="#{ListagemCorrespondenciaController.recebidos}"
+				emptyMessage="Ainda não foi cadastradas nenhuma correspondência para você." >
+			
+	        <p:column headerText="Data">
+		        <h:outputText value="#{carta.data}" />
+		    </p:column>
+		    
+		    <p:column headerText="Comentário">
+		        <h:outputText value="#{carta.comentario}" />
+		    </p:column>
+		    
+		    <p:column headerText="Tipo">
+		        <h:outputText value="#{carta.tipoRecebido.descricao}" />
+		    </p:column>
+		    
+		</p:dataTable> 
+			 	
+	 </h:form>
+  </ui:define>
+</ui:composition>

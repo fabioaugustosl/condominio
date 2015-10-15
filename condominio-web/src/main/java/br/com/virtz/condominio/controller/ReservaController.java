@@ -94,7 +94,7 @@ public class ReservaController {
 		if(getAreaSelecionada() != null){
 			List<Reserva> reservasPersistidas = reservaService.recuperar(getAreaSelecionada());
 			for(Reserva r : reservasPersistidas){
-				reservas.addEvent(new DefaultScheduleEvent(montarNomeEvento(usu), r.getData().getTime(), r.getData().getTime()));
+				reservas.addEvent(new DefaultScheduleEvent(montarNomeEvento(r.getUsuario()), r.getData().getTime(), r.getData().getTime()));
 			}
 		}
 	}

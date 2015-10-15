@@ -91,21 +91,25 @@
 				        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
 				        update="@form"  />
 			        
-			 				<p:outputPanel  id="containerCortadorImagem" rendered="#{empty atualizarUsuarioController.caminhoImagem}" >
-			     				<p:graphicImage id="imagemUsuario" url="/arquivos/usuario/foto.jpg" width="300" />
-			     			</p:outputPanel>	 
-			     			
-					<p:outputPanel id="cadastroFoto" rendered="#{not empty atualizarUsuarioController.caminhoImagem}">
-				      			
-				      			<p:imageCropper id="cortadorImagem"
-				      			
+		 				<p:outputPanel  id="containerCortadorImagem" rendered="#{empty atualizarUsuarioController.caminhoImagem}" >
+		     				<p:graphicImage id="imagemUsuario" url="/arquivos/usuario/foto.jpg" width="300" />
+		     			</p:outputPanel>	 
+		     			
+						<p:outputPanel id="cadastroFoto" rendered="#{not empty atualizarUsuarioController.caminhoImagem}">
+				      		<p:imageCropper id="cortadorImagem"
 				      				value="#{atualizarUsuarioController.imagemCortada}" 
-				      				rendered="#{not empty atualizarUsuarioController.caminhoImagem}"
+				      				rendered="#{atualizarUsuarioController.trocouFoto}"
 				   					initialCoords="0,0,300,375" maxSize="600,750" minSize="300,375"
 				 					image="#{atualizarUsuarioController.caminhoImagem}" />
-				   		
+							
+						</p:outputPanel>
 						
-					</p:outputPanel>
+						<p:outputPanel  id="containerimagemAtaual" rendered="#{not empty atualizarUsuarioController.caminhoImagem &amp;&amp; !atualizarUsuarioController.trocouFoto}" >
+			     			<p:graphicImage  id="img" 
+				 							url="/imagem?arquivo=#{atualizarUsuarioController.caminhoImagem}"/>
+		     			</p:outputPanel>
+		     			
+					
 	 			</td>
 	 		</tr>
 		 </table>

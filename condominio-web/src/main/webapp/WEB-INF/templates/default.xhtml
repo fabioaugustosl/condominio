@@ -8,7 +8,6 @@
    <title>Condomínio</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
    
-   
     <h:outputStylesheet library="css" name="bootstrap.css" /> <!-- NAO DEVE SER ALTERADO -->
 	<h:outputStylesheet library="css" name="condominio.css" /> <!-- NAO DEVE SER ALTERADO -->
 	<h:outputStylesheet library="css" name="layout.css" />
@@ -20,11 +19,13 @@
 	<h:outputScript name="js/util.js" target="body"/>
 	 
 </h:head>
+
+
 <h:body>
   		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
   
   		<p:dialog id="statusDialog" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" appendTo="@(body)">
-		    <p:graphicImage library="img" url="ajax-loader.GIF" />
+		    <p:graphicImage library="img" url="img/ajax-loader.GIF" />
 		</p:dialog>
 		
 		<div class="menu">
@@ -46,7 +47,7 @@
 					</p:outputPanel>
 					
 					
-					<p:overlayPanel widgetVar="panelConfiguracao" id="panelConfiguracao" 
+					<p:overlayPanel widgetVar="panelConfiguracao" id="panelConfiguracao"
 						for="icoConfiguracao" hideEffect="fade" dynamic="false" styleClass="menuConfiguracoesDiv">
 			        	<p:menu styleClass="menuConfiguracoes">
 					        <p:submenu label="Usuário">

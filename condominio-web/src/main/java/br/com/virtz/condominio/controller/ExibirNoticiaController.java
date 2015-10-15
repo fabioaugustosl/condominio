@@ -150,6 +150,14 @@ public class ExibirNoticiaController {
 	}
 	
 	
+	public boolean existeImagensParaExibicao(){
+		if(imagensNoticia == null || imagensNoticia.isEmpty()){
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+	
+	
 	 public StreamedContent download(ArquivoNoticia arquivo) {        
 		 if(arquivo != null){
 			InputStream stream;

@@ -33,6 +33,12 @@
 				<li><p:link value="Emissão de boleto" outcome="/boleto/geracaoBoleto.faces" /></li>
 				</ul>
 			</li>
+			<li><a href="#"><p:graphicImage id="icoPortariaMenu" url="/img/icones/ico_portaria_menu.png" /> <span id="titulosubmenu">Portaria</span></a>
+				<ul id="submenu">
+				<li><p:link value="Gerenciar" outcome="/portaria/gerenciarPortaria.faces" rendered="#{principalController.ehSindico()}" /></li>
+				<li><p:link value="Correspondências e entregas" outcome="/portaria/listagemCorrespondencias.faces"  /></li>
+				</ul>
+			</li>
 			<li><a href="#"><p:graphicImage id="icoConfigMenu" url="/img/icones/ico_configuracao_menu.png" /> <span id="titulosubmenu">Configurações</span></a>
 				<ul id="submenu">
 				<li><p:link value="Meu Condomínio" outcome="/condominio/condominio.faces" rendered="#{principalController.ehSindico()}" /></li>

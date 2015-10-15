@@ -8,38 +8,43 @@
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	  
+
 	<title>Condominio</title>
-	
-	<h:outputStylesheet library="css" name="bootstrap.css" /> 
-	<h:outputStylesheet library="css" name="condominio.css" /> 
-	<h:outputStylesheet library="css" name="componentes_forms.css" />
-	<h:outputStylesheet library="css" name="layout_sem_login.css" />
-	
-	
+
+	<h:outputStylesheet library="css" name="bootstrap.css" />
+	<h:outputStylesheet library="css" name="condominio.css" />
+	<h:outputStylesheet library="css" name="externo.css" />
+	<h:outputStylesheet library="css" name="fontes.css" />
+
+
 </h:head>
+<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poiret+One" />
 
 <h:body>
-	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
- 
-	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-	    <p:graphicImage name="../img/ajax-loader.gif" />
-	</p:dialog>
-	
-	
-	<div class="container">
-	  <div class="page-header-entrada row">
-	  	<div id="divLogo"></div>
-	  </div>
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
 
-	  <div class="row">
-	    <div role="main">
-	    <ui:insert name="content">Aqui vai ser o conteúdo.</ui:insert>
-	    </div>
-	  </div>
-  	</div>
-		
-	
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+		<p:graphicImage library="img" name="ajax-loader.GIF" />
+	</p:dialog>
+
+
+	<div class="page-header-entrada row topo">
+		<div class="centroTopo">
+			<div id="divLogo"></div>
+		</div>
+	</div>
+
+	<div class="corpo">
+		<div class="row">
+			<div role="main">
+				<ui:insert name="content">Aqui vai ser o conteúdo.</ui:insert>
+			</div>
+		</div>
+	</div>
+
+
 
 </h:body>
 

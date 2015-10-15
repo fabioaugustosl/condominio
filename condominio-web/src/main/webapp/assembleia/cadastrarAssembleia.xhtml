@@ -12,6 +12,8 @@
  	
  	<h:form id="form" >
 	    <p:tabView id="tabsAssembleias" dynamic="true" activeIndex="0">
+	   		
+	   		
 		   	<p:tab id="tabAssembleia" title="Informações sobre a Assembléia" disabled="false">
 		        
 			    <p:panelGrid columns="1" id="containerNovaAssembleia" >
@@ -56,7 +58,7 @@
 			 	
 			 	<p:commandButton id="salvarPauta" value="Inserir" 
 			   		actionListener="#{cadastrarAssembleiaController.salvarPauta}" 
-			   		update="tabPauta">
+			   		update="novaPauta, dtPautas">
 			   	</p:commandButton>
 			   	<br />
 			   	
@@ -91,34 +93,36 @@
 			         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa pauta?" icon="ui-icon-alert" />
 			         	</p:commandLink>
 			         </p:column>
-				</p:dataTable> 
+				</p:dataTable>
+				 
 			 </p:tab>
 			 
 			 <p:tab id="tabAta" title="Ata" disabled="#{not cadastrarAssembleiaController.possoCadastrarAta}">
-			 	
-			 	<p:outputPanel id="containerAnexarAta" rendered="#{cadastrarAssembleiaController.assembleia.arquivoAta.id == null}">
-				 	<p:outputLabel value="Anexar ata:" />
-			        <p:fileUpload label="Selecionar arquivo"
-					        mode="advanced" update="@this, tabAta"
-					        fileUploadListener="#{cadastrarAssembleiaController.uploadArquivo}"
-					        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX)$/" 
-					        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
-					        auto="true" dragDropSupport="false" />
-			 	</p:outputPanel>
-				
-				<p:outputPanel id="containerAtaAnexada" rendered="#{cadastrarAssembleiaController.assembleia.arquivoAta.id != null}">
-					<p:outputLabel value="Ata anexada: "></p:outputLabel>
-					<p:outputLabel value="#{cadastrarAssembleiaController.assembleia.arquivoAta.nomeOriginal}"></p:outputLabel> <br /><br/>
-					<p:commandButton id="removerArq" value="Remover" immediate="true"
-				   		actionListener="#{cadastrarAssembleiaController.removerArquivo}" 
-				   		update="tabAta">
-				   	</p:commandButton> <br />
-				   	<p:media value="#{cadastrarAssembleiaController.assembleia.arquivoAta.caminhoCompleto}" 
-				   			height="400" width="100%"
-				   			id="mediaPDF" >
-				   	</p:media>
-			           
-				</p:outputPanel>
+			 	<h:panelGroup layout="block" id="panelGroupAta">
+				 	<p:outputPanel id="containerAnexarAta" rendered="#{cadastrarAssembleiaController.assembleia.arquivoAta.id == null}">
+					 	<p:outputLabel value="Anexar ata:" />
+				        <p:fileUpload label="Selecionar arquivo"
+						        mode="advanced" update="@this, tabAta"
+						        fileUploadListener="#{cadastrarAssembleiaController.uploadArquivo}"
+						        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX)$/" 
+						        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
+						        auto="true" dragDropSupport="false" />
+				 	</p:outputPanel>
+					
+					<p:outputPanel id="containerAtaAnexada" rendered="#{cadastrarAssembleiaController.assembleia.arquivoAta.id != null}">
+						<p:outputLabel value="Ata anexada: "></p:outputLabel>
+						<p:outputLabel value="#{cadastrarAssembleiaController.assembleia.arquivoAta.nomeOriginal}"></p:outputLabel> <br /><br/>
+						<p:commandButton id="removerArq" value="Remover" immediate="true"
+					   		actionListener="#{cadastrarAssembleiaController.removerArquivo}" 
+					   		update="tabAta">
+					   	</p:commandButton> <br />
+					   	<p:media value="#{cadastrarAssembleiaController.assembleia.arquivoAta.caminhoCompleto}" 
+					   			height="400" width="100%"
+					   			id="mediaPDF" >
+					   	</p:media>
+				           
+					</p:outputPanel>
+				</h:panelGroup>
 			 </p:tab>
 			 
 		</p:tabView>

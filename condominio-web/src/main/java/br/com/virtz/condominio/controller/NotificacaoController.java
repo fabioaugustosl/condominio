@@ -1,33 +1,22 @@
 package br.com.virtz.condominio.controller;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 
-import org.apache.commons.lang.StringUtils;
-
-import br.com.virtz.condominio.constantes.EnumTipoUsuario;
-import br.com.virtz.condominio.entidades.Avaliacao;
-import br.com.virtz.condominio.entidades.BatePapo;
-import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Notificacao;
 import br.com.virtz.condominio.entidades.Usuario;
-import br.com.virtz.condominio.exception.ErroAoSalvar;
-import br.com.virtz.condominio.service.IBatePapoService;
+import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.service.INotificacaoService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.MessageHelper;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class NotificacaoController {
 
 	@EJB
@@ -35,6 +24,11 @@ public class NotificacaoController {
 	
 	@Inject
 	private SessaoUsuario sessao;
+	
+	@Inject
+	private MessageHelper messageHelper;
+
+	
 	
 	private List<Notificacao> notificacoes = null;
 	private Usuario usuario = null;
@@ -59,7 +53,19 @@ public class NotificacaoController {
 	}
 
 
-	
+
+	public void excluir(Notificacao notificacao){
+		 if(notificacao != null){
+			 notificacoes.remove(notificacao);
+			 try {
+				notificacaoService.remover(notificacao.getId());
+			} catch (AppException e) {
+				messageHelper.addError("Aconteceu algum erro ao remover a notificação.");
+			}
+		 }
+	}
+	 
+	 
 	
 	// getters e setters
 	

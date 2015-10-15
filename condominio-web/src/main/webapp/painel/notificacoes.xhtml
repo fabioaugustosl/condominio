@@ -4,27 +4,41 @@
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:p="http://primefaces.org/ui">
-   
-		<h:form id="formNotificacoes">
-			<p:outputPanel id="linkNotificacao" style="cursor:pointer; float:right;  margin-right:5px;">
+   <style>
+   .ui-datagrid-column{
+   	padding: 0px !important;
+   }
+   </style>
+			<p:outputPanel id="linkNotificacao" style="cursor:pointer; float:right;  margin-right:10px;">
 				<p:graphicImage id="icoSemNotificacao" url="/img/icones/ico_sem_notificacao.png" 
 					rendered="#{notificacaoController.qtdNotificacoes == 0}"></p:graphicImage>
-				<p:graphicImage id="icoNotificacao" url="/img/icones/ico_notificacao.png" 
-					rendered="#{notificacaoController.qtdNotificacoes > 0}"
-					style="cursor:pointer;"></p:graphicImage>
+				
+				<p:commandLink id="linkNotificacao1"
+						rendered="#{notificacaoController.qtdNotificacoes > 0}" >
+     
+					<p:graphicImage id="icoNotificacao" url="/img/icones/ico_notificacao.png" 
+						style="cursor:pointer;"></p:graphicImage>
+				</p:commandLink>
+				
 			</p:outputPanel>
-			
-			<p:overlayPanel widgetVar="panelNotificacao" id="panelNotificacao" style="width:450px;"
-						for="icoNotificacao" hideEffect="fade" dynamic="true" styleClass="menuConfiguracoesDiv">
-	        	  <p:dataGrid value="#{notificacaoController.notificacoes}" var="notificacao" 
-	        	  		 columns="1" layout="grid" >
+			<p:overlayPanel for="linkNotificacao1"  widgetVar="panelNotificacao" id="panelNotificacao" style="width:450px; padding:0px;" 
+ 					dynamic="true" styleClass="menuConfiguracoesDiv">
+						 
+	        	  <p:dataGrid value="#{notificacaoController.notificacoes}" var="notificacao" style="padding:0px; border:0px;"
+	        	  		 columns="1" layout="grid" emptyMessage="Não existem notificações no momento">
         
-			        <p:outputPanel style="height:40px; width:100%; background-color:#FAFAFA; border-top:1px solid black;" layout="block">
+			        <p:outputPanel style="height:40px; width:5%; float:right; margin:0px; background:#dd0000; padding-top:5px;" layout="block">
+				        <p:commandLink actionListener="#{notificacaoController.excluir(notificacao)}" immediate="true" partialSubmit="true"
+				        	style="width:100%; height:100%;" oncomplete="PF('panelNotificacao').hide();"
+		         				id="linkRemoverNotificacao" >
+				        	<p:graphicImage id="icoRemoverNotificacao" url="/img/icones/ico_remover.png" ></p:graphicImage>
+				        </p:commandLink>
+			        </p:outputPanel>
+			        <p:outputPanel style="height:40px; width:95%; float:right; background:#6190C8; font-size:0.75em; padding:3px; color:#F0F0F0; text-align:left;" layout="block">
 			        	<p:outputLabel value="#{notificacao.texto}"></p:outputLabel>
 			        </p:outputPanel>
 					
 			    </p:dataGrid>
-	    	</p:overlayPanel>
-	    </h:form>
+	    	</p:overlayPanel>  
 	    
 </ui:composition>
