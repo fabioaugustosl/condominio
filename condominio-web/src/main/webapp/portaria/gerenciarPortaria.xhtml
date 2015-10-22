@@ -33,9 +33,7 @@
 	}
 </style>
    	<h:form id="form" style="width:100%">
-	   	<h1><p:outputLabel value="Escolha um menu." /></h1>
-	 	<br />
-	 	
+	   
 		<div class="divMenuBotao">
 			<div class="divConteudoMenuBotao">
 				<p:graphicImage id="icoConfigMenu" url="/img/icones/ico_visitantes.png" />
@@ -45,8 +43,11 @@
 	
 		<div class="divMenuBotao">
 			<div class="divConteudoMenuBotao">
-			<p:graphicImage id="icoCorrespondenciaMenu" url="/img/icones/ico_correio.png" />
+				<p:commandLink actionListener="#{controlePortariaController.irParaCadastroRecebido()}" 
+	         		id="irParaCadastroRecebidos" immediate="true" >
+				<p:graphicImage id="icoCorrespondenciaMenu" url="/img/icones/ico_correio.png" />
 				<span>Correspondência</span>
+	         	</p:commandLink>
 			</div>
 		
 		</div>

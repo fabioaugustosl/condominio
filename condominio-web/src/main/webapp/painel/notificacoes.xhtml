@@ -24,18 +24,18 @@
 			<p:overlayPanel for="linkNotificacao1"  widgetVar="panelNotificacao" id="panelNotificacao" style="width:450px; padding:0px;" 
  					dynamic="true" styleClass="menuConfiguracoesDiv">
 						 
-	        	  <p:dataGrid value="#{notificacaoController.notificacoes}" var="notificacao" style="padding:0px; border:0px;"
+	        	  <p:dataGrid value="#{notificacaoController.notificacoes}" var="notificacao" style="padding:0px; border:0px;" 
 	        	  		 columns="1" layout="grid" emptyMessage="Não existem notificações no momento">
         
-			        <p:outputPanel style="height:40px; width:5%; float:right; margin:0px; background:#dd0000; padding-top:5px;" layout="block">
+			        <p:outputPanel style="height:40px; width:5%; float:right; margin:0px; background:#dd0000; padding-top:5px; border-bottom:1px solid #FFFFFF;" layout="block">
 				        <p:commandLink actionListener="#{notificacaoController.excluir(notificacao)}" immediate="true" partialSubmit="true"
 				        	style="width:100%; height:100%;" oncomplete="PF('panelNotificacao').hide();"
 		         				id="linkRemoverNotificacao" >
 				        	<p:graphicImage id="icoRemoverNotificacao" url="/img/icones/ico_remover.png" ></p:graphicImage>
 				        </p:commandLink>
 			        </p:outputPanel>
-			        <p:outputPanel style="height:40px; width:95%; float:right; background:#6190C8; font-size:0.75em; padding:3px; color:#F0F0F0; text-align:left;" layout="block">
-			        	<p:outputLabel value="#{notificacao.texto}"></p:outputLabel>
+			        <p:outputPanel style="height:40px; width:95%; float:right; background:#6190C8; border-bottom:1px solid #FFFFFF; font-size:0.75em; padding:3px; color:#F0F0F0; text-align:left;" layout="block">
+			        	<p:outputLabel value="#{notificacao.textoExibicao}"></p:outputLabel>
 			        </p:outputPanel>
 					
 			    </p:dataGrid>

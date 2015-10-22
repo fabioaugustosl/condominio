@@ -199,6 +199,16 @@ public class VotacaoService implements IVotacaoService {
 		return votoDAO.recuperarPorUsuario(votacao, usuario);
 	}
 
+	
+	@Override
+	public Voto recuperarVotoPorApto(Votacao votacao, Usuario usuario) throws ParametroObrigatorioNuloException{
+		if(votacao == null || usuario == null){
+			throw new ParametroObrigatorioNuloException("Parâmetros obrigatórios para pesquisa nulos.");
+		}
+		return votoDAO.recuperarPorApto(votacao.getId(), usuario.getApartamento().getId());
+	}
+
+
 
 	@Override
 	public OpcaoVotacao recuperarOpcao(Long idOpcao) {
@@ -232,6 +242,7 @@ public class VotacaoService implements IVotacaoService {
 		return getResultadoVotacao(votacao);
 	}
 	
+	
 	private Map<String, Integer> getResultadoVotacao(Votacao votacao){
 		ResultadoVotacao resultado = new ResultadoVotacao(votacao.getTipoVotacao());
 		
@@ -242,5 +253,10 @@ public class VotacaoService implements IVotacaoService {
 		return resultado.resultado();
 	}
 	
+	
+	@Override
+	public List<Voto> recuperarTodosVotos(Long idVotacao) throws AppException{
+		return votoDAO.recuperarTodosVotos(idVotacao);
+	}
 
 }

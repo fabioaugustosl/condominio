@@ -149,22 +149,44 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
         }
 	}
 	
+	
 	public void redimensionarImagem(InputStream arquivo, String pasta, String nomeArquivo, String extensao, int larguraMaxima, int alturaMaxima) throws IOException{
+		redimensionarImagem(arquivo, pasta, nomeArquivo, extensao, larguraMaxima, alturaMaxima, 0, 0);
+    } 
+	
+	public void redimensionarImagem(InputStream arquivo, String pasta, String nomeArquivo, String extensao, int larguraMaxima, int alturaMaxima, int larguraMinima, int alturaMinima) throws IOException{
         BufferedImage imagem = ImageIO.read(arquivo);
           
         Double novaImgLargura = (double) imagem.getWidth();  
-        Double novaImgAltura = (double) imagem.getHeight();  
+        Double novaImgAltura = (double) imagem.getHeight();
+        
+        Double larguraTmp = 0d;  
+        Double alturaTmp = 0d;  
   
         Double imgProporcao = null;  
-        if (novaImgLargura >= larguraMaxima) {  
+        while (novaImgLargura > (double)larguraMaxima) {  
             imgProporcao = (novaImgAltura / novaImgLargura);  
-            novaImgLargura = (double) larguraMaxima;  
-            novaImgAltura = (novaImgLargura * imgProporcao);  
+            larguraTmp = novaImgLargura - (novaImgLargura * imgProporcao); 
+            alturaTmp = novaImgAltura - (novaImgAltura * imgProporcao); 
+            if(alturaMinima != 0d && larguraMinima != 0d 
+            		&& alturaTmp > (double)alturaMinima && larguraTmp > (double)larguraMinima){
+            	novaImgAltura = alturaTmp;
+            	novaImgLargura = larguraTmp;
+            } else {
+            	break;
+            }
         } 
-        if (novaImgAltura >= alturaMaxima) {  
+        while (novaImgAltura > (double)alturaMaxima) {  
             imgProporcao = (novaImgLargura / novaImgAltura);  
-            novaImgAltura = (double) alturaMaxima;  
-            novaImgLargura = (novaImgAltura * imgProporcao);  
+            larguraTmp = novaImgLargura - (novaImgLargura * imgProporcao); 
+            alturaTmp = novaImgAltura - (novaImgAltura * imgProporcao); 
+            if(alturaMinima != 0d && larguraMinima != 0d 
+            		&& alturaTmp > (double)alturaMinima && larguraTmp > (double)larguraMinima){
+            	novaImgAltura = alturaTmp;
+            	novaImgLargura = larguraTmp;
+            } else {
+            	break;
+            }
         }  
   
         BufferedImage novaImagem = new BufferedImage(novaImgLargura.intValue(), novaImgAltura.intValue(), BufferedImage.TYPE_INT_RGB);  
@@ -175,7 +197,6 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
         File targetFolder = new File(pasta);
         ImageIO.write(novaImagem, extensao, new File(targetFolder, nomeArquivo));  
     } 
-	
 	
 	
 	public String getMimetypeArquivo(String extensao){

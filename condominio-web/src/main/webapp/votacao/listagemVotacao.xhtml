@@ -56,7 +56,7 @@
 		    </p:column>
 		    
 		    <p:column headerText="Ações">
-		    	<p:panelGrid id="panelGridAcao" columns="1" styleClass="teste" >
+		    	<p:panelGrid id="panelGridAcao" columns="4" styleClass="teste" >
 			    	
 			        
 			         <p:commandLink actionListener="#{listagemVotacaoController.excluirVotacao(votacao)}"
@@ -74,9 +74,16 @@
 			         </p:commandLink>
 			         
 			         <p:commandLink actionListener="#{listagemVotacaoController.verResultado(votacao)}"
-			        	id="resultadoVotacaoSelecionada" update="@form" onsuccess="PF('dialogResultado').show()" >
+			        	id="resultadoVotacaoSelecionada" update=":form:dialogResultado" onsuccess="PF('dialogResultado').show()" >
 			        	<p:graphicImage id="imgResultadoVot" url="/img/icones/resultado.png" title="Clique para ver o resultado dessa votação." />
 			         </p:commandLink>
+			         
+			         <p:commandLink actionListener="#{listagemVotacaoController.carregarVotos(votacao)}"
+			         	rendered="#{principalController.ehSindico()}" update=":form:dialogResultadoDetalhado"
+			        	id="resultadoVotacaoSelecionadaDetalhamento" onsuccess="PF('dialogResultadoDetalhado').show()" >
+			        	<p:graphicImage id="imgResultadoVotDetalhada" url="/img/icones/ico_resultado_det.png" title="Clique para ver o resultado detalhado dessa votação. Voto por apto." />
+			         </p:commandLink>
+			         
 		         </p:panelGrid>
 		    </p:column>
 		</p:dataTable> 
@@ -96,7 +103,7 @@
 	    
 	    
 	    <p:dialog id="dialogResultado" modal="true" widgetVar="dialogResultado"
-					draggable="true" closable="true" resizable="false" 
+					draggable="true" closable="true" resizable="false"  closeOnEscape="true"
 						dynamic="true" width="500"  header="Resultado da Votação" appendTo="@(body)" >
 			<p:dataTable id="gridResultado" value="#{listagemVotacaoController.resultadoVotacaoSelecionada.keySet()}"
 					emptyMessage="Nenhum voto foi computado para essa votação." var="res" >
@@ -107,6 +114,25 @@
 			    
 			    <p:column headerText="Votos">
 			        <p:outputLabel value="#{listagemVotacaoController.resultadoVotacaoSelecionada[res]}"></p:outputLabel>
+			    </p:column>
+				
+			</p:dataTable>
+		</p:dialog>
+
+		
+		<p:dialog id="dialogResultadoDetalhado" modal="true" widgetVar="dialogResultadoDetalhado"
+					draggable="true" closable="true" resizable="false" closeOnEscape="true" 
+						dynamic="true" width="600"  header="Resultado Detalhado da Votação por Apto" appendTo="@(body)" >
+			
+			<p:dataTable id="gridResultadoDetalhado" value="#{listagemVotacaoController.votos}"
+					emptyMessage="Nenhum voto foi computado para essa votação." var="voto" >
+				
+				<p:column headerText="Usuário">
+			        <p:outputLabel value="#{voto.usuario.apartamento.nomeExibicao}"></p:outputLabel>
+			    </p:column>
+			    
+			    <p:column headerText="Voto">
+			        <p:outputLabel value="#{voto.getOpcaoVotadaString(voto.votacao.tipoVotacao)}"></p:outputLabel>
 			    </p:column>
 				
 			</p:dataTable>

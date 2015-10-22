@@ -15,11 +15,15 @@
 	<h:outputStylesheet library="css" name="componentes_forms.css" />
 	
 	<h:outputStylesheet library="css" name="menu_horizontal.css" />
-	
+		
 	<h:outputScript name="js/util.js" target="body"/>
+	<h:outputScript library="js" name="prime-locales.js" target="body"/>
 	 
 </h:head>
 
+<style>
+.labelMenorNome{ font-weight: normal; color: #0080c0;  }
+</style>
 
 <h:body>
   		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
@@ -35,14 +39,13 @@
 				</div>
 				<div style="float:right; margin:10px; padding:0px;">
 				
-				
 					<h:outputLink value="#{facesContext.externalContext.requestContextPath}/portal.faces" style="float:right;">
 						<p:graphicImage id="icoPrincipal" url="/img/icones/ico_principal.png" height="26" style="cursor:pointer;"></p:graphicImage>
 					</h:outputLink>
 				
 					<p:outputPanel id="icoConfiguracao" style="cursor:pointer; float:right;">
 						<a  class="header-btn header-member js-open-header-member-menu" >
-							<span class="header-btn-text js-member-name">#{principalController.usuario.nome}</span>
+							<span class="header-btn-text js-member-name">#{principalController.usuario.nome} <span class="labelMenorNome">[#{principalController.usuario.apartamento.numero} bl#{principalController.usuario.apartamento.bloco.numero}]</span> </span>
 						</a>
 					</p:outputPanel>
 					
@@ -60,7 +63,8 @@
 			    	
 					<ui:include src="/painel/alterarSenha.xhtml" />		    	
 
-					<ui:include src="/painel/notificacoes.xhtml" />		  
+					<ui:include src="/painel/notificacoes.xhtml" />	
+					
 				</div> 
 			</h:form>
 		</div>

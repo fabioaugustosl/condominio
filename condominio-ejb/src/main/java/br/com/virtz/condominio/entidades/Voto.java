@@ -27,7 +27,12 @@ import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 					query = "Select v FROM Voto v "
 							+ " JOIN v.usuario u "
 							+ " JOIN u.apartamento ap "
-							+ "	WHERE v.votacao.id = :idVotacao AND ap.id = :idApto")})
+							+ "	WHERE v.votacao.id = :idVotacao AND ap.id = :idApto"),
+		@NamedQuery(name = "Voto.recuperarPorVotacao", 
+					query = "Select v FROM Voto v "
+							+ " JOIN FETCH v.usuario u "
+							+ " JOIN FETCH u.apartamento ap "
+							+ "	WHERE v.votacao.id = :idVotacao ")})
 public class Voto extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -156,4 +161,23 @@ public class Voto extends Entidade implements Serializable {
 		return null;
 	}
 
+	/**
+	 * De acordo com o tipo de votacao retorna um object. Quem receber deve fazer o cast.
+	 * @return
+	 */
+	public String getOpcaoVotadaString(EnumTipoVotacao tipoVotacao){
+		if(tipoVotacao.equals(EnumTipoVotacao.SIM_NAO)){
+			return (isSim()) ? "Sim" : "Não" ;
+		} else if(tipoVotacao.equals(EnumTipoVotacao.DATA)) {
+			return getData().toString();
+		} else if(tipoVotacao.equals(EnumTipoVotacao.MOEDA)) {
+			return getMoeda().toString();
+		} else if(tipoVotacao.equals(EnumTipoVotacao.NUMERICA)) {
+			return getNumero().toString();
+		} else if(tipoVotacao.equals(EnumTipoVotacao.OPCOES)) {
+			return getOpcao().getDescricao();
+		}
+		return null;
+	}
+	
 }

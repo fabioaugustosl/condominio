@@ -23,6 +23,7 @@ public interface IArquivosUtil {
 	public boolean ehImagem(String extensao);
 	public boolean tamanhoImagemEhValido(InputStream arquivo, int larguraMinima, int alturaMinima) throws CondominioException;
 	public void redimensionarImagem(InputStream arquivo, String pasta, String nomeArquivo, String extensao, int larguraMaxima, int alturaMaxima) throws IOException;
+	public void redimensionarImagem(InputStream arquivo, String pasta, String nomeArquivo, String extensao, int larguraMaxima, int alturaMaxima, int larguraMinima, int alturaMinima) throws IOException;
 	public void copiarArquivos(String nomeArquivo) throws IOException;
 	public String getCaminhoUploadArquivosTemporario();
 	public String getCaminhoBaseArquivosTemporario();

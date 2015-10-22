@@ -7,6 +7,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.apache.commons.lang.StringUtils;
+
 import br.com.virtz.condominio.constantes.EnumTipoNotificacao;
 import br.com.virtz.condominio.dao.INotificacaoDAO;
 import br.com.virtz.condominio.entidades.Condominio;
@@ -73,6 +75,9 @@ public class NotificacaoService implements INotificacaoService {
 			Notificacao n = new Notificacao();
 			n.setCondominio(condominio);
 			n.setUsuario(usuario);
+			if(StringUtils.isBlank(texto)){
+				texto = "-";
+			}
 			n.setTexto(texto);
 			n.setData(new Date());
 			n.setTipoNotificacao(tipo);

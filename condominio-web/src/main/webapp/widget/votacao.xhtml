@@ -13,6 +13,11 @@
 	    margin: 0px;
 	    background-color: #FAFAFA;
 	}
+	
+	.panelJaVotou{font-size: 0.6em !important; color: red; }
+	
+	.botaoResultadoParcial{margin-top: 3px; }
+	
    </style>
   
   
@@ -59,32 +64,15 @@
 		    </p:outputPanel>
 
 		    <p:outputPanel id="jaVotouVotacao" rendered="#{vv.votou}" >
-		    	<div style="width:100%; height:25px; background-color: yellow;">
-					<p:outputLabel value="Parabéns. Você já votou."></p:outputLabel> 
-	    		</div>
+				<p:outputLabel styleClass="panelJaVotou" value="Parabéns. O voto do seu APTO foi registrado."></p:outputLabel> 
 		    </p:outputPanel>
 		    
 		    
-		    <p:outputPanel id="verResultadoParcial" rendered="#{vv.votacao.isResultadoParcial()}"> 
-				<p:commandButton id="btnResultadoParcial" value="Resultado Parcial" ></p:commandButton>
-			
-   				 <p:overlayPanel widgetVar="dialogResultadoParcial" id="dialogResultadoParcial" 
-					for="btnResultadoParcial" hideEffect="fade" dynamic="true" >
-		        	
-		        	<p:dataTable id="gridResultadoParcial" value="#{vv.resultadoVotacaoSelecionada.keySet()}"
-							emptyMessage="Nenhum voto foi computado para essa votação." var="res"  >
-						
-						<p:column headerText="Opção">
-					        <p:outputLabel value="#{res}"></p:outputLabel>
-					    </p:column>
-					    
-					    <p:column headerText="Votos">
-					        <p:outputLabel value="#{vv.resultadoVotacaoSelecionada[res]}"></p:outputLabel>
-					    </p:column>
-						
-					</p:dataTable>
-		        	
-		    	</p:overlayPanel>
+		    <p:outputPanel id="verResultadoParcial" styleClass="botaoResultadoParcial" rendered="#{vv.votacao.isResultadoParcial()}"> 
+				<p:commandButton id="btnResultadoParcial" value="Resultado Parcial"
+						actionListener="#{votacaoController.setVotacaoViewResultado(vv)}"
+					update=":formVotacao:gridResultadoParcial"
+				 onsuccess="PF('dialogResultadoParcial').show()"  ></p:commandButton>
 			</p:outputPanel>
 		
 		</p:dataGrid>
@@ -99,7 +87,26 @@
     </p:outputPanel>
     
 		
-    
+    <p:dialog widgetVar="dialogResultadoParcial" id="dialogResultadoParcial" modal="true" 
+					hideEffect="fade" dynamic="true" closable="true" closeOnEscape="true" 
+					header="Resultado parcial"
+					width="600" >
+		        	
+		    <p:outputLabel value="#{votacaoController.votacaoViewResultado.votacao.assuntoVotacao}"></p:outputLabel>    	
+        	<p:dataTable id="gridResultadoParcial" value="#{votacaoController.votacaoViewResultado.resultadoVotacaoSelecionada.keySet()}"
+					emptyMessage="Nenhum voto foi computado para essa votação." var="res"  >
+				
+				<p:column headerText="Opção">
+			        <p:outputLabel value="#{res}"></p:outputLabel>
+			    </p:column>
+			    
+			    <p:column headerText="Votos">
+			        <p:outputLabel value="#{votacaoController.votacaoViewResultado.resultadoVotacaoSelecionada[res]}"></p:outputLabel>
+			    </p:column>
+				
+			</p:dataTable>
+        	
+    	</p:dialog>
     			
       
   </h:form>

@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.service;
 
+import java.util.HashSet;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -51,6 +52,9 @@ public class BatePapoService implements IBatePapoService {
 		avaliacao.setUsuario(usuario);
 		
 		avaliacao = salvarAvaliacao(papo, avaliacao);
+		if(papo.getAvaliacoes() == null){
+			papo.setAvaliacoes(new HashSet<Avaliacao>());
+		}
 		papo.getAvaliacoes().add(avaliacao);
 		return avaliacao;
 	}
@@ -63,6 +67,9 @@ public class BatePapoService implements IBatePapoService {
 		avaliacao.setUsuario(usuario);
 		
 		avaliacao = salvarAvaliacao(papo, avaliacao);
+		if(papo.getAvaliacoes() == null){
+			papo.setAvaliacoes(new HashSet<Avaliacao>());
+		}
 		papo.getAvaliacoes().add(avaliacao);
 		return avaliacao;
 	}

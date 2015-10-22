@@ -1,6 +1,5 @@
 package br.com.virtz.condominio.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +13,7 @@ import javax.inject.Inject;
 
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Votacao;
+import br.com.virtz.condominio.entidades.Voto;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
@@ -43,6 +43,7 @@ public class ListagemVotacaoController {
 	
 	
 	private List<Votacao> votacoes;
+	private List<Voto> votos = null;
 	private Map<String, Integer> resultadoVotacaoSelecionada;
 	
 	
@@ -97,6 +98,7 @@ public class ListagemVotacaoController {
 		return Boolean.FALSE;
 	}
 	
+	
 	public boolean estaInativa(Votacao votacao){
 		if(votacao != null){
 			return "INATIVA".equals(votacao.qualStatus());
@@ -104,12 +106,14 @@ public class ListagemVotacaoController {
 		return Boolean.TRUE;
 	}
 	
+	
 	public boolean estaEncerrada(Votacao votacao){
 		if(votacao != null){
 			return "ENCERRADA".equals(votacao.qualStatus());
 		}
 		return Boolean.FALSE;
 	}
+	
 	
 	public boolean possoRemover(Votacao votacao){
 		if(votacao != null){
@@ -120,6 +124,7 @@ public class ListagemVotacaoController {
 		return Boolean.FALSE;
 	}
 	
+	
 	public boolean possoEditar(Votacao votacao){
 		if(votacao != null){
 			if(!estaEncerrada(votacao) && votacaoService.totalVotos(votacao) == 0) {
@@ -128,6 +133,7 @@ public class ListagemVotacaoController {
 		}
 		return Boolean.FALSE;
 	}
+	
 	
 	public void verResultado(Votacao votacao){
 		if(votacao != null){
@@ -141,6 +147,18 @@ public class ListagemVotacaoController {
 	}
 	
 
+	public void carregarVotos(Votacao votacaoSelecionada) {
+		try {
+			votos = votacaoService.recuperarTodosVotos(votacaoSelecionada.getId());
+		} catch (AppException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			votos = null;
+		}
+	}
+	
+	
+	
 	
 	/* GETTERS E SETTERS*/
 
@@ -160,7 +178,13 @@ public class ListagemVotacaoController {
 			Map<String, Integer> resultadoVotacaoSelecionada) {
 		this.resultadoVotacaoSelecionada = resultadoVotacaoSelecionada;
 	}
-		
+
+	public List<Voto> getVotos() {
+		return votos;
+	}
 	
+	
+
+
 }
 

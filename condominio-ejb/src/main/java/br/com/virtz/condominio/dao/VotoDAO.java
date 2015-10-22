@@ -45,5 +45,14 @@ public class VotoDAO extends DAO<Voto> implements IVotoDAO {
 		}
 	}
 	
+
+	@Override
+	public List<Voto> recuperarTodosVotos(Long idVotacao) {
+		Query qry = getEntityManager().createNamedQuery("Voto.recuperarPorVotacao");
+		qry.setParameter("idVotacao", idVotacao);
+		
+		return qry.getResultList();
+	}
+	
 	
 }

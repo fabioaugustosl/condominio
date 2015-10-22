@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.apache.commons.lang.StringUtils;
 
 import br.com.virtz.condominio.constantes.EnumTipoNotificacao;
 
@@ -103,6 +106,25 @@ public class Notificacao extends Entidade implements Serializable {
 
 	public void setData(Date data) {
 		this.data = data;
+	}
+	
+	public String getTextoExibicao() {
+		if(EnumTipoNotificacao.AVISO.equals(this.tipoNotificacao)){
+			return texto;
+		}
+		
+		if(StringUtils.isNotBlank(this.texto) && !"-".equals(this.texto)){
+			return this.texto;
+		}
+		
+		SimpleDateFormat dt1 = new SimpleDateFormat("dd/mm/yyyy");
+		StringBuilder sb = new StringBuilder();
+		sb.append("Você recebeu um(a) ");
+		sb.append(this.tipoNotificacao.getDescricao());
+		sb.append(" dia ").append(dt1.format(this.data));
+		sb.append(".");
+				
+		return sb.toString();
 	}
 
 }

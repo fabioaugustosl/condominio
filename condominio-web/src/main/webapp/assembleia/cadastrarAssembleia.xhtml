@@ -7,6 +7,7 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
+   
    	<h1><p:outputLabel value="Assembléia" /></h1>
  	<br />
  	
@@ -19,20 +20,20 @@
 			    <p:panelGrid columns="1" id="containerNovaAssembleia" >
 			    
 					<p:outputLabel value="Data da assembléia:" />
-					<p:calendar id="data" 
+					<p:calendar id="data" locale="pt"
 							alt="Insira a data em que a assembléia será realizada" 
 							value="#{cadastrarAssembleiaController.assembleia.data}" showOn="button" 
 							required="true" requiredMessage="Favor preencher a data de realização da assembléia."  />
 					
 					<p:outputLabel value="Horário da 1ª chamada:" />
-			       	<p:calendar id="horario1"
+			       	<p:calendar id="horario1"  locale="pt"
 							alt="Insira o horário da 1ª chamada em  que a assembléia será realizada" 
 							value="#{cadastrarAssembleiaController.assembleia.horario1}" 
 							required="true" requiredMessage="Favor preencher o horário da 1ª chamda da realização da assembléia." 
 							pattern="HH:mm a" timeOnly="true"   />
 							
 					<p:outputLabel value="Horário da 2ª chamada:" />
-			       	<p:calendar id="horario2"
+			       	<p:calendar id="horario2"  locale="pt"
 							alt="Insira o horário da 2ª chamada em  que a assembléia será realizada" 
 							value="#{cadastrarAssembleiaController.assembleia.horario2}"  
 							pattern="HH:mm a" timeOnly="true"   />
@@ -137,5 +138,7 @@
 	    </p:confirmDialog>
     
 	</h:form>
+
+	
    </ui:define>
 </ui:composition>

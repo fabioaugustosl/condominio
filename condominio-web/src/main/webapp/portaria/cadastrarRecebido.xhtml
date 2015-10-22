@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <style type="text/css">
+   </style>
+   
+   
+   <ui:define name="content">
+	
+	<h:form id="form" >   
+	   
+	   	<h1>Cadastrar correspondência ou entrega</h1>
+	   		
+   		<p:outputPanel id="cadastroRecebidoPanel" >
+   		
+   		
+   			<p:outputPanel id="containerComboBloco" rendered="#{empty cadastroRecebidoController.blocoSelecionado}" >
+				<p:outputLabel value="Selecione o bloco:"></p:outputLabel>
+				<br />
+			 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
+			 			value="#{cadastroRecebidoController.blocoSelecionado}" 
+						converter="converterEntityById"  >
+			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+			 		<f:selectItems value="#{cadastroRecebidoController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
+			 		<p:ajax event="change" update="containerComboApartamentos"  />
+			 	</p:selectOneMenu>
+			 </p:outputPanel>
+			 	
+		 	<br />
+		 	<p:outputPanel id="containerComboApartamentos" >
+			 	<p:outputPanel id="containerComboApartamentosInterno" rendered="#{not empty cadastroRecebidoController.blocoSelecionado}" >
+			 		<p:outputLabel value="Selecione o apartamento:"></p:outputLabel>
+			 		<br />
+				 	<p:selectOneMenu id="comboApartamentos"  style="width:400px;"
+				 			value="#{cadastroRecebidoController.apartamentoSelecionado}" 
+							converter="converterEntityById" required="true"
+							requiredMessage="Favor selecionar o apartamento." >
+				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+				 		<f:selectItems value="#{cadastroRecebidoController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
+				 	</p:selectOneMenu>
+				 </p:outputPanel>
+			</p:outputPanel>
+			
+			<br />
+		 	<p:outputPanel id="containerComboTipoEncomenda" >
+		 		<p:outputLabel value="Tipo:"></p:outputLabel>
+		 		<br />
+			 	<p:selectOneMenu id="tipo" value="#{cadastroRecebidoController.tipo}" 
+			 	  required="true" style="width:400px;"
+			 	  requiredMessage="Favor selecionar o tipo.">
+		         <f:selectItem itemLabel="Selecione..." itemValue="" />
+		         <f:selectItems value="#{cadastroRecebidoController.tipos}" />
+		     </p:selectOneMenu>
+			</p:outputPanel>
+				
+					
+				
+ 			<p:outputLabel value="Descrição / Comentário" /><br />
+			<p:inputTextarea rows="10" cols="50" id="txtAreaComentario" 
+			value="#{cadastroRecebidoController.descricao}"   />
+			
+			<br/>
+			<br/>
+			
+			<p:commandButton id="btnSalvarRecebido" value="Salvar"  update="@form"
+		   		actionListener="#{cadastroRecebidoController.salvar}" >
+		   	</p:commandButton>
+		
+			<p:commandButton id="btnVoltarGerenciarPortaria" value="Voltar" immediate="true"
+		   		actionListener="#{cadastroRecebidoController.voltar}" >
+		   	</p:commandButton>
+		</p:outputPanel>
+		
+				
+		</h:form>
+   </ui:define>
+</ui:composition>

@@ -45,6 +45,7 @@ public class VotacaoController {
 	private List<Votacao> votacoes;
 	private List<VotacaoView> votacoesView;
 	private String tipoVotacaoSelecionado;
+	private VotacaoView votacaoViewResultado = null;
 	
 	private Usuario usuario = null;
 			
@@ -75,7 +76,7 @@ public class VotacaoController {
 				
 				Voto votoUsuario;
 				try {
-					votoUsuario = votacaoService.recuperarVotoPorUsuario(v, usuario);
+					votoUsuario = votacaoService.recuperarVotoPorApto(v, usuario);
 					if(votoUsuario != null){
 						vv.setVotou(Boolean.TRUE);
 					}
@@ -89,7 +90,7 @@ public class VotacaoController {
 	
 	
 	
-	public void votar(VotacaoView votacaoView){
+	public void votar(VotacaoView votacaoView) {
 		Usuario usuario =  sessao.getUsuarioLogado();
 		UtilTipoVotacao util = votacaoView.getUtil();
 		
@@ -112,9 +113,18 @@ public class VotacaoController {
 		}  
 		
 		try {
-			votacaoService.votar(voto);
-			montarVotacoesView(usuario);
-			message.addInfo("Seu voto foi computado!");
+			
+			// valida se já foi computado voto para o apto. Apenas 1 voto por apto é aceito.
+			Voto votoComputadoApto = votacaoService.recuperarVotoPorApto(votacaoView.getVotacao(), usuario);
+			
+			if(votoComputadoApto == null){
+				votacaoService.votar(voto);
+				montarVotacoesView(usuario);
+				message.addInfo("Seu voto foi computado!");
+			} else {
+				message.addInfo("Voto inválido. Um voto para seu apto já foi computado.");
+			}
+			
 		} catch (AppException e) {
 			message.addError("Ocorreu um erro ao salvar a votação.");
 		}
@@ -176,7 +186,6 @@ public class VotacaoController {
 		return util.isOpcoes();
 	}
 
-
 	public List<Votacao> getVotacoes() {
 		return votacoes;
 	}
@@ -193,6 +202,13 @@ public class VotacaoController {
 		this.votacoesView = votacoesView;
 	}
 
+	public VotacaoView getVotacaoViewResultado() {
+		return votacaoViewResultado;
+	}
+
+	public void setVotacaoViewResultado(VotacaoView votacaoViewResultado) {
+		this.votacaoViewResultado = votacaoViewResultado;
+	}
 
 	
 }

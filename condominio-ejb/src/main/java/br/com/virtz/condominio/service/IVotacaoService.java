@@ -32,5 +32,8 @@ public interface IVotacaoService {
 	public OpcaoVotacao recuperarOpcao(Long idOpcao);
 	public void validarSeUsuarioPodeVotar(Votacao votacao, Usuario usuario) throws AppException;
 	public Map<String, Integer> recuperarResultado(Long idVotacao) throws AppException;
+	public Voto recuperarVotoPorApto(Votacao votacao, Usuario usuario) throws ParametroObrigatorioNuloException;
+	public List<Voto> recuperarTodosVotos(Long idVotacao) throws AppException;
+	
 }
 

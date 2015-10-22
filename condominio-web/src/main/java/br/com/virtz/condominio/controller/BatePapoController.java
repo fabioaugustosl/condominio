@@ -66,6 +66,9 @@ public class BatePapoController {
 
 	public void positivar(BatePapo batePapo){
 		try {
+			if(usuarioJaAvaliou(batePapo, usuario)){
+				return;	
+			}
 			Avaliacao avaliacao = batePapoService.avaliarPositivamente(batePapo, sessao.getUsuarioLogado(), null);
 			adicionarNovaAvaliacao(batePapo, avaliacao);
 			contarAvaliacoes(batePapos);
@@ -78,6 +81,9 @@ public class BatePapoController {
 
 	public void negativar(BatePapo batePapo){
 		try {
+			if(usuarioJaAvaliou(batePapo, usuario)){
+				return;	
+			}
 			Avaliacao avaliacao = batePapoService.avaliarNegativamente(batePapo, sessao.getUsuarioLogado(), null);
 			adicionarNovaAvaliacao(batePapo, avaliacao);
 			contarAvaliacoes(batePapos);
@@ -100,6 +106,18 @@ public class BatePapoController {
 		}
 	}
 	
+	
+	private boolean usuarioJaAvaliou(BatePapo batePapo, Usuario usuario) {
+		if(batePapo == null || usuario == null || batePapo.getAvaliacoes() == null){
+			return Boolean.FALSE;
+		}
+		for(Avaliacao a : batePapo.getAvaliacoes()){
+			if(usuario.equals(a.getUsuario())){
+				return Boolean.TRUE;
+			}
+		}
+		return Boolean.FALSE;
+	}
 	
 	public boolean podeExcluir(BatePapo papo){
 		 if(papo.getUsuario().getId().equals(usuario.getId()) || EnumTipoUsuario.SINDICO.equals(usuario.getTipoUsuario())){

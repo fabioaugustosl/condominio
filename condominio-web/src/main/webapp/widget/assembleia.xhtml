@@ -32,7 +32,7 @@
 							<f:convertDateTime pattern="dd/MM/yyyy" />
 						</p:outputLabel>
 						às <p:outputLabel value="#{assembleia.horario1}">
-							<f:convertDateTime pattern="hh:mm" />
+							<f:convertDateTime pattern="HH:mm"  timeZone="GMT-03:00" />
 						</p:outputLabel>.
 					
 						<p:commandButton id="btnVerPauta" value="Ver pautas" onsuccess="PF('dialogPautasAprovadas').show();">
