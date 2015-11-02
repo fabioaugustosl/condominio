@@ -138,7 +138,7 @@ public class LoginController {
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
 		String msg = leitor.processarTemplate(caminho, EnumTemplates.ESQUECI_MINHA_SENHA.getNomeArquivo(), mapParametrosEmail);
 		Email email = new Email("fabioaugustosl@gmail.com", "fabioaugustosl@gmail.com", "teste Fabio", msg);
-   	//	enviarEmail.enviar(email);
+   		enviarEmail.enviar(email);
 	}
 	
 	

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+ 	
+ 	
+ 	<h:form id="formConta" >
+	   	<h1>Configuração da Conta Bancária Principal do condomínio</h1>
+	 	<br />
+	 	<br />
+	 	<p:outputLabel value="Utilizamos essa conta para geração do boleto bancária de pagamento do condomínio. Favor preencher com o máximo de atenção."  />
+	   		
+   		<p:outputPanel id="cadastroconta" >
+   		
+		 	<p:outputPanel id="containerComboBanco" >
+		 		<p:outputLabel value="Banco:"></p:outputLabel>
+		 		<br />
+			 	<p:selectOneMenu id="banco" value="#{cadastroContaBancariaController.banco}" 
+			 	  required="true" style="width:400px;"
+			 	  requiredMessage="Favor selecionar o banco.">
+		         <f:selectItem itemLabel="Selecione..." itemValue="" />
+		         <f:selectItems value="#{cadastroContaBancariaController.bancos}" />
+		     </p:selectOneMenu>
+			</p:outputPanel>
+			
+			<br />	
+ 			<p:outputLabel value="Agência" /><br />
+			<p:inputText id="agencia" styleClass="inputPadrao" 
+				value="#{cadastroContaBancariaController.conta.agencia}"  maxlength="10" style="width:100px;"></p:inputText>
+			
+			<br />
+			<p:outputLabel value="Dígito Agência" /><br />
+			<p:inputText id="digitoagencia" styleClass="inputPadrao" 
+				value="#{cadastroContaBancariaController.conta.digitoAgencia}"  maxlength="2" style="width:40px;"></p:inputText>
+			
+			<br />	
+			<p:outputLabel value="Código da Carteira" /><br />
+			<p:inputText id="carteira" styleClass="inputPadrao" 
+				value="#{cadastroContaBancariaController.conta.codigoCarteira}"  maxlength="10" style="width:100px;"></p:inputText>
+			
+			<br />
+			<br />
+			<p:commandButton id="voltar" value="Voltar" immediate="true"
+		   		actionListener="#{cadastroContaBancariaController.voltar()}"  >
+		   	</p:commandButton>
+			<p:commandButton id="btnSalvarConta" value="Salvar" 
+		   		actionListener="#{cadastroContaBancariaController.salvar}" >
+		   	</p:commandButton>
+
+		</p:outputPanel>
+		
+	</h:form>
+	
+   </ui:define>
+</ui:composition>

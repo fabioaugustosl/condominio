@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+	   	<h1><p:outputLabel value="Geração de boleto" /></h1>
+	 	<br />
+	 	
+	 	<p:outputLabel value="Valor do condomínio:" /> 
+		<p:inputText id="valorCondo" styleClass="inputPadrao" 
+					value="#{configuracaoBoletoController.valorBase}" maxlength="10" style="width:100px" disabled="true">
+					<f:convertNumber pattern="#0.00"/>
+		</p:inputText> 
+			 		 	
+	 	<br />
+	 	
+
+		
+		<p:outputPanel id="containerComboAno" rendered="#{empty cadastroRecebidoController.blocoSelecionado}" >
+			<p:outputLabel value="Ano de referência: " /> 
+
+		 	<p:selectOneMenu id="anoRef" styleClass="inputPadrao" required="true" 
+		 			requiredMessage="Favor selecionar o ano de refência"
+		 			valueChangeListener="#{configuracaoBoletoController.montarCobranca()}"
+					value="#{configuracaoBoletoController.ano}" immediate="true"  >
+					<p:ajax process="@this" update="panelDadosBoleto" />
+			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+			 		<f:selectItems value="#{configuracaoBoletoController.anos}"  />
+			 	</p:selectOneMenu>
+			 </p:outputPanel>
+			 	
+		 	<br />
+		 	<p:outputPanel id="containerComboMes" >
+		 		<p:outputLabel value="Mês de referência: " /> 
+			 	<p:selectOneMenu id="mesRef" styleClass="inputPadrao" required="true" 
+			 			requiredMessage="Favor selecionar o mês de refência" immediate="true"
+			 			valueChangeListener="#{configuracaoBoletoController.montarCobranca()}"
+						value="#{configuracaoBoletoController.mes}" >
+					<p:ajax process="@this" update="panelDadosBoleto" />
+			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+			 		<f:selectItems value="#{configuracaoBoletoController.meses.entrySet()}"
+			 			var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+			 	</p:selectOneMenu>
+			</p:outputPanel>
+ 		
+		<br />
+	 	
+	 	
+	 	<p:outputPanel id="panelDadosBoleto">
+	 	
+	 		<p:outputLabel value="Data de vencimento:" />
+					<p:calendar id="dataVencimento" locale="pt"  timeZone="GMT-03:00" 
+							alt="Insira a data de vencimento do boleto"  pattern="dd/MM/yyyy"
+							value="#{configuracaoBoletoController.configuracao.dataVencimento}" showOn="button" 
+							required="true" requiredMessage="Favor preencher a data de realização da assembléia."  />
+					
+			<br />			
+			<p:outputLabel value="Instruções de Local de Pagamento:" /> <br />
+			<p:inputText id="instrucaoLocalPgto" styleClass="inputPadrao" 
+						value="#{configuracaoBoletoController.configuracao.instrucaoLocalPgto}" maxlength="100"></p:inputText>
+			
+			<br />			
+			<p:outputLabel value="Instruções ao Sacado:" /> <br />
+			<p:inputText id="instrucaoSacado" styleClass="inputPadrao" 
+						value="#{configuracaoBoletoController.configuracao.instrucaoSacado}" maxlength="100"></p:inputText>
+			
+			
+			<br />
+		 	<p:outputLabel value="Instruções Gerais:" /> <br />
+			<p:inputTextarea id="instrucoesGerais" alt="Digite as instruções do boleto" styleClass="textAreaPadrao"
+						value="#{configuracaoBoletoController.configuracao.instrucoesGerais}" maxlength="500" />
+			
+		</p:outputPanel>	
+		
+		
+		<p:commandButton id="btnSalvar" value="Salvar"  
+	   		actionListener="#{configuracaoBoletoController.salvar}"  >
+	   	</p:commandButton>
+	   	
+		<p:commandButton id="btn" value="Gerar cobrança" 
+	   		actionListener="#{configuracaoBoletoController.gerarCobranca}"  >
+			<p:confirm header="Confirmação" message="Tem certeza que deseja gerar o boleto para todos os usuários?" icon="ui-icon-alert" />
+	   	</p:commandButton>
+		
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"  >
+	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>    
+			    
+	 </h:form>
+	 
+  </ui:define>
+</ui:composition>

@@ -27,15 +27,15 @@ import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name="Votacao.recuperarPorCondominio",
-				query="Select v FROM Votacao v WHERE v.condominio.id = :idCondominio ORDER BY v.dataLimite DESC"),
+				query="Select v FROM Votacao v WHERE v.condominio.id = :idCondominio ORDER BY v.dataLimite DESC "),
 	@NamedQuery(name="Votacao.recuperarAtivasPorCondominio",
 				query="Select v FROM Votacao v WHERE v.condominio.id = :idCondominio AND v.ativa = 1 ORDER BY v.dataLimite DESC"),
 	@NamedQuery(name="Votacao.recuperarAtivasValidasPorCondominio",
 				query="Select v FROM Votacao v "
-						+ " WHERE v.condominio.id = :idCondominio AND v.ativa = 1 AND v.dataLimite >= :dataLimite"
+						+ " WHERE v.condominio.id = :idCondominio AND v.ativa = 1 AND (v.dataLimite = NULL OR v.dataLimite >= :dataLimite)"
 						+ " ORDER BY v.dataLimite DESC")
 })
-public class Votacao extends Entidade implements Serializable {
+public class Votacao extends Entidade implements Serializable,Comparable<Votacao>  {
 
 	private static final long serialVersionUID = 1L;
 
@@ -200,10 +200,31 @@ public class Votacao extends Entidade implements Serializable {
 	
 	public boolean estaEncerrada(){
 		Date hoje = new Date();
-		if(hoje.after(this.getDataLimite())){
+		if(this.getDataLimite() != null && hoje.after(this.getDataLimite())){
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
+	}
+
+	@Override
+	public int compareTo(Votacao o) {
+		if(o == null){
+			return 1;
+		}
+		if(this.isAtiva() && !o.isAtiva()){
+			return 1;
+		} else if(!this.isAtiva() && o.isAtiva()){
+			return -1;
+		}
+		
+		if(this.dataLimite != null && o.getDataLimite() == null){
+			return 1;
+		} else if(this.dataLimite == null && o.getDataLimite() != null){
+			return -1;
+		} else if(this.dataLimite != null && o.getDataLimite() != null){
+			return o.getDataLimite().compareTo(this.dataLimite);
+		} 
+		return 0;
 	}
 	
 }

@@ -6,15 +6,19 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import br.com.virtz.condominio.constantes.EnumBanco;
 import br.com.virtz.condominio.dao.IAreaComumDAO;
 import br.com.virtz.condominio.dao.IBlocoDAO;
 import br.com.virtz.condominio.dao.ICidadeDAO;
 import br.com.virtz.condominio.dao.ICondominioDAO;
+import br.com.virtz.condominio.dao.IContaBancariaDAO;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.entidades.Cidade;
 import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.ContaBancariaCondominio;
 import br.com.virtz.condominio.entidades.Usuario;
+import br.com.virtz.condominio.exception.AppException;
 
 @Stateless
 public class CondominioService implements ICondominioService {
@@ -27,7 +31,9 @@ public class CondominioService implements ICondominioService {
 	
 	@EJB
 	private IBlocoDAO blocoDAO;
-
+	
+	@EJB
+	private IContaBancariaDAO contaBancariaDAO;
 	
 	@EJB
 	private IAreaComumDAO areaComumDAO;
@@ -110,6 +116,50 @@ public class CondominioService implements ICondominioService {
 	@Override
 	public Bloco recuperarBloco(Long idBloco) {
 		return blocoDAO.recuperarBlocoCompleto(idBloco);
+	}
+	
+	
+	@Override
+	public ContaBancariaCondominio recuperarContaBancariaCondominioPrincipal(Long idCondominio) {
+		List<ContaBancariaCondominio> contas =  contaBancariaDAO.recuperarPorCondominio(idCondominio);
+		if(contas == null || contas.isEmpty()){
+			return null;
+		}
+		return contas.get(0);
+	}
+
+	@Override
+	public void salvarContaBancariaCondominioPrincipal(
+			Condominio condominio, EnumBanco banco, String agencia,
+			String digitoAgencia, String codigoCarteira) throws AppException {
+		ContaBancariaCondominio conta = this.recuperarContaBancariaCondominioPrincipal(condominio.getId());
+		if(conta == null){
+			conta = new ContaBancariaCondominio();
+			conta.setCondominio(condominio);
+		}
+		conta.setAgencia(agencia);
+		conta.setBanco(banco);
+		conta.setDigitoAgencia(digitoAgencia);
+		conta.setCodigoCarteira(codigoCarteira);
+		
+		try {
+			contaBancariaDAO.salvar(conta);
+		} catch (Exception e) {
+			throw new AppException("Erro ao salvar");
+		}
+	}
+	
+	@Override
+	public void salvarContaBancariaCondominioPrincipal(ContaBancariaCondominio conta) throws AppException {
+		if(conta == null){
+			return;
+		}
+		
+		try {
+			contaBancariaDAO.salvar(conta);
+		} catch (Exception e) {
+			throw new AppException("Erro ao salvar");
+		}
 	}
 
 

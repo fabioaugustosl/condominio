@@ -29,7 +29,7 @@
 						
 						Assembléia agendada para o dia 
 						<p:outputLabel value="#{assembleia.data}" >
-							<f:convertDateTime pattern="dd/MM/yyyy" />
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"  />
 						</p:outputLabel>
 						às <p:outputLabel value="#{assembleia.horario1}">
 							<f:convertDateTime pattern="HH:mm"  timeZone="GMT-03:00" />

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   
+   
+   <ui:define name="content">
+   <style>
+	.divMenuBotao{
+		height: 200px;
+		width: 15%;
+		border-bottom:1px solid #FAFAFA;
+		border-right:1px solid #FAFAFA;
+		background:#e0fecd;
+		float: left;
+		margin-left: 22.5%;
+		margin-top: 5%;
+	}
+	.divConteudoMenuBotao{
+		margin: 0 auto;
+		text-align:center;
+	}
+	.divConteudoMenuBotao span{
+		text-align:center;
+		font-size: 1.5em;
+		font-weight: bold;
+		clear: both;
+		padding-top: 10px;
+	}
+</style>
+   	<h:form id="form" style="width:100%">
+	   	<h1>Gerenciar Setor Financeiro</h1>
+		<div class="divMenuBotao">
+			<div class="divConteudoMenuBotao">
+				<p:commandLink actionListener="#{gerenciarFinanceiroController.irParaCadastroConta()}" 
+	         		id="irParaCadastroConta" immediate="true" >
+				<p:graphicImage id="icoContaMenu" url="/img/icones/ico_correio.png" />
+				<span>Conta Bancária</span>
+	         	</p:commandLink>
+			</div>
+		</div>
+	
+		<div class="divMenuBotao">
+			<div class="divConteudoMenuBotao">
+				<p:commandLink actionListener="#{gerenciarFinanceiroController.irParaCadastroTaxas()}" 
+	         		id="irParaCadastroTaxa" immediate="true" >
+				<p:graphicImage id="icoTaxaMenu" url="/img/icones/ico_correio.png" />
+				<span>Taxas</span>
+	         	</p:commandLink>
+			</div>
+		
+		</div>
+
+	 </h:form>
+	    
+   </ui:define>
+</ui:composition>

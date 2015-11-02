@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+ 	
+ 	
+ 	<h:form id="formConta" >
+	   	<h1>Cadastro de taxas para emissão de boleto</h1>
+	 	<br />
+	 	
+	   		
+   		<p:outputPanel id="cadastroTX" >
+   		
+   			<p:outputLabel value="Nome ou Descrição" /><br />
+			<p:inputText id="descricao" styleClass="inputPadrao" 
+			required="true" requiredMessage="Favor preencher o nome ou descrição da taxa."
+				value="#{cadastroTaxaController.taxa.descricao}"  maxlength="100" ></p:inputText>
+			
+			<br />
+			
+		 	<p:outputPanel id="containerComboTipo" >
+		 		<p:outputLabel value="A taxa é valor fixo ou porcentagem?"></p:outputLabel>
+		 		<br />
+			 	<p:selectOneMenu id="tipo" value="#{cadastroTaxaController.tipo}" 
+			 	  required="true" style="width:400px;"
+			 	  requiredMessage="Favor selecionar o tipo da taxa">
+		         <f:selectItem itemLabel="Selecione..." itemValue="" />
+		         <f:selectItems value="#{cadastroTaxaController.tipos}" />
+		     </p:selectOneMenu>
+			</p:outputPanel>
+			<br />
+			
+			<p:outputPanel id="containerComboCredito" >
+		 		<p:outputLabel value="A taxa é de crédito ou débito?"></p:outputLabel>
+		 		<br />
+			 	<p:selectOneMenu id="credito" value="#{cadastroTaxaController.creditoDebito}" 
+			 	  required="true" style="width:400px;"
+			 	  requiredMessage="Favor selecionar se a taxa é crédito ou débito">
+		         <f:selectItem itemLabel="Selecione..." itemValue="" />
+		         <f:selectItems value="#{cadastroTaxaController.creditoDebitos}" />
+		     </p:selectOneMenu>
+			</p:outputPanel>
+			
+			<br />	
+ 			
+			<p:outputLabel value="Valor da taxa:" /> <br />
+			<p:inputText id="valorTx" styleClass="inputPadrao" 
+						required="true" requiredMessage="Favor preencher o valor da taxa"
+						value="#{cadastroTaxaController.taxa.valor}" maxlength="10" style="width:100px">
+						<f:convertNumber type="number" maxFractionDigits="2" pattern="#0.00"/> 
+			</p:inputText> 
+			
+			<br />
+			<br />
+			<p:commandButton id="voltar" value="Voltar" immediate="true"
+	   			actionListener="#{cadastroTaxaController.voltar()}"  >
+	   		</p:commandButton>
+	   	
+	   		<p:commandButton id="btnListagem" value="Ir para listagem" immediate="true"
+	   			actionListener="#{cadastroTaxaController.irParaListagem()}">
+	   		</p:commandButton>
+	   	
+			<p:commandButton id="btnSalvarConta" value="Salvar"  update="@form"
+		   		actionListener="#{cadastroTaxaController.salvar}" >
+		   	</p:commandButton>
+
+		</p:outputPanel>
+		
+	</h:form>
+	
+   </ui:define>
+</ui:composition>

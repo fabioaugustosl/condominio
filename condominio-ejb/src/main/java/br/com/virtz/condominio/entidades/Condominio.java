@@ -70,6 +70,19 @@ public class Condominio extends Entidade implements Serializable {
 	
 	@Column(name = "email", length = 100)
 	private String email;
+	
+	
+	// parte financeira
+	@Column(name = "valorCondominioMes")
+	private Double valorCondominioMes;
+	
+	@Column(name = "multaAposVencimento")
+	private boolean multaAposVencimento;
+	
+	@Column(name = "jurosAposVencimento")
+	private boolean jurosAposVencimento;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -182,5 +195,31 @@ public class Condominio extends Entidade implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public Double getValorCondominioMes() {
+		return valorCondominioMes;
+	}
+
+	public void setValorCondominioMes(Double valorCondominioMes) {
+		this.valorCondominioMes = valorCondominioMes;
+	}
+
+	public boolean isMultaAposVencimento() {
+		return multaAposVencimento;
+	}
+
+	public void setMultaAposVencimento(boolean multaAposVencimento) {
+		this.multaAposVencimento = multaAposVencimento;
+	}
+
+	public boolean isJurosAposVencimento() {
+		return jurosAposVencimento;
+	}
+
+	public void setJurosAposVencimento(boolean jurosAposVencimento) {
+		this.jurosAposVencimento = jurosAposVencimento;
+	}
+	
+	
 	
 }

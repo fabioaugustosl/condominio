@@ -1,8 +1,10 @@
 package br.com.virtz.condominio.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -73,7 +75,9 @@ public class ReservaController {
 	public void init(){
 		reservas = new DefaultScheduleModel();
 		usuarioLogado = sessao.getUsuarioLogado();
-		areas = usuarioLogado.getCondominio().getAreasComuns();
+
+		montarListaAreasParaReserva();
+		
 		maximoDias = parametroLookup.buscar(EnumParametroSistema.QUANTIDADE_DIAS_MAXIMO_PARA_AGENDAR_AREA_COMUM);
 		areaSelecionada = null;
 		podeRemoverReserva = false;
@@ -84,6 +88,16 @@ public class ReservaController {
 			usuarios = usuarioService.recuperarTodos(usuarioLogado.getCondominio());
 		} else {
 			usuarios = null;
+		}
+	}
+
+
+	private void montarListaAreasParaReserva() {
+		areas = new HashSet<AreaComum>();
+		for(AreaComum a : usuarioLogado.getCondominio().getAreasComuns()){
+			if(a.isPodeSerReservado()){
+				areas.add(a);
+			}
 		}
 	}
 

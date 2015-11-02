@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +104,9 @@ public class VotacaoService implements IVotacaoService {
 		if(condominio == null){
 			return new ArrayList<Votacao>();
 		}
-		return votacaoDAO.recuperar(condominio);
+		List<Votacao> votacoes =  votacaoDAO.recuperar(condominio);
+		Collections.sort(votacoes);
+		return votacoes;
 	}
 
 

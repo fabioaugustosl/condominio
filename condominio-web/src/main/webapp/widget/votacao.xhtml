@@ -43,14 +43,12 @@
 		    		<p:calendar id="button" value="#{vv.util.valorData}" showOn="button" />
 		    	</p:outputPanel>	
 		    	<p:outputPanel id="tipoMoeda" rendered="#{vv.util.isMoeda()}" > 
-		    		<p:inputText id="valorTipoMoeda" value="#{vv.util.valorMoeda}" >
-		    			<f:convertNumber currencyCode="R$" type="currency" maxFractionDigits="2" />
-		    		</p:inputText> 
+		    		<p:inputText id="valorTipoMoeda" value="#{vv.util.valorMoeda}" style="width:100px" >
+		    			R$<f:convertNumber type="number" maxFractionDigits="2" /> 
+		    		</p:inputText> <span style="font-size: 0.6em">Ex.: 20,00</span>
 		    	</p:outputPanel>
 		    	<p:outputPanel id="tipoNumerico" rendered="#{vv.util.isNumerico()}"> 
-		    		<p:inputText  id="valorTipoNumerico" value="#{vv.util.valorNumerico}" >
-		    			<f:convertNumber type="number" maxFractionDigits="2"/>
-		    		</p:inputText> 
+		    		<p:inputMask mask="999999?9" placeHolder=""  id="valorTipoNumerico" value="#{vv.util.valorNumerico}"  />
 		    	</p:outputPanel>
 		    	<p:outputPanel id="tipoOpcao" rendered="#{vv.util.isOpcoes()}" > 
 		    		<p:selectOneRadio id="opc" value="#{vv.util.idValorOpcao}" layout="grid" columns="1">

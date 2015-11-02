@@ -18,7 +18,8 @@ public class VotacaoDAO extends DAO<Votacao> implements IVotacaoDAO {
 	public List<Votacao> recuperar(Condominio condominio) {
 		Query qry = getEntityManager().createNamedQuery("Votacao.recuperarPorCondominio");
 		qry.setParameter("idCondominio", condominio.getId());
-		return qry.getResultList();
+		List<Votacao> vot =  qry.getResultList();
+		return vot;
 	}
 
 	

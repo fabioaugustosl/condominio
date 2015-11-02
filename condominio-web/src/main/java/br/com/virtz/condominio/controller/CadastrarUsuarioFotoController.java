@@ -123,8 +123,9 @@ public class CadastrarUsuarioFotoController implements Serializable{
 	private void enviarEmailConfirmacaoCadastro(Usuario usuario, Token token) {
 		// recuperar url da aplicação
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		StringBuffer sb = origRequest.getRequestURL();
-		sb.append("confimarCadastro.faces?token=").append(token.getToken());
+		
+		StringBuffer sb = origRequest.getRequestURL().delete(origRequest.getRequestURL().indexOf("cadastrarUsuarioFoto.faces"), origRequest.getRequestURL().toString().length()); 
+		sb.append("confirmarCadastro.faces?token=").append(token.getToken());
 
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
 		mapParametrosEmail.put("nomeUsuario", usuario.getNome());

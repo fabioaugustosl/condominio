@@ -11,7 +11,7 @@ import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
 @RequestScoped
-public class ControlePortariaController {
+public class GerenciarFinanceiroController {
 	
 	
 	@Inject
@@ -30,9 +30,12 @@ public class ControlePortariaController {
 	}
 	
 	
-	public void irParaCadastroRecebido(){
-		navegacao.redirectToPage("/portaria/cadastrarRecebido.faces");
+	public void irParaCadastroTaxas(){
+		navegacao.redirectToPage("/financeiro/listagemTaxas.faces");
 	}
 	
+	public void irParaCadastroConta(){
+		navegacao.redirectToPage("/condominio/contaBancaria.faces");
+	}
 		
 }

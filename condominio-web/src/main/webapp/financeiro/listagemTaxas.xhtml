@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+	   	<h1><p:outputLabel value="Todas as taxas cadastradas" /></h1>
+	 	<br />
+	 	
+		<p:dataTable id="dtListagemTaxa" var="tx" 
+				value="#{listagemTaxaController.taxas}"
+				rowKey="#{tx.id}"
+				emptyMessage="Ainda não foi cadastrada nenhuma taxa." >
+			
+	        <p:column headerText="Descrição">
+		        <h:outputText value="#{tx.descricao}" />
+		    </p:column>
+		    
+		    <p:column headerText="Tipo">
+		        <h:outputText value="#{tx.porcentagemOuValor.descricao}" />
+		    </p:column>
+		    
+		    <p:column headerText="Crédito ou Débito">
+		        <h:outputText value="#{tx.creditoOuDebito.descricao}" />
+		    </p:column>
+		    
+		    <p:column headerText="Valor">
+		        <h:outputText value="#{tx.valor}" />
+		    </p:column>
+		    
+		    
+		    <p:column headerText="Ações">
+		    	<p:panelGrid id="panelGridAcao" columns="2" styleClass="teste" >
+			    	
+			         <p:commandLink actionListener="#{listagemTaxaController.excluirTaxa(tx)}" update="@form"
+			         	id="excluirTaxaSelecionada" >
+			         		<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa taxa?" icon="ui-icon-alert" />
+			         		<p:graphicImage id="imgDeletarTx" url="/img/icones/deletar.png" title="Clique para deletar essa taxa." />
+			         </p:commandLink>
+			         
+			         <p:commandLink actionListener="#{listagemTaxaController.editar(tx)}"
+			         	id="editarTaxaSelecionada" >
+			         	<p:graphicImage id="imgEditarVotacao" url="/img/icones/editar.png" 
+		     				title="Clique para editar essa taxa." />
+			         </p:commandLink>
+			         
+		         </p:panelGrid>
+		    </p:column>
+		</p:dataTable> 
+	    
+	    <p:commandButton id="voltar" value="Voltar" immediate="true"
+	   		actionListener="#{listagemTaxaController.voltar()}"  >
+	   	</p:commandButton>
+	    
+	    
+	   	<p:commandButton id="novaTaxa" value="Nova Taxa" immediate="true"
+	   		actionListener="#{listagemTaxaController.irParaCadastro}"  >
+	   	</p:commandButton>
+	    
+	    
+	  	<p:confirmDialog global="true" showEffect="fade" >
+	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+	    			 	
+	 </h:form>
+  </ui:define>
+</ui:composition>

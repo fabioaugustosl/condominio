@@ -44,7 +44,7 @@ public class Voto extends Entidade implements Serializable {
 	@Column(name = "sim")
 	private Boolean sim;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data")
 	private Date data;
 
