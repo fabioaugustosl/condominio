@@ -3,6 +3,7 @@ package br.com.virtz.condominio.entidades;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,7 +31,7 @@ public class Cidade extends Entidade implements Serializable, Comparable<Cidade>
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
 	@JoinColumn(name = "estado")
 	private Estado estado;
 

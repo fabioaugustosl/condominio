@@ -1,5 +1,6 @@
 package br.com.virtz.boleto.bean;
 
+import org.apache.commons.lang.StringUtils;
 import org.jrimum.bopepo.BancosSuportados;
 
 public class Conta {
@@ -13,7 +14,14 @@ public class Conta {
 	
 
 	public BancosSuportados getBanco(){
-		return BancosSuportados.BANCO_DO_BRASIL;
+		if(StringUtils.isNotBlank(codigoBanco)){
+			for(BancosSuportados b : BancosSuportados.values()){
+				if(b.getCodigoDeCompensacao().equals(codigoBanco)){
+					return b;
+				}
+			}
+		}
+		return null;
 	}
 	
 	public String getCodigoBanco() {

@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,25 +13,28 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
-import org.jrimum.bopepo.Boleto;
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-import br.com.virtz.boleto.ConversorBoletoPdf;
-import br.com.virtz.boleto.GeradorBoleto;
+import br.com.virtz.boleto.GeradorNossoNumero;
+import br.com.virtz.boleto.IFabricaBoletos;
 import br.com.virtz.boleto.bean.Conta;
 import br.com.virtz.boleto.bean.InfoCedente;
 import br.com.virtz.boleto.bean.InfoEndereco;
 import br.com.virtz.boleto.bean.InfoSacado;
 import br.com.virtz.boleto.bean.InfoTitulo;
-import br.com.virtz.condominio.entidades.CobrancaBoleto;
+import br.com.virtz.boleto.bean.NossoNumero;
+import br.com.virtz.condominio.boleto.conversor.ConversorDadosBoleto;
+import br.com.virtz.condominio.entidades.CobrancaUsuario;
+import br.com.virtz.condominio.entidades.ContaBancariaCondominio;
 import br.com.virtz.condominio.entidades.Usuario;
-import br.com.virtz.condominio.geral.DataUtil;
+import br.com.virtz.condominio.exceptions.ErroConversaoException;
+import br.com.virtz.condominio.service.ICondominioService;
+import br.com.virtz.condominio.service.IFinanceiroService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
-import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
-import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
 @ViewScoped
@@ -41,96 +43,91 @@ public class GeracaoBoletoController {
 	@EJB
 	private IUsuarioService usuarioService;
 	
+	@EJB
+	private IFinanceiroService financeiroService;	
+	
+	@EJB
+	private ICondominioService condominioService;
+	
 	@Inject
-	private MessageHelper messageHelper;
+	private MessageHelper message;
 	
 	@Inject
 	private SessaoUsuario sessao;
 	
 	@Inject
-	private NavigationPage navegacao;
+	private ConversorDadosBoleto conversorBoleto;
 	
 	@Inject
-	private IArquivosUtil arquivoUtil;
+	private GeradorNossoNumero geradorNN;
 	
 	
+	@Inject
+	private IFabricaBoletos fabrica;
+	
+	private List<CobrancaUsuario> cobrancas = null;
 	private Usuario usuario = null;
 	
-	private CobrancaBoleto cobranca = null;
+	private List<String> anosMeses = null;
+	private String anoMes= null;
+
+	private InfoTitulo infoTitulo;
 	
-	private List<Usuario> usuarios = null;
-	
-	
+		
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
-		usuarios = listarTodos(); 
-		cobranca = new CobrancaBoleto();
-		cobranca.setValorBase(250d);
-		DataUtil dataUtil = new DataUtil();
-		Calendar agora = dataUtil.agora();
-		cobranca.setMesReferencia(agora.get(Calendar.MONTH)+1);
-		cobranca.setAnoReferencia(agora.get(Calendar.YEAR));
+		anosMeses  = financeiroService.recuperarAnosMesesDispiniveis(usuario.getCondominio().getId());
 	}
 	
 
-	public List<Usuario> listarTodos(){
-		List<Usuario> usuarios = usuarioService.recuperarTodos(usuario.getCondominio());
-		return usuarios;
+	public void listarUsuarios(){
+		cobrancas = new ArrayList<CobrancaUsuario>();
+		if(StringUtils.isNotBlank(anoMes)){
+			String[] anoMesSelecionado = anoMes.split("/");
+			cobrancas =  financeiroService.recuperarCobrancas(usuario.getCondominio().getId(), Integer.parseInt(anoMesSelecionado[0]), Integer.parseInt(anoMesSelecionado[1]));
+		}
+		
 	}
 	
 	
-	public StreamedContent download(Usuario usuario) {   
+	public StreamedContent download(CobrancaUsuario cobranca) {   
 		
-		InfoCedente cedente = new InfoCedente();
-		cedente.setNome(usuario.getCondominio().getNome());
-		cedente.setCnpj("00.000.208/0001-00");
+		InfoCedente cedente = null;
+		InfoSacado sacado = null;
+		InfoEndereco endereco = null;
+		Conta  conta = null;
+		InfoTitulo titulo = null;
 		
-		InfoSacado sacado = new InfoSacado();
-		sacado.setCpf("014.483.675-06");
-		sacado.setNome(usuario.getNome());
+		try {
+			cedente = conversorBoleto.criarCedente(usuario.getCondominio());
+			sacado = conversorBoleto.criarSacado(cobranca.getUsuario());
+			endereco = conversorBoleto.criarEndereco(usuario.getCondominio());
+			sacado.setEndereco(endereco);
+			ContaBancariaCondominio contaBancaria = condominioService.recuperarContaBancariaCondominioPrincipal(usuario.getCondominio().getId());
+			conta = conversorBoleto.criarConta(contaBancaria);
+			titulo = conversorBoleto.criarTitulo(cobranca);
+		} catch (ErroConversaoException e1) {
+			message.addError(e1.getMessage());
+			return null;
+		}
 		
-		InfoEndereco end = new InfoEndereco();
-		end.setBairro("Castelo");
-		end.setCep("35600-00");
-		end.setCidade("Belo Horizonte");
-		end.setLogradouro("Rua Paschoal Costa");
-		end.setNumero("180");
-		end.setSiglaEstado("MG");
-		sacado.setEndereco(end);
+		if(StringUtils.isBlank(titulo.getNossoNumero())){
+			NossoNumero nn = geradorNN.gerar(conta, titulo);
+			//titulo.setNossoNumero(nn.getNumero());
+			//titulo.setDigitoNossoNumero(nn.getDigito());
+			
+			titulo.setNossoNumero("000000012345");
+			titulo.setDigitoNossoNumero("1");
+		}
+		
+		File arquivoBoleto = fabrica.geraBoleto(cedente, conta, sacado, titulo);
 		
 		
-		Conta conta = new Conta();
-		conta.setCodigoBanco("001");
-		conta.setCodigoCarteira(123456);
-		//conta.setDigitoVerificadorAgencia(digitoVerificadorAgencia);
-		conta.setNumeroAgencia("0012");
-		conta.setDigitoVerificadorAgencia("6");
-		conta.setNumeroConta("00123456");
-		conta.setDigitoVerificadorAgencia("7");
-		
-		InfoTitulo tit = new InfoTitulo();
-		tit.setDataDocumento(new Date());
-		tit.setDataVencimento(new Date());
-		tit.setInstrucoesSacado("Instruções sacado");
-		tit.setNossoNumero("12345678901234567");
-		tit.setValor(cobranca.getValorBase());
-		tit.setInstrucaoLinha1(cobranca.getInstrucaoLinha1());
-		tit.setInstrucaoLinha2(cobranca.getInstrucaoLinha2());
-		tit.setInstrucoes("Pagamento referente a "+cobranca.getMesReferencia()+"/"+cobranca.getAnoReferencia());
-		tit.setNumeroDocumento("1010");
-		tit.setDescricaoLocalPagamento("Pagar no caixa eletronico");
-
-		GeradorBoleto gerador = new GeradorBoleto();
-		ConversorBoletoPdf conversor = new ConversorBoletoPdf();
-		
-		Boleto boleto = gerador.gerar(cedente, conta, sacado, tit);
-		File arqBoleto = conversor.converter(boleto, "ExemploBoletoBB");
-		
-		if(arqBoleto != null){
+		if(arquivoBoleto != null){
 			InputStream stream;
 			try {
-				stream = new FileInputStream(arqBoleto);
+				stream = new FileInputStream(arquivoBoleto);
 				StreamedContent file = new DefaultStreamedContent(stream, "application/pdf", "ExemploBoletoBB.pdf");
 				return file;
 			} catch (FileNotFoundException e) {
@@ -143,24 +140,29 @@ public class GeracaoBoletoController {
 
 	
 	
-	
-	
-	
-	public List<Usuario> getUsuarios() {
-		return usuarios;
+	public List<CobrancaUsuario> getCobrancas() {
+		return cobrancas;
 	}
 
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
+	public void setCobrancas(List<CobrancaUsuario> cobrancas) {
+		this.cobrancas = cobrancas;
 	}
 
-	public CobrancaBoleto getCobranca() {
-		return cobranca;
+	public List<String> getAnosMeses() {
+		return anosMeses;
 	}
 
-	public void setCobranca(CobrancaBoleto cobranca) {
-		this.cobranca = cobranca;
+	public void setAnosMeses(List<String> anosMeses) {
+		this.anosMeses = anosMeses;
 	}
-	
+
+	public String getAnoMes() {
+		return anoMes;
+	}
+
+	public void setAnoMes(String anoMes) {
+		this.anoMes = anoMes;
+	}
+		
 		
 }

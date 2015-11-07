@@ -61,11 +61,11 @@ public class ConfiguracaoBoleto extends Entidade implements Serializable {
 	@Column(name = "instrucoesGerais")
 	private String instrucoesGerais;
 
-	@Column(name = "indCobrarMultaAposVencimento")
-	private Boolean indCobrarMultaAposVencimento;
+	@Column(name = "valorMultaAposVencimento")
+	private Double valorMultaAposVencimento;
 
-	@Column(name = "indCobrarJurosAposVencimento")
-	private Boolean indCobrarJurosAposVencimento;
+	@Column(name = "valorJurosDiariosAposVencimento")
+	private Double valorJurosDiariosAposVencimento;
 
 	@Column(name = "bloquearEdicao")
 	private Boolean bloquearEdicao;
@@ -154,28 +154,30 @@ public class ConfiguracaoBoleto extends Entidade implements Serializable {
 		this.instrucoesGerais = instrucoesGerais;
 	}
 
-	public Boolean getIndCobrarMultaAposVencimento() {
-		return indCobrarMultaAposVencimento;
+	
+	public Double getValorMultaAposVencimento() {
+		return valorMultaAposVencimento;
 	}
 
-	public void setIndCobrarMultaAposVencimento(Boolean indCobrarMultaAposVencimento) {
-		this.indCobrarMultaAposVencimento = indCobrarMultaAposVencimento;
+	public void setValorMultaAposVencimento(Double valorMultaAposVencimento) {
+		this.valorMultaAposVencimento = valorMultaAposVencimento;
 	}
 
-	public Boolean getIndCobrarJurosAposVencimento() {
-		return indCobrarJurosAposVencimento;
+	public Double getValorJurosDiariosAposVencimento() {
+		return valorJurosDiariosAposVencimento;
 	}
 
-	public void setIndCobrarJurosAposVencimento(Boolean indCobrarJurosAposVencimento) {
-		this.indCobrarJurosAposVencimento = indCobrarJurosAposVencimento;
-	}
-
-	public Boolean getBloquearEdicao() {
-		return bloquearEdicao;
+	public void setValorJurosDiariosAposVencimento(
+			Double valorJurosDiariosAposVencimento) {
+		this.valorJurosDiariosAposVencimento = valorJurosDiariosAposVencimento;
 	}
 
 	public void setBloquearEdicao(Boolean bloquearEdicao) {
 		this.bloquearEdicao = bloquearEdicao;
+	}
+
+	public Boolean getBloquearEdicao() {
+		return bloquearEdicao;
 	}
 
 	public List<TaxaExtraMensal> getTaxasExtras() {

@@ -20,6 +20,17 @@ public class CobrancaUsuarioDAO extends DAO<CobrancaUsuario> implements ICobranc
 		
 		return qry.getResultList();
 	}
+	
+	
+	@Override
+	public List<CobrancaUsuario> recuperarCobrancasDeAvulsosPorCondominio(Long idCondominio, Integer ano, Integer mes) {
+		Query qry = getEntityManager().createNamedQuery("CobrancaUsuario.recuperarPorCondominioAnoMesTodosAvulsos");
+		qry.setParameter("idCondominio", idCondominio);
+		qry.setParameter("ano", ano);
+		qry.setParameter("mes", mes);
+		
+		return qry.getResultList();
+	}
 
 
 	@Override
@@ -42,6 +53,15 @@ public class CobrancaUsuarioDAO extends DAO<CobrancaUsuario> implements ICobranc
 	@Override
 	public List<CobrancaUsuario> recuperarPorCondominio(Long idCondominio) {
 		Query qry = getEntityManager().createNamedQuery("CobrancaUsuario.recuperarPorCondominio");
+		qry.setParameter("idCondominio", idCondominio);
+		
+		return qry.getResultList();
+	}
+	
+	
+	@Override
+	public List<Object[]> recuperarAnosMeses(Long idCondominio) {
+		Query qry = getEntityManager().createNamedQuery("CobrancaUsuario.recuperarAnosMesesPorCondominio");
 		qry.setParameter("idCondominio", idCondominio);
 		
 		return qry.getResultList();

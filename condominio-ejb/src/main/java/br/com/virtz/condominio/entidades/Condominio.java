@@ -63,6 +63,9 @@ public class Condominio extends Entidade implements Serializable {
 
 	@Column(name = "telefone", length = 20)
 	private String telefone;
+	
+	@Column(name = "cnpj", length = 20)
+	private String cnpj;
 
 	@ManyToOne
 	@JoinColumn(name = "idCidade")
@@ -219,7 +222,14 @@ public class Condominio extends Entidade implements Serializable {
 	public void setJurosAposVencimento(boolean jurosAposVencimento) {
 		this.jurosAposVencimento = jurosAposVencimento;
 	}
-	
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
 	
 	
 }

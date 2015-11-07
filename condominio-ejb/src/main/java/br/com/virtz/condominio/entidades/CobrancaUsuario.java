@@ -28,13 +28,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "CobrancaUsuario.recuperarPorCondominioAnoMes", 
 				query = "Select u FROM CobrancaUsuario u "
 						+ " JOIN u.configuracaoBoleto conf "
-						+ " WHERE conf.condominio.id = :idCondominio "
+						+ " WHERE conf.condominio.id = :idCondominio AND u.usuario is not null "
 						+ " AND u.ano = :ano AND u.mes = :mes " ),
+		@NamedQuery(name = "CobrancaUsuario.recuperarPorCondominioAnoMesTodosAvulsos", 
+				query = "Select u FROM CobrancaUsuario u "
+						+ " JOIN u.configuracaoBoleto conf "
+						+ " WHERE conf.condominio.id = :idCondominio AND u.avulso is not null "
+						+ " AND u.ano = :ano AND u.mes = :mes " ),				
 		@NamedQuery(name = "CobrancaUsuario.recuperarPorCondominioAvulsoAnoMes", 
 				query = "Select u FROM CobrancaUsuario u "
 						+ " JOIN u.configuracaoBoleto conf "
 						+ " WHERE u.avulso.id = :idAvulso AND conf.condominio.id = :idCondominio "
-						+ " AND u.ano = :ano AND u.mes = :mes ")
+						+ " AND u.ano = :ano AND u.mes = :mes "),
+		@NamedQuery(name = "CobrancaUsuario.recuperarAnosMesesPorCondominio", 
+				query = "Select c.ano, c.mes FROM CobrancaUsuario c "
+						+ " JOIN c.configuracaoBoleto conf "
+						+ " WHERE conf.condominio.id = :idCondominio "
+						+ " GROUP BY c.ano, c.mes ORDER BY c.ano DESC, c.mes DESC ")
 })
 public class CobrancaUsuario extends Entidade implements Serializable {
 

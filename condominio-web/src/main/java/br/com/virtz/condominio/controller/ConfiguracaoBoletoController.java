@@ -19,9 +19,7 @@ import br.com.virtz.condominio.geral.DataUtil;
 import br.com.virtz.condominio.service.IFinanceiroService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
-import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
-import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
 @ViewScoped
@@ -40,15 +38,8 @@ public class ConfiguracaoBoletoController {
 	@Inject
 	private SessaoUsuario sessao;
 	
-	@Inject
-	private NavigationPage navegacao;
-	
-	@Inject
-	private IArquivosUtil arquivoUtil;
-	
 	
 	private Usuario usuario = null;
-	private List<Usuario> usuarios = null;
 	
 	private ConfiguracaoBoleto configuracao = null;
 	private Double valorBase = null;
@@ -63,17 +54,34 @@ public class ConfiguracaoBoletoController {
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
-		configuracao = new ConfiguracaoBoleto();
 		
 		valorBase = usuario.getCondominio().getValorCondominioMes();
 		if(valorBase == null){
 			valorBase = 0d;
 		}
+		carregarInformacoesPeriodoPadroes();
+		montarConfiguracao();
+	}
+
+	private void carregarInformacoesPeriodoPadroes() {
 		DataUtil dataUtil = new DataUtil();
 		meses = dataUtil.listarMesesSelecao();
 		anos = dataUtil.listarAnosSelecao(null);
 		this.ano = dataUtil.agora().get(Calendar.YEAR);
-		this.mes = dataUtil.agora().get(Calendar.MONTH+1);
+		this.mes = dataUtil.agora().get(Calendar.MONTH)+1;
+	}
+
+	private void criarNovaConfiguracao() {
+		
+		configuracao = new ConfiguracaoBoleto();
+		configuracao.setCondominio(usuario.getCondominio());
+		configuracao.setValorBase(valorBase);
+		configuracao.setMes(mes);
+		configuracao.setAno(ano);
+		
+		String nomeMes = meses.get(mes);
+		
+		message.addWarn("O lançamento do título para "+nomeMes+"/"+ano+" ainda não foi SALVO. Basta preencher os dados e clicar no botão salvar.");
 	}
 	
 	public void montarCobranca(){
@@ -87,42 +95,49 @@ public class ConfiguracaoBoletoController {
 			return;
 		}
 		
+		montarConfiguracao();
+	}
+
+	private void montarConfiguracao() {
 		configuracao = financeiroService.recuperarConfiguracaoPorCondominio(usuario.getCondominio().getId(), this.ano, this.mes);
 		
 		if(configuracao == null){
-			configuracao = new ConfiguracaoBoleto();
-			configuracao.setValorBase(valorBase);
-			configuracao.setCondominio(usuario.getCondominio());
-			configuracao.setMes(mes);
-			configuracao.setAno(ano);
-		}
+			criarNovaConfiguracao();
+		} 
 	}
 	
 	
 	public void salvar(ActionEvent event) throws CondominioException {
 		try{
-			
+			configuracao.setAno(this.ano);
+			configuracao.setMes(this.mes);
 			financeiroService.salvar(configuracao);
-			message.addInfo("A configuração foi salva com sucesso.");
-
+			
+			message.addWarn("Para que os moradores consigam emitir o boleto é necessário clicar em GERAR COBRANÇA. Antes, confira todos os dados do título.");
+			message.addInfo("O lançamento do título foi salvo com sucesso.");
 		}catch(AppException appE){
-			throw new CondominioException(appE.getMessage());
+			message.addError(appE.getMessage());
 		}catch(Exception e){
 			e.printStackTrace();
-			throw new CondominioException("Ocorreu um erro inesperado ao salvar a configuração do boleto.");
+			throw new CondominioException("Ocorreu um erro inesperado ao salvar o lançamento do título.");
 		}
 	}
 	
 	
 	public void gerarCobranca(ActionEvent event) throws CondominioException {
 		try{
+			if(configuracao == null || configuracao.getId() == null){
+				message.addError("Você deve salvar a configuração do título primeiro.");
+				return;
+			}
+			financeiroService.gerarCobrancas(configuracao);
 			
-			// TODO : Pra cadas usuario do condominio gerar uma cobrança
-			
-			message.addInfo("A cobrança foi gerada com sucesso.");
+			message.addInfo("A cobrança(s) foi(ram) gerada(s) com sucesso.");
+		}catch(AppException appE){
+			message.addError(appE.getMessage());
 		}catch(Exception e){
 			e.printStackTrace();
-			throw new CondominioException("Ocorreu um erro inesperado ao salvar a configuração do boleto.");
+			throw new CondominioException("Ocorreu um erro inesperado ao gerar as cobranças para os títulos.");
 		}
 	}
 
@@ -166,5 +181,12 @@ public class ConfiguracaoBoletoController {
 		return meses;
 	}
 	
+	public boolean exibirJuros(){
+		return usuario.getCondominio().isJurosAposVencimento();
+	}
+	
+	public boolean exibirMulta(){
+		return usuario.getCondominio().isMultaAposVencimento();
+	}
 		
 }

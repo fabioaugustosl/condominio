@@ -3,6 +3,7 @@ package br.com.virtz.boleto;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.jrimum.bopepo.Boleto;
 import org.jrimum.domkee.comum.pessoa.endereco.CEP;
 import org.jrimum.domkee.comum.pessoa.endereco.Endereco;
@@ -68,29 +69,54 @@ public class GeradorBoleto {
 	
 	private ContaBancaria criarContaBancaria(Conta conta){
 		ContaBancaria contaBancariaRetorno = new ContaBancaria(conta.getBanco().create());
-        contaBancariaRetorno.setNumeroDaConta(new NumeroDaConta(Integer.valueOf(conta.getNumeroConta()), conta.getDigitoVerificadorConta()));
-        contaBancariaRetorno.setCarteira(new Carteira(conta.getCodigoCarteira()));
-        contaBancariaRetorno.setAgencia(new Agencia(Integer.valueOf(conta.getNumeroAgencia()), conta.getDigitoVerificadorAgencia()));
+		if(StringUtils.isNotBlank(conta.getDigitoVerificadorConta())){
+			contaBancariaRetorno.setNumeroDaConta(new NumeroDaConta(Integer.valueOf(conta.getNumeroConta()), conta.getDigitoVerificadorConta()));
+		} else {
+			contaBancariaRetorno.setNumeroDaConta(new NumeroDaConta(Integer.valueOf(conta.getNumeroConta())));
+		}
+		if(conta.getCodigoCarteira() != null){
+			contaBancariaRetorno.setCarteira(new Carteira(conta.getCodigoCarteira()));
+		}
+		if(StringUtils.isNotBlank(conta.getDigitoVerificadorAgencia())){
+			contaBancariaRetorno.setAgencia(new Agencia(Integer.valueOf(conta.getNumeroAgencia()), conta.getDigitoVerificadorAgencia()));
+        } else {
+        	contaBancariaRetorno.setAgencia(new Agencia(Integer.valueOf(conta.getNumeroAgencia())));
+        }
         
         return contaBancariaRetorno;
 	}
 	
 	private Cedente criarCedente(InfoCedente cedente){
-		Cedente cedenteRetorno = new Cedente(cedente.getNome(), cedente.getCnpjFormatado());
+		Cedente cedenteRetorno = null;
+		if(StringUtils.isBlank(cedente.getCnpjFormatado())){		
+			cedenteRetorno = new Cedente(cedente.getNome());
+		} else {
+			cedenteRetorno = new Cedente(cedente.getNome(), cedente.getCnpjFormatado());
+		}
+		
 		return cedenteRetorno;
 	}
 	
 	private Sacado criarSacado(InfoSacado sacado){
-		Sacado sacadoRetorno = new Sacado(sacado.getNome(), sacado.getCpfFormatado());
+		Sacado sacadoRetorno = null;
+		if(StringUtils.isNotBlank(sacado.getCpfFormatado())){
+			sacadoRetorno = new Sacado(sacado.getNome(), sacado.getCpfFormatado());
+		} else {
+			sacadoRetorno = new Sacado(sacado.getNome());
+		}
 		
-		 Endereco enderecoSac = new Endereco();
-         enderecoSac.setUF(sacado.getEndereco().getUnidadeFederativa());
-         enderecoSac.setLocalidade(sacado.getEndereco().getCidade());
-         enderecoSac.setCep(new CEP(sacado.getEndereco().getCepFormatado()));
-         enderecoSac.setBairro(sacado.getEndereco().getBairro());
-         enderecoSac.setLogradouro(sacado.getEndereco().getLogradouro());
-         enderecoSac.setNumero(sacado.getEndereco().getNumero());
-         sacadoRetorno.addEndereco(enderecoSac);
+		Endereco enderecoSac = new Endereco();
+        enderecoSac.setUF(sacado.getEndereco().getUnidadeFederativa());
+        enderecoSac.setLocalidade(sacado.getEndereco().getCidade());
+        
+        if(StringUtils.isNotBlank(sacado.getCpfFormatado())){
+        	enderecoSac.setCep(new CEP(sacado.getEndereco().getCepFormatado()));
+        }
+        
+        enderecoSac.setBairro(sacado.getEndereco().getBairro());
+        enderecoSac.setLogradouro(sacado.getEndereco().getLogradouro());
+        enderecoSac.setNumero(sacado.getEndereco().getNumero());
+        sacadoRetorno.addEndereco(enderecoSac);
          
 		return sacadoRetorno;
 	}

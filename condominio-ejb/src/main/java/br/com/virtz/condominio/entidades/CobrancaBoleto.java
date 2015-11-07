@@ -1,13 +1,12 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
-public class CobrancaBoleto extends Entidade implements Serializable {
+public class CobrancaBoleto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private Long id;
 
 	private Condominio condominio;
 
@@ -17,17 +16,20 @@ public class CobrancaBoleto extends Entidade implements Serializable {
 
 	private Double valorBase;
 
-	private String instrucaoLinha1;
+	private String instrucaoSacado;
 
-	private String instrucaoLinha2;
+	private String instrucaoLocal;
 
-	private String instrucaoLinha3;
+	private String instrucoes;
+	
+	private String nossoNumero;
+	
+	private String numeroBarras;
+	
+	private Date dataVencimento;
 
 	private List<AcrescimoValorCobranca> acrescimos;
 
-	
-	
-	
 	public Condominio getCondominio() {
 		return condominio;
 	}
@@ -60,28 +62,52 @@ public class CobrancaBoleto extends Entidade implements Serializable {
 		this.valorBase = valorBase;
 	}
 
-	public String getInstrucaoLinha1() {
-		return instrucaoLinha1;
+	public String getInstrucaoSacado() {
+		return instrucaoSacado;
 	}
 
-	public void setInstrucaoLinha1(String instrucaoLinha1) {
-		this.instrucaoLinha1 = instrucaoLinha1;
+	public void setInstrucaoSacado(String instrucaoSacado) {
+		this.instrucaoSacado = instrucaoSacado;
 	}
 
-	public String getInstrucaoLinha2() {
-		return instrucaoLinha2;
+	public String getInstrucaoLocal() {
+		return instrucaoLocal;
 	}
 
-	public void setInstrucaoLinha2(String instrucaoLinha2) {
-		this.instrucaoLinha2 = instrucaoLinha2;
+	public void setInstrucaoLocal(String instrucaoLocal) {
+		this.instrucaoLocal = instrucaoLocal;
 	}
 
-	public String getInstrucaoLinha3() {
-		return instrucaoLinha3;
+	public String getInstrucoes() {
+		return instrucoes;
 	}
 
-	public void setInstrucaoLinha3(String instrucaoLinha3) {
-		this.instrucaoLinha3 = instrucaoLinha3;
+	public void setInstrucoes(String instrucoes) {
+		this.instrucoes = instrucoes;
+	}
+
+	public String getNossoNumero() {
+		return nossoNumero;
+	}
+
+	public void setNossoNumero(String nossoNumero) {
+		this.nossoNumero = nossoNumero;
+	}
+
+	public String getNumeroBarras() {
+		return numeroBarras;
+	}
+
+	public void setNumeroBarras(String numeroBarras) {
+		this.numeroBarras = numeroBarras;
+	}
+
+	public Date getDataVencimento() {
+		return dataVencimento;
+	}
+
+	public void setDataVencimento(Date dataVencimento) {
+		this.dataVencimento = dataVencimento;
 	}
 
 	public List<AcrescimoValorCobranca> getAcrescimos() {
@@ -92,14 +118,8 @@ public class CobrancaBoleto extends Entidade implements Serializable {
 		this.acrescimos = acrescimos;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Override
-	public Long getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	
+	
 
 }

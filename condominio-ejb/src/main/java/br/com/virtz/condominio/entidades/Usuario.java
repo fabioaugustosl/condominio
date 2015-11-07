@@ -59,6 +59,9 @@ public class Usuario extends Entidade implements Serializable {
 	@Column(name = "senha", length = 100, nullable = false)
 	private String senha;
 	
+	@Column(name = "cpf", length = 14)
+	private String cpf;
+	
 	@Column(name = "telefone", length = 20)
 	private String telefone;
 	
@@ -250,5 +253,14 @@ public class Usuario extends Entidade implements Serializable {
 	public void setSenhaDigitadaConfirmacao(String senhaDigitadaConfirmacao) {
 		this.senhaDigitadaConfirmacao = senhaDigitadaConfirmacao;
 	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	
 	
 }

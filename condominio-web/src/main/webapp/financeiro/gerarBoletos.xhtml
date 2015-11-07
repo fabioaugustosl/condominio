@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+   	
+   		<p:remoteCommand id="atualizarUsuarios" name="atualizarUsuarios" 
+   				actionListener="#{geracaoBoletoController.listarUsuarios()}" immediate="true" 
+   				update="containerUsuarios"></p:remoteCommand>
+   	
+   	
+   	
+	   	<h1><p:outputLabel value="Geração de boleto para moradores" /></h1>
+	 	<br />
+	 	
+	 	<p:outputPanel id="containerCompetencia" >
+	 		<p:outputLabel value="Competência: " /> 
+		 	<p:selectOneMenu id="comboCompetencia" styleClass="inputPadrao" value="#{geracaoBoletoController.anoMes}"   >
+		 		<p:ajax event="change" oncomplete="atualizarUsuarios()" process="@this" />
+		 		<f:selectItem itemLabel="Selecione..." />
+		 		<f:selectItems value="#{geracaoBoletoController.anosMeses}" />
+		 	</p:selectOneMenu>
+		</p:outputPanel>
+	 	
+	 	<p:outputPanel id="containerUsuarios" >
+	 	
+	 	 <p:dataTable id="dtListagemUsuariosBoleto" var="cobranca" 
+				value="#{geracaoBoletoController.cobrancas}"
+				rowKey="#{cobranca.id}"
+				rendered="#{ not empty geracaoBoletoController.cobrancas}"
+				emptyMessage="Ainda não foi lançada nenhuma cobrança para essa competência." >
+
+		    <p:column headerText="Morador" >
+		        <h:outputText value="#{cobranca.usuario.nome}" />
+		    </p:column>
+		    
+		    <p:column headerText="#">
+		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+			        <p:fileDownload value="#{geracaoBoletoController.download(cobranca)}" />
+			    </p:commandButton>
+		   </p:column>
+		</p:dataTable>
+ 	    
+		</p:outputPanel>
+		
+	 </h:form>
+
+  </ui:define>
+</ui:composition>

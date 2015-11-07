@@ -1,8 +1,8 @@
-package br.com.virtz.condominio.constantes;
+package br.com.virtz.boleto.bean;
 
 public enum EnumBanco {
 	BB("Banco do Brasil","001"),
-	SANTANDER("Santander","111");
+	SANTANDER("Santander","033");
 	
 	private String descricao;
 	private String codigo;

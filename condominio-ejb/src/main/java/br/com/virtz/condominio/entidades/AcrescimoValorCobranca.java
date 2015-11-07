@@ -2,11 +2,9 @@ package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
 
-public class AcrescimoValorCobranca extends Entidade implements Serializable {
+public class AcrescimoValorCobranca implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private Long id;
 
 	private String descricao;
 
@@ -38,13 +36,5 @@ public class AcrescimoValorCobranca extends Entidade implements Serializable {
 		this.valor = valor;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Override
-	public Long getId() {
-		return null;
-	}
 
 }

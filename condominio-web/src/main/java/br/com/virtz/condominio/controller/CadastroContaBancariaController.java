@@ -10,7 +10,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
-import br.com.virtz.condominio.constantes.EnumBanco;
+import br.com.virtz.boleto.bean.EnumBanco;
 import br.com.virtz.condominio.entidades.ContaBancariaCondominio;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
@@ -71,7 +71,7 @@ public class CadastroContaBancariaController {
 			EnumBanco enumBanco = EnumBanco.recuperarPorCodigo(banco);
 			conta.setBanco(enumBanco);
 			
-			condominioService.salvarContaBancariaCondominioPrincipal(conta);
+			conta = condominioService.salvarContaBancariaCondominioPrincipal(conta);
 			
 			message.addInfo("A conta bancária foi salva com sucesso.");
 

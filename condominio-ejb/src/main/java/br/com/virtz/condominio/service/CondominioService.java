@@ -6,7 +6,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import br.com.virtz.condominio.constantes.EnumBanco;
+import br.com.virtz.boleto.bean.EnumBanco;
 import br.com.virtz.condominio.dao.IAreaComumDAO;
 import br.com.virtz.condominio.dao.IBlocoDAO;
 import br.com.virtz.condominio.dao.ICidadeDAO;
@@ -150,13 +150,13 @@ public class CondominioService implements ICondominioService {
 	}
 	
 	@Override
-	public void salvarContaBancariaCondominioPrincipal(ContaBancariaCondominio conta) throws AppException {
+	public ContaBancariaCondominio salvarContaBancariaCondominioPrincipal(ContaBancariaCondominio conta) throws AppException {
 		if(conta == null){
-			return;
+			return null;
 		}
 		
 		try {
-			contaBancariaDAO.salvar(conta);
+			return contaBancariaDAO.salvar(conta);
 		} catch (Exception e) {
 			throw new AppException("Erro ao salvar");
 		}

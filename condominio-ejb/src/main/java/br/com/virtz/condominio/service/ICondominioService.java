@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import br.com.virtz.condominio.constantes.EnumBanco;
+import br.com.virtz.boleto.bean.EnumBanco;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.entidades.Cidade;
@@ -41,7 +41,7 @@ public interface ICondominioService {
 	
 	// ContBancaria
 	public ContaBancariaCondominio recuperarContaBancariaCondominioPrincipal(Long idCondominio);
-	public void salvarContaBancariaCondominioPrincipal(ContaBancariaCondominio conta) throws AppException;
+	public ContaBancariaCondominio salvarContaBancariaCondominioPrincipal(ContaBancariaCondominio conta) throws AppException;
 	public void salvarContaBancariaCondominioPrincipal(Condominio condominio, EnumBanco banco, String agencia, String digitoAgencia, String codigoCarteira) throws AppException;
 
 }

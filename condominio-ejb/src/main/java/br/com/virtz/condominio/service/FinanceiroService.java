@@ -1,16 +1,20 @@
 package br.com.virtz.condominio.service;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import br.com.virtz.boleto.bean.InfoCedente;
 import br.com.virtz.condominio.constantes.EnumTaxaCreditoDebito;
 import br.com.virtz.condominio.constantes.EnumTaxaPorcentagemValor;
 import br.com.virtz.condominio.dao.ICobrancaUsuarioDAO;
 import br.com.virtz.condominio.dao.ICondominioDAO;
 import br.com.virtz.condominio.dao.IConfiguracaoBoletoDAO;
 import br.com.virtz.condominio.dao.ITaxaDAO;
+import br.com.virtz.condominio.dao.IUsuarioDAO;
 import br.com.virtz.condominio.entidades.CobrancaUsuario;
 import br.com.virtz.condominio.entidades.ConfiguracaoBoleto;
 import br.com.virtz.condominio.entidades.Taxa;
@@ -32,7 +36,8 @@ public class FinanceiroService implements IFinanceiroService {
 	@EJB
 	private IConfiguracaoBoletoDAO configuracaoDAO;
 	
-	
+	@EJB
+	private IUsuarioDAO usuarioDAO;
 	
 	
 	@Override
@@ -78,10 +83,13 @@ public class FinanceiroService implements IFinanceiroService {
 	@Override
 	public ConfiguracaoBoleto salvar(ConfiguracaoBoleto configuracao) throws AppException {
 		if(configuracao == null){
-			throw new AppException("Taxa vazia");
+			throw new AppException("Configuração vazia");
 		}
 		if(configuracao.getCondominio() == null || configuracao.getAno() == null || configuracao.getMes() == null){
 			throw new AppException("Campos obrigatórios não preenchidos.");
+		}
+		if(configuracao.getBloquearEdicao() != null && configuracao.getBloquearEdicao()){
+			throw new AppException("A configuração está bloqueada para edição. ");
 		}
 		
 		try {
@@ -125,6 +133,12 @@ public class FinanceiroService implements IFinanceiroService {
 	public List<CobrancaUsuario> recuperarCobrancas(Long idCondominio, Integer ano, Integer mes) {
 		return cobrancaDAO.recuperarPorCondominio(idCondominio, ano, mes);
 	}
+	
+	
+	@Override
+	public List<CobrancaUsuario> recuperarCobrancasDeAvulsos(Long idCondominio, Integer ano, Integer mes) {
+		return cobrancaDAO.recuperarCobrancasDeAvulsosPorCondominio(idCondominio, ano, mes);
+	}
 
 
 	@Override
@@ -134,9 +148,68 @@ public class FinanceiroService implements IFinanceiroService {
 
 
 	@Override
-	public List<CobrancaUsuario> gerarCobrancas(ConfiguracaoBoleto configuracao, List<Usuario> usuarios) {
+	public List<CobrancaUsuario> gerarCobrancas(ConfiguracaoBoleto configuracao) throws AppException {
+		if(configuracao == null || configuracao.getCondominio() == null){
+			throw new AppException("Configuração inválida");
+		}
+		List<Usuario> usuarios = usuarioDAO.recuperarTodos(configuracao.getCondominio().getId());
+		if(usuarios == null || usuarios.isEmpty()){
+			return null;
+		}
+		
+		List<CobrancaUsuario> cobrancas = cobrancaDAO.recuperarPorCondominio(configuracao.getCondominio().getId(), configuracao.getAno(), configuracao.getMes());
+		
+		if(cobrancas == null){
+			cobrancas = new ArrayList<CobrancaUsuario>();
+		}
+		
+		for(Usuario u : usuarios){
+			CobrancaUsuario c = recuperarCobrancaUsuario(cobrancas, u);
+			if(c == null){
+				c = new CobrancaUsuario();
+				c.setAno(configuracao.getAno());
+				c.setMes(configuracao.getMes());
+				c.setUsuario(u);
+			}
+			c.setConfiguracaoBoleto(configuracao);
+			c.setValor(configuracao.getValorBase());
+			
+			try {
+				cobrancaDAO.salvar(c);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return null;
 	}
 
 
+	private CobrancaUsuario recuperarCobrancaUsuario(List<CobrancaUsuario> cobrancas, Usuario usuario) {
+		for(CobrancaUsuario cobranca : cobrancas){
+			if(cobranca.getUsuario().equals(usuario)){
+				return cobranca;
+			}
+		}
+		return null;
+	}
+	
+	
+
+	@Override
+	public List<String> recuperarAnosMesesDispiniveis(Long idCondominio) {
+		List<String> anosMeses = new ArrayList<String>();
+		
+		List<Object[]> ret = cobrancaDAO.recuperarAnosMeses(idCondominio);
+		if(ret != null){
+			for(Object[] o : ret){
+				anosMeses.add(o[0]+"/"+o[1]);
+			}
+		}
+		
+		return anosMeses;
+	}
+
+
+	
 }

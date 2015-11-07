@@ -16,7 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import br.com.virtz.condominio.constantes.EnumBanco;
+import br.com.virtz.boleto.bean.EnumBanco;
 
 @Entity
 @XmlRootElement
@@ -41,6 +41,10 @@ public class ContaBancariaCondominio extends Entidade implements Serializable {
 	@NotNull
 	@Column(name = "agencia", length = 10, nullable = false)
 	private String agencia;
+	
+	@NotNull
+	@Column(name = "numeroConta", length = 20, nullable = false)
+	private String numeroConta;
 
 	@NotNull
 	@Column(name = "digitoAgencia", length = 2, nullable = false)
@@ -103,6 +107,13 @@ public class ContaBancariaCondominio extends Entidade implements Serializable {
 	public void setCondominio(Condominio condominio) {
 		this.condominio = condominio;
 	}
-	
+
+	public String getNumeroConta() {
+		return numeroConta;
+	}
+
+	public void setNumeroConta(String numeroConta) {
+		this.numeroConta = numeroConta;
+	}
 	
 }

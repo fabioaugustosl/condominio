@@ -31,17 +31,33 @@
 			<br />	
  			<p:outputLabel value="Agência" /><br />
 			<p:inputText id="agencia" styleClass="inputPadrao" 
-				value="#{cadastroContaBancariaController.conta.agencia}"  maxlength="10" style="width:100px;"></p:inputText>
+				value="#{cadastroContaBancariaController.conta.agencia}"  
+				required="true"
+				requiredMessage="Favor preencher a agência"
+				maxlength="10" style="width:100px;"></p:inputText>
 			
 			<br />
 			<p:outputLabel value="Dígito Agência" /><br />
 			<p:inputText id="digitoagencia" styleClass="inputPadrao" 
-				value="#{cadastroContaBancariaController.conta.digitoAgencia}"  maxlength="2" style="width:40px;"></p:inputText>
+				value="#{cadastroContaBancariaController.conta.digitoAgencia}"  
+				maxlength="2" style="width:40px;"></p:inputText>
 			
 			<br />	
 			<p:outputLabel value="Código da Carteira" /><br />
 			<p:inputText id="carteira" styleClass="inputPadrao" 
-				value="#{cadastroContaBancariaController.conta.codigoCarteira}"  maxlength="10" style="width:100px;"></p:inputText>
+				value="#{cadastroContaBancariaController.conta.codigoCarteira}"  
+				required="true"
+				requiredMessage="Favor preencher o código da carteira"
+				maxlength="10" style="width:100px;"></p:inputText>
+			
+			<br />	
+			<p:outputLabel value="Número da conta bancária" /><br />
+			<p:inputText id="numeroConta" styleClass="inputPadrao" 
+				value="#{cadastroContaBancariaController.conta.numeroConta}"  
+				required="true"
+				requiredMessage="Favor preencher o número da conta bancária"
+				maxlength="20" style="width:100px;"></p:inputText>
+			
 			
 			<br />
 			<br />
