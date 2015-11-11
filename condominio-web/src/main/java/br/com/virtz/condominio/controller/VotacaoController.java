@@ -104,7 +104,13 @@ public class VotacaoController {
 		} else if(util.isMoeda()){
 			voto.setMoeda(util.getValorMoeda());
 		} else if(util.isNumerico()){
-			voto.setNumero(util.getValorNumerico());
+			
+			if(util.getValorNumerico().isNaN()){
+				message.addError("O valor digitado não é um número.");
+				return;
+			} else {
+				voto.setNumero(util.getValorNumerico());
+			}
 		} else if(util.isSimNao()){
 			voto.setSim(util.isValorSimNao());
 		} else if(util.isOpcoes()){

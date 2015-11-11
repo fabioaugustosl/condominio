@@ -14,7 +14,6 @@
    				update="containerUsuarios"></p:remoteCommand>
    	
    	
-   	
 	   	<h1><p:outputLabel value="Geração de boleto para moradores" /></h1>
 	 	<br />
 	 	
@@ -27,24 +26,32 @@
 		 	</p:selectOneMenu>
 		</p:outputPanel>
 	 	
+		   
 	 	<p:outputPanel id="containerUsuarios" >
+	    	<p:commandButton value="Download"
+	    				rendered="#{ not empty geracaoBoletoController.cobrancas}" 
+	    				ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+			       <p:fileDownload value="#{geracaoBoletoController.download()}" />
+		    </p:commandButton>
 	 	
-	 	 <p:dataTable id="dtListagemUsuariosBoleto" var="cobranca" 
-				value="#{geracaoBoletoController.cobrancas}"
-				rowKey="#{cobranca.id}"
-				rendered="#{ not empty geracaoBoletoController.cobrancas}"
-				emptyMessage="Ainda não foi lançada nenhuma cobrança para essa competência." >
-
-		    <p:column headerText="Morador" >
-		        <h:outputText value="#{cobranca.usuario.nome}" />
-		    </p:column>
-		    
-		    <p:column headerText="#">
-		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-			        <p:fileDownload value="#{geracaoBoletoController.download(cobranca)}" />
-			    </p:commandButton>
-		   </p:column>
-		</p:dataTable>
+		 	 <p:dataTable id="dtListagemUsuariosBoleto" var="cobranca" 
+					value="#{geracaoBoletoController.cobrancas}"
+					rowKey="#{cobranca.id}"
+					selection="#{geracaoBoletoController.cobrancasSelecionadas}" 
+					rendered="#{ not empty geracaoBoletoController.cobrancas}"
+					emptyMessage="Ainda não foi lançada nenhuma cobrança para essa competência." >
+	
+				<p:column selectionMode="multiple" style="width:30px;text-align:center"/>
+				
+			    <p:column headerText="Morador" >
+			        <h:outputText value="#{cobranca.usuario.nome}" />
+			    </p:column>
+			    
+			     <p:column headerText="Morador" >
+			        <h:outputText value="#{cobranca.usuario.apartamento.nomeExibicao}" />
+			    </p:column>
+			    
+			</p:dataTable>
  	    
 		</p:outputPanel>
 		

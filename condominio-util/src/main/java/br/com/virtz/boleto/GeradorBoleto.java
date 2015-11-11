@@ -1,7 +1,7 @@
 package br.com.virtz.boleto;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.jrimum.bopepo.Boleto;
@@ -14,20 +14,25 @@ import org.jrimum.domkee.financeiro.banco.febraban.ContaBancaria;
 import org.jrimum.domkee.financeiro.banco.febraban.NumeroDaConta;
 import org.jrimum.domkee.financeiro.banco.febraban.Sacado;
 import org.jrimum.domkee.financeiro.banco.febraban.SacadorAvalista;
-import org.jrimum.domkee.financeiro.banco.febraban.TipoDeTitulo;
 import org.jrimum.domkee.financeiro.banco.febraban.Titulo;
-import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
 
 import br.com.virtz.boleto.bean.Conta;
+import br.com.virtz.boleto.bean.EnumBanco;
 import br.com.virtz.boleto.bean.InfoCedente;
 import br.com.virtz.boleto.bean.InfoSacado;
 import br.com.virtz.boleto.bean.InfoTitulo;
+import br.com.virtz.boleto.formatador.FabricaFormatadorDadosBancarios;
+import br.com.virtz.boleto.formatador.FormatadorDadosBancarios;
+import br.com.virtz.boleto.util.FormatadorTexto;
 
 
 public class GeradorBoleto {
 
+	private FormatadorDadosBancarios formatador = null;
+	
+	
 	public Boleto gerar(InfoCedente infoCedente, Conta conta, InfoSacado infoSacado, InfoTitulo infoTitulo){
-		
+		formatador = FabricaFormatadorDadosBancarios.recuperarFormatador(EnumBanco.recuperarPorCodigo(conta.getCodigoBanco()));
 		Cedente cedente = criarCedente(infoCedente);
 		Sacado sacado = criarSacado(infoSacado);
 		ContaBancaria contaBancaria = criarContaBancaria(conta);
@@ -41,15 +46,47 @@ public class GeradorBoleto {
 		
 		return boleto;
 	}
+	
 
 	private void configurarTextosBoleto(InfoTitulo infoTitulo, Boleto boleto) {
 		boleto.setInstrucaoAoSacado(infoTitulo.getInstrucoesSacado());
-		boleto.setInstrucao1(infoTitulo.getInstrucaoLinha1());
-		boleto.setInstrucao2(infoTitulo.getInstrucaoLinha2());
-		boleto.setInstrucao3(infoTitulo.getInstrucaoLinha3());
-		boleto.setInstrucao6(infoTitulo.getInstrucoes());
+
+		if(infoTitulo.getInstrucoes() !=null && !infoTitulo.getInstrucoes().isEmpty()){
+			FormatadorTexto formata = new FormatadorTexto();
+			
+			List<String> linhas = formata.quebrarStrings(infoTitulo.getInstrucoes(), 100);
+	
+			if(linhas != null && !linhas.isEmpty()){
+				
+				if(linhas.size() > 1 && StringUtils.isNotBlank(linhas.get(0))){
+					boleto.setInstrucao1(linhas.get(0));
+				}
+				if(linhas.size() > 2 && StringUtils.isNotBlank(linhas.get(1))){
+					boleto.setInstrucao2(linhas.get(1));
+				}
+				if(linhas.size() > 3 && StringUtils.isNotBlank(linhas.get(2))){
+					boleto.setInstrucao3(linhas.get(2));
+				}
+				if(linhas.size() > 4 && StringUtils.isNotBlank(linhas.get(3))){
+					boleto.setInstrucao4(linhas.get(3));
+				}
+				if(linhas.size() > 5 && StringUtils.isNotBlank(linhas.get(4))){
+					boleto.setInstrucao5(linhas.get(4));
+				}
+				if(linhas.size() > 6 && StringUtils.isNotBlank(linhas.get(5))){
+					boleto.setInstrucao6(linhas.get(5));
+				}
+				if(linhas.size() > 7 && StringUtils.isNotBlank(linhas.get(6))){
+					boleto.setInstrucao7(linhas.get(6));
+				}
+				if(linhas.size() > 8 && StringUtils.isNotBlank(linhas.get(7))){
+					boleto.setInstrucao8(linhas.get(7));
+				}
+			}
+		}
 		boleto.setLocalPagamento(infoTitulo.getDescricaoLocalPagamento());
 	}
+	
 	
 	private void congigurarTitulo(Titulo titulo, InfoTitulo infoTitulo){
         titulo.setNumeroDoDocumento(infoTitulo.getNumeroDocumento());
@@ -67,12 +104,13 @@ public class GeradorBoleto {
         titulo.setValorCobrado(new BigDecimal(infoTitulo.getValorCobrado()));
    	}
 	
+	
 	private ContaBancaria criarContaBancaria(Conta conta){
 		ContaBancaria contaBancariaRetorno = new ContaBancaria(conta.getBanco().create());
 		if(StringUtils.isNotBlank(conta.getDigitoVerificadorConta())){
-			contaBancariaRetorno.setNumeroDaConta(new NumeroDaConta(Integer.valueOf(conta.getNumeroConta()), conta.getDigitoVerificadorConta()));
+			contaBancariaRetorno.setNumeroDaConta(new NumeroDaConta(Integer.valueOf(formatador.formatarConta(conta.getNumeroConta())), formatador.formatarDigitoConta(conta.getDigitoVerificadorConta())));
 		} else {
-			contaBancariaRetorno.setNumeroDaConta(new NumeroDaConta(Integer.valueOf(conta.getNumeroConta())));
+			contaBancariaRetorno.setNumeroDaConta(new NumeroDaConta(Integer.valueOf(formatador.formatarConta(conta.getNumeroConta()))));
 		}
 		if(conta.getCodigoCarteira() != null){
 			contaBancariaRetorno.setCarteira(new Carteira(conta.getCodigoCarteira()));
@@ -86,6 +124,7 @@ public class GeradorBoleto {
         return contaBancariaRetorno;
 	}
 	
+	
 	private Cedente criarCedente(InfoCedente cedente){
 		Cedente cedenteRetorno = null;
 		if(StringUtils.isBlank(cedente.getCnpjFormatado())){		
@@ -96,6 +135,7 @@ public class GeradorBoleto {
 		
 		return cedenteRetorno;
 	}
+	
 	
 	private Sacado criarSacado(InfoSacado sacado){
 		Sacado sacadoRetorno = null;
@@ -120,5 +160,6 @@ public class GeradorBoleto {
          
 		return sacadoRetorno;
 	}
+	
 	
 }

@@ -16,64 +16,52 @@
 	   	<h1><p:outputLabel value="Lançamento de título" /></h1>
 	 	<br />
 	 	
-	 	<p:outputLabel value="Valor do condomínio:" /> 
-		<p:inputText id="valorCondo" styleClass="inputPadrao" 
-					value="#{configuracaoBoletoController.valorBase}" maxlength="10" style="width:100px" disabled="true">
-					<f:convertNumber pattern="#0.00"/>
-		</p:inputText> 
-		
-		<br />
-	 	<p:outputPanel id="panelMultaAposVencimento" rendered="#{configuracaoBoletoController.exibirMulta()}">
-		 	<p:outputLabel value="Valor multa após o vencimento:" /> 
-			<p:inputText id="valorMultaAposVencimento" styleClass="inputPadrao" 
-						value="#{configuracaoBoletoController.configuracao.valorMultaAposVencimento}" maxlength="10" style="width:100px" >
-						<f:convertNumber pattern="#0.00"/>
-			</p:inputText> 
-		</p:outputPanel>
-		
-		<br />
+	 	<p:outputPanel rendered="#{not empty configuracaoBoletoController.conta}">
 	 	
-	 	<p:outputPanel id="panelJurosAposVencimento" rendered="#{configuracaoBoletoController.exibirJuros()}">
-		 	<p:outputLabel value="Valor juros diários após o vencimento:" /> 
-			<p:inputText id="valorJurosAposVencimento" styleClass="inputPadrao" 
-						value="#{configuracaoBoletoController.configuracao.valorJurosDiariosAposVencimento}" maxlength="10" style="width:100px" >
+		 	<p:outputLabel value="Valor do condomínio:" /> 
+			<p:inputText id="valorCondo" styleClass="inputPadrao" 
+						value="#{configuracaoBoletoController.valorBase}" maxlength="10" style="width:100px" disabled="true">
 						<f:convertNumber pattern="#0.00"/>
 			</p:inputText> 
+			
+			<br />
+		 	<p:outputPanel id="panelMultaAposVencimento" rendered="#{configuracaoBoletoController.exibirMulta()}">
+			 	<p:outputLabel value="Valor multa após o vencimento:" /> 
+				<p:inputText id="valorMultaAposVencimento" styleClass="inputPadrao" 
+							value="#{configuracaoBoletoController.configuracao.valorMultaAposVencimento}" maxlength="10" style="width:100px" >
+							<f:convertNumber pattern="#0.00"/>
+				</p:inputText> 
+			</p:outputPanel>
+			
+			<br />
+		 	
+		 	<p:outputPanel id="panelJurosAposVencimento" rendered="#{configuracaoBoletoController.exibirJuros()}">
+			 	<p:outputLabel value="Valor juros diários após o vencimento:" /> 
+				<p:inputText id="valorJurosAposVencimento" styleClass="inputPadrao" 
+							value="#{configuracaoBoletoController.configuracao.valorJurosDiariosAposVencimento}" maxlength="10" style="width:100px" >
+							<f:convertNumber pattern="#0.00"/>
+				</p:inputText> 
+			</p:outputPanel>
 		</p:outputPanel>
+		
 	 	<br />
 	 	
-
-		
-		<p:outputPanel id="containerComboAno" rendered="#{empty cadastroRecebidoController.blocoSelecionado}" >
-			<p:outputLabel value="Ano de referência: " /> 
-			
-			<p:inplace id="basicAno">
-			 	<p:selectOneMenu id="anoRef" styleClass="inputPadrao" required="true" 
-			 			requiredMessage="Favor selecionar o ano de refência"
-			 			valueChangeListener="#{configuracaoBoletoController.montarCobranca()}"
-						value="#{configuracaoBoletoController.ano}" immediate="true"  >
-						<p:ajax event="change" oncomplete="atualizarConf()" process="@this" />
-				 		<f:selectItems value="#{configuracaoBoletoController.anos}"  />
-				 	</p:selectOneMenu>
-		        </p:inplace>
-			</p:outputPanel>
-			 	
-		 	<br />
-		 	<p:outputPanel id="containerComboMes" >
-		 		<p:outputLabel value="Mês de referência: " /> 
-				 	<p:selectOneMenu id="mesRef" styleClass="inputPadrao" required="true" 
-				 			requiredMessage="Favor selecionar o mês de refência" immediate="true" 
-							value="#{configuracaoBoletoController.mes}"  >
-						<p:ajax event="change" oncomplete="atualizarConf()" process="@this" />
-				 		<f:selectItems value="#{configuracaoBoletoController.meses.entrySet()}"
-				 			var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
-				 	</p:selectOneMenu>
+					 	
+	 	<p:outputPanel id="containerComboMes" rendered="#{not empty configuracaoBoletoController.conta}">
+	 		<p:outputLabel value="Mês de referência: " /> 
+			 	<p:selectOneMenu id="mesRef" styleClass="inputPadrao" required="true" 
+			 			requiredMessage="Favor selecionar o mês de refência" immediate="true" 
+						value="#{configuracaoBoletoController.mes}"  >
+					<p:ajax event="change" oncomplete="atualizarConf()" process="@this" />
+			 		<f:selectItems value="#{configuracaoBoletoController.meses.entrySet()}"
+			 			var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+			 	</p:selectOneMenu>
 			</p:outputPanel>
  		
 		<br />
 	 	
 	 	
-	 	<p:outputPanel id="panelDadosBoleto">
+	 	<p:outputPanel id="panelDadosBoleto" rendered="#{not empty configuracaoBoletoController.conta}" >
 	 	
 	 		<p:outputLabel value="Data de vencimento:" />
 					<p:calendar id="dataVencimento" locale="pt"  timeZone="GMT-03:00" 
@@ -101,10 +89,12 @@
 		
 		
 		<p:commandButton id="btnSalvar" value="Salvar"  
+			rendered="#{not empty configuracaoBoletoController.conta}"
 	   		actionListener="#{configuracaoBoletoController.salvar}"  >
 	   	</p:commandButton>
 	   	
 		<p:commandButton id="btn" value="Gerar cobrança" 
+			rendered="#{not empty configuracaoBoletoController.conta}"
 	   		actionListener="#{configuracaoBoletoController.gerarCobranca}"  >
 			<p:confirm header="Confirmação" message="Tem certeza que deseja gerar o boleto para todos os usuários?" icon="ui-icon-alert" />
 	   	</p:commandButton>

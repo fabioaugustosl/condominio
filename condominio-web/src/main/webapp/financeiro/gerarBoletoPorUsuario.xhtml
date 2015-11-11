@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+   	
+	   	<h1><p:outputLabel value="Todos meus boletos" /></h1>
+	 	<br />
+	 	
+	 	
+	 	<p:outputPanel id="containerUsuarios" >
+	 	
+	 	 <p:dataTable id="dtListagemUsuariosBoleto" var="cobranca" 
+				value="#{geracaoBoletoUsuarioController.cobrancas}"
+				rowKey="#{cobranca.id}"
+				emptyMessage="Ainda não foi lançada nenhuma cobrança para você." >
+
+		    <p:column headerText="Competência" >
+		        <h:outputText value="#{cobranca.anoMes}" />
+		    </p:column>
+		    
+		    <p:column headerText="#">
+		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+			        <p:fileDownload value="#{geracaoBoletoUsuarioController.download(cobranca)}" />
+			    </p:commandButton>
+		   </p:column>
+		</p:dataTable>
+ 	    
+		</p:outputPanel>
+		
+	 </h:form>
+
+  </ui:define>
+</ui:composition>

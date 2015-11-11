@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,9 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
 import br.com.virtz.boleto.bean.EnumBanco;
+import br.com.virtz.boleto.validador.FabricaValidadorDadosBancarios;
+import br.com.virtz.boleto.validador.ValidadorDadosBancarios;
+import br.com.virtz.condominio.boleto.conversor.ConversorDadosBoleto;
 import br.com.virtz.condominio.entidades.ContaBancariaCondominio;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
@@ -26,6 +30,9 @@ public class CadastroContaBancariaController {
 	@EJB
 	private ICondominioService condominioService;
 
+	
+	@Inject
+	private ConversorDadosBoleto conversorBoleto;
 	
 	@Inject
 	private SessaoUsuario sessao;
@@ -70,6 +77,17 @@ public class CadastroContaBancariaController {
 		try{
 			EnumBanco enumBanco = EnumBanco.recuperarPorCodigo(banco);
 			conta.setBanco(enumBanco);
+			
+			ValidadorDadosBancarios validador = FabricaValidadorDadosBancarios.recuperarFormatador(conta.getBanco());
+			
+			List<String> erros = validador.validar(conversorBoleto.criarConta(conta));
+			
+			if(erros != null && !erros.isEmpty()){
+				for(String e : erros){
+					message.addError(e);
+				}
+				return;
+			}
 			
 			conta = condominioService.salvarContaBancariaCondominioPrincipal(conta);
 			

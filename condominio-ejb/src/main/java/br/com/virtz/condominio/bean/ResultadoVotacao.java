@@ -60,7 +60,7 @@ public class ResultadoVotacao {
 		} else if(EnumTipoVotacao.MOEDA.equals(tipoVotacao)){
 			NumberFormat nf = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale ("pt", "BR")));  
 			Double valor = (Double) opcao;  
-			return nf.format("R$ "+valor);  
+			return "R$ "+nf.format(valor);  
 		}
 		return null;
 	}

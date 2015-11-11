@@ -48,7 +48,10 @@
 		    		</p:inputText> <span style="font-size: 0.6em">Ex.: 20,00</span>
 		    	</p:outputPanel>
 		    	<p:outputPanel id="tipoNumerico" rendered="#{vv.util.isNumerico()}"> 
-		    		<p:inputMask mask="999999?9" placeHolder=""  id="valorTipoNumerico" value="#{vv.util.valorNumerico}"  />
+		    		<p:inputText id="valorTipoNumerico" value="#{vv.util.valorNumerico}" 
+		    				converterMessage="Favor inserir apenas valores númericos." style="width:100px" >
+		    			<f:convertNumber type="number" maxFractionDigits="2" /> 
+		    		</p:inputText>
 		    	</p:outputPanel>
 		    	<p:outputPanel id="tipoOpcao" rendered="#{vv.util.isOpcoes()}" > 
 		    		<p:selectOneRadio id="opc" value="#{vv.util.idValorOpcao}" layout="grid" columns="1">

@@ -38,6 +38,13 @@
 		<param-value>commons</param-value>
 	</context-param>
 	
+	<context-param>
+		<param-name>
+			javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE
+		</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
  	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>

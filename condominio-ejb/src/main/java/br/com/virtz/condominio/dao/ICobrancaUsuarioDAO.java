@@ -11,6 +11,7 @@ public interface ICobrancaUsuarioDAO extends CrudDAO<CobrancaUsuario> {
 	public List<CobrancaUsuario> recuperarPorCondominio(Long idCondominio);
 	public List<CobrancaUsuario> recuperarPorCondominio(Long idCondominio, Integer ano, Integer mes);
 	public CobrancaUsuario recuperar(Long idCondominio, Long idUsuario, Integer ano, Integer mes);
+	public List<CobrancaUsuario> recuperar(Long idCondominio, Long idUsuario);
 	public List<CobrancaUsuario> recuperarCobrancasDeAvulsosPorCondominio(Long idCondominio, Integer ano, Integer mes);
 	
 	/**

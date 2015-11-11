@@ -1,6 +1,5 @@
 package br.com.virtz.condominio.service;
 
-import java.io.File;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -31,8 +30,10 @@ public interface IFinanceiroService {
 	public List<CobrancaUsuario> recuperarCobrancas(Long idCondominio, Integer ano, Integer mes);
 	public CobrancaUsuario recuperarCobranca(Long idCondominio, Long idUsuario, Integer ano, Integer mes);
 	public List<CobrancaUsuario> recuperarCobrancasDeAvulsos(Long idCondominio, Integer ano, Integer mes);
+	public List<CobrancaUsuario> recuperarCobrancasUsuario(Long idCondominio, Long idUsuario);
 	public List<CobrancaUsuario> gerarCobrancas(ConfiguracaoBoleto configuracao) throws AppException;
 	public List<String> recuperarAnosMesesDispiniveis(Long idCondominio);
+	public CobrancaUsuario atualizarCobranca(Long idCobranca, String nossoNumero, String digitoNossoNumero, String codigoBarras) throws AppException;
 	
 	
 }

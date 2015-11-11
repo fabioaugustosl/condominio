@@ -11,11 +11,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
+import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.entidades.ConfiguracaoBoleto;
+import br.com.virtz.condominio.entidades.ContaBancariaCondominio;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
-import br.com.virtz.condominio.geral.DataUtil;
+import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.service.IFinanceiroService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -31,6 +33,8 @@ public class ConfiguracaoBoletoController {
 	@EJB
 	private IFinanceiroService financeiroService;
 	
+	@EJB
+	private ICondominioService condominioService;
 	
 	@Inject
 	private MessageHelper message;
@@ -49,6 +53,8 @@ public class ConfiguracaoBoletoController {
 	private List<Integer> anos = null;
 	private Map<Integer, String> meses = null;
 	
+	private ContaBancariaCondominio conta = null;
+	
 	
 	
 	@PostConstruct
@@ -59,8 +65,14 @@ public class ConfiguracaoBoletoController {
 		if(valorBase == null){
 			valorBase = 0d;
 		}
-		carregarInformacoesPeriodoPadroes();
-		montarConfiguracao();
+		
+		conta = condominioService.recuperarContaBancariaCondominioPrincipal(usuario.getCondominio().getId());
+		if(conta == null){
+			message.addWarn("Para realizar um lançamento de um título é necessário configurar a conta bancária do condomínio.");
+		} else {
+			carregarInformacoesPeriodoPadroes();
+			montarConfiguracao();
+		}
 	}
 
 	private void carregarInformacoesPeriodoPadroes() {
@@ -188,5 +200,9 @@ public class ConfiguracaoBoletoController {
 	public boolean exibirMulta(){
 		return usuario.getCondominio().isMultaAposVencimento();
 	}
-		
+
+	public ContaBancariaCondominio getConta() {
+		return conta;
+	}
+			
 }

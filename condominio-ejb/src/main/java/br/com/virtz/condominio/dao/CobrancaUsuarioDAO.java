@@ -48,6 +48,16 @@ public class CobrancaUsuarioDAO extends DAO<CobrancaUsuario> implements ICobranc
 		}
 		return resultado.get(0);
 	}
+	
+	
+	@Override
+	public List<CobrancaUsuario> recuperar(Long idCondominio, Long idUsuario) {
+		Query qry = getEntityManager().createNamedQuery("CobrancaUsuario.recuperarPorUsuario");
+		qry.setParameter("idCondominio", idCondominio);
+		qry.setParameter("idUsuario", idUsuario);
+		
+		return qry.getResultList();
+	}
 
 
 	@Override

@@ -7,7 +7,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import br.com.virtz.condominio.geral.DataUtil;
+import br.com.virtz.boleto.util.DataUtil;
 
 public class DataUtilTeste {
 

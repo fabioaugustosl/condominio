@@ -15,12 +15,19 @@ public class FabricaBoletos implements IFabricaBoletos {
 	private ConversorBoletoPdf conversor = null;
 	
 	@Override
-	public File geraBoleto(InfoCedente cedente, Conta conta, InfoSacado sacado, InfoTitulo titulo) {
+	public Boleto geraBoleto(InfoCedente cedente, Conta conta, InfoSacado sacado, InfoTitulo titulo) {
 		gerador = new GeradorBoleto();
 		conversor = new ConversorBoletoPdf();
 		
 		Boleto boleto = gerador.gerar(cedente, conta, sacado, titulo);
-		File arqBoleto = conversor.converter(boleto, "ExemploBoletoBB");
+		return boleto;
+		
+	}
+	
+	@Override
+	public File boletoToFile(Boleto boleto) {
+		
+		File arqBoleto = conversor.converter(boleto, "boleto");
 		return arqBoleto;
 	}
 

@@ -25,6 +25,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 						+ " JOIN u.configuracaoBoleto conf "
 						+ " WHERE u.usuario.id = :idUsuario AND conf.condominio.id = :idCondominio "
 						+ " AND u.ano = :ano AND u.mes = :mes " ),
+		@NamedQuery(name = "CobrancaUsuario.recuperarPorUsuario", 
+				query = "Select u FROM CobrancaUsuario u "
+						+ " JOIN u.configuracaoBoleto conf "
+						+ " WHERE u.usuario.id = :idUsuario AND conf.condominio.id = :idCondominio "
+						+ " ORDER BY u.ano DESC, u.mes DESC "),
 		@NamedQuery(name = "CobrancaUsuario.recuperarPorCondominioAnoMes", 
 				query = "Select u FROM CobrancaUsuario u "
 						+ " JOIN u.configuracaoBoleto conf "
@@ -166,5 +171,16 @@ public class CobrancaUsuario extends Entidade implements Serializable {
 		this.configuracaoBoleto = configuracaoBoleto;
 	}
 	
+	public String getAnoMes(){
+		StringBuilder sb = new StringBuilder();
+		if(this.ano != null){
+			sb.append(this.ano);
+		}
+		sb.append("/");
+		if(this.mes != null){
+			sb.append(this.mes);
+		}
+		return sb.toString();
+	}
 
 }

@@ -1,13 +1,11 @@
 package br.com.virtz.condominio.service;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import br.com.virtz.boleto.bean.InfoCedente;
 import br.com.virtz.condominio.constantes.EnumTaxaCreditoDebito;
 import br.com.virtz.condominio.constantes.EnumTaxaPorcentagemValor;
 import br.com.virtz.condominio.dao.ICobrancaUsuarioDAO;
@@ -208,6 +206,27 @@ public class FinanceiroService implements IFinanceiroService {
 		}
 		
 		return anosMeses;
+	}
+
+
+	@Override
+	public List<CobrancaUsuario> recuperarCobrancasUsuario(Long idCondominio, Long idUsuario) {
+		return cobrancaDAO.recuperar(idCondominio, idUsuario);
+	}
+
+
+	@Override
+	public CobrancaUsuario atualizarCobranca(Long idCobranca,
+			String nossoNumero,String digitoNossoNumero, String codigoBarras) throws AppException {
+		CobrancaUsuario c = cobrancaDAO.recuperarPorId(idCobranca);
+		c.setNossoNumero(nossoNumero);
+		c.setCodigoBarras(codigoBarras);
+		c.setDigitoNossoNumero(digitoNossoNumero);
+		try {
+			return cobrancaDAO.salvar(c);
+		} catch (Exception e) {
+			throw new AppException("Erro ao atualizar cobrança");
+		}
 	}
 
 

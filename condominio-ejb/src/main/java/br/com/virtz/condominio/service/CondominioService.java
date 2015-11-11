@@ -7,6 +7,9 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.com.virtz.boleto.bean.EnumBanco;
+import br.com.virtz.boleto.formatador.FabricaFormatadorDadosBancarios;
+import br.com.virtz.boleto.validador.FabricaValidadorDadosBancarios;
+import br.com.virtz.boleto.validador.ValidadorDadosBancarios;
 import br.com.virtz.condominio.dao.IAreaComumDAO;
 import br.com.virtz.condominio.dao.IBlocoDAO;
 import br.com.virtz.condominio.dao.ICidadeDAO;

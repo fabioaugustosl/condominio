@@ -1,4 +1,4 @@
-package br.com.virtz.condominio.geral;
+package br.com.virtz.boleto.util;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -96,4 +96,18 @@ public class DataUtil {
 		meses.put(12, "Dezembro");
 		return meses;
 	}
+	
+	
+	public int diasEntreDatas(Date data1, Date data2) {
+		if(data1 == null || data2 == null){
+			return 0;
+		}
+		
+		return Math.abs(diasEntreTimestemp(data1.getTime(), data2.getTime()));
+	}
+	
+	private int diasEntreTimestemp(long t1, long t2) {
+	    return (int) ((t2 - t1) / (1000 * 60 * 60 * 24));
+	} 
+	
 }

@@ -46,9 +46,11 @@ public class ContaBancariaCondominio extends Entidade implements Serializable {
 	@Column(name = "numeroConta", length = 20, nullable = false)
 	private String numeroConta;
 
-	@NotNull
-	@Column(name = "digitoAgencia", length = 2, nullable = false)
+	@Column(name = "digitoAgencia", length = 2)
 	private String digitoAgencia;
+	
+	@Column(name = "digitoConta", length = 2)
+	private String digitoConta;
 
 	@Column(name = "codigoCarteira", length = 10)
 	private String codigoCarteira;
@@ -115,5 +117,14 @@ public class ContaBancariaCondominio extends Entidade implements Serializable {
 	public void setNumeroConta(String numeroConta) {
 		this.numeroConta = numeroConta;
 	}
+
+	public String getDigitoConta() {
+		return digitoConta;
+	}
+
+	public void setDigitoConta(String digitoConta) {
+		this.digitoConta = digitoConta;
+	}
+	
 	
 }

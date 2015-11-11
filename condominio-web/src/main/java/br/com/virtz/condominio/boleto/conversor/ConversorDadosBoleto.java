@@ -83,7 +83,9 @@ public class ConversorDadosBoleto {
 		}
 		
 		end.setLogradouro(condominio.getEndereco());
-		end.setNumero(String.valueOf(condominio.getNumero()));
+		if(condominio.getNumero() != null){
+			end.setNumero(condominio.getNumero().toString());
+		}
 		return end;
 	}
 	
@@ -96,10 +98,10 @@ public class ConversorDadosBoleto {
 		conta.setCodigoCarteira(Integer.parseInt(contaCond.getCodigoCarteira()));
 		conta.setNumeroAgencia(contaCond.getAgencia());
 		conta.setDigitoVerificadorAgencia(contaCond.getDigitoAgencia());
-		//conta.setNumeroConta(contaCond.getNumeroConta());
-		conta.setNumeroConta("001234");
-		//conta.setDigitoVerificadorConta(contaCond.);
-		conta.setDigitoVerificadorConta("1");
+		conta.setNumeroConta(contaCond.getNumeroConta());
+		if(StringUtils.isNotBlank(contaCond.getDigitoConta())){
+			conta.setDigitoVerificadorConta(contaCond.getDigitoConta());
+		} 
 		return conta;
 	}
 

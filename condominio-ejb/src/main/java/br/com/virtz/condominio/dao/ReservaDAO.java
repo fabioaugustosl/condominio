@@ -8,9 +8,9 @@ import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Reserva;
-import br.com.virtz.condominio.geral.DataUtil;
 
 @Stateless
 public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {

@@ -8,11 +8,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import freemarker.template.utility.DateUtil;
+import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.dao.IReservaDAO;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Reserva;
 import br.com.virtz.condominio.exception.AppException;
-import br.com.virtz.condominio.geral.DataUtil;
 
 @Stateless
 public class ReservaService implements IReservaService {
