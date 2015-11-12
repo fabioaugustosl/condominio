@@ -124,6 +124,23 @@
 		        
 			 </p:outputPanel>	
 	        </p:tab>
+	        
+	        
+	        <p:tab title="Financeiro">
+	        	<p:outputPanel layout="block" rendered="#{condominioEdicaoController.isEditavel()}">
+		        	<p:outputLabel value="Valor do condomínio por mês (valor base): " />
+		       		
+		       		<p:inputText id="valoCondo" value="#{condominioEdicaoController.condominio.valorCondominioMes}" style="width:100px" >
+		    			R$<f:convertNumber type="number" maxFractionDigits="2" /> 
+		    		</p:inputText> <span style="font-size: 0.6em">Ex.: 200,00</span>
+	       		</p:outputPanel>
+	       		
+	    		<p:commandButton id="btnBlocoSalvarTab3" value="Salvar" style="margin-left:10px;" 
+	    						rendered="#{condominioEdicaoController.isEditavel()}"
+								actionListener="#{condominioEdicaoController.salvar}"
+								update="tabConcominio" />
+	            
+	        </p:tab>
 	    </p:tabView>
 	     
 	</h:form>    

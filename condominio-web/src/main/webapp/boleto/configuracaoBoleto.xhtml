@@ -24,6 +24,10 @@
 						<f:convertNumber pattern="#0.00"/>
 			</p:inputText> 
 			
+			<p:graphicImage id="imgValorCond" url="/img/icones/ajuda.png"  />
+			<p:tooltip id="ttImgValorCond" for="imgValorCond" 
+							value="Esse valor é o valor base do condomínio. Ele não pode ser alterado nessa tela. Para alterá-lo é necessário acessar o menu Configurações > Meu Condominio " />
+			
 			<br />
 		 	<p:outputPanel id="panelMultaAposVencimento" rendered="#{configuracaoBoletoController.exibirMulta()}">
 			 	<p:outputLabel value="Valor multa após o vencimento:" /> 
@@ -98,6 +102,8 @@
 	   		actionListener="#{configuracaoBoletoController.gerarCobranca}"  >
 			<p:confirm header="Confirmação" message="Tem certeza que deseja gerar o boleto para todos os usuários?" icon="ui-icon-alert" />
 	   	</p:commandButton>
+		<p:tooltip id="ttimgGerarCob" for="btn" 
+							value="Para que o boleto fique disponível para o morador é necessário gerar a cobrança. Para isso confira todos os dados lançados no título e clique no botão 'Gerar cobrança'." />
 		
 		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"  >
 	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />

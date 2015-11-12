@@ -64,6 +64,7 @@ public class ConfiguracaoBoletoController {
 		valorBase = usuario.getCondominio().getValorCondominioMes();
 		if(valorBase == null){
 			valorBase = 0d;
+			message.addWarn("O valor do condomínio está zerado! Para configurar o valor base do condomínio acesse o menu Configurações > Meu Condominio ");
 		}
 		
 		conta = condominioService.recuperarContaBancariaCondominioPrincipal(usuario.getCondominio().getId());

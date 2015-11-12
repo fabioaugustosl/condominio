@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+   	
+   		<p:remoteCommand id="atualizarConf" name="atualizarConf" 
+   				actionListener="#{lancarBalancoController.montarBalanco()}" immediate="true" 
+   				update="panelDadosBoleto, panelJurosAposVencimento, panelMultaAposVencimento"></p:remoteCommand>
+   				
+   	
+   		<h1><p:outputLabel value="Lançamento de Balanço Mensal" /></h1>
+	 	<br />
+	 	
+	 	<br />
+	 	
+	 	Qual a competência?
+	 	<p:outputPanel id="containerComboAno" >
+ 			<p:outputLabel value="Ano " /> 
+		 	<p:selectOneMenu id="anoRef" styleClass="inputPadrao" required="true" 
+		 			requiredMessage="Favor selecionar o ano de refência" immediate="true" 
+					value="#{lancarBalancoController.ano}"  >
+				<p:ajax event="change" oncomplete="atualizarConf()" process="@this" />
+		 		<f:selectItems value="#{lancarBalancoController.anos}"
+		 			var="entry" itemValue="#{entry}" itemLabel="#{entry}" />
+		 	</p:selectOneMenu>
+		</p:outputPanel>	
+			
+	 	<p:outputPanel id="containerComboMes" rendered="#{not empty configuracaoBoletoController.conta}">
+	 		<p:outputLabel value="Mês " /> 
+		 	<p:selectOneMenu id="mesRef" styleClass="inputPadrao" required="true" 
+		 			requiredMessage="Favor selecionar o mês de refência" immediate="true" 
+					value="#{lancarBalancoController.mes}"  >
+				<p:ajax event="change" oncomplete="atualizarConf()" process="@this" />
+		 		<f:selectItems value="#{lancarBalancoController.meses.entrySet()}"
+		 			var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+		 	</p:selectOneMenu>
+		</p:outputPanel>
+		
+	 	<br />
+	 	
+	 	<p:outputPanel id="panelInfoItem" >
+		 	
+		 	Você deseja lançar uma 
+		 	<p:selectOneButton value="#{lancarBalancoController.tipoBalanco}">
+	            <f:selectItem itemLabel="Receita" itemValue="RECEITA" />
+	            <f:selectItem itemLabel="Despesa" itemValue="DESPESA" />
+	        </p:selectOneButton>
+	        
+	        <br />		 	
+		 	 
+			<p:inputText id="descItem" styleClass="inputPadrao" label="Descrição" 
+					value="#{lancarBalancoController.descricao}" maxlength="100" 
+						style="width:70%" >
+			</p:inputText>
+			
+			<p:outputLabel value="Valor:" /> 
+			<p:inputText id="valorItem" styleClass="inputPadrao" 
+					value="#{lancarBalancoController.valor}" maxlength="10" style="width:30%" >
+						<f:convertNumber pattern="#0.00"/>
+			</p:inputText> 
+			
+			<br />
+			
+			<p:outputPanel id="painelArquivo" >
+	        
+		        <p:outputLabel value="Anexar documento:" /><br />
+		      
+		        <p:fileUpload rendered="#{lancarBalancoController.arqBalanco == null}"
+				        mode="advanced" update="painelArquivo" label="Selecionar arquivo"
+				        fileUploadListener="#{lancarBalancoController.uploadArquivo}"
+				        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX|xlsx|xls|XLSX|XLS|txt|PNG|png|jpg|JPG)$/" 
+				        invalidFileMessage="Tipo do arquivo inválido"
+				        invalidSizeMessage="Tamanho do arquivo inválido"
+				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
+				        auto="true" dragDropSupport="false" />
+				<br />
+				<p:outputPanel rendered="#{lancarBalancoController.arqBalanco != null}">
+					<p:outputLabel value="#{lancarBalancoController.arqBalanco.nomeOriginal}"></p:outputLabel>
+					<p:commandButton id="removerArq" value="Remover" immediate="true"
+				   		actionListener="#{lancarBalancoController.removerArquivo}" 
+				   		update="painelArquivo">
+				   	</p:commandButton>
+				</p:outputPanel>
+			</p:outputPanel>
+		
+			<br />
+			<p:commandButton id="btnSalvar" value="Salvar"  update="panelInfoItem, containerItens"
+		   		actionListener="#{lancarBalancoController.salvarItemBanlanco}"  >
+	   		</p:commandButton>
+		</p:outputPanel>				 	
+	 
+	 	
+	 	<p:outputPanel id="containerItens">
+	 	teste
+	 	</p:outputPanel>
+	   	
+		<p:commandButton id="btn" value="Gerar cobrança" 
+			rendered="#{not empty configuracaoBoletoController.conta}"
+	   		actionListener="#{configuracaoBoletoController.gerarCobranca}"  >
+			<p:confirm header="Confirmação" message="Tem certeza que deseja gerar o boleto para todos os usuários?" icon="ui-icon-alert" />
+	   	</p:commandButton>
+		
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"  >
+	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>    
+			    
+	 </h:form>
+	 
+  </ui:define>
+</ui:composition>

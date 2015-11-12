@@ -37,6 +37,7 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 	public static final String TIPO_ARQUIVO_NOTICIA = "NOT";
 	public static final String TIPO_ARQUIVO_ATA = "ATA";
 	public static final String TIPO_ARQUIVO_DOCUMENTO = "DOC";
+	public static final String TIPO_ARQUIVO_BALANCO = "BAL";
 	public static final String TIPO_IMAGEM = "IMG";
 	public static final String DIRETORIO_PADRAO_TEMPLATES = "WEB-INF\\templates\\email";
 	

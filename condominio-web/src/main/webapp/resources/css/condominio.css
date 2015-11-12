@@ -14349,3 +14349,12 @@ em{
 button.margin-right{
   margin-right: 10px;
 }
+
+.ui-tooltip {
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px 0 #ddd;
+    -moz-box-shadow: 0 0 10px 0 #ddd;
+    -webkit-box-shadow: 0 0 10px 0 #ddd;
+    color: #0000a0;
+    background: #eff1da;
+}
