@@ -89,6 +89,7 @@ public class BalancoService implements IBalancoService {
 		i.setDescricao(descricao);
 		i.setTipoBalanco(EnumTipoBalanco.RECEITA);
 		i.setUsuario(usuario);
+		i.setValor(valor);
 		
 		Balanco b = balancoDAO.recuperarPorId(idBalanco);
 		i.setBalanco(b);
@@ -113,6 +114,7 @@ public class BalancoService implements IBalancoService {
 		i.setDescricao(descricao);
 		i.setTipoBalanco(EnumTipoBalanco.DESPESA);
 		i.setUsuario(usuario);
+		i.setValor(valor);
 		
 		Balanco b = balancoDAO.recuperarPorId(idBalanco);
 		i.setBalanco(b);

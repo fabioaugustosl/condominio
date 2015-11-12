@@ -13,7 +13,7 @@ public class BalancoDAO extends DAO<Balanco> implements IBalancoDAO {
 	
 	@Override
 	public List<Balanco> recuperarPorCondominio(Long idCondominio) {
-		Query qry = getEntityManager().createNamedQuery("Boleto.recuperarPorCondominio");
+		Query qry = getEntityManager().createNamedQuery("Balanco.recuperarPorCondominio");
 		qry.setParameter("idCondominio", idCondominio);
 		return qry.getResultList();
 	}
@@ -22,7 +22,7 @@ public class BalancoDAO extends DAO<Balanco> implements IBalancoDAO {
 	@Override
 	public Balanco recuperarPorCondominio(
 			Long idCondominio, Integer ano, Integer mes) {
-		Query qry = getEntityManager().createNamedQuery("Boleto.recuperarPorCondominioAnoMes");
+		Query qry = getEntityManager().createNamedQuery("Balanco.recuperarPorCondominioAnoMes");
 		qry.setParameter("idCondominio", idCondominio);
 		qry.setParameter("ano", ano);
 		qry.setParameter("mes", mes);

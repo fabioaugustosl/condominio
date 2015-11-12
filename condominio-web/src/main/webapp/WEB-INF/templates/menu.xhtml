@@ -33,6 +33,8 @@
 				<li><p:link value="Lançamento de título"  rendered="#{principalController.ehSindico()}" outcome="/boleto/configuracaoBoleto.faces" /></li>
 				<li><p:link value="Emitir de boleto" rendered="#{principalController.ehSindico()}" outcome="/financeiro/gerarBoletos.faces" /></li>
 				<li><p:link value="Meus boletos" outcome="/financeiro/gerarBoletoPorUsuario.faces" /></li>
+				<li><p:link value="Lançar balanço mensal" outcome="/balanco/lancarBalanco.faces" rendered="#{principalController.ehSindico()}" /></li>
+				<li><p:link value="Ver balanços mensais" outcome="/balanco/listagemBalanco.faces"  /></li>
 				</ul>
 			</li>
 			<li><a href="#"><p:graphicImage id="icoPortariaMenu" url="/img/icones/ico_portaria_menu.png" /> <span id="titulosubmenu">Portaria</span></a>

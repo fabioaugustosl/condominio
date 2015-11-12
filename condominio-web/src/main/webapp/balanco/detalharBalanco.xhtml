@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   
+   
+   <style>
+   	.itemReceita{
+   		color: blue;
+   		background-color: #FFFAF0;
+   		border-bottom: 1px solid blank;
+   		margin-top: 1px;
+   		margin-bottom: 1px; 
+   		min-height: 25px;
+   		vertical-align: middle;
+   	}
+   	
+   	.itemDespesa{
+   		color: red;
+   		background-color: #FFFAF0;
+   		border-bottom: 1px solid blank;
+   		margin-top: 1px;
+   		margin-bottom: 1px; 
+   		min-height: 25px;
+   		vertical-align: middle;
+   	}
+ 
+   </style>
+   
+   	<h:form id="form" style="width:100%">
+   	
+   		<h1><p:outputLabel value="Detalhamento de Balanço Mensal" /></h1>
+	 	<br />
+	 	
+	 	<br />
+	 	
+	 	<p:outputPanel id="containerCompetencia">
+		 	<p:outputLabel value="Competência: " /> <p:outputLabel value="#{detalharBalancoController.balanco.anoMes}" />
+		</p:outputPanel>
+	 	
+	 	<p:outputPanel id="containerItens" style="margin-top:20px;">
+	 	
+		 	<table style="width: 100%">
+		 	<tr>
+		 		<td style="width: 50%; padding: 5px; ">
+		 			<p:dataList value="#{detalharBalancoController.receitas}" var="receita"  style="top:0px;"
+		 				type="ordered" emptyMessage="Nenhuma receita lançada" itemStyleClass="itemReceita" >
+				        <f:facet name="header">
+				            Receitas
+				        </f:facet>
+				        <div style="width: 75%; float: left;">
+				        	#{receita.descricao}
+				        </div>
+				        <div style="width: 17%; float: left; text-align: right;">
+				        	R$ #{receita.valor}
+				        </div>
+				        <div style="width: 8%; float: left; text-align: center;">
+				        	Ver
+				        </div>
+				    </p:dataList>
+		 		</td>
+		 		
+		 		<td style="width: 50%; padding: 5px; ">
+		 			
+		 			<p:dataList value="#{detalharBalancoController.despesas}" var="despesa"   style="top:0px;"
+		 				type="ordered" emptyMessage="Nenhuma despesa lançada" itemStyleClass="itemDespesa">
+				        <f:facet name="header">
+				            Despesas
+				        </f:facet>
+				        <div style="width: 75%; float: left;">
+				        	#{despesa.descricao}
+				        </div>
+				        <div style="width: 17%; float: left; text-align: right;">
+				        	R$ #{despesa.valor}
+				        </div>
+				        <div style="width: 8%; float: left; text-align: center;">
+				        	ver
+				        </div>
+				    </p:dataList>
+		 		</td>
+		 	</tr>
+		 	</table>
+	 	
+	 	</p:outputPanel>
+	 	
+	 	<p:commandButton id="irParaListagemBalanco" value="Voltar para listagem" immediate="true"
+	   		actionListener="#{detalharBalancoController.irParaListagem()}"  >
+	   	</p:commandButton>
+	 
+			    
+	 </h:form>
+	 
+  </ui:define>
+</ui:composition>

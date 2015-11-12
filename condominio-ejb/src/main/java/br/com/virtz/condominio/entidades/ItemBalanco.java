@@ -54,8 +54,8 @@ public class ItemBalanco extends Entidade implements Serializable {
 	@JoinColumn(name="idArquivo")
 	private ArquivoBalanco arquivo;
 
-	@OneToMany
-	@JoinColumn(name="idUsuario")
+	@ManyToOne
+	@JoinColumn(name = "idUsuario")
 	private Usuario usuario;
 
 	

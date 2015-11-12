@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Balanco.recuperarPorCondominio", 
 						query = "Select u FROM Balanco u "
-							+ " WHERE u.condominio.id = :idCondominio "),
+							+ " WHERE u.condominio.id = :idCondominio ORDER BY u.ano DESC, u.mes DESC"),
 				@NamedQuery(name = "Balanco.recuperarPorCondominioAnoMes", 
 							query = "Select u FROM Balanco u "
 								+ " WHERE u.condominio.id = :idCondominio AND u.ano = :ano AND u.mes = :mes ")
@@ -116,5 +116,16 @@ public class Balanco extends Entidade implements Serializable {
 		this.itens = itens;
 	}
 	
+	public String getAnoMes(){
+		StringBuilder sb = new StringBuilder();
+		if(this.ano != null){
+			sb.append(this.ano);
+		}
+		sb.append("/");
+		if(this.mes != null){
+			sb.append(this.mes);
+		}
+		return sb.toString();
+	}
 
 }

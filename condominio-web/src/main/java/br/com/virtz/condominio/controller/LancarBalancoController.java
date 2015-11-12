@@ -83,6 +83,7 @@ public class LancarBalancoController {
 			message.addWarn("O valor do condomínio está zerado! Para configurar o valor base do condomínio acesse o menu Configurações > Meu Condominio ");
 		}*/
 		carregarInformacoesPeriodoPadroes();
+		montarBalanco();
 	}
 	
 	private void limparDadosItem(){
@@ -134,6 +135,7 @@ public class LancarBalancoController {
 		} catch (AppException e) {
 		}
 
+		limparDadosItem();
 	}
 
 
@@ -142,9 +144,11 @@ public class LancarBalancoController {
 		try{
 			EnumTipoBalanco tipo = EnumTipoBalanco.valueOf(tipoBalanco);
 			if(EnumTipoBalanco.DESPESA.equals(tipo)){
-				balancoService.salvarDespesa(balanco.getId(), valor, descricao, arqBalanco, usuario);
+				ItemBalanco i = balancoService.salvarDespesa(balanco.getId(), valor, descricao, arqBalanco, usuario);
+				despesas.add(i);
 			}else{
-				balancoService.salvarReceita(balanco.getId(), valor, descricao, arqBalanco, usuario);
+				ItemBalanco i = balancoService.salvarReceita(balanco.getId(), valor, descricao, arqBalanco, usuario);
+				receitas.add(i);
 			}
 			message.addInfo("A "+tipo.getDescricao()+" foi salva com sucesso.");
 			
@@ -162,7 +166,23 @@ public class LancarBalancoController {
 	public void removerItemBanlanco(ItemBalanco item) throws CondominioException {
 		try{
 			String desc = item.getTipoBalanco().getDescricao();
-			balancoService.removerItemBalanco(item.getId());
+			if(EnumTipoBalanco.DESPESA.equals(item.getTipoBalanco())){
+				despesas.remove(item);
+			} else {
+				receitas.remove(item);
+			}
+			
+			String nomeArquivo = null;
+			 if(item.getArquivo() != null){
+				 nomeArquivo = item.getArquivo().getNome();
+			 }
+			 
+			 balancoService.removerItemBalanco(item.getId());
+			 
+			 if(nomeArquivo != null){
+				 File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+nomeArquivo);
+				 arquivoDeletar.delete();
+			 }
 			
 			message.addInfo(desc+" foi removido com sucesso.");
 		}catch(AppException appE){

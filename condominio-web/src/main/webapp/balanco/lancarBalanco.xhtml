@@ -7,11 +7,36 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
+   
+   
+   <style>
+   	.itemReceita{
+   		color: blue;
+   		background-color: #FFFAF0;
+   		border-bottom: 1px solid blank;
+   		margin-top: 1px;
+   		margin-bottom: 1px; 
+   		min-height: 25px;
+   		vertical-align: middle;
+   	}
+   	
+   	.itemDespesa{
+   		color: red;
+   		background-color: #FFFAF0;
+   		border-bottom: 1px solid blank;
+   		margin-top: 1px;
+   		margin-bottom: 1px; 
+   		min-height: 25px;
+   		vertical-align: middle;
+   	}
+ 
+   </style>
+   
    	<h:form id="form" style="width:100%">
    	
    		<p:remoteCommand id="atualizarConf" name="atualizarConf" 
    				actionListener="#{lancarBalancoController.montarBalanco()}" immediate="true" 
-   				update="panelDadosBoleto, panelJurosAposVencimento, panelMultaAposVencimento"></p:remoteCommand>
+   				update="panelInfoItem"></p:remoteCommand>
    				
    	
    		<h1><p:outputLabel value="Lançamento de Balanço Mensal" /></h1>
@@ -19,57 +44,62 @@
 	 	
 	 	<br />
 	 	
-	 	Qual a competência?
-	 	<p:outputPanel id="containerComboAno" >
- 			<p:outputLabel value="Ano " /> 
-		 	<p:selectOneMenu id="anoRef" styleClass="inputPadrao" required="true" 
-		 			requiredMessage="Favor selecionar o ano de refência" immediate="true" 
-					value="#{lancarBalancoController.ano}"  >
-				<p:ajax event="change" oncomplete="atualizarConf()" process="@this" />
-		 		<f:selectItems value="#{lancarBalancoController.anos}"
-		 			var="entry" itemValue="#{entry}" itemLabel="#{entry}" />
-		 	</p:selectOneMenu>
-		</p:outputPanel>	
-			
-	 	<p:outputPanel id="containerComboMes" rendered="#{not empty configuracaoBoletoController.conta}">
-	 		<p:outputLabel value="Mês " /> 
-		 	<p:selectOneMenu id="mesRef" styleClass="inputPadrao" required="true" 
-		 			requiredMessage="Favor selecionar o mês de refência" immediate="true" 
-					value="#{lancarBalancoController.mes}"  >
-				<p:ajax event="change" oncomplete="atualizarConf()" process="@this" />
-		 		<f:selectItems value="#{lancarBalancoController.meses.entrySet()}"
-		 			var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
-		 	</p:selectOneMenu>
+	 	<p:outputPanel id="containerCompetencia">
+		 	<p:outputLabel value="Qual a competência?" />
+		 	
+		 	<span>
+	 			<p:selectOneMenu id="anoRef" styleClass="inputPadrao" required="true" 
+			 			requiredMessage="Favor selecionar o ano de refência" immediate="true" 
+						value="#{lancarBalancoController.ano}"  >
+					<p:ajax event="change" oncomplete="atualizarConf()" process="@this" />
+			 		<f:selectItems value="#{lancarBalancoController.anos}"
+			 			var="entry" itemValue="#{entry}" itemLabel="#{entry}" />
+			 	</p:selectOneMenu>
+			</span>	
+	 		<p:outputLabel value=" / " /> 
+		 	<span>
+			 	<p:selectOneMenu id="mesRef" styleClass="inputPadrao" required="true" 
+			 			requiredMessage="Favor selecionar o mês de refência" immediate="true" 
+						value="#{lancarBalancoController.mes}"  >
+					<p:ajax event="change" oncomplete="atualizarConf()" process="@this" />
+			 		<f:selectItems value="#{lancarBalancoController.meses.entrySet()}"
+			 			var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+			 	</p:selectOneMenu>
+			</span>
 		</p:outputPanel>
 		
 	 	<br />
 	 	
 	 	<p:outputPanel id="panelInfoItem" >
-		 	
-		 	Você deseja lançar uma 
+		 	<p:outputLabel value="Você deseja lançar uma " />
 		 	<p:selectOneButton value="#{lancarBalancoController.tipoBalanco}">
 	            <f:selectItem itemLabel="Receita" itemValue="RECEITA" />
 	            <f:selectItem itemLabel="Despesa" itemValue="DESPESA" />
 	        </p:selectOneButton>
 	        
-	        <br />		 	
-		 	 
-			<p:inputText id="descItem" styleClass="inputPadrao" label="Descrição" 
-					value="#{lancarBalancoController.descricao}" maxlength="100" 
-						style="width:70%" >
-			</p:inputText>
-			
-			<p:outputLabel value="Valor:" /> 
-			<p:inputText id="valorItem" styleClass="inputPadrao" 
-					value="#{lancarBalancoController.valor}" maxlength="10" style="width:30%" >
-						<f:convertNumber pattern="#0.00"/>
-			</p:inputText> 
-			
+	        <br /><br />
+	        <div style="float:left; width:75%">		 	
+			 	<p:outputLabel for="descItem" value="Descrição:" /><br />
+				<p:inputText id="descItem" styleClass="inputPadrao" label="Descrição"
+						required="true" requiredMessage="O campo descrição é obrigatório."   
+						value="#{lancarBalancoController.descricao}" maxlength="100" 
+							style="width:90%" >
+				</p:inputText>
+			</div>
+			<div style="float:left; width:15%">
+				<p:outputLabel for="valorItem" value="Valor:"  /> <br />
+				<p:outputLabel value="R$"  />
+				<p:inputText id="valorItem" styleClass="inputPadrao"  style="width:60%" 
+						required="true" requiredMessage="O campo valor é obrigatório."
+						value="#{lancarBalancoController.valor}" maxlength="10"  >
+							<f:convertNumber pattern="#0.00"/>
+				</p:inputText> 
+			</div>
 			<br />
 			
 			<p:outputPanel id="painelArquivo" >
 	        
-		        <p:outputLabel value="Anexar documento:" /><br />
+		        <p:outputLabel value="Anexar comprovante:" /><br />
 		      
 		        <p:fileUpload rendered="#{lancarBalancoController.arqBalanco == null}"
 				        mode="advanced" update="painelArquivo" label="Selecionar arquivo"
@@ -80,31 +110,78 @@
 				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
 				        auto="true" dragDropSupport="false" />
 				<br />
-				<p:outputPanel rendered="#{lancarBalancoController.arqBalanco != null}">
-					<p:outputLabel value="#{lancarBalancoController.arqBalanco.nomeOriginal}"></p:outputLabel>
-					<p:commandButton id="removerArq" value="Remover" immediate="true"
+				<p:outputPanel rendered="#{lancarBalancoController.arqBalanco != null}" style="width:80%; height:30px; background-color:#778899;">
+					<p:outputLabel value="Arquivo anexado: "/> <p:outputLabel value="#{lancarBalancoController.arqBalanco.nomeOriginal}"></p:outputLabel>
+					<p:commandButton id="removerArq" value="Remover" immediate="true" style="margin-left:10px"
 				   		actionListener="#{lancarBalancoController.removerArquivo}" 
 				   		update="painelArquivo">
 				   	</p:commandButton>
 				</p:outputPanel>
 			</p:outputPanel>
 		
-			<br />
-			<p:commandButton id="btnSalvar" value="Salvar"  update="panelInfoItem, containerItens"
-		   		actionListener="#{lancarBalancoController.salvarItemBanlanco}"  >
-	   		</p:commandButton>
+			<div style="width:100%; text-align: center; margin:5px; height: 30px;">
+				<p:commandButton id="btnSalvar" value="Salvar"  update="panelInfoItem, containerItens"
+			   		actionListener="#{lancarBalancoController.salvarItemBanlanco}"  >
+		   		</p:commandButton>
+	   		</div>
 		</p:outputPanel>				 	
 	 
 	 	
-	 	<p:outputPanel id="containerItens">
-	 	teste
+	 	<p:outputPanel id="containerItens" style="margin-top:20px;">
+	 	
+	 	<table style="width: 100%">
+	 	<tr>
+	 		<td style="width: 50%; padding: 5px; ">
+	 			<p:dataList value="#{lancarBalancoController.receitas}" var="receita"  style="top:0px;"
+	 				type="ordered" emptyMessage="Nenhuma receita lançada" itemStyleClass="itemReceita" >
+			        <f:facet name="header">
+			            Receitas
+			        </f:facet>
+			        <div style="width: 75%; float: left;">
+			        	#{receita.descricao}
+			        </div>
+			        <div style="width: 17%; float: left; text-align: right;">
+			        	R$ #{receita.valor}
+			        </div>
+			        <div style="width: 8%; float: left; text-align: center;">
+			        	<p:commandLink actionListener="#{lancarBalancoController.removerItemBanlanco(receita)}" 
+			         		id="removerReceita" immediate="true" update=":form:containerItens" >
+			         		<p:graphicImage id="imgRemoverReceita" url="/img/icones/ico_remover.png" 
+				     				title="Clique para remover a receita." />
+				     		<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa receita?" icon="ui-icon-alert" />
+	         			</p:commandLink>
+			        </div>
+			    </p:dataList>
+	 		</td>
+	 		
+	 		<td style="width: 50%; padding: 5px; ">
+	 			
+	 			<p:dataList value="#{lancarBalancoController.despesas}" var="despesa"   style="top:0px;"
+	 				type="ordered" emptyMessage="Nenhuma despesa lançada" itemStyleClass="itemDespesa">
+			        <f:facet name="header">
+			            Despesas
+			        </f:facet>
+			        <div style="width: 75%; float: left;">
+			        	#{despesa.descricao}
+			        </div>
+			        <div style="width: 17%; float: left; text-align: right;">
+			        	R$ #{despesa.valor}
+			        </div>
+			        <div style="width: 8%; float: left; text-align: center;">
+			        	<p:commandLink actionListener="#{lancarBalancoController.removerItemBanlanco(despesa)}" 
+			         		id="removerDespesa" immediate="true" update=":form:containerItens" >
+			         		<p:graphicImage id="imgRemoverDespesa" url="/img/icones/ico_remover.png" 
+				     				title="Clique para remover o item da despesa." />
+				     		<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa despesa?" icon="ui-icon-alert" />
+	         			</p:commandLink>
+			        </div>
+			    </p:dataList>
+	 		</td>
+	 	</tr>
+	 	</table>
+	 	
 	 	</p:outputPanel>
 	   	
-		<p:commandButton id="btn" value="Gerar cobrança" 
-			rendered="#{not empty configuracaoBoletoController.conta}"
-	   		actionListener="#{configuracaoBoletoController.gerarCobranca}"  >
-			<p:confirm header="Confirmação" message="Tem certeza que deseja gerar o boleto para todos os usuários?" icon="ui-icon-alert" />
-	   	</p:commandButton>
 		
 		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"  >
 	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />

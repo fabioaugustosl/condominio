@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   
+   
+   
+   
+   	<h:form id="form" style="width:100%">
+   	
+   	
+   		<h1><p:outputLabel value="Todos os Balanços Mensais" /></h1>
+	 	<br />
+	 	
+	 	<p:dataTable id="dtListagemBalancos" var="balanco" 
+				value="#{listagemBalancoController.balancos}"
+				rowKey="#{balando.id}"
+				emptyMessage="Ainda não foi lançado nenhum balanço mensal." >
+			
+	        <p:column headerText="Competência">
+		        <h:outputText value="#{balanco.anoMes}" />
+		    </p:column>
+		    
+		    <p:column headerText="Total Receita">
+		        <h:outputText value="-" />
+		    </p:column>
+		    
+		    <p:column headerText="Total Despesa">
+		        <h:outputText value="-" />
+		    </p:column>
+		    
+		    <p:column headerText="Ações">
+		    	   
+		         <p:commandLink actionListener="#{listagemBalancoController.detalhar(balanco.id)}"
+		         				id="detalharBalancoLink" >
+		         		<p:graphicImage id="imgDeletarVot" url="/img/icones/ico_detalhar_financeiro.png" 
+		         				title="Clique para detalhar o balanço desta competência." />
+		         </p:commandLink>
+			    
+		    </p:column>
+		</p:dataTable> 
+		
+	 </h:form>
+	 
+  </ui:define>
+</ui:composition>
