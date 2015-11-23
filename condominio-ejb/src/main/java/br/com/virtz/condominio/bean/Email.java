@@ -10,6 +10,8 @@ public class Email {
 	private List<String> para;
 	private String assunto;
 	private String mensagem;
+	private byte[] anexo;
+	private String nomeAnexo;
 	
 	
 	public Email(String de, List<String> para, String assunto, String mensagem) {
@@ -60,4 +62,22 @@ public class Email {
 		return paras.toString();
 	}
 
+	public byte[] getAnexo() {
+		return anexo;
+	}
+
+	public void setAnexo(byte[] anexo) {
+		this.anexo = anexo;
+	}
+
+	public String getNomeAnexo() {
+		return nomeAnexo == null ? "anexo": nomeAnexo;
+	}
+
+	public void setNomeAnexo(String nomeAnexo) {
+		this.nomeAnexo = nomeAnexo;
+	}
+	
+	
+	
 }

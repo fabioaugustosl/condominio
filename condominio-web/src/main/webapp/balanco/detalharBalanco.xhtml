@@ -53,14 +53,25 @@
 				        <f:facet name="header">
 				            Receitas
 				        </f:facet>
+				        
+				        <f:facet name="footer" >
+				        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="color:blue" value="#{lancarBalancoController.balanco.totalReceitas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+				        </f:facet>
+				        
 				        <div style="width: 75%; float: left;">
 				        	#{receita.descricao}
 				        </div>
 				        <div style="width: 17%; float: left; text-align: right;">
-				        	R$ #{receita.valor}
+				        	<p:outputLabel value="R$ " /> <p:outputLabel value="#{receita.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
 				        </div>
 				        <div style="width: 8%; float: left; text-align: center;">
-				        	Ver
+				        	<p:commandLink ajax="false" 
+					        		rendered="#{receita.arquivo != null}"
+						     		id="downloadDocSelecionada" immediate="true" >
+							        <p:fileDownload value="#{detalharBalancoController.download(receita.arquivo)}" />
+						     		<p:graphicImage id="imgDownReceita" url="/img/icones/download.png" 
+						     				title="Clique para baixar o comprovante." />
+					         	</p:commandLink>
 				        </div>
 				    </p:dataList>
 		 		</td>
@@ -72,14 +83,25 @@
 				        <f:facet name="header">
 				            Despesas
 				        </f:facet>
+				        
+				        <f:facet name="footer">
+				        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="color:red" value="#{detalharBalancoController.balanco.totalDespesas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+				        </f:facet>
+			        
 				        <div style="width: 75%; float: left;">
 				        	#{despesa.descricao}
 				        </div>
 				        <div style="width: 17%; float: left; text-align: right;">
-				        	R$ #{despesa.valor}
+					        <p:outputLabel value="R$ " /> <p:outputLabel value="#{despesa.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
 				        </div>
 				        <div style="width: 8%; float: left; text-align: center;">
-				        	ver
+				        	<p:commandLink ajax="false" 
+					        		rendered="#{despesa.arquivo != null}"
+						     		id="downloadDocSelecionada" immediate="true" >
+							        <p:fileDownload value="#{detalharBalancoController.download(despesa.arquivo)}" />
+						     		<p:graphicImage id="imgDownDespesa" url="/img/icones/download.png" 
+						     				title="Clique para baixar o comprovante." />
+					         	</p:commandLink>
 				        </div>
 				    </p:dataList>
 		 		</td>

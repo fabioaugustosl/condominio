@@ -10,6 +10,7 @@ import br.com.virtz.condominio.entidades.Balanco;
 public interface IBalancoDAO extends CrudDAO<Balanco> {
 	
 	public List<Balanco> recuperarPorCondominio(Long idCondominio);
+	public List<Balanco> recuperarPorCondominioComSomatorio(Long idCondominio);
 	public Balanco recuperarPorCondominio(Long idCondominio, Integer ano, Integer mes);
 	
 }

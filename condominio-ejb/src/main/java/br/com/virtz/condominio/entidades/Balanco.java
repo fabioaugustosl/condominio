@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -26,8 +27,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 						query = "Select u FROM Balanco u "
 							+ " WHERE u.condominio.id = :idCondominio ORDER BY u.ano DESC, u.mes DESC"),
 				@NamedQuery(name = "Balanco.recuperarPorCondominioAnoMes", 
-							query = "Select u FROM Balanco u "
-								+ " WHERE u.condominio.id = :idCondominio AND u.ano = :ano AND u.mes = :mes ")
+						query = "Select u FROM Balanco u "
+							+ " WHERE u.condominio.id = :idCondominio AND u.ano = :ano AND u.mes = :mes "),
+				@NamedQuery(name = "Balanco.recuperarPorCondominioESomatorio", 
+						query = "Select new Balanco (b.id, b.ano, b.mes,"
+								+ "	(select sum(i.valor) FROM ItemBalanco i WHERE i.balanco.id = b.id AND i.tipoBalanco = 'RECEITA'),"
+								+ " (select sum(i.valor) FROM ItemBalanco i WHERE i.balanco.id = b.id AND i.tipoBalanco = 'DESPESA')) "
+							+ " FROM Balanco b "
+							+ " WHERE b.condominio.id = :idCondominio  ORDER BY b.ano DESC, b.mes DESC")
 })
 public class Balanco extends Entidade implements Serializable {
 
@@ -58,8 +65,46 @@ public class Balanco extends Entidade implements Serializable {
 	@OneToMany(mappedBy="balanco", fetch=FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<ItemBalanco> itens;
 
+	@Transient
+	private Double totalReceitas = null;
+	
+	@Transient
+	private Double totalDespesas = null;
 	
 	
+		
+	
+	public Balanco() {
+		super();
+	}
+
+	
+	/**
+	 * Construtor utilizado na namedquery:
+	 * 
+	 * Balanco.recuperarPorCondominioESomatorio
+	 *  
+	 * @param id
+	 * @param ano
+	 * @param mes
+	 * @param totalReceitas
+	 * @param totalDespesas
+	 */
+	public Balanco(Long id, Integer ano, Integer mes, Double totalReceitas,
+			Double totalDespesas) {
+		super();
+		this.id = id;
+		this.ano = ano;
+		this.mes = mes;
+		this.totalReceitas = totalReceitas != null ? totalReceitas : 0d;
+		this.totalDespesas = totalDespesas != null ? totalDespesas : 0d;
+	}
+
+
+
+
+
+
 	public Long getId() {
 		return id;
 	}
@@ -126,6 +171,27 @@ public class Balanco extends Entidade implements Serializable {
 			sb.append(this.mes);
 		}
 		return sb.toString();
+	}
+
+	public Double getTotalReceitas() {
+		return totalReceitas;
+	}
+
+	public void setTotalReceitas(Double totalReceitas) {
+		this.totalReceitas = totalReceitas;
+	}
+
+	public Double getTotalDespesas() {
+		return totalDespesas;
+	}
+
+	public void setTotalDespesas(Double totalDespesas) {
+		this.totalDespesas = totalDespesas;
+	}
+	
+	public void zerarTotais(){
+		this.totalDespesas = 0d;
+		this.totalReceitas = 0d;
 	}
 
 }

@@ -1,5 +1,9 @@
 package br.com.virtz.condominio.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +14,18 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+import br.com.virtz.condominio.entidades.ArquivoBalanco;
+import br.com.virtz.condominio.entidades.ArquivoDocumento;
 import br.com.virtz.condominio.entidades.Balanco;
 import br.com.virtz.condominio.entidades.ItemBalanco;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.service.IBalancoService;
 import br.com.virtz.condominio.session.SessaoUsuario;
+import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
 
@@ -32,6 +42,9 @@ public class DetalharBalancoController {
 	
 	@Inject
 	private SessaoUsuario sessao;
+	
+	@Inject
+	private IArquivosUtil arquivoUtil;
 	
 	@Inject
 	private NavigationPage navigation;
@@ -68,9 +81,32 @@ public class DetalharBalancoController {
 				receitas = balancoService.recuperarReceitas(balanco);
 			} catch (AppException e) {
 			}
+			
+			balanco.zerarTotais();
+			try {
+				balanco.setTotalReceitas(balancoService.somarItens(receitas));
+				balanco.setTotalDespesas(balancoService.somarItens(despesas));
+			} catch (AppException e) {
+			}
 		} 
-
 	}
+	
+	
+	 public StreamedContent download(ArquivoBalanco arquivo) {        
+		 if(arquivo != null){
+			InputStream stream;
+			try {
+				stream = new FileInputStream(new File(arquivoUtil.getCaminhoArquivosUpload()+arquivo.getNome()));
+				StreamedContent file = new DefaultStreamedContent(stream, arquivoUtil.getMimetypeArquivo(arquivo.getExtensao()), arquivo.getNomeOriginal());
+				return file;
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		 }
+		 return null;
+    }
+	 
+	 
 
 	
 	public void irParaListagem(){

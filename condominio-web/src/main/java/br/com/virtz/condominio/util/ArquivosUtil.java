@@ -22,6 +22,7 @@ import javax.imageio.ImageIO;
 import javax.inject.Named;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -227,6 +228,20 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 		}
 		
 		return Boolean.FALSE;
+	}
+	
+	
+	public byte[] converter(File arquivo){
+		FileInputStream fileInputStream;
+		try {
+			fileInputStream = new FileInputStream(arquivo);
+			return IOUtils.toByteArray(fileInputStream);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

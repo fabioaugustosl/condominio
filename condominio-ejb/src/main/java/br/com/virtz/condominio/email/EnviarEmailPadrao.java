@@ -2,14 +2,20 @@ package br.com.virtz.condominio.email;
 
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.ejb.Stateless;
 import javax.mail.Address;
 import javax.mail.Message;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 import br.com.virtz.condominio.bean.Email;
 
@@ -25,7 +31,30 @@ public class EnviarEmailPadrao implements EnviarEmail {
             m.setFrom(de);
             m.setRecipients(Message.RecipientType.TO, para);
             m.setSubject(email.getAssunto());
-            m.setContent(email.getMensagem(), "text/html"); 
+            
+            Multipart multiparteEmail = new MimeMultipart();
+            
+            // creates body part for the message
+            MimeBodyPart msgEmail = new MimeBodyPart();
+            msgEmail.setContent(email.getMensagem(), "text/html");
+             
+            
+            // adds parts to the multipart
+            multiparteEmail.addBodyPart(msgEmail);
+            
+            // se tiver anexo
+            if(email.getAnexo() != null && email.getAnexo().length > 0){
+            	// creates body part for the attachment
+            	MimeBodyPart anexoEmail = new MimeBodyPart();
+            	DataSource source = new ByteArrayDataSource(email.getAnexo(), "application/octet-stream");
+            	anexoEmail.setDataHandler(new DataHandler(source)); 
+            	anexoEmail.setFileName(email.getNomeAnexo()); 
+            	multiparteEmail.addBodyPart(anexoEmail);
+            }
+            // sets the multipart as message's content
+            m.setContent(multiparteEmail);
+            
+//            m.setContent(email.getMensagem(), "text/html"); 
             Transport.send(m);
             return Boolean.TRUE;
         } catch (javax.mail.MessagingException e) {

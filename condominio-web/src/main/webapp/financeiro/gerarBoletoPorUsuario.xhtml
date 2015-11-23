@@ -24,10 +24,19 @@
 		        <h:outputText value="#{cobranca.anoMes}" />
 		    </p:column>
 		    
-		    <p:column headerText="#">
-		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+		    <p:column headerText="#" style="text-align:center">
+		    	<p:commandLink onclick="PrimeFaces.monitorDownload(start, stop);" process="@this"
+		     		id="downloadBoletoSelecionada" immediate="true" >
 			        <p:fileDownload value="#{geracaoBoletoUsuarioController.download(cobranca)}" />
-			    </p:commandButton>
+		     		<p:graphicImage id="imgDownDoc" url="/img/icones/download.png" title="Clique para baixar o boleto." />
+	         	</p:commandLink>
+	         	
+	         	<p:commandLink ajax="false" 
+	         		style="margin-left:10px;"
+		     		id="emailBoletoSelecionada" >
+			        <p:fileDownload value="#{geracaoBoletoUsuarioController.enviar(cobranca)}" />
+		     		<p:graphicImage id="imgEmailBoleto" url="/img/icones/email.png" title="Clique para enviar o boleto para seu email." />
+	         	</p:commandLink>
 		   </p:column>
 		</p:dataTable>
  	    

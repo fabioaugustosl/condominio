@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -24,6 +26,13 @@ import br.com.virtz.condominio.constantes.EnumTipoBalanco;
 
 @Entity
 @XmlRootElement
+@NamedQueries({ @NamedQuery(name = "ItemBalanco.recuperarUltimasDescricoes", 
+						query = "Select distinct(i.descricao) FROM ItemBalanco i "
+								+ " JOIN i.balanco b "
+							+ " WHERE b.condominio.id = :idCondominio AND i.tipoBalanco = :tipo "
+							+ " AND b.ano <= :ano "
+							+ " ORDER BY b.ano DESC, b.mes DESC ")
+})
 public class ItemBalanco extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;

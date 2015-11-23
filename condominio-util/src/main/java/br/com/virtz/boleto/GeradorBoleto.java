@@ -11,9 +11,12 @@ import org.jrimum.domkee.financeiro.banco.febraban.Agencia;
 import org.jrimum.domkee.financeiro.banco.febraban.Carteira;
 import org.jrimum.domkee.financeiro.banco.febraban.Cedente;
 import org.jrimum.domkee.financeiro.banco.febraban.ContaBancaria;
+import org.jrimum.domkee.financeiro.banco.febraban.Modalidade;
 import org.jrimum.domkee.financeiro.banco.febraban.NumeroDaConta;
 import org.jrimum.domkee.financeiro.banco.febraban.Sacado;
 import org.jrimum.domkee.financeiro.banco.febraban.SacadorAvalista;
+import org.jrimum.domkee.financeiro.banco.febraban.TipoDeMoeda;
+import org.jrimum.domkee.financeiro.banco.febraban.TipoDeTitulo;
 import org.jrimum.domkee.financeiro.banco.febraban.Titulo;
 
 import br.com.virtz.boleto.bean.Conta;
@@ -36,6 +39,7 @@ public class GeradorBoleto {
 		Cedente cedente = criarCedente(infoCedente);
 		Sacado sacado = criarSacado(infoSacado);
 		ContaBancaria contaBancaria = criarContaBancaria(conta);
+		cedente.addContaBancaria(contaBancaria);
 		
 		Titulo t = new Titulo(contaBancaria, sacado, cedente, new SacadorAvalista(""));
 		congigurarTitulo(t, infoTitulo);
@@ -102,6 +106,7 @@ public class GeradorBoleto {
         titulo.setMora(new BigDecimal(infoTitulo.getMora()));
         titulo.setAcrecimo(new BigDecimal(infoTitulo.getAcrescimo()));
         titulo.setValorCobrado(new BigDecimal(infoTitulo.getValorCobrado()));
+        titulo.setTipoDeMoeda(TipoDeMoeda.REAL);
    	}
 	
 	
@@ -120,7 +125,7 @@ public class GeradorBoleto {
         } else {
         	contaBancariaRetorno.setAgencia(new Agencia(Integer.valueOf(conta.getNumeroAgencia())));
         }
-        
+
         return contaBancariaRetorno;
 	}
 	

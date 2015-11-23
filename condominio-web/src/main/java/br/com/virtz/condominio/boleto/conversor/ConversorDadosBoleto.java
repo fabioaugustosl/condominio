@@ -120,6 +120,7 @@ public class ConversorDadosBoleto {
 		tit.setDataVencimento(cobranca.getConfiguracaoBoleto().getDataVencimento());
 		tit.setInstrucoesSacado(cobranca.getConfiguracaoBoleto().getInstrucaoSacado());
 		tit.setNossoNumero(cobranca.getNossoNumero());
+		tit.setDigitoNossoNumero(cobranca.getDigitoNossoNumero());
 		tit.setValor(cobranca.getValor());
 		tit.setInstrucoes(cobranca.getConfiguracaoBoleto().getInstrucoesGerais());
 		tit.setNumeroDocumento(cobranca.getId().toString());

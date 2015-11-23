@@ -1,5 +1,7 @@
 package br.com.virtz.condominio.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -170,6 +172,43 @@ public class BalancoService implements IBalancoService {
 		}
 		
 		return receitas;
+	}
+
+
+	@Override
+	public Double somarItens(List<ItemBalanco> itens) throws AppException {
+		if(itens == null || itens.isEmpty()){
+			return 0d;
+		}
+		BigDecimal v = new BigDecimal(0d);
+		
+		for(ItemBalanco i : itens){
+			v = v.add(new BigDecimal(i.getValor()));
+		}
+		
+		return v.setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+	}
+
+
+	@Override
+	public List<Balanco> recuperarPorCondominioComSomatorio(Long idCondominio) {
+		return balancoDAO.recuperarPorCondominioComSomatorio(idCondominio);
+	}
+
+
+	@Override
+	public ItemBalanco salvarItem(ItemBalanco item) throws AppException {
+		try {
+			return itemBalancoDAO.salvar(item);
+		} catch (Exception e) {
+			throw new AppException("Ocorreu um erro ao salvar o item");
+		}
+	}
+
+
+	@Override
+	public List<String> recuperarUltimasDescricoes(Long idCondominio, Integer ano, EnumTipoBalanco tipo) throws AppException {
+		return itemBalancoDAO.recuperarUltimasDescricoes(idCondominio, ano, tipo, 50);
 	}
 
 

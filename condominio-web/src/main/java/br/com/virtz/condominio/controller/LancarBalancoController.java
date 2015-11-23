@@ -5,24 +5,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
+import org.apache.commons.lang.StringUtils;
+import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.UploadedFile;
 
 import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.constantes.EnumTipoBalanco;
 import br.com.virtz.condominio.entidades.ArquivoBalanco;
 import br.com.virtz.condominio.entidades.Balanco;
-import br.com.virtz.condominio.entidades.ContaBancariaCondominio;
 import br.com.virtz.condominio.entidades.ItemBalanco;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
@@ -60,6 +65,7 @@ public class LancarBalancoController {
 	private Map<Integer, String> meses = null;
 	
 	private Balanco balanco = null;
+	private ItemBalanco itemEditar = null;
 	private ArquivoBalanco arqBalanco = null;
 	private String descricao = null;
 	private Double valor = null;
@@ -67,7 +73,8 @@ public class LancarBalancoController {
 	
 	private List<ItemBalanco> receitas = null;
 	private List<ItemBalanco> despesas = null;
-	
+	private List<String> descricoesAutoCompletar = null;
+
 	
 	
 	@PostConstruct
@@ -84,12 +91,28 @@ public class LancarBalancoController {
 		}*/
 		carregarInformacoesPeriodoPadroes();
 		montarBalanco();
+		carregarDescricoesAutoCompletar(EnumTipoBalanco.RECEITA);
+	}
+
+	public void carregarDescricoesAutoCompletar(EnumTipoBalanco tipo) {
+		if(tipo == null){
+			if(StringUtils.isNotBlank(tipoBalanco)){
+				tipo = EnumTipoBalanco.valueOf(tipoBalanco);
+			} else{
+				tipo = EnumTipoBalanco.DESPESA;
+			}
+		}
+		try {
+			descricoesAutoCompletar = balancoService.recuperarUltimasDescricoes(usuario.getId(), this.ano, tipo);
+		} catch (AppException e) {
+		}
 	}
 	
-	private void limparDadosItem(){
+	public void limparDadosItem(){
 		arqBalanco = null;
 		descricao = null;
 		valor = null;
+		itemEditar = null;
 	}
 
 	private void carregarInformacoesPeriodoPadroes() {
@@ -135,22 +158,55 @@ public class LancarBalancoController {
 		} catch (AppException e) {
 		}
 
+		balanco.zerarTotais();
+		
+		atualizarSomatorio();
+		
 		limparDadosItem();
 	}
 
+	private void atualizarSomatorio() {
+		try {
+			balanco.setTotalReceitas(balancoService.somarItens(receitas));
+			balanco.setTotalDespesas(balancoService.somarItens(despesas));
+		} catch (AppException e) {
+		}
+	}
 
+
+	public List<String> completeText(String query) {
+        List<String> resultados = new ArrayList<String>();
+        if(descricoesAutoCompletar != null && !descricoesAutoCompletar.isEmpty()){
+        	for(String d : descricoesAutoCompletar){
+        		if(d.toUpperCase().contains(query.toUpperCase())){
+        			resultados.add(d);
+        		}
+        	}
+        }
+        Collections.sort(resultados);
+        return resultados;
+    }
+	
 	
 	public void salvarItemBanlanco(ActionEvent event) throws CondominioException {
 		try{
+			
 			EnumTipoBalanco tipo = EnumTipoBalanco.valueOf(tipoBalanco);
-			if(EnumTipoBalanco.DESPESA.equals(tipo)){
-				ItemBalanco i = balancoService.salvarDespesa(balanco.getId(), valor, descricao, arqBalanco, usuario);
-				despesas.add(i);
-			}else{
-				ItemBalanco i = balancoService.salvarReceita(balanco.getId(), valor, descricao, arqBalanco, usuario);
-				receitas.add(i);
+			if(itemEditar != null){
+				balancoService.salvarItem(itemEditar);
+			}else {
+				
+				if(EnumTipoBalanco.DESPESA.equals(tipo)){
+					ItemBalanco i = balancoService.salvarDespesa(balanco.getId(), valor, descricao, arqBalanco, usuario);
+					despesas.add(i);
+				}else{
+					ItemBalanco i = balancoService.salvarReceita(balanco.getId(), valor, descricao, arqBalanco, usuario);
+					receitas.add(i);
+				}
 			}
 			message.addInfo("A "+tipo.getDescricao()+" foi salva com sucesso.");
+			
+			atualizarSomatorio();
 			
 			limparDadosItem();
 			
@@ -178,6 +234,7 @@ public class LancarBalancoController {
 			 }
 			 
 			 balancoService.removerItemBalanco(item.getId());
+			 atualizarSomatorio();
 			 
 			 if(nomeArquivo != null){
 				 File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+nomeArquivo);
@@ -194,6 +251,16 @@ public class LancarBalancoController {
 	}
 	
 	
+	public void editarItemBanlanco(ItemBalanco item) throws CondominioException {
+			
+		arqBalanco = item.getArquivo();
+		descricao = item.getDescricao();
+		valor = item.getValor();
+		tipoBalanco = item.getTipoBalanco().name().toString();
+		
+	}
+
+
 	public void uploadArquivo(FileUploadEvent event) {
         try {
 			InputStream inputStream = event.getFile().getInputstream();

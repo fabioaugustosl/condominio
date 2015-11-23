@@ -30,6 +30,7 @@
    		vertical-align: middle;
    	}
  
+ .ui-autocomplete-input{width: 100%;}
    </style>
    
    	<h:form id="form" style="width:100%">
@@ -72,7 +73,8 @@
 	 	
 	 	<p:outputPanel id="panelInfoItem" >
 		 	<p:outputLabel value="Você deseja lançar uma " />
-		 	<p:selectOneButton value="#{lancarBalancoController.tipoBalanco}">
+		 	<p:selectOneButton value="#{lancarBalancoController.tipoBalanco}" 
+		 			valueChangeListener="#{lancarBalancoController.carregarDescricoesAutoCompletar(null)}">
 	            <f:selectItem itemLabel="Receita" itemValue="RECEITA" />
 	            <f:selectItem itemLabel="Despesa" itemValue="DESPESA" />
 	        </p:selectOneButton>
@@ -80,11 +82,11 @@
 	        <br /><br />
 	        <div style="float:left; width:75%">		 	
 			 	<p:outputLabel for="descItem" value="Descrição:" /><br />
-				<p:inputText id="descItem" styleClass="inputPadrao" label="Descrição"
-						required="true" requiredMessage="O campo descrição é obrigatório."   
-						value="#{lancarBalancoController.descricao}" maxlength="100" 
-							style="width:90%" >
-				</p:inputText>
+			 	<p:autoComplete id="descItem" styleClass="inputPadrao" label="Descrição"
+			 			 value="#{lancarBalancoController.descricao}" maxlength="100"
+			 			 style="width:90%" required="true" requiredMessage="O campo descrição é obrigatório."  
+			 			completeMethod="#{lancarBalancoController.completeText}" />
+				
 			</div>
 			<div style="float:left; width:15%">
 				<p:outputLabel for="valorItem" value="Valor:"  /> <br />
@@ -110,9 +112,9 @@
 				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
 				        auto="true" dragDropSupport="false" />
 				<br />
-				<p:outputPanel rendered="#{lancarBalancoController.arqBalanco != null}" style="width:80%; height:30px; background-color:#778899;">
+				<p:outputPanel rendered="#{lancarBalancoController.arqBalanco != null}" style="width:85%; height:30px; background-color:#CED8F6;">
 					<p:outputLabel value="Arquivo anexado: "/> <p:outputLabel value="#{lancarBalancoController.arqBalanco.nomeOriginal}"></p:outputLabel>
-					<p:commandButton id="removerArq" value="Remover" immediate="true" style="margin-left:10px"
+					<p:commandButton id="removerArq" value="Remover" immediate="true" style="margin-left:10px; float:right;"
 				   		actionListener="#{lancarBalancoController.removerArquivo}" 
 				   		update="painelArquivo">
 				   	</p:commandButton>
@@ -122,6 +124,10 @@
 			<div style="width:100%; text-align: center; margin:5px; height: 30px;">
 				<p:commandButton id="btnSalvar" value="Salvar"  update="panelInfoItem, containerItens"
 			   		actionListener="#{lancarBalancoController.salvarItemBanlanco}"  >
+		   		</p:commandButton>
+		   		
+		   		<p:commandButton id="btnLimpar" value="Limpar"  update="panelInfoItem"
+			   		actionListener="#{lancarBalancoController.limparDadosItem()}"  >
 		   		</p:commandButton>
 	   		</div>
 		</p:outputPanel>				 	
@@ -137,6 +143,11 @@
 			        <f:facet name="header">
 			            Receitas
 			        </f:facet>
+			        
+			        <f:facet name="footer" >
+			        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="color:blue" value="#{lancarBalancoController.balanco.totalReceitas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			        </f:facet>
+			        
 			        <div style="width: 75%; float: left;">
 			        	#{receita.descricao}
 			        </div>
@@ -144,6 +155,11 @@
 			        	R$ #{receita.valor}
 			        </div>
 			        <div style="width: 8%; float: left; text-align: center;">
+			        	<p:commandLink actionListener="#{lancarBalancoController.editarItemBanlanco(receita)}" 
+			         		id="editarReceita" immediate="true" update=":form:panelInfoItem" >
+			         		<p:graphicImage id="imgEditarReceita" url="/img/icones/ico_remover.png" title="Clique para editar a receita." />
+	         			</p:commandLink>
+	         			
 			        	<p:commandLink actionListener="#{lancarBalancoController.removerItemBanlanco(receita)}" 
 			         		id="removerReceita" immediate="true" update=":form:containerItens" >
 			         		<p:graphicImage id="imgRemoverReceita" url="/img/icones/ico_remover.png" 
@@ -161,6 +177,11 @@
 			        <f:facet name="header">
 			            Despesas
 			        </f:facet>
+			        
+			        <f:facet name="footer">
+			        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="color:red" value="#{lancarBalancoController.balanco.totalDespesas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			        </f:facet>
+			        
 			        <div style="width: 75%; float: left;">
 			        	#{despesa.descricao}
 			        </div>
@@ -168,6 +189,10 @@
 			        	R$ #{despesa.valor}
 			        </div>
 			        <div style="width: 8%; float: left; text-align: center;">
+			        	<p:commandLink actionListener="#{lancarBalancoController.editarItemBanlanco(despesa)}" 
+			         		id="editarDespesa"  oncomplete="atualizarConf()" >
+			         		<p:graphicImage id="imgEditarDespesa" url="/img/icones/ico_remover.png" title="Clique para editar a receita." />
+	         			</p:commandLink>
 			        	<p:commandLink actionListener="#{lancarBalancoController.removerItemBanlanco(despesa)}" 
 			         		id="removerDespesa" immediate="true" update=":form:containerItens" >
 			         		<p:graphicImage id="imgRemoverDespesa" url="/img/icones/ico_remover.png" 

@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	class="gt-ie8 gt-ie9 not-ie" >
+	
+	<f:view contentType="text/html" >	
+	    <h:head>
+	        <f:facet name="first">
+				<title>
+					<ui:insert name="title">Condomínio SOBControle</ui:insert>
+				</title>
+	            <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+				<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+				<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+			</f:facet>	
+<!-- Scripts -->
+			<h:outputScript name="js/index/jquery.min.js" target="body"/>
+			<h:outputScript name="js/index/jquery.scrollex.min.js" target="body"/>
+			<h:outputScript name="js/index/jquery.scrolly.min.js" target="body"/>
+			<h:outputScript name="js/index/skel.min.js" target="body"/>
+			<h:outputScript name="js/index/util.js" target="body"/>
+			<h:outputScript name="js/index/main.js" target="body"/>
+
+			<h:outputStylesheet library="css" name="index_principal.css" /> <!-- NAO DEVE SER ALTERADO -->	  
+	</h:head>
+	
+	<style>
+	
+
+
+</style>
+	<h:body class="landing">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<h1><a href="index.html">Condomínio SOBControle</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#menu" class="menuToggle"><span>Entrar</span></a>
+									<div id="menu">
+										<h:form id="formLogin">
+
+
+											<h:panelGroup id="panelLogin">
+												<p:focus context="panelLogin" />
+												
+												<div class="msg">
+													<p:messages id="messagesLogin" />
+												</div>
+												
+												<div class="form-group signin-user w-icon">
+													<p:inputText id="username" value="#{loginController.login}" styleClass="form-control input-lg" 
+														required="true" label="username" 
+														requiredMessage="Você não preencheu o email (login)." placeholder="Email" />
+													<span class="fa fa-user signin-form-icon"></span>
+												</div>
+												
+												<div class="form-group signin-user w-icon">
+													<p:password id="password" value="#{loginController.senha}" 
+															styleClass="form-control input-lg" label="password" 
+															maxlength="10" placeholder="Senha"
+															required="true"
+															requiredMessage="Você não preencheu sua senha."  />
+													<span class="fa fa-lock signin-form-icon"></span>
+												</div>
+												
+												<div class="form-actions">
+													<p:commandButton id="btnConectarLogin" value="Entrar" actionListener="#{loginController.logar}" update="panelLogin" styleClass="btn btn-primary btn-block btn-lg"/>
+												</div>
+											
+												<p:commandLink value="Esqueci minha senha" styleClass="forgot" onclick="esqueciMinhaSenha()" />
+										
+											</h:panelGroup>
+											
+											<ul class="actions" style="margin-top: 100px;">
+												<li>
+													<p:commandLink styleClass="button special" value="Quero me cadastrar" immediate="true" action="#{loginController.novoUsuario}" />
+												</li>
+											</ul>
+											     
+									    </h:form>
+									       
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Banner -->
+					<section id="banner">
+						<div class="inner">
+							<h2>Condomínio SOBControle</h2>
+							<p>O jeito mais fácil,<br />
+							prático e inteligente de manter <br />
+							seu condomínio sob controle.</p>
+						</div>
+						<a href="#one" class="more scrolly">Veja Mais</a>
+					</section>
+
+				<!-- One -->
+					<section id="one" class="wrapper style1 special">
+						<div class="inner">
+							<header class="major">
+								<h2>Buscamos de forma inteligente facilitar a vida de todos os condôminos.</h2>
+								<p>Crie seu usuário agora mesmo e experimente!</p>
+								<h:form id="formQueroMecadastrar">
+								<ul class="actions">
+									<li>
+										<p:commandLink styleClass="button special" value="Quero me cadastrar" immediate="true" action="#{loginController.novoUsuario}" />
+									</li>
+								</ul>
+								</h:form>
+							</header>
+						</div>
+					</section>
+
+				<!-- Two -->
+					<section id="two" class="wrapper alt style2">
+						<section class="spotlight">
+							<div class="image">
+								<p:graphicImage url="/resources/images/index/pic011.png" />
+								</div><div class="content">
+								<h2>Comunicação <br /> de forma ágil e prática</h2>
+								<p>Possibilitamos o controle e agendamento de áreas comuns.<br />
+								Indique produtos e serviços a seus vizinhos.<br />
+								Envio de notícias e aviso através do site, email ou sms.<br />
+								Faça votações online. Assim fica fácil tomar decisões.</p>
+							</div>
+						</section>
+						<section class="spotlight">
+							<div class="image"><p:graphicImage url="/resources/images/index/pic02.jpg" /></div><div class="content">
+								<h2>Controle financeiro</h2>
+								<p>Controle e divulgue balanços financeiros.<br />
+								Gere, emita, envie boleto para os moradores de forma fácil e rápida.</p>
+								Aqui você poderá controlar a portaria, controlar e agendar áreas comuns, indicar produtos e serviços aos seus vizinho,<br />
+								emitir boleto, disponibilizar balanço mensal e documentos, realizar votações online, entre outros.
+							</div>
+						</section>
+						<section class="spotlight">
+							<div class="image"><p:graphicImage url="/resources/images/index/pic03.png" /></div><div class="content">
+								<h2>Portaria</h2>
+								<p>Torne sua portaria muito mais segura. Gerencie vizitante, entregas e correspondências. Pense na comodidade de saber que sua encomenta chegou através do celular.</p>
+							</div>
+						</section>
+					</section>
+
+			
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+							<li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+						</ul>
+						
+					</footer>
+
+			</div>
+
+		
+
+	    </h:body>
+	</f:view>
+</html>

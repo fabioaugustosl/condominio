@@ -36,5 +36,15 @@ public class BalancoDAO extends DAO<Balanco> implements IBalancoDAO {
 	}
 
 	
+	@Override
+	public List<Balanco> recuperarPorCondominioComSomatorio(Long idCondominio) {
+		Query qry = getEntityManager().createNamedQuery("Balanco.recuperarPorCondominioESomatorio");
+		qry.setParameter("idCondominio", idCondominio);
+		
+		List<Balanco> resultado = qry.getResultList();
+		return resultado;
+		 
+	}
+	
 	
 }

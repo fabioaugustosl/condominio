@@ -8,11 +8,7 @@
    
    <ui:define name="content">
    
-   
-   
-   
    	<h:form id="form" style="width:100%">
-   	
    	
    		<h1><p:outputLabel value="Todos os Balanços Mensais" /></h1>
 	 	<br />
@@ -22,19 +18,26 @@
 				rowKey="#{balando.id}"
 				emptyMessage="Ainda não foi lançado nenhum balanço mensal." >
 			
-	        <p:column headerText="Competência">
+	        <p:column headerText="Competência" style="text-align:center; font-weight:bold;">
 		        <h:outputText value="#{balanco.anoMes}" />
 		    </p:column>
 		    
-		    <p:column headerText="Total Receita">
-		        <h:outputText value="-" />
+		    <p:column headerText="Total Receita" style="text-align:center; color:blue;">
+		         
+		        <p:outputLabel  style="color:blue"  value="R$ " /> 
+		         	<p:outputLabel style="color:blue"  value="#{balanco.totalReceitas}">
+		         		<f:convertNumber pattern="#0.00" />
+		         	</p:outputLabel>
 		    </p:column>
 		    
-		    <p:column headerText="Total Despesa">
-		        <h:outputText value="-" />
+		    <p:column headerText="Total Despesa" style="text-align:center; color: red;">
+		        <p:outputLabel style="color:red" value="R$ " /> 
+		        	<p:outputLabel style="color:red"  value="#{balanco.totalDespesas}" >
+		        		<f:convertNumber pattern="#0.00" />
+		        	</p:outputLabel>
 		    </p:column>
 		    
-		    <p:column headerText="Ações">
+		    <p:column headerText="Ações" style="text-align:center">
 		    	   
 		         <p:commandLink actionListener="#{listagemBalancoController.detalhar(balanco.id)}"
 		         				id="detalharBalancoLink" >

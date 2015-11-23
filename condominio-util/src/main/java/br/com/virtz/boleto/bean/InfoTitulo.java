@@ -3,7 +3,6 @@ package br.com.virtz.boleto.bean;
 import java.util.Date;
 
 import org.jrimum.domkee.financeiro.banco.febraban.TipoDeTitulo;
-import org.jrimum.domkee.financeiro.banco.febraban.Titulo;
 import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
 
 public class InfoTitulo {
@@ -15,7 +14,7 @@ public class InfoTitulo {
 	private Double valor;
 	private Date dataDocumento;
 	private Date dataVencimento;
-	private String aceite = "N"; // A ou N
+	private String aceite = "A"; // A ou N
 	private Double desconto = 0d;
 	private Double deducao = 0d;
 	private Double mora = 0d;
@@ -37,7 +36,7 @@ public class InfoTitulo {
 	}
 
 	public TipoDeTitulo getTipoTitulo() {
-		return TipoDeTitulo.COTA_CONDOMINIAL;
+		return TipoDeTitulo.DM_DUPLICATA_MERCANTIL;
 	}
 
 	public String getNumeroDocumento() {

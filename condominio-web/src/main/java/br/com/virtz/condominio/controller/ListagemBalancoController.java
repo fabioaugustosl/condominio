@@ -40,7 +40,7 @@ public class ListagemBalancoController {
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
-		balancos = balancoService.recuperarBalancoPorCondominio(usuario.getCondominio().getId());
+		balancos = balancoService.recuperarPorCondominioComSomatorio(usuario.getCondominio().getId());
 	}
 	
 
