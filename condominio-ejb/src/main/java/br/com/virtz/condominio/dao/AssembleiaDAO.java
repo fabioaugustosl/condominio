@@ -34,7 +34,10 @@ public class AssembleiaDAO extends DAO<Assembleia> implements IAssembleiaDAO {
 		qry.setParameter("idCondominio", idCondominio);
 		try{
 			Long id = (Long) qry.getSingleResult();
-			return recuperarPorId(id);
+			if(id != null){
+				return recuperarPorId(id);
+			}
+			return null;
 		}catch(NoResultException no){
 			return null;
 		}catch(NonUniqueResultException non){

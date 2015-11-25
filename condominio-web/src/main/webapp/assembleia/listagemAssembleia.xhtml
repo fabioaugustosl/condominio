@@ -22,38 +22,40 @@
 		        </h:outputText>
 		    </p:column>
 		    
-		    <p:column headerText="1ª chamada">
+		    <p:column headerText="1ª Chamada">
 		        <h:outputText value="#{assemb.horario1}" >
 		        	<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00" />
 		        </h:outputText>
 		    </p:column>
 		    
-		    <p:column headerText="2ª chamada">
+		    <p:column headerText="2ª Chamada">
 		        <h:outputText value="#{assemb.horario2}" >
 		        	<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00" />
 		        </h:outputText>
 		    </p:column>
 		    
-		    <p:column headerText="Ata">
+		    <p:column headerText="Ata" style="text-align:center;">
 		    	<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s"
 		    		rendered="#{not empty assemb.arquivoAta}">
 			        <p:fileDownload value="#{listagemAssembleiaController.download(assemb.arquivoAta)}" />
 			    </p:commandButton>
 		    </p:column> 
 		    
-		    <p:column headerText="Pauta">
+		    <p:column headerText="Pauta" style="text-align:center;">
 		    	<p:commandButton value="Pauta" update=":form:dtPauta" oncomplete="PF('dlgPauta').show();">
 		    		<f:setPropertyActionListener value="#{assemb}" target="#{listagemAssembleiaController.assembleiaSelecionada}" />
 			    </p:commandButton>
 		    </p:column> 
 		    
-		    <p:column rendered="#{listagemAssembleiaController.ehSindico()}" headerText="Lembrete">
-		     	<p:commandButton value="Enviar Lembrete" update=":form:textLembrete" oncomplete="PF('dlgLembrete').show();">
+		    <p:column rendered="#{listagemAssembleiaController.ehSindico()}" headerText="Lembrete por email aos moradores" style="text-align:center;">
+		     	<p:commandButton value="Enviar Lembrete" update=":form:textLembrete"
+		     			rendered="#{listagemAssembleiaController.naoAconteceu(assemb)}" 
+		     			oncomplete="PF('dlgLembrete').show();">
 		    		<f:setPropertyActionListener value="#{assemb}" target="#{listagemAssembleiaController.assembleiaSelecionada}" />
 			    </p:commandButton>
 		    </p:column>
 		    
-		    <p:column rendered="#{listagemAssembleiaController.podeEditar()}" style="text-align:center">
+		    <p:column rendered="#{listagemAssembleiaController.podeEditar()}" style="text-align:center; width:7%;">
 		     	<p:commandLink actionListener="#{listagemAssembleiaController.editar(assemb)}" 
 	         		id="editarAssSelecionada" immediate="true" >
 	         		<p:graphicImage id="imgEditarAss" url="/img/icones/editar.png" 
@@ -61,7 +63,7 @@
 	         	</p:commandLink>
 		    </p:column>
 		    
-		    <p:column rendered="#{listagemAssembleiaController.podeExcluir()}" style="text-align:center">
+		    <p:column rendered="#{listagemAssembleiaController.podeExcluir()}" style="text-align:center; width:7%;">
 		    	<p:commandLink actionListener="#{listagemAssembleiaController.removerAssembleia(assemb)}" ajax="false"
 	         		id="excluirAssSelecionada" immediate="true" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa assembléia?" icon="ui-icon-alert" />
@@ -96,14 +98,14 @@
 		</p:dialog> 
 		
 		
-		<p:dialog modal="true" id="dlgLembrete" widgetVar="dlgLembrete" header="Envio de Lembrete" 
+		<p:dialog modal="true" id="dlgLembrete" widgetVar="dlgLembrete" header="Envio de lembrete de assembléia por email para os moradores" 
 						draggable="true" closable="true" resizable="false" 
 						dynamic="true" width="400" >
-			<p:outputLabel value="Insira uma mensagem de lembrete:"></p:outputLabel>
+			<p:outputLabel value="Digite uma mensagem de lembrete: (os dados da assembléia serão inserido no email automaticamente)"></p:outputLabel>
 			<p:inputTextarea id="textLembrete" style="width:100%;" maxlength="1000" styleClass="textAreaPadrao" 
 			        		counterTemplate="{0}" autoResize="false" value="#{listagemAssembleiaController.mensagemLembrete}"  />
 	    	<p:commandButton id="btnEnviaMsgLembrete" 
-	    			value="Enviar " styleClass="btn btn-primary btn-block btn-lg"
+	    			value="Enviar Lembrete Por Email" styleClass="btn btn-primary btn-block btn-lg"
 	    			actionListener="#{listagemAssembleiaController.enviarLembrete}"
 	    			oncomplete="PF('dlgLembrete').hide();" />		
     

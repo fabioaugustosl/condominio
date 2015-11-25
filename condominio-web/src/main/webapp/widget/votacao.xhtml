@@ -21,6 +21,7 @@
    </style>
   
   
+  
    <h:form id="formVotacao" style="width:100%">	  
 	<p:growl id="msgsGrowlVotacao" showDetail="true" autoUpdate="false"  />
    	<p:outputPanel id="containerVotacao" style="border:0px !important;">
@@ -43,14 +44,14 @@
 		    		<p:calendar id="button" value="#{vv.util.valorData}" showOn="button" />
 		    	</p:outputPanel>	
 		    	<p:outputPanel id="tipoMoeda" rendered="#{vv.util.isMoeda()}" > 
-		    		<p:inputText id="valorTipoMoeda" value="#{vv.util.valorMoeda}" style="width:100px" >
-		    			R$<f:convertNumber type="number" maxFractionDigits="2" /> 
+		    		<p:inputText id="valorTipoMoeda" value="#{vv.util.valorMoeda}" style="width:100px" styleClass="inputNumerico" >
+		    			R$<f:convertNumber type="number"  maxFractionDigits="2"  pattern="#0,00" groupingUsed="true"  /> 
 		    		</p:inputText> <span style="font-size: 0.6em">Ex.: 20,00</span>
 		    	</p:outputPanel>
-		    	<p:outputPanel id="tipoNumerico" rendered="#{vv.util.isNumerico()}"> 
+		    	<p:outputPanel id="tipoNumerico" rendered="#{vv.util.isNumerico()}" styleClass="inputNumerico"> 
 		    		<p:inputText id="valorTipoNumerico" value="#{vv.util.valorNumerico}" 
 		    				converterMessage="Favor inserir apenas valores númericos." style="width:100px" >
-		    			<f:convertNumber type="number" maxFractionDigits="2" /> 
+		    			<f:convertNumber type="number" maxFractionDigits="2"  pattern="#0,00" groupingUsed="true"  /> 
 		    		</p:inputText>
 		    	</p:outputPanel>
 		    	<p:outputPanel id="tipoOpcao" rendered="#{vv.util.isOpcoes()}" > 
@@ -111,5 +112,12 @@
     			
       
   </h:form>
+  
+  <script >
+  $(document).ready(function(){
+  	$(".inputNumerico input").mask('000.000.000.000.000,00', {reverse: true});
+  });
+	
+  </script>
 </ui:composition>
 

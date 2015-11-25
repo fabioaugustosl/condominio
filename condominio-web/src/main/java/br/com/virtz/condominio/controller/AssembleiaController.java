@@ -60,7 +60,6 @@ public class AssembleiaController {
 	
 	public void novaPauta() throws AppException{
 		if(StringUtils.isNotBlank(textoPauta)){
-			
 			try {
 				assembleiaService.novaPauta(assembleiaSelecionada.getId(), textoPauta, usuario);
 				messageHelper.addInfo("Pauta enviada com sucesso! Aguarde até o sindico aprová-la.");

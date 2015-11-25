@@ -1,5 +1,8 @@
 package br.com.virtz.condominio.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -10,11 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 
+import br.com.virtz.condominio.bean.Email;
+import br.com.virtz.condominio.constantes.EnumTemplates;
+import br.com.virtz.condominio.email.EnviarEmail;
+import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.Token;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.service.ITokenService;
 import br.com.virtz.condominio.service.IUsuarioService;
+import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
@@ -35,8 +43,8 @@ public class ConfirmarUsuarioController {
 	
 
 	private boolean usuarioConfirmado;
-	
 	private Usuario usuario = null;
+		
 	
 	@PostConstruct
 	public void init(){

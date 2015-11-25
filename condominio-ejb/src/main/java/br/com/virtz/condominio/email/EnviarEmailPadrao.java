@@ -36,7 +36,7 @@ public class EnviarEmailPadrao implements EnviarEmail {
             
             // creates body part for the message
             MimeBodyPart msgEmail = new MimeBodyPart();
-            msgEmail.setContent(email.getMensagem(), "text/html");
+            msgEmail.setContent(email.getMensagem(), "text/html; charset=UTF-8");
              
             
             // adds parts to the multipart

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.CroppedImage;
 
+import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.email.EnviarEmail;
@@ -111,6 +112,11 @@ public class CadastrarUsuarioFotoController implements Serializable{
         	}catch(Exception e){
         		message.addInfo("Ocorreu uma falha ao enviar email de confirmação pra você!");
         	}
+        	
+        	try{
+        		enviarEmailAvisoCadastro(usuario);
+        	}catch(Exception e){
+        	}
 
         	cadastroFinalizado = Boolean.TRUE;
         } catch (Exception e) {
@@ -139,7 +145,25 @@ public class CadastrarUsuarioFotoController implements Serializable{
 	}
 
 	
-	 public void cortar() throws CondominioException{
+	private void enviarEmailAvisoCadastro(Usuario usuario) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Nome usuário : ").append(usuario.getNome()).append("<br />");
+		sb.append("ID usuário : ").append(usuario.getId()).append("<br />");
+		
+		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
+		mapParametrosEmail.put("titulo", "Novo usuário do site acaba de se cadastrar");
+		mapParametrosEmail.put("msg", sb.toString());
+		
+		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
+		String msg = leitor.processarTemplate(caminho, EnumTemplates.PADRAO.getNomeArquivo(), mapParametrosEmail);
+		
+		Email email = new Email(EnumTemplates.PADRAO.getDe(), "contatovirtz@gmail.com", EnumTemplates.PADRAO.getAssunto(), msg);
+		enviarEmail.enviar(email);
+	}
+	
+	
+	
+	public void cortar() throws CondominioException{
         if(imagemCortada != null) {
 	        ArquivoUsuario arquivo = createArquivo(Long.valueOf(imagemCortada.getBytes().length));
 	    	arquivo.setAltura(imagemCortada.getHeight());

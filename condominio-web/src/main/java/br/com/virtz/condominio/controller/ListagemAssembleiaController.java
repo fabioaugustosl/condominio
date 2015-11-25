@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
@@ -67,6 +68,7 @@ public class ListagemAssembleiaController {
 	@EJB
 	private IUsuarioService usuarioService;
 
+	private DataUtil dataUtil;
 	
 	
 	private List<Assembleia> assembleias;
@@ -78,6 +80,7 @@ public class ListagemAssembleiaController {
 	public void init(){
 		mensagemLembrete = null;
 		assembleias = listarTodos(); 
+		dataUtil = new DataUtil();
 	}
 	
 	
@@ -171,8 +174,17 @@ public class ListagemAssembleiaController {
 		 return Boolean.FALSE;
 	 }
 	 
+	 public boolean naoAconteceu(Assembleia assembleia){
+		 if(dataUtil.agora().getTime().before(assembleia.getData())){
+			 return Boolean.TRUE;
+		 }
+		 return Boolean.FALSE;
+	 }
+	 
 	 
 	 private void envioEmail(List<Usuario> moradores, String msg,  Assembleia assembleia) {
+		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
+		
 		for(Usuario morador : moradores){
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm");
@@ -186,7 +198,6 @@ public class ListagemAssembleiaController {
 				map.put("chamada_2", sdfHora.format(assembleia.getHorario2()));
 			}
 			
-			String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
 			String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.LEMBRETE_ASSEMBLEIA.getNomeArquivo(), map);
 			
 			Email email = new Email(EnumTemplates.LEMBRETE_ASSEMBLEIA.getDe(), morador.getEmail(), EnumTemplates.LEMBRETE_ASSEMBLEIA.getAssunto(), msgEnviar);
@@ -203,8 +214,8 @@ public class ListagemAssembleiaController {
 				 messageHelper.addError("Ocorreu um erro ao identificar dados da Assembléia. ");
 			 } else {
 			 
-				 List<Usuario> usuario = usuarioService.recuperarTodos(sessao.getUsuarioLogado().getCondominio());
-				 envioEmail(usuario, mensagemLembrete, assembleiaSelecionada);
+				 List<Usuario> usuarios = usuarioService.recuperarTodos(sessao.getUsuarioLogado().getCondominio());
+				 envioEmail(usuarios, mensagemLembrete, assembleiaSelecionada);
 			 
 				 assembleiaSelecionada = null;
 				 mensagemLembrete = null;

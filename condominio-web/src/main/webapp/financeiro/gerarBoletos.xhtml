@@ -33,6 +33,13 @@
 	    				ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
 			       <p:fileDownload value="#{geracaoBoletoController.download()}" />
 		    </p:commandButton>
+		    
+		    <p:commandButton value="Enviar por Email"
+		    			actionListener="#{geracaoBoletoController.enviar()}"
+	    				rendered="#{ not empty geracaoBoletoController.cobrancas}" 
+	    				onclick="PrimeFaces.monitorDownload(start, stop);" 
+	    				update="dtListagemUsuariosBoleto">
+		    </p:commandButton>
 	 	
 		 	 <p:dataTable id="dtListagemUsuariosBoleto" var="cobranca" 
 					value="#{geracaoBoletoController.cobrancas}"

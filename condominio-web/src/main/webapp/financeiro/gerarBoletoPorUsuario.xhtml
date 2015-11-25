@@ -25,8 +25,8 @@
 		    </p:column>
 		    
 		    <p:column headerText="#" style="text-align:center">
-		    	<p:commandLink onclick="PrimeFaces.monitorDownload(start, stop);" process="@this"
-		     		id="downloadBoletoSelecionada" immediate="true" >
+		    	<p:commandLink 
+		     		id="downloadBoletoSelecionada"  ajax="false" >
 			        <p:fileDownload value="#{geracaoBoletoUsuarioController.download(cobranca)}" />
 		     		<p:graphicImage id="imgDownDoc" url="/img/icones/download.png" title="Clique para baixar o boleto." />
 	         	</p:commandLink>

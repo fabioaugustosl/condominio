@@ -62,7 +62,7 @@ public class CadastrarUsuarioController implements Serializable{
 	private void salvar() throws AppException {
 		try {
 			
-			// TODO : validar se o email já existe
+			// validar se o email já existe
 			Usuario u = usuarioService.recuperarUsuario(usuario.getEmail());
 			if(u != null){
 				throw new AppException("O email digitado já está sendo utilizado por outro usuário. Favor escolha outro email.");

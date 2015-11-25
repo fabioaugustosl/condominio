@@ -12,6 +12,7 @@ public interface IUsuarioDAO extends CrudDAO<Usuario> {
 	public Usuario recuperarUsuarioCompleto(Long id);
 	public List<Usuario> recuperarTodos(Long idCondominio);
 	public List<Usuario> recuperarSindicos(Long idCondominio);
+	public List<Usuario> recuperar(Long idCondominio, EnumTipoUsuario tipo);
 	public void alterarStatus(Long idUsuario, EnumTipoUsuario tipoUsuario);
 	public Usuario recuperarUsuarioPorEmail(String email); 
 }

@@ -71,4 +71,14 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		return qry.getResultList();
 	}
 	
+	
+	@Override
+	public List<Usuario> recuperar(Long idCondominio, EnumTipoUsuario tipo) {
+		Query qry = getEntityManager().createNamedQuery("Usuario.recuperarPorCondominioETipoUsuario");
+		qry.setParameter("idCondominio", idCondominio);
+		qry.setParameter("tipoUsuario", tipo);
+		return qry.getResultList();
+	}
+	
+	
 }
