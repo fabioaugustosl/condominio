@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/templateLogin.xhtml">
+   
+   <ui:define name="content">
+    
+    	<script>
+    		function esqueciMinhaSenha(){
+				$("#divEsqueciMinhaSenha").show("slow");
+			}
+		</script>
+		
+    	<h1 class="form-header">    		
+			Meu Condomínio 
+		</h1>
+    	
+    	<div id="signin-form_id" class="panel">
+			<h:form id="formLogin">
+			<h:panelGroup id="panelLogin">
+				<p:focus context="panelLogin" />
+				
+				<div class="msg">
+					<p:messages id="messagesLogin" />
+				</div>
+				
+				<div class="form-group signin-user w-icon">
+					<p:inputText id="username" value="#{loginController.login}" styleClass="form-control input-lg" 
+						required="true" label="username" 
+						requiredMessage="Você não preencheu o email (login)." placeholder="Email" />
+					<span class="fa fa-user signin-form-icon"></span>
+				</div>
+				
+				<div class="form-group signin-user w-icon">
+					<p:password id="password" value="#{loginController.senha}" 
+							styleClass="form-control input-lg" label="password" 
+							maxlength="10" placeholder="Senha"
+							required="true"
+							requiredMessage="Você não preencheu sua senha."  />
+					<span class="fa fa-lock signin-form-icon"></span>
+				</div>
+				
+				<div class="form-actions">
+					<p:commandButton id="btnConectarLogin" value="Entrar" actionListener="#{loginController.logar}" update="panelLogin" styleClass="btn btn-primary btn-block btn-lg"/>
+				</div>
+			
+				<p:commandLink value="Esqueci minha senha" styleClass="forgot" onclick="esqueciMinhaSenha()" />
+		
+			</h:panelGroup>
+			
+			<div class="text-center clear-both padding-sm-vr">
+				<p:commandLink value="Quero me cadastrar" immediate="true" action="#{loginController.novoUsuario}" />
+				<br /><br />
+			</div>
+			
+			</h:form>	
+			<h:form id="formEsqueci">			
+				<div  style="display:none" id="divEsqueciMinhaSenha">
+					<br />
+					<span>Para recuperar sua senha basta inserir seu email no campo abaixo:</span> <br />
+					<p:inputText id="inputEsqueciminhasenha" value="#{loginController.emailEsqueciMinhaSenha}" 
+						styleClass="form-control input-lg" 
+						placeholder="Email" />
+						
+					<p:commandLink value="Enviar" 
+						actionListener="#{loginController.esqueciMinhaSenha}" update=":formLogin:panelLogin"/>
+				</div>
+							
+		</h:form>
+			<h:form id="formCad">
+			<div class="clear-both">
+           		<h:outputText value="Versão: 1.00" styleClass="version pull-left" />
+           		<a href="http://www.virtz.com.br" target="_blank" class="logo-company pull-right"></a>
+           	</div>
+           	</h:form>
+		</div>   
+		
+	</ui:define>
+   
+</ui:composition>

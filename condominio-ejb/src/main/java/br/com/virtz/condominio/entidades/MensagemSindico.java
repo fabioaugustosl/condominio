@@ -17,11 +17,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="mensagemsindico")
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "MensagemSindico.recuperarPorCondominio", 
-				query = "Select n FROM MensagemSindico n WHERE n.condominio.id = :idCondominio ORDER BY n.id DESC ")
+				query = "Select n FROM mensagemsindico n WHERE n.condominio.id = :idCondominio ORDER BY n.id DESC ")
 })
 public class MensagemSindico extends Entidade implements Serializable {
 

@@ -24,22 +24,27 @@
 							<ui:include src="widget/agendaComum.xhtml" />
 						</p:panel -->
 						
-			            <p:panel id="panelWidgetUltimaAssembleia" header="Última Assembléia" style="height:100%;"  rendered="#{ultimaAssembleiaController.possuiUltimaAssembleia()}" >            
+			            <p:panel id="panelWidgetUltimaAssembleia" header="Última Assembléia" 
+			            	style="height:100%;"  rendered="#{ultimaAssembleiaController.possuiUltimaAssembleia()}" 
+			            	styleClass="painelWidget" >            
 							<ui:include src="widget/ultimaAssembleia.xhtml" />
 						</p:panel>
 						
-						<p:panel id="panelWidgetMsgSindico" header="Fale com o síndico" style="height:100%;"  >
+						<p:panel id="panelWidgetMsgSindico" styleClass="painelWidgetAzul" 
+						header="Fale com o síndico" style="height:100%;"  >
 					    	<ui:include src="widget/mensagemSindico.xhtml" />
 					    </p:panel>
 			        </td>
 			        
 	    			<td style="width:50%; top:0;">  
-			    		<p:panel id="panelWidgetAssembleiaConvocacao" header="Convocação para assembléia" style="height:100%;"  
+			    		<p:panel id="panelWidgetAssembleiaConvocacao" header="Convocação para assembléia" 
+			    			style="height:100%;" styleClass="painelWidget"  
 		       				rendered="#{assembleiaController.possuiAssembleiaAgendada()}"> 
 			                <ui:include src="widget/assembleia.xhtml" />
 			            </p:panel>      
 			            
 			            <p:panel id="panelWidgetNoticia" header="Notícias" style="height:100%;"
+			            	styleClass="painelWidget"
 			            		rendered="#{noticiaController.noticias.size() > 0}" > 
 			                <ui:include src="widget/noticias.xhtml" />
 			            </p:panel>
@@ -48,7 +53,9 @@
 		 			</td>
 		 			
 		 			<td style="width:25%; top:0;">
-			            <p:panel id="panelWidgetVotacao" header="Votação online" style="height:100%;" rendered="#{votacaoController.possuiVotacaoEmAndamento()}" > 
+			            <p:panel id="panelWidgetVotacao" header="Votação online" 
+			            	style="height:100%;" rendered="#{votacaoController.possuiVotacaoEmAndamento()}" 
+			            	styleClass="painelWidget"> 
 			                <ui:include src="widget/votacao.xhtml" />
 			            </p:panel>
 			 

@@ -18,18 +18,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 
-@Entity
+@Entity(name="voto")
 @XmlRootElement
 @NamedQueries({
-		@NamedQuery(name = "Voto.totalVotoPorVotacao", query = "Select count(*) FROM Voto v WHERE v.votacao.id = :idVotacao "),
-		@NamedQuery(name = "Voto.recuperarPorUsuario", query = "Select v FROM Voto v WHERE v.usuario.id = :idUsuario AND v.votacao.id = :idVotacao "),
+		@NamedQuery(name = "Voto.totalVotoPorVotacao", query = "Select count(*) FROM voto v WHERE v.votacao.id = :idVotacao "),
+		@NamedQuery(name = "Voto.recuperarPorUsuario", query = "Select v FROM voto v WHERE v.usuario.id = :idUsuario AND v.votacao.id = :idVotacao "),
 		@NamedQuery(name = "Voto.recuperarPorApto", 
-					query = "Select v FROM Voto v "
+					query = "Select v FROM voto v "
 							+ " JOIN v.usuario u "
 							+ " JOIN u.apartamento ap "
 							+ "	WHERE v.votacao.id = :idVotacao AND ap.id = :idApto"),
 		@NamedQuery(name = "Voto.recuperarPorVotacao", 
-					query = "Select v FROM Voto v "
+					query = "Select v FROM voto v "
 							+ " JOIN FETCH v.usuario u "
 							+ " JOIN FETCH u.apartamento ap "
 							+ "	WHERE v.votacao.id = :idVotacao ")})

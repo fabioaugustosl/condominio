@@ -95,6 +95,8 @@ public class LoginController {
 
 			navigation.redirectToPage("/portal.faces");
 		} catch (AuthenticationException ae) {
+			ae.printStackTrace();
+			ae.getMessage();
 			messageHelper.addError("Usuário ou senha inválido(s).");
 		}
 	}

@@ -82,9 +82,9 @@
 	        <br /><br />
 	        <div style="float:left; width:75%">		 	
 			 	<p:outputLabel for="descItem" value="Descrição:" /><br />
-			 	<p:autoComplete id="descItem" styleClass="inputPadrao" label="Descrição"
+			 	<p:autoComplete id="descItem" label="Descrição"
 			 			 value="#{lancarBalancoController.descricao}" maxlength="100"
-			 			 style="width:90%" required="true" requiredMessage="O campo descrição é obrigatório."  
+			 			 style="width:90%; border: 0px;" required="true" requiredMessage="O campo descrição é obrigatório."  
 			 			completeMethod="#{lancarBalancoController.completeText}" />
 				
 			</div>
@@ -97,14 +97,11 @@
 							<f:convertNumber pattern="#0.00"/>
 				</p:inputText> 
 			</div>
-			<br />
 			
-			<p:outputPanel id="painelArquivo" >
-	        
-		        <p:outputLabel value="Anexar comprovante:" /><br />
-		      
+			<p:outputPanel id="painelArquivo" style="position:relative; diplay:block;" layout="block" >
+		       
 		        <p:fileUpload rendered="#{lancarBalancoController.arqBalanco == null}"
-				        mode="advanced" update="painelArquivo" label="Selecionar arquivo"
+				        mode="advanced" update="painelArquivo" label="Anexar comprovante"
 				        fileUploadListener="#{lancarBalancoController.uploadArquivo}"
 				        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX|xlsx|xls|XLSX|XLS|txt|PNG|png|jpg|JPG)$/" 
 				        invalidFileMessage="Tipo do arquivo inválido"
@@ -148,18 +145,13 @@
 			        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="color:blue" value="#{lancarBalancoController.balanco.totalReceitas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
 			        </f:facet>
 			        
-			        <div style="width: 75%; float: left;">
+			        <div style="width: 65%; float: left;">
 			        	#{receita.descricao}
 			        </div>
-			        <div style="width: 17%; float: left; text-align: right;">
+			        <div style="width: 25%; float: left; text-align: right;">
 			        	R$ #{receita.valor}
 			        </div>
-			        <div style="width: 8%; float: left; text-align: center;">
-			        	<p:commandLink actionListener="#{lancarBalancoController.editarItemBanlanco(receita)}" 
-			         		id="editarReceita" immediate="true" update=":form:panelInfoItem" >
-			         		<p:graphicImage id="imgEditarReceita" url="/img/icones/ico_remover.png" title="Clique para editar a receita." />
-	         			</p:commandLink>
-	         			
+			        <div style="width: 10%; float: left; text-align: center;">
 			        	<p:commandLink actionListener="#{lancarBalancoController.removerItemBanlanco(receita)}" 
 			         		id="removerReceita" immediate="true" update=":form:containerItens" >
 			         		<p:graphicImage id="imgRemoverReceita" url="/img/icones/ico_remover.png" 
@@ -182,18 +174,14 @@
 			        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="color:red" value="#{lancarBalancoController.balanco.totalDespesas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
 			        </f:facet>
 			        
-			        <div style="width: 75%; float: left;">
+			        <div style="width: 65%; float: left;">
 			        	#{despesa.descricao}
 			        </div>
-			        <div style="width: 17%; float: left; text-align: right;">
+			        <div style="width: 25%; float: left; text-align: right;">
 			        	R$ #{despesa.valor}
 			        </div>
-			        <div style="width: 8%; float: left; text-align: center;">
-			        	<p:commandLink actionListener="#{lancarBalancoController.editarItemBanlanco(despesa)}" 
-			         		id="editarDespesa"  oncomplete="atualizarConf()" >
-			         		<p:graphicImage id="imgEditarDespesa" url="/img/icones/ico_remover.png" title="Clique para editar a receita." />
-	         			</p:commandLink>
-			        	<p:commandLink actionListener="#{lancarBalancoController.removerItemBanlanco(despesa)}" 
+			        <div style="width: 10%; float: left; text-align: center;">
+			           	<p:commandLink actionListener="#{lancarBalancoController.removerItemBanlanco(despesa)}" 
 			         		id="removerDespesa" immediate="true" update=":form:containerItens" >
 			         		<p:graphicImage id="imgRemoverDespesa" url="/img/icones/ico_remover.png" 
 				     				title="Clique para remover o item da despesa." />

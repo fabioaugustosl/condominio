@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import br.com.virtz.condominio.constantes.EnumTaxaCreditoDebito;
 import br.com.virtz.condominio.constantes.EnumTaxaPorcentagemValor;
 
-@Entity
+@Entity(name="taxa")
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Taxa.recuperarPorCondominio", 
-			query = "Select u FROM Taxa u "
+			query = "Select u FROM taxa u "
 					+ " WHERE u.condominio.id = :idCondominio ")
 })
 public class Taxa extends Entidade implements Serializable {

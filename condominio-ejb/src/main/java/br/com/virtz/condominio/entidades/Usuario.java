@@ -23,23 +23,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 
-@Entity
+@Entity(name="usuario")
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Usuario.recuperarPorCondominio", 
-			query = "Select u FROM Usuario u "
+			query = "Select u FROM usuario u "
 					+ "	LEFT JOIN u.apartamento ap "
 					+ "	LEFT JOIN u.arquivo arq "
 					+ " WHERE u.condominio.id = :idCondominio "),
 	@NamedQuery(name = "Usuario.recuperarSindicosPorCondominio", 
-			query = "Select u FROM Usuario u WHERE u.condominio.id = :idCondominio AND u.tipoUsuario = 'SINDICO'"),
+			query = "Select u FROM usuario u WHERE u.condominio.id = :idCondominio AND u.tipoUsuario = 'SINDICO'"),
 	@NamedQuery(name = "Usuario.recuperarPorEmail", 
-			query = "Select u FROM Usuario u "
+			query = "Select u FROM usuario u "
 					+ " LEFT JOIN FETCH u.condominio c "
 					+ " LEFT JOIN FETCH c.areasComuns areas "
 					+ " WHERE u.email = :email and u.cadastroConfirmado = 1"),
 	@NamedQuery(name = "Usuario.recuperarPorCondominioETipoUsuario", 
-			query = "Select u FROM Usuario u "
+			query = "Select u FROM usuario u "
 					+ " JOIN u.condominio c "
 					+ " WHERE c.id = :idCondominio AND u.tipoUsuario = :tipoUsuario")
 })

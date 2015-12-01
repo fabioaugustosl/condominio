@@ -1,19 +1,16 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="estado")
 @XmlRootElement
 public class Estado extends Entidade implements Serializable {
 

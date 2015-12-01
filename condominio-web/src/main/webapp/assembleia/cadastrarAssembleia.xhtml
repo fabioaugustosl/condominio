@@ -45,7 +45,7 @@
 					
 			 	</p:panelGrid>
 			 	
-			 	<p:commandButton id="salvarAssembleia" value="Salvar" 
+			 	<p:commandButton id="salvarAssembleia" value="Salvar" styleClass="botao botao-grande"
 			   		actionListener="#{cadastrarAssembleiaController.salvarAssembleia}" 
 			   		update="tabsAssembleias">
 			   	</p:commandButton>
@@ -57,7 +57,7 @@
 			 	<p:outputLabel value="Insira uma nova pauta:" /> <br />
 			 	<p:inputText id="novaPauta" styleClass="inputPadrao" value="#{cadastrarAssembleiaController.novaPauta}" maxlength="1000"></p:inputText>
 			 	
-			 	<p:commandButton id="salvarPauta" value="Inserir" 
+			 	<p:commandButton id="salvarPauta" value="Inserir"  styleClass="botao"
 			   		actionListener="#{cadastrarAssembleiaController.salvarPauta}" 
 			   		update="novaPauta, dtPautas">
 			   	</p:commandButton>

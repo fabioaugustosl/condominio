@@ -17,15 +17,15 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="bloco")
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Bloco.recuperarPorCondominioComApts", 
-			query = "Select distinct b FROM Bloco b "
+			query = "Select distinct b FROM bloco b "
 					+ " LEFT JOIN FETCH b.apartamentos apts "
 					+ " WHERE b.condominio.id = :idCondominio "),
 	@NamedQuery(name = "Bloco.recuperarBlocoCompleto", 
-			query = "Select distinct b FROM Bloco b "
+			query = "Select distinct b FROM bloco b "
 					+ " LEFT JOIN FETCH b.apartamentos apts "
 					+ " WHERE b.id = :idBloco ")
 })

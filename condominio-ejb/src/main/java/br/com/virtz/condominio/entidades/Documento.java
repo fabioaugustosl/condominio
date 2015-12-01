@@ -2,7 +2,6 @@ package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,17 +14,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="documento")
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "Documento.recuperarPorCondominio", 
-				query = "Select n FROM Documento n WHERE n.condominio.id = :idCondominio AND n.ativo = 1 ORDER BY n.id DESC") })
+				query = "Select n FROM documento n WHERE n.condominio.id = :idCondominio AND n.ativo = 1 ORDER BY n.id DESC") })
 public class Documento extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;

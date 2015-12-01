@@ -13,40 +13,40 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="cobrancausuario")
 @XmlRootElement
 @NamedQueries({ 
 		@NamedQuery(name = "CobrancaUsuario.recuperarPorCondominio", 
-				query = "Select u FROM CobrancaUsuario u "
+				query = "Select u FROM cobrancausuario u "
 						+ " JOIN u.configuracaoBoleto conf "
 						+ " WHERE conf.condominio.id = :idCondominio "),
 		@NamedQuery(name = "CobrancaUsuario.recuperarPorCondominioUsuarioAnoMes", 
-				query = "Select u FROM CobrancaUsuario u "
+				query = "Select u FROM cobrancausuario u "
 						+ " JOIN u.configuracaoBoleto conf "
 						+ " WHERE u.usuario.id = :idUsuario AND conf.condominio.id = :idCondominio "
 						+ " AND u.ano = :ano AND u.mes = :mes " ),
 		@NamedQuery(name = "CobrancaUsuario.recuperarPorUsuario", 
-				query = "Select u FROM CobrancaUsuario u "
+				query = "Select u FROM cobrancausuario u "
 						+ " JOIN u.configuracaoBoleto conf "
 						+ " WHERE u.usuario.id = :idUsuario AND conf.condominio.id = :idCondominio "
 						+ " ORDER BY u.ano DESC, u.mes DESC "),
 		@NamedQuery(name = "CobrancaUsuario.recuperarPorCondominioAnoMes", 
-				query = "Select u FROM CobrancaUsuario u "
+				query = "Select u FROM cobrancausuario u "
 						+ " JOIN u.configuracaoBoleto conf "
 						+ " WHERE conf.condominio.id = :idCondominio AND u.usuario is not null "
 						+ " AND u.ano = :ano AND u.mes = :mes " ),
 		@NamedQuery(name = "CobrancaUsuario.recuperarPorCondominioAnoMesTodosAvulsos", 
-				query = "Select u FROM CobrancaUsuario u "
+				query = "Select u FROM cobrancausuario u "
 						+ " JOIN u.configuracaoBoleto conf "
 						+ " WHERE conf.condominio.id = :idCondominio AND u.avulso is not null "
 						+ " AND u.ano = :ano AND u.mes = :mes " ),				
 		@NamedQuery(name = "CobrancaUsuario.recuperarPorCondominioAvulsoAnoMes", 
-				query = "Select u FROM CobrancaUsuario u "
+				query = "Select u FROM cobrancausuario u "
 						+ " JOIN u.configuracaoBoleto conf "
 						+ " WHERE u.avulso.id = :idAvulso AND conf.condominio.id = :idCondominio "
 						+ " AND u.ano = :ano AND u.mes = :mes "),
 		@NamedQuery(name = "CobrancaUsuario.recuperarAnosMesesPorCondominio", 
-				query = "Select c.ano, c.mes FROM CobrancaUsuario c "
+				query = "Select c.ano, c.mes FROM cobrancausuario c "
 						+ " JOIN c.configuracaoBoleto conf "
 						+ " WHERE conf.condominio.id = :idCondominio "
 						+ " GROUP BY c.ano, c.mes ORDER BY c.ano DESC, c.mes DESC ")

@@ -21,15 +21,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
-@Entity
+@Entity(name="noticia")
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "Noticia.recuperarPorCondominio", 
-				query = "Select n FROM Noticia n WHERE n.condominio.id = :idCondominio "),
+				query = "Select n FROM noticia n WHERE n.condominio.id = :idCondominio "),
 		@NamedQuery(name = "Noticia.recuperarPorCondominioAtivas", 
-				query = "Select n FROM Noticia n WHERE n.condominio.id = :idCondominio AND n.ativa = 1 ORDER BY n.id DESC")
+				query = "Select n FROM noticia n WHERE n.condominio.id = :idCondominio AND n.ativa = 1 ORDER BY n.id DESC")
 })
 public class Noticia extends Entidade implements Serializable {
 

@@ -44,7 +44,7 @@ public class MeuRealm extends AuthenticatingRealm {
         Usuario credencial = dao.recuperarUsuarioPorEmail(principal);
  
         if(credencial != null) {
-             AuthenticationInfo info = new SimpleAuthenticationInfo(principal,credencial.getSenha() , "Usuario");
+             AuthenticationInfo info = new SimpleAuthenticationInfo(principal, credencial.getSenha() , "usuario");
              SimpleCredentialsMatcher cmatcher = new SimpleCredentialsMatcher();
  
              boolean credentialsMatch = cmatcher.doCredentialsMatch(token, info);

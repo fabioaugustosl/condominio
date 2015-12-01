@@ -13,10 +13,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="taxaextramensal")
 @XmlRootElement
-@NamedQueries({ @NamedQuery(name = "TaxaExtraMensal.recuperarPorCondominio", query = "Select u FROM TaxaExtraMensal u "
-		+ " WHERE u.condominio.id = :idCondominio ") })
+@NamedQueries({ @NamedQuery(name = "TaxaExtraMensal.recuperarPorCondominio", 
+							query = "Select u FROM taxaextramensal u "
+										+ " WHERE u.condominio.id = :idCondominio ") })
 public class TaxaExtraMensal extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;

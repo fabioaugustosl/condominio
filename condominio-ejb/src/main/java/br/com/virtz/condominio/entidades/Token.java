@@ -14,11 +14,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="token")
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name="Token.recuperarPorToken",
-				query=" SELECT distinct t FROM Token t WHERE t.token = :token ")
+				query=" SELECT distinct t FROM token t WHERE t.token = :token ")
 })
 public class Token  extends Entidade implements Serializable {
 

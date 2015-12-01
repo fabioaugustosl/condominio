@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="arquivonoticia")
 @XmlRootElement
 public class ArquivoNoticia extends Entidade implements Serializable {
 

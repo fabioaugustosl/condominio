@@ -17,11 +17,11 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="condominio")
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Condominio.recuperarPorCidade", 
-			query = "Select c FROM Condominio c WHERE c.cidade.id = :idCidade ")
+			query = "Select c FROM condominio c WHERE c.cidade.id = :idCidade ")
 })
 public class Condominio extends Entidade implements Serializable {
 

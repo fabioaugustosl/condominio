@@ -1,22 +1,34 @@
 package br.com.virtz.condominio.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.context.RequestContext;
 
+import br.com.virtz.boleto.util.DataUtil;
+import br.com.virtz.condominio.bean.Email;
+import br.com.virtz.condominio.constantes.EnumTemplates;
+import br.com.virtz.condominio.email.EnviarEmail;
+import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.Assembleia;
+import br.com.virtz.condominio.entidades.PautaAssembleia;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exception.ErroAoSalvar;
 import br.com.virtz.condominio.service.IAssembleiaService;
+import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
+import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
 
@@ -27,6 +39,9 @@ public class AssembleiaController {
 	@EJB
 	private IAssembleiaService assembleiaService;
 	
+	@EJB
+	private IUsuarioService usuarioService;
+	
 	@Inject
 	private MessageHelper messageHelper;
 	
@@ -35,6 +50,15 @@ public class AssembleiaController {
 	
 	@Inject
 	private NavigationPage navegacao;
+	
+	@Inject
+	private IArquivosUtil arquivoUtil;
+
+	@Inject
+	private LeitorTemplate leitor;
+	
+	@EJB
+	private EnviarEmail enviarEmail;
 	
 	
 	private List<Assembleia> assembleias;
@@ -63,13 +87,45 @@ public class AssembleiaController {
 			try {
 				assembleiaService.novaPauta(assembleiaSelecionada.getId(), textoPauta, usuario);
 				messageHelper.addInfo("Pauta enviada com sucesso! Aguarde até o sindico aprová-la.");
+				
+				try{
+					enviarEmailPauta(usuario, textoPauta, assembleiaSelecionada);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				
 				textoPauta = null;
 				assembleiaSelecionada = null;
+				
 			} catch (ErroAoSalvar e) {
 				throw new AppException(e.getMessage());
 			}
 		}
 	}
+	
+	
+	private void enviarEmailPauta(Usuario usuario, String txtPauta, Assembleia assembleia) {
+		
+		DataUtil dataUtil = new DataUtil();
+		
+		List<Usuario> sindicos = usuarioService.recuperarSindicos(usuario.getCondominio().getId());
+		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
+		if(sindicos != null){
+			for(Usuario sindico : sindicos){
+				Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
+				mapParametrosEmail.put("nome_sindico", usuario.getNome());
+				mapParametrosEmail.put("data_assembleia", dataUtil.formatarData(assembleia.getData(),"dd/MM/yyyy"));
+				mapParametrosEmail.put("nome_usuario", usuario.getNome());
+				mapParametrosEmail.put("msg", txtPauta);
+				
+				String msg = leitor.processarTemplate(caminho, EnumTemplates.PAUTA_ENVIADA.getNomeArquivo(), mapParametrosEmail);
+				
+				Email email = new Email(EnumTemplates.PAUTA_ENVIADA.getDe(), sindico.getEmail(), EnumTemplates.PAUTA_ENVIADA.getAssunto(), msg);
+				enviarEmail.enviar(email);
+			}
+		}
+	}
+	
 	
 	public void resetPauta(){
 		textoPauta = null;

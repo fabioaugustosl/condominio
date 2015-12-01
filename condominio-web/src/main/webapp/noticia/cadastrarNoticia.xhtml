@@ -57,6 +57,7 @@
 			    
 			    <p:column >
 			    	<p:commandButton id="removerArq" value="Remover" immediate="true"
+			    		styleClass="botao botao-vermelho"
 				   		actionListener="#{cadastroNoticiaController.removerArquivo(arqNoticia)}" 
 				   		update="dtArquivosNoticia">
 				   	</p:commandButton>
@@ -69,11 +70,13 @@
 	 	
 	 	
 	 	<p:commandButton id="salvarNoticia" value="Salvar" 
+	 	styleClass="botao botao-grande"
 	   		actionListener="#{cadastroNoticiaController.salvarNoticia}" 
 	   		update="@form">
 	   	</p:commandButton>
 	   	
 	 	<p:commandButton id="listagemNoticia" value="Ir para listagem" immediate="true"
+	 	styleClass="botao botao-grande"
 	   		actionListener="#{cadastroNoticiaController.irParaListagem}"  >
 	   	</p:commandButton>
 	 	

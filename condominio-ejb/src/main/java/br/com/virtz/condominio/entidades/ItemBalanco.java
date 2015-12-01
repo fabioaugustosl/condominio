@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,10 +23,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import br.com.virtz.condominio.constantes.EnumTipoBalanco;
 
-@Entity
+@Entity(name="itembalanco")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "ItemBalanco.recuperarUltimasDescricoes", 
-						query = "Select distinct(i.descricao) FROM ItemBalanco i "
+						query = "Select distinct(i.descricao) FROM itembalanco i "
 								+ " JOIN i.balanco b "
 							+ " WHERE b.condominio.id = :idCondominio AND i.tipoBalanco = :tipo "
 							+ " AND b.ano <= :ano "

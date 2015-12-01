@@ -23,15 +23,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 
-@Entity
+@Entity(name="votacao")
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name="Votacao.recuperarPorCondominio",
-				query="Select v FROM Votacao v WHERE v.condominio.id = :idCondominio ORDER BY v.dataLimite DESC "),
+				query="Select v FROM votacao v WHERE v.condominio.id = :idCondominio ORDER BY v.dataLimite DESC "),
 	@NamedQuery(name="Votacao.recuperarAtivasPorCondominio",
-				query="Select v FROM Votacao v WHERE v.condominio.id = :idCondominio AND v.ativa = 1 ORDER BY v.dataLimite DESC"),
+				query="Select v FROM votacao v WHERE v.condominio.id = :idCondominio AND v.ativa = 1 ORDER BY v.dataLimite DESC"),
 	@NamedQuery(name="Votacao.recuperarAtivasValidasPorCondominio",
-				query="Select v FROM Votacao v "
+				query="Select v FROM votacao v "
 						+ " WHERE v.condominio.id = :idCondominio AND v.ativa = 1 AND (v.dataLimite = NULL OR v.dataLimite >= :dataLimite)"
 						+ " ORDER BY v.dataLimite DESC")
 })

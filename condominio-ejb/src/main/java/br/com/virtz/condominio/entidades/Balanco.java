@@ -21,19 +21,19 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="balanco")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Balanco.recuperarPorCondominio", 
-						query = "Select u FROM Balanco u "
+						query = "Select u FROM balanco u "
 							+ " WHERE u.condominio.id = :idCondominio ORDER BY u.ano DESC, u.mes DESC"),
 				@NamedQuery(name = "Balanco.recuperarPorCondominioAnoMes", 
-						query = "Select u FROM Balanco u "
+						query = "Select u FROM balanco u "
 							+ " WHERE u.condominio.id = :idCondominio AND u.ano = :ano AND u.mes = :mes "),
 				@NamedQuery(name = "Balanco.recuperarPorCondominioESomatorio", 
-						query = "Select new Balanco (b.id, b.ano, b.mes,"
-								+ "	(select sum(i.valor) FROM ItemBalanco i WHERE i.balanco.id = b.id AND i.tipoBalanco = 'RECEITA'),"
-								+ " (select sum(i.valor) FROM ItemBalanco i WHERE i.balanco.id = b.id AND i.tipoBalanco = 'DESPESA')) "
-							+ " FROM Balanco b "
+						query = "Select new balanco (b.id, b.ano, b.mes,"
+								+ "	(select sum(i.valor) FROM itembalanco i WHERE i.balanco.id = b.id AND i.tipoBalanco = 'RECEITA'),"
+								+ " (select sum(i.valor) FROM itembalanco i WHERE i.balanco.id = b.id AND i.tipoBalanco = 'DESPESA')) "
+							+ " FROM balanco b "
 							+ " WHERE b.condominio.id = :idCondominio  ORDER BY b.ano DESC, b.mes DESC")
 })
 public class Balanco extends Entidade implements Serializable {

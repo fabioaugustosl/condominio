@@ -14,11 +14,9 @@
 	<h:outputStylesheet library="css" name="bootstrap.css" />
 	<h:outputStylesheet library="css" name="condominio.css" />
 	<h:outputStylesheet library="css" name="externo.css" />
-	<h:outputStylesheet library="css" name="fontes.css" />
 
 
 </h:head>
-<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poiret+One" />
 
 <h:body>
 	<p:ajaxStatus onstart="PF('statusDialog').show()"
@@ -32,7 +30,9 @@
 
 	<div class="page-header-entrada row topo">
 		<div class="centroTopo">
-			<div id="divLogo"></div>
+			<div id="divLogo">
+			 <p:graphicImage url="/img/logo_media.png" styleClass="img-responsive logo"  />
+			</div>
 		</div>
 	</div>
 

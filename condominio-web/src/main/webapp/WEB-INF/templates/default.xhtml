@@ -13,6 +13,7 @@
 	<h:outputStylesheet library="css" name="layout.css" />
 	<h:outputStylesheet library="css" name="botoes.css" />
 	<h:outputStylesheet library="css" name="componentes_forms.css" />
+	<h:outputStylesheet library="css" name="interno_geral.css" />
 	
 	<h:outputStylesheet library="css" name="menu_horizontal.css" />
 		
@@ -22,32 +23,29 @@
 	 
 </h:head>
 
-<style>
-.labelMenorNome{ font-weight: normal; color: #0080c0;  }
-</style>
 
 <h:body>
   		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
   
-  		<p:dialog id="statusDialog" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" appendTo="@(body)">
-		    <p:graphicImage library="img" url="img/ajax-loader.GIF" />
+  		<p:dialog id="statusDialog" widgetVar="statusDialog" modal="true" 
+  					draggable="false" closable="false" resizable="false" 
+  					showHeader="false" appendTo="@(body)">
+		    <p:graphicImage url="/img/ajax-loader.GIF" />
 		</p:dialog>
 		
 		<div class="menu">
 			<h:form id="formMenuConfiguracoes">
-				<div style="float:left; margin:10px; padding:0px;">
+				<div style="float:left; margin-left:10px; padding:0px;">
+					<p:graphicImage url="/img/logo_pequena.png" styleClass="img-responsive logo"  />
+				</div>
+				<div class="containerNomeCondominio">
 					<p:outputLabel id="labelCondominioPrincipal" value="#{principalController.condominio.nome}"></p:outputLabel>
 				</div>
-				<div style="float:right; margin:10px; padding:0px;">
+				 
+				<div style="float:right; padding:0px;">
 				
-					<h:outputLink value="#{facesContext.externalContext.requestContextPath}/portal.faces" style="float:right;">
-						<p:graphicImage id="icoPrincipal" url="/img/icones/ico_principal.png" height="26" style="cursor:pointer;"></p:graphicImage>
-					</h:outputLink>
-				
-					<p:outputPanel id="icoConfiguracao" style="cursor:pointer; float:right;">
-						<a  class="header-btn header-member js-open-header-member-menu" >
-							<span class="header-btn-text js-member-name">#{principalController.usuario.nome} <span class="labelMenorNome">[#{principalController.usuario.apartamento.numero} bl#{principalController.usuario.apartamento.bloco.numero}]</span> </span>
-						</a>
+					<p:outputPanel id="icoConfiguracao" styleClass="containerMenuFloat containerMenuUsuario containerMenuFloatTitulo" style="cursor:pointer; float:right;">
+						#{principalController.usuario.nome} <h6>Apto #{principalController.usuario.apartamento.numero}  Bloco #{principalController.usuario.apartamento.bloco.numero}</h6>
 					</p:outputPanel>
 					
 					
@@ -65,6 +63,10 @@
 					<ui:include src="/painel/alterarSenha.xhtml" />		    	
 
 					<ui:include src="/painel/notificacoes.xhtml" />	
+					
+					<h:outputLink value="#{facesContext.externalContext.requestContextPath}/portal.faces" styleClass="containerMenuFloat containerMenuFloatTitulo" >
+						<p:graphicImage id="icoPrincipal" url="/img/icones/ico_principal.png" height="26" style="cursor:pointer;"></p:graphicImage>
+					</h:outputLink>
 					
 				</div> 
 			</h:form>

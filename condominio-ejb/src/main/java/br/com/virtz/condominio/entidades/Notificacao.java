@@ -24,10 +24,10 @@ import org.apache.commons.lang.StringUtils;
 
 import br.com.virtz.condominio.constantes.EnumTipoNotificacao;
 
-@Entity
+@Entity(name="notificacao")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Notificacao.recuperarPorCondominioEUsuario", 
-						query = "SELECT n FROM Notificacao n "
+						query = "SELECT n FROM notificacao n "
 								+ " WHERE n.condominio.id = :idCondominio AND n.usuario.id = :idUsuario "
 								+ " ORDER BY n.data DESC") })
 public class Notificacao extends Entidade implements Serializable {

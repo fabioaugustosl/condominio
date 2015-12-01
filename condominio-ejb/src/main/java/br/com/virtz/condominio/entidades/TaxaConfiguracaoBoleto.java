@@ -12,10 +12,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="taxaconfiguracaoboleto")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "TaxaConfiguracaoBoleto.recuperarPorConfiguracao", 
-		query = "Select u FROM TaxaConfiguracaoBoleto u "
+		query = "Select u FROM taxaconfiguracaoboleto u "
 		+ " WHERE u.configuracaoBoleto.id = :idConfiguracaoBoleto ") 
 })
 public class TaxaConfiguracaoBoleto extends Entidade implements Serializable {

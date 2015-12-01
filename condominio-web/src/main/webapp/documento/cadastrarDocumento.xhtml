@@ -41,6 +41,7 @@
 				<p:outputPanel rendered="#{cadastroDocumentoController.documento.arquivo != null}">
 					<p:outputLabel value="#{cadastroDocumentoController.documento.arquivo.nomeOriginal}"></p:outputLabel>
 					<p:commandButton id="removerArq" value="Remover" immediate="true"
+						styleClass="botao botao-vermelho"
 				   		actionListener="#{cadastroDocumentoController.removerArquivo}" 
 				   		update="painelArquivo">
 				   	</p:commandButton>
@@ -51,10 +52,12 @@
 	 	
 	 	<p:commandButton id="salvarDoc" value="Salvar" 
 	   		actionListener="#{cadastroDocumentoController.salvarDocumento}" 
+	   		styleClass="botao botao-grande"
 	   		update="containerNovoDoc">
 	   	</p:commandButton>
 	   	
 	 	<p:commandButton id="listagemDocumento" value="Ir para listagem" immediate="true"
+	 		styleClass="botao botao-grande"
 	   		actionListener="#{cadastroDocumentoController.irParaListagem}"  >
 	   	</p:commandButton>
 	 	

@@ -14,7 +14,7 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 	@Override
 	public Usuario recuperarUsuarioCompleto(Long id) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT u FROM Usuario u ")
+		sb.append("SELECT u FROM ").append(Usuario.class.getName()).append(" u ")
 		.append(" LEFT JOIN FETCH u.condominio c ")
 		.append(" LEFT JOIN FETCH c.areasComuns areas ")
 		.append(" WHERE u.id = :idUsuario ");
@@ -39,7 +39,7 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 	@Override
 	public void alterarStatus(Long idUsuario, EnumTipoUsuario tipoUsuario) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE Usuario u ")
+		sb.append("UPDATE ").append(Usuario.class.getName()).append(" u ")
 		.append(" SET u.tipoUsuario = :tipoUsuairo ")
 		.append(" WHERE u.id = :idUsuario ");
 		

@@ -19,11 +19,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="batepapo")
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name="BatePapo.recuperarTodosPorCondominio",
-				query="SELECT distinct b FROM BatePapo b LEFT JOIN FETCH b.avaliacoes a WHERE b.condominio.id = :idCondominio ORDER BY b.id DESC")
+				query="SELECT distinct b FROM batepapo b LEFT JOIN FETCH b.avaliacoes a WHERE b.condominio.id = :idCondominio ORDER BY b.id DESC")
 })
 public class BatePapo extends Entidade implements Serializable, Comparable<BatePapo> {
 

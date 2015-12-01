@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="taxasaplicadas")
 @XmlRootElement
 public class TaxasAplicadas extends Entidade implements Serializable {
 

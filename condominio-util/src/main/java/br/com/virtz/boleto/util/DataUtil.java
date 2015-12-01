@@ -1,5 +1,6 @@
 package br.com.virtz.boleto.util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -110,4 +111,9 @@ public class DataUtil {
 	    return (int) ((t2 - t1) / (1000 * 60 * 60 * 24));
 	} 
 	
+	
+	public String formatarData(Date data, String formato){
+		SimpleDateFormat dt1 = new SimpleDateFormat(formato);
+        return dt1.format(data);
+	}
 }

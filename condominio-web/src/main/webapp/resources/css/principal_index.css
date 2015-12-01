@@ -29,3 +29,19 @@
     .container{margin-top: 10px;}
     .rodape{height: 100%;}
 }
+
+
+#divBtnCadastrar{
+	float:left;
+	margin: 10px;
+}
+.btnCadastrar{
+	background-color: red;
+	height: 40px;
+	text-align: center;
+	vertical-align: middle;
+	width: 200px;
+	color: #FFFFFF;
+	font-size: 2em;
+	
+}

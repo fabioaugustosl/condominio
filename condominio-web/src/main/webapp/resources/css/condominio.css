@@ -3731,7 +3731,7 @@ body,
 html {
   padding: 0;
   margin: 0;
-  background: #E0EEEE;
+  background: #F0FFFF;/*#E0EEEE*/;
   overflow-x: hidden;
 }
 body:before,

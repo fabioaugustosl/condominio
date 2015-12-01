@@ -18,11 +18,11 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="cidade")
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Cidade.recuperarPorEstado", 
-			query = "SELECT c FROM Cidade c WHERE c.estado.id = :idEstado") })
+			query = "SELECT c FROM cidade c WHERE c.estado.id = :idEstado") })
 public class Cidade extends Entidade implements Serializable, Comparable<Cidade> {
 
 	private static final long serialVersionUID = 1L;

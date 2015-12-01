@@ -23,11 +23,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="indicacao")
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "Indicacao.recuperarPorCondominio", 
-				query = "Select n FROM Indicacao n WHERE n.condominio.id = :idCondominio ORDER BY n.data desc ")
+				query = "Select n FROM indicacao n WHERE n.condominio.id = :idCondominio ORDER BY n.data desc ")
 })
 public class Indicacao extends Entidade implements Serializable {
 

@@ -17,10 +17,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="visitante")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Visitante.recuperarPorCondominio", 
-				query = "SELECT v FROM Visitante v "
+				query = "SELECT v FROM visitante v "
 								+ " WHERE v.condominio.id = :idCondominio  "
 								+ " ORDER BY v.id DESC")
 })

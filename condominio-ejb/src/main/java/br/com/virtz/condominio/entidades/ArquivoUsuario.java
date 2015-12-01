@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="arquivousuario")
 @XmlRootElement
 public class ArquivoUsuario extends Entidade implements Serializable {
 

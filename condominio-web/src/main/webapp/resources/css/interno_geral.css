@@ -1,0 +1,77 @@
+.container {
+  position: relative;
+  width: 80px;
+}
+
+.container img{
+	top:5px;
+    max-height: 80px;
+    width: 70px;
+}
+
+
+.mask {
+  top: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  height: 90px;
+  width: 80px;
+  background: radial-gradient(circle, transparent 30px, white 10px);
+}
+
+.noPadding{
+	padding: 0px;
+}
+
+.containerMenuFloat{
+	float: right;
+	height: 60px;
+	vertical-align:middle;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+	border-collapse: collapse;
+	background-color: #92B4C2;
+	border-left: 1px solid #648697;
+    color: #444444;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.containerMenuUsuario{
+	background-color: #3A4A53;
+}
+
+.containerMenuFloat h6{
+	font-size:0.7em;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+
+.containerMenuFloatTitulo {
+	padding: 0.5em 1em 0.3em;
+}
+
+.containerNomeCondominio{
+	float:left;
+	margin-left:25%; 
+	padding:0px; 
+	margin-top:10px;
+	color: #3A4A53;
+	font-size: 1.5em;
+}
+
+
+h1{
+	font-size:22px; 
+	line-height: 35px;
+	color: #28809D;
+	border-bottom: 1px solid #B6C1C5;
+}
+
+
+.ui-panel-titlebar{
+	
+}

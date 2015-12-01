@@ -20,14 +20,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import br.com.virtz.condominio.constantes.EnumTipoRecebido;
 
-@Entity
+@Entity(name="recebido")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Recebido.recuperarPorApto", 
-				query = "SELECT n FROM Recebido n "
+				query = "SELECT n FROM recebido n "
 					+ " WHERE n.apartamento.id = :idApartamento  "
 					+ " ORDER BY n.data DESC"),
 				@NamedQuery(name = "Recebido.recuperarPorCondominio", 
-				query = "SELECT r FROM Recebido r "
+				query = "SELECT r FROM recebido r "
 							+ " JOIN r.apartamento a "
 							+ " JOIN a.bloco b "
 							+ " WHERE b.condominio.id = :idCondominio  "

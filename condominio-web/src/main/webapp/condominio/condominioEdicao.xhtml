@@ -19,6 +19,22 @@
 	       		</p:outputPanel>
 	       		
 	       		<p:outputPanel layout="block">
+		       		<p:outputLabel value="CNPJ: " />
+		       		<p:inputMask id="cnpjCondominio" 
+		       				value="#{condominioEdicaoController.condominio.cnpj}"  
+		       				alt="Insira o CNPJ do condomínio."
+							maxlength="18" styleClass="inputPadrao" style="width:100%"
+							rendered="#{condominioEdicaoController.isEditavel()}"
+							mask="99.999.999/9999-99" >
+					</p:inputMask>
+		       			
+		       		<p:outputLabel value="#{condominioEdicaoController.condominio.cnpj}" 
+		       			rendered="#{not condominioEdicaoController.isEditavel()}" />
+		       			
+	       		</p:outputPanel>
+	       		
+	       		
+	       		<p:outputPanel layout="block">
 		       		<p:outputLabel value="Total de apartamentos: " />
 		       		<p:inputText value="#{condominioEdicaoController.condominio.quantidadeApartamentos}" 
 		       			size="10" maxlength="3"  style="width:100%"  

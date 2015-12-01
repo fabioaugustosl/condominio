@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="areacomum")
 @XmlRootElement
 public class AreaComum extends Entidade implements Serializable {
 

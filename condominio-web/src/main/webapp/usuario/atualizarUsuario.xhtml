@@ -12,12 +12,7 @@
    
    <ui:define name="content">
 	
-	<script>
-		$(document).ready(function() {
-		    $(".telefoneFix").blur();
-		});
-	</script>
-	
+
 	
 	<h:form id="form" enctype="multipart/form-data" >  
 	   	<h1>Atualizar meus dados</h1>
@@ -34,26 +29,25 @@
 						<br />
 									    
 					    <p:outputLabel value="Telefone: " /><br />
-						<p:inputText  id="telefoneUsuario" value="#{atualizarUsuarioController.usuario.telefone}"
-								    styleClass="inputPadrao telefoneFix"
-								    maxlength="20" alt="Insira seu telefone residencial." 
-								    style="width:30%"
-								    validatorMessage="Telefone digitado inválido!"
-								    onfocus="phoneMaskHandler(event);" onblur="phoneMaskHandler(event);">
-						    <f:validateRegex pattern="(^(\(?(\d{2})\)?\s?-?\s?(\d{4}|\d{5})\s?-?\s?(\d{4}))$)?" />
-						</p:inputText>
+						<p:inputMask id="telefoneUsuario" value="#{atualizarUsuarioController.usuario.telefone}" alt="Insira seu telefone residencial."
+							 maxlength="20" 
+							styleClass="inputPadrao" style="width:30%"
+							mask="(99) 9999-9999"/>
 						<br />
 							
 						<p:outputLabel value="Celular: " /><br />
-						<p:inputText  id="celularUsuario" value="#{atualizarUsuarioController.usuario.celular}"
-								    styleClass="inputPadrao telefoneFix"
-								     maxlength="20" alt="Insira seu celular." 
-								    style="width:30%"
-								    validatorMessage="Celular digitado inválido!"
-								    onfocus="phoneMaskHandler(event);" onblur="phoneMaskHandler(event);">
-						    <f:validateRegex pattern="(^(\(?(\d{2})\)?\s?-?\s?(\d{4}|\d{5})\s?-?\s?(\d{4}))$)?" />
-						</p:inputText>
+						<p:inputMask id="celularUsuario" value="#{atualizarUsuarioController.usuario.celular}" alt="Insira seu celular."
+							maxlength="20" styleClass="inputPadrao" style="width:30%"
+							mask="(99) 9999-9999?9" />
 						
+						<br />
+							
+						<p:outputLabel value="CPF: " /><br />
+						<p:inputMask id="cpfUsuario" value="#{atualizarUsuarioController.usuario.cpf}" alt="Insira seu CPF. Isso é importante em funcionalidades como a geração do boleto por exemplo."
+								maxlength="14" styleClass="inputPadrao" style="width:30%"
+								mask="999.999.999-99" >
+						</p:inputMask>
+							
 				</p:outputPanel>
 				
 				<p:outputPanel id="blocoEapartamento">

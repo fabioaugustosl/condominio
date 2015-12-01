@@ -37,15 +37,15 @@ form{
 
 /* "Menu" */
 .menu{
-    padding:20px 0;
+    /*padding:20px 0;*/
     text-align:center;
     width:100%;
     display:block;
     clear:both;
     font-size:14px;
     color:#fff;
-    height:80px;
-    background:#6190C8;
+    height:62px;
+    background:#E0EEEE;
 }
 .menu a{
     color:#fff;
@@ -137,3 +137,58 @@ form{
   -ms-user-select: none;
   user-select: none;
 }
+
+
+.painelWidget{
+	margin-bottom:10px;
+	/*background: #B6C1C5 !important;*/
+}
+
+.painelWidgetAzul{
+	margin-bottom:10px;
+	background: #A4C6D4 !important;
+}
+.painelWidgetInterno{
+	background: transparent;
+}
+
+.ui-panel-titlebar{
+	display: inline-block !important;
+	background: #C15B50 !important;
+	color: #FFF !important;
+	border-radius: 4px !important;
+	width: 100%;
+}
+
+
+.botao{
+	height:45px !important;
+	display: inline-block !important;
+	background: #3A5B6B !important;
+	color: #FFF !important;
+	padding: 10px 20px !important;
+	text-decoration: none !important;
+	box-sizing: border-box !important;
+	font-size: 14px !important;
+	border: 0px !important;
+	border-radius: 4px !important;
+	cursor: pointer !important;
+}
+
+
+.botao:hover {
+	background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,.15));
+}
+
+
+.botao-vermelho {
+	color: #fff;
+	background-color: #F38630;
+}
+
+.botao-grande {
+	font-size: 140%;
+}
+
+.ui-button {}
+.ui-widget{}

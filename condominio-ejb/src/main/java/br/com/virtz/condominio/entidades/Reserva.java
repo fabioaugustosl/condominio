@@ -17,17 +17,17 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="reserva")
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Reserva.recuperarQtdReservasPorArea", 
-			query = "Select count(*) FROM Reserva r "
+			query = "Select count(*) FROM reserva r "
 					+ "	WHERE r.areaComum.id = :idAreaComum "),
 	@NamedQuery(name = "Reserva.recuperarPorAreaNomeEData", 
-			query = "Select r FROM Reserva r "
+			query = "Select r FROM reserva r "
 					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.nome = :nomeUsuario AND r.data = :data "),
 	@NamedQuery(name = "Reserva.recuperarPorAreaEmailEData", 
-			query = "Select r FROM Reserva r "
+			query = "Select r FROM reserva r "
 					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.email = :emailUsuario AND r.data = :data ")
 })
 public class Reserva extends Entidade implements Serializable {

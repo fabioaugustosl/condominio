@@ -8,7 +8,7 @@
    <h:form id="formTroca" style="width:100%">
    
    		<script>
-    		function envairMSG(){
+    		function enviarMSG(){
 				$("#divEnviarMsg").show("slow");
 				//PF('btnAbreEnvia').hide();
 			}
@@ -17,7 +17,7 @@
 	   <p:outputPanel id="containerBatePapo">
 	   		<p:messages autoUpdate="false" id="msgTrocaIdeia"></p:messages>
 		   	<p:outputPanel id="painelNovoBatePapo">
-		   		<p:commandButton id="btnAbreEnvia" value="Enviar Mensagem" styleClass="btn btn-primary btn-block btn-lg" widgetVar="btnAbreEnvia" onclick="envairMSG()"/>
+		   		<p:commandButton id="btnAbreEnvia" value="Enviar Mensagem" styleClass="btn btn-primary btn-block btn-lg" widgetVar="btnAbreEnvia" onclick="enviarMSG()"/>
 		   		
 		   	 	<div id="divEnviarMsg" style="display:none" >
 			   	 	<p:inputTextarea style="width:100%;" maxlength="800" styleClass="textAreaPadrao" 
@@ -29,20 +29,19 @@
 		   	</p:outputPanel>
 		   	<p:outputPanel id="painelBatePapoMensagens">
 				<p:dataScroller id="dataScrollerBatePapo" value="#{batePapoController.batePapos}" var="papo" chunkSize="10" mode="inline" style="width:100%; height:100%;" >
-			        <h:panelGrid columns="1" style="width:100%; height:100%;" columnClasses="logo">
-			            <p:outputPanel>
-			                <h:panelGrid columns="2" cellpadding="5">
+			        <h:panelGrid columns="1" style="width:100%; height:100%;" >
+			            <p:outputPanel styleClass="noPadding">
+			                <h:panelGrid columns="2" styleClass="noPadding" >
 			                    
-			                    <p:outputPanel id="trocaIdeiaContainerFoto">
-			                    	<div class="trocaIdeiaNome">
-			                    		<h:outputText value="#{papo.usuario.nome}" />
-			                    	</div>
-													                    	
-			 						<p:graphicImage  id="img" 
-			 							alt="#{papo.usuario.nome}" 
-			 							url="/imagem?arquivo=#{papo.usuario.arquivo.caminhoCompleto}"
-			 						 	style="width:50px;"/>
-			 						
+			                    <p:outputPanel id="trocaIdeiaContainerFoto" styleClass="noPadding">
+			                    	
+			                    	<div class="container">
+									  <p:graphicImage id="img"  style="width:60px;"
+				 							alt="#{papo.usuario.nome}" 
+				 							url="/imagem?arquivo=#{papo.usuario.arquivo.caminhoCompleto}" />
+									  <div class="mask"></div>
+									</div>
+
 			 					</p:outputPanel>
 			                    <p:outputPanel id="trocaIdeiaContainerMensagem">
 			                    	<h:outputText value="#{papo.mensagem}" style="font-weight: bold"/><br />

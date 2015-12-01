@@ -1,9 +1,19 @@
-.topo{ height: 70px;}
+.topo{ 
+	height: 70px;
+	background-color: 
+}
 .centroTopo{max-width: 990px; margin: 0 auto; padding-left: 20px;}
-.corpo{max-width: 990px; margin: 0 auto; padding-left: 25px; padding-right: 25px; font-family: 'Poiret One', cursive;}
+.corpo{max-width: 990px; margin: 0 auto; padding-left: 25px; padding-right: 25px; }
 
 .corpo input{width: 300px;}
-h1{font-size:22px; line-height: 35px;}
-h1 span{font-size: 15px;}
+h1{
+	font-size:1.8em; 
+	line-height: 35px;
+	color: #28809D;
+}
+h1 span{
+	font-size: 1.2em;
+	color: #6D909F;
+}
 .txtBlue{color: blue;}
 

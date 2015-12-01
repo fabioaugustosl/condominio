@@ -14,11 +14,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="avaliacao")
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name="Avaliacao.recuperarAvalicaoPorBatepapoEUsuario",
-				query="Select a FROM Avaliacao a WHERE a.usuario.id = :idUsuario and a.batePapo.id = :idBatePapo")
+				query="Select a FROM avaliacao a WHERE a.usuario.id = :idUsuario and a.batePapo.id = :idBatePapo")
 })
 public class Avaliacao extends Entidade implements Serializable {
 

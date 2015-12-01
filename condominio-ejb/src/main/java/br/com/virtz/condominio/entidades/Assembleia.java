@@ -22,17 +22,17 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="assembleia")
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "Assembleia.recuperarPorCondominio", 
-				query = "Select n FROM Assembleia n WHERE n.condominio.id = :idCondominio ORDER BY n.data DESC "),
+				query = "Select n FROM assembleia n WHERE n.condominio.id = :idCondominio ORDER BY n.data DESC "),
 		@NamedQuery(name = "Assembleia.recuperarNaoRealizadasPorCondominio", 
-				query = "Select n FROM Assembleia n "
+				query = "Select n FROM assembleia n "
 						+ "	WHERE n.condominio.id = :idCondominio AND n.data >= CURRENT_DATE "
 						+ " ORDER BY n.data ASC "),
 		@NamedQuery(name = "Assembleia.recuperarIdUltimaAssembleiaDoCondominio", 
-						query = "Select max(n.id) FROM Assembleia n "
+						query = "Select max(n.id) FROM assembleia n "
 								+ "	WHERE n.condominio.id = :idCondominio AND n.data < CURRENT_DATE "
 								+ " ORDER BY n.data DESC ")
 })
