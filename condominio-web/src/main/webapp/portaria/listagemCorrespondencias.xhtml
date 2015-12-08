@@ -8,22 +8,24 @@
    
    <ui:define name="content">
    	<h:form id="form" style="width:100%">
-	   	<h1><p:outputLabel value="Verifique suas correnpondências e itens para entrega deixados na portaria." /></h1>
+	   	<h1>Verifique suas correnpondências e itens para entrega deixados na portaria</h1>
 	 	<br />
 	 	
 		<p:dataTable id="dtListagemCorrespondencias" var="carta" 
 				value="#{listagemCorrespondenciaController.recebidos}"
 				emptyMessage="Ainda não foi cadastradas nenhuma correspondência para você." >
 			
-	        <p:column headerText="Data">
-		        <h:outputText value="#{carta.data}" />
+	        <p:column headerText="Data" styleClass="colunaLargura160" style="text-align:center">
+		        <h:outputText value="#{carta.data}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00" />
+		        </h:outputText>
 		    </p:column>
 		    
 		    <p:column headerText="Comentário">
 		        <h:outputText value="#{carta.comentario}" />
 		    </p:column>
 		    
-		    <p:column headerText="Tipo">
+		    <p:column headerText="Tipo" styleClass="colunaLargura160">
 		        <h:outputText value="#{carta.tipoRecebido.descricao}" />
 		    </p:column>
 		    

@@ -7,27 +7,28 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h1><p:outputLabel value="Cadastro de documentos" /></h1>
+   	<h1>Cadastrar documento</h1>
+ 	<p:outputLabel styleClass="textoInformativo" value="Insira novo arquivo ou documento que deseje compartilhar com os moradores." />
  	<br />
  	
  	<h:form id="form" enctype="multipart/form-data">
 	    
 	    <p:outputPanel id="containerNovoDoc">
 	    
-			<p:outputLabel value="Título:" /> <br />
+			<p:outputLabel value="Título:" styleClass="labelPadrao" /> <br />
 			<p:inputText id="titulo" alt="Insira o título do documento" styleClass="inputPadrao" 
 				value="#{cadastroDocumentoController.documento.titulo}" maxlength="400" 
 				required="true" requiredMessage="Favor preencher o título do documento." />
 			<br />
 			
-			<p:outputLabel value="Descrição:" /><br />
+			<p:outputLabel value="Descrição:" styleClass="labelPadrao" /><br />
 	        <p:inputTextarea id="descricaoDoc" alt="Insira a descrição do documento" styleClass="textAreaPadrao"
 				value="#{cadastroDocumentoController.documento.descricao}" maxlength="2000"  />
 	        <br />
 	        
 	        <p:outputPanel id="painelArquivo" >
 	        
-		        <p:outputLabel value="Anexar documento:" /><br />
+		        <p:outputLabel value="Anexar documento:" styleClass="labelPadrao" /><br />
 		      
 		        <p:fileUpload rendered="#{cadastroDocumentoController.documento.arquivo == null}"
 				        mode="advanced" update="painelArquivo" label="Selecionar arquivo"

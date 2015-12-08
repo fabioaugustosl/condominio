@@ -8,7 +8,9 @@
    
    <ui:define name="content">
    	<h:form id="form" style="width:100%">
-	   	<h1>Usuários</h1>
+	   	<h1>Moradores</h1>
+	   	<p:outputLabel styleClass="textoInformativo" 
+   			value="Gerencie todos os moradores do condominio. Aqui você pode alterar o perfil de cada morador. Para isso basta clicar no 'V' na coluna do perfil desejado. " />
 	 	<br />
 	 	
 		<p:dataTable id="dtListagemUsuarios" var="usuario" 
@@ -16,16 +18,16 @@
 				rowKey="#{usuario.id}"
 				emptyMessage="Ainda não foi cadastrado nenhum usuário." >
 			
-			<p:column>
+			<p:column styleClass="colunaLargura100">
 				<p:graphicImage id="img" url="/imagem?arquivo=#{usuario.arquivo.caminhoCompleto}" 
-					alt="#{usuario.nome}" style="width:50px;"/>
+					alt="#{usuario.nome}" style="width:60px;"/>
 		    </p:column>
 		    
 		    <p:column headerText="Morador" >
 		        <h:outputText value="#{usuario.nome}" />
 		    </p:column>
 		    
-		    <p:column headerText="Síndico">
+		    <p:column headerText="Síndico" style="text-align:center;">
 		    	
 		        <p:graphicImage id="imgSindicoS" url="/img/icones/icone_bola_ativo.png" rendered="#{usuario.isSindico()}" />
 		        
@@ -35,7 +37,7 @@
 		        </p:commandLink>
 		    </p:column>
 		    
-		    <p:column headerText="Administrativo">
+		    <p:column headerText="Administrativo" style="text-align:center;">
 		        <p:graphicImage id="imgAdmS" url="/img/icones/icone_bola_ativo.png" rendered="#{usuario.isAdministrativo()}"/>
 		        <p:commandLink actionListener="#{listagemUsuarioController.alterarParaAdministrativo(usuario)}" id="imgAdmNLink" 
 		        		immediate="true"  rendered="#{not usuario.isAdministrativo()}" update="@form" >
@@ -43,7 +45,7 @@
 		        </p:commandLink>
 		    </p:column>
 		    
-		    <p:column headerText="Morador">
+		    <p:column headerText="Morador" style="text-align:center;">
 		        <p:graphicImage id="imgMoradorS" url="/img/icones/icone_bola_ativo.png" rendered="#{usuario.isMorador()}"/>
 		        <p:commandLink actionListener="#{listagemUsuarioController.alterarParaMorador(usuario)}" id="imgMoradorNLink" 
 		        		immediate="true" rendered="#{not usuario.isMorador()}" update="@form" >
@@ -51,7 +53,7 @@
 		        </p:commandLink>
 		    </p:column>
 	
-		    <p:column style="text-align:center">
+		    <p:column style="text-align:center" styleClass="colunaLargura100" headerText="Excluir">
 		    	<p:commandLink actionListener="#{listagemUsuarioController.remover(usuario)}" ajax="false"
 		    		id="excluirUsuarioSelecionada" immediate="true" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover esse usuário" icon="ui-icon-alert" />

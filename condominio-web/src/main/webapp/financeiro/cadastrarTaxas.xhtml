@@ -16,7 +16,7 @@
 	   		
    		<p:outputPanel id="cadastroTX" >
    		
-   			<p:outputLabel value="Nome ou Descrição" /><br />
+   			<p:outputLabel value="Nome ou Descrição" styleClass="labelPadrao" /><br />
 			<p:inputText id="descricao" styleClass="inputPadrao" 
 			required="true" requiredMessage="Favor preencher o nome ou descrição da taxa."
 				value="#{cadastroTaxaController.taxa.descricao}"  maxlength="100" ></p:inputText>
@@ -24,7 +24,7 @@
 			<br />
 			
 		 	<p:outputPanel id="containerComboTipo" >
-		 		<p:outputLabel value="A taxa é valor fixo ou porcentagem?"></p:outputLabel>
+		 		<p:outputLabel value="A taxa é valor fixo ou porcentagem?" styleClass="labelPadrao"></p:outputLabel>
 		 		<br />
 			 	<p:selectOneMenu id="tipo" value="#{cadastroTaxaController.tipo}" 
 			 	  required="true" style="width:400px;"
@@ -36,7 +36,7 @@
 			<br />
 			
 			<p:outputPanel id="containerComboCredito" >
-		 		<p:outputLabel value="A taxa é de crédito ou débito?"></p:outputLabel>
+		 		<p:outputLabel value="A taxa é de crédito ou débito?" styleClass="labelPadrao"></p:outputLabel>
 		 		<br />
 			 	<p:selectOneMenu id="credito" value="#{cadastroTaxaController.creditoDebito}" 
 			 	  required="true" style="width:400px;"
@@ -48,7 +48,7 @@
 			
 			<br />	
  			
-			<p:outputLabel value="Valor da taxa:" /> <br />
+			<p:outputLabel value="Valor da taxa:"  styleClass="labelPadrao"/> <br />
 			<p:inputText id="valorTx" styleClass="inputPadrao" 
 						required="true" requiredMessage="Favor preencher o valor da taxa"
 						value="#{cadastroTaxaController.taxa.valor}" maxlength="10" style="width:100px">
@@ -58,14 +58,17 @@
 			<br />
 			<br />
 			<p:commandButton id="voltar" value="Voltar" immediate="true"
+				styleClass="botao botao-grande"
 	   			actionListener="#{cadastroTaxaController.voltar()}"  >
 	   		</p:commandButton>
 	   	
 	   		<p:commandButton id="btnListagem" value="Ir para listagem" immediate="true"
+	   			styleClass="botao botao-grande"
 	   			actionListener="#{cadastroTaxaController.irParaListagem()}">
 	   		</p:commandButton>
 	   	
 			<p:commandButton id="btnSalvarConta" value="Salvar"  update="@form"
+				styleClass="botao botao-grande"
 		   		actionListener="#{cadastroTaxaController.salvar}" >
 		   	</p:commandButton>
 

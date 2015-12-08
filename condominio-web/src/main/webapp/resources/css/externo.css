@@ -1,19 +1,76 @@
-.topo{ 
-	height: 70px;
-	background-color: 
+body,
+html {
+  padding: 0;
+  margin: 0;
+  background: #F0FFFF;/*#E0EEEE*/;
+  overflow-x: hidden;
 }
+
+
+.topo{ 
+	padding:10px;
+	height: 110px;
+	text-align:center;
+    width:100%;
+    display:block;
+    clear:both;
+    background:#92B4C2;  
+}
+
+.imgLogo{ 
+	left:245px;
+}
+
 .centroTopo{max-width: 990px; margin: 0 auto; padding-left: 20px;}
+
 .corpo{max-width: 990px; margin: 0 auto; padding-left: 25px; padding-right: 25px; }
 
 .corpo input{width: 300px;}
+
 h1{
-	font-size:1.8em; 
-	line-height: 35px;
+	margin-top:25px;
+	font-size:2em; 
 	color: #28809D;
 }
-h1 span{
-	font-size: 1.2em;
+h2{
+	font-size:1.5em;
 	color: #6D909F;
 }
+
+p{
+	font-size:1.2em; 
+	color: #28809D;
+	line-height: 25px;
+}
 .txtBlue{color: blue;}
+
+label {
+	margin-top:10px;
+	margin-bottom:0px;
+	padding:0px;
+	font-size: 1.0em !important;	
+	color: #28809D;
+}
+
+.inputPadrao {
+	width:100%;
+	border:1px solid #B6C1C5;
+	border-left: 3px solid #6D909F;
+	box-shadow: none !important;
+}
+
+.botao{
+	height:45px !important;
+	display: inline-block !important;
+	background: #3A5B6B !important;
+	color: #FFF !important;
+	padding: 10px 20px !important;
+	text-decoration: none !important;
+	box-sizing: border-box !important;
+	font-size: 14px !important;
+	border: 0px !important;
+	border-radius: 4px !important;
+	cursor: pointer !important;
+	margin: 10px;
+}
 

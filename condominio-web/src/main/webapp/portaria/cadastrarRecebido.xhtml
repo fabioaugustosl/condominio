@@ -20,7 +20,7 @@
    		
    		
    			<p:outputPanel id="containerComboBloco" rendered="#{empty cadastroRecebidoController.blocoSelecionado}" >
-				<p:outputLabel value="Selecione o bloco:"></p:outputLabel>
+				<p:outputLabel value="Selecione o bloco:" styleClass="labelPadrao" ></p:outputLabel>
 				<br />
 			 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
 			 			value="#{cadastroRecebidoController.blocoSelecionado}" 
@@ -31,10 +31,9 @@
 			 	</p:selectOneMenu>
 			 </p:outputPanel>
 			 	
-		 	<br />
 		 	<p:outputPanel id="containerComboApartamentos" >
 			 	<p:outputPanel id="containerComboApartamentosInterno" rendered="#{not empty cadastroRecebidoController.blocoSelecionado}" >
-			 		<p:outputLabel value="Selecione o apartamento:"></p:outputLabel>
+			 		<p:outputLabel value="Selecione o apartamento:" styleClass="labelPadrao"></p:outputLabel>
 			 		<br />
 				 	<p:selectOneMenu id="comboApartamentos"  style="width:400px;"
 				 			value="#{cadastroRecebidoController.apartamentoSelecionado}" 
@@ -48,7 +47,7 @@
 			
 			<br />
 		 	<p:outputPanel id="containerComboTipoEncomenda" >
-		 		<p:outputLabel value="Tipo:"></p:outputLabel>
+		 		<p:outputLabel value="Tipo:" styleClass="labelPadrao"></p:outputLabel>
 		 		<br />
 			 	<p:selectOneMenu id="tipo" value="#{cadastroRecebidoController.tipo}" 
 			 	  required="true" style="width:400px;"
@@ -60,18 +59,20 @@
 				
 					
 				
- 			<p:outputLabel value="Descrição / Comentário" /><br />
+ 			<p:outputLabel value="Descrição / Comentário" styleClass="labelPadrao" /><br />
 			<p:inputTextarea rows="10" cols="50" id="txtAreaComentario" 
-			value="#{cadastroRecebidoController.descricao}"   />
+					styleClass="textAreaPadrao"
+					value="#{cadastroRecebidoController.descricao}"   />
 			
-			<br/>
 			<br/>
 			
 			<p:commandButton id="btnSalvarRecebido" value="Salvar"  update="@form"
+				styleClass="botao botao-grande"
 		   		actionListener="#{cadastroRecebidoController.salvar}" >
 		   	</p:commandButton>
 		
 			<p:commandButton id="btnVoltarGerenciarPortaria" value="Voltar" immediate="true"
+				styleClass="botao botao-grande"
 		   		actionListener="#{cadastroRecebidoController.voltar}" >
 		   	</p:commandButton>
 		</p:outputPanel>

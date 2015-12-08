@@ -35,6 +35,14 @@
 	
 	
 	<h:body >
+		<style> 
+		.ui-dialog{
+	    position: fixed;
+	    margin-top: 10%;
+	    margin-left: 35%;
+	    width: 30% !important;
+	  }
+  </style>
 		<div class="container">
             <div class="row">
                 <div class="col-lg-12 conteudoSite">
@@ -43,42 +51,12 @@
                         <p:graphicImage url="/img/logo_media.png" styleClass="img-responsive logo"  />
                     </div>
 
-                    <div class="col-lg-8">
-                      <h:form id="formLogin">
-                      <p:outputPanel id="panelLogin">
-	                        <div class="msg">
-								<p:messages id="messagesLogin" />
-							</div>
-							<div  style="float:left">
-								<div>
-									<p:inputText id="username" value="#{loginController.login}"  
-										required="true" label="username" 
-										requiredMessage="Você não preencheu o email (login)." placeholder="Email" />
-									<span class="fa fa-user signin-form-icon"></span>
-								</div>
-						
-								<div>
-									<p:password id="password" value="#{loginController.senha}" 
-											 label="password" 
-											maxlength="10" placeholder="Senha"
-											required="true"
-											requiredMessage="Você não preencheu sua senha."  />
-									<span class="fa fa-lock signin-form-icon"></span>
-								</div>
-							</div>
-							<div style="float:left">
-								<div>
-									<p:commandButton id="btnConectarLogin" value="Entrar" actionListener="#{loginController.logar}" update="panelLogin" styleClass="btn btn-primary btn-block btn-lg"/>
-								</div>
-				
-								<p:commandLink value="Esqueci minha senha" styleClass="forgot" onclick="esqueciMinhaSenha()" />
-							</div>
-							
-							<div id="divBtnCadastrar">
-								<p:commandButton id="btnCadastrarLogin" value="Quero me cadastar" ajax="false" immediate="true" 
-												actionListener="#{loginController.novoUsuario}" styleClass="btnCadastrar"/>
-							</div>
-						</p:outputPanel>
+                    <div class="col-lg-8" style="text-align: right; ">
+                      <h:form id="formInicio">
+                      	<p:commandLink id="linkLogin" value="Entre" onclick="PF('dlgLogin').show();"></p:commandLink>
+                      		ou 
+                      	<p:commandLink id="btnCadastrarLogin" value="Cadastre-se" ajax="false" immediate="true" 
+								actionListener="#{loginController.novoUsuario}" />
                         </h:form>
                     </div>
                 </div>
@@ -97,7 +75,7 @@
                         <a href="#" class="thumbnail imgQuadros">
                         	<p:graphicImage url="/img/index/votacao.png"  />
                         </a>
-                        <div class="txtQuadros"><a href="#">Participe de votações online e economize tempo nas asembléias </a></div>
+                        <div class="txtQuadros">Participe de votações online e economize tempo nas asembléias </div>
                     </div>
                 </div>
 
@@ -107,7 +85,7 @@
                         <a href="#" class="thumbnail imgQuadros">
                         	<p:graphicImage url="/img/index/sino.png"  />
                         </a>
-                        <div class="txtQuadros"><a href="#">Reserve o salão de festas com apenas um clique </a></div>
+                        <div class="txtQuadros">Reserve o salão de festas com apenas um clique</div>
                     </div>
                 </div>
 
@@ -117,7 +95,7 @@
                         <a href="#" class="thumbnail imgQuadros">
                         	<p:graphicImage url="/img/index/boleto.png"  />
                         </a>
-                        <div class="txtQuadros"><a href="#">Emita seus boletos pelo site</a></div>
+                        <div class="txtQuadros">Emita seus boletos pelo site</div>
                     </div>
                 </div>
 
@@ -127,7 +105,7 @@
                         <a href="#" class="thumbnail imgQuadros">
                         	<p:graphicImage url="/img/index/encomendas.png"  />
                         </a>
-                        <div class="txtQuadros"><a href="#">Receba notificação de encomendas entregues </a></div>
+                        <div class="txtQuadros">Receba notificação de encomendas entregues </div>
                     </div>
                 </div>
 
@@ -135,44 +113,99 @@
             </div>
         </div>
 
-        <div class="rodape">
-            <div class="container">
-                <div class="col-lg-5 rodapeCentro">
-                        <p>Assine nossa newsletter e fique por dentro de nossas novidades</p>
-                        
-                </div>
-                <div class="col-lg-3 text-center">
-                    <p>O QUE VOCÊ PODE FAZER ATRAVÉS DO NOSSO SITE</p>
-                    <div class="lista text-left">
-                        <ul>
-                            <li><a href="#">Emissão de Boletos</a></li>
-                            <li><a href="#">Reserva de Salão de Festas</a></li>
-                            <li><a href="#">Votação OnLine</a></li>
-                            <li><a href="#">Reserva de Salão de Festas</a></li>
-                            <li><a href="#">Notificação de Encomendas Entregues</a></li>
-
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 text-center">
-                    <p>MAPA DO SITE</p>
-                    <div class="lista text-left">
-                        <ul>
-                            <li><a href="#">Início</a></li>
-                            <li><a href="#">Sobre o Sistema</a></li>
-                            <li><a href="#">Sobre a empresa</a></li>
-                            <li><a href="#">Demonstração</a></li>
-                            <li><a href="#">Fale Conosco</a></li>
-
-                        </ul>
-                    </div>
-                    </div>
-                </div>
-            </div>
+        <div class="rodape" style="height: auto">
+            <div class="container" >
+                <h:form id="formContato">
+                    <p style="font-size:1.8em; ">Entre em contato conosco!</p>
+                      <p:outputPanel id="panelLogin">
+	                        <div class="msg">
+								<p:messages id="messagesLogin" />
+							</div>
+							<div>
+								<p:outputLabel value="Nome"></p:outputLabel>
+							</div>
+							<div>
+								<p:inputText id="nome" value="#{contatoController.nome}"  
+									required="true" label="username" styleClass="inputPadrao"
+									requiredMessage="Você não preencheu o seu nome" placeholder="Nome" />
+							</div>
+							<div>
+								<p:outputLabel value="E-mail"></p:outputLabel>
+							</div>
+							<div>
+								<p:inputText id="emmail" value="#{contatoController.email}"    
+									required="true" label="username" styleClass="inputPadrao"
+									requiredMessage="Você não preencheu seu email." placeholder="E-mail" />
+							</div>
+							
+							<div>
+								<p:outputLabel value="Mensagem"></p:outputLabel>
+							</div>
+							<div>
+								<p:inputTextarea id="msgme" value="#{contatoController.mensagem}"    
+									required="true" styleClass="textAreaPadrao"
+									requiredMessage="Você não preencheu seu email." />
+							</div>
+					
+							<div style="margin-top: 20px;">
+								<p:commandButton id="btnConectarEnviar" value="Enviar" 
+								actionListener="#{contatoController.enviarEmail}" update="@form" 
+								styleClass="botao"/>
+							</div>
+			
+						</p:outputPanel>
+                	
+                </h:form>
+               
+           </div>
+       </div>
             <div class="rodapeFaixa"></div>
 
-	</h:body>
 	
+	
+	<p:dialog modal="true" id="dlgLogin" widgetVar="dlgLogin" header="Autenticação" 
+					position="center center"  
+						draggable="false" closable="true" resizable="false" closeOnEscape="true"
+						dynamic="false" >
+		<h:form id="formLogin">
+                      <p:outputPanel id="panelLogin">
+	                        <div class="msg">
+								<p:messages id="messagesLogin" />
+							</div>
+							<div>
+								<p:outputLabel value="E-mail"></p:outputLabel>
+							</div>
+							<div>
+								<p:inputText id="username" value="#{loginController.login}"  
+									required="true" label="username" styleClass="inputPadrao"
+									requiredMessage="Você não preencheu o email (login)." placeholder="E-mail" />
+								<span class="fa fa-user signin-form-icon"></span>
+							</div>
+					
+							<div style="margin-top: 10px;">
+								<p:outputLabel value="Senha"></p:outputLabel>
+							</div>
+							<div>
+								<p:password id="password" value="#{loginController.senha}" 
+										 label="password" styleClass="inputPadrao"
+										maxlength="10" placeholder="Senha"
+										required="true"
+										requiredMessage="Você não preencheu sua senha."  />
+								<span class="fa fa-lock signin-form-icon"></span>
+							</div>
+							<div style="margin-top: 20px;">
+								<p:commandButton id="btnConectarLogin" value="Entrar" 
+								actionListener="#{loginController.logar}" update="panelLogin" 
+								styleClass="botao"/>
+								<p:commandLink value="Esqueci minha senha" 
+									style="margin-left:10px;"
+									styleClass="forgot" onclick="esqueciMinhaSenha()" />
+							</div>
+			
+						
+						</p:outputPanel>
+                        </h:form>
+			</p:dialog>
+	</h:body>
 	</f:view>
 </html>

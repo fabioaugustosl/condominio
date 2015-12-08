@@ -9,6 +9,7 @@
    <ui:define name="content">
    	<h:form id="form" style="width:100%">
 	   	<h1>Notícias e Avisos</h1>
+	   	<p:outputLabel styleClass="textoInformativo" value="Listagem de todas as notícias cadastradas para o condomínio." />
 	 	<br />
 	 	
 		<p:dataTable id="dtListagemNoticias" var="noticia" 
@@ -16,7 +17,7 @@
 				rowKey="#{votacao.id}"
 				emptyMessage="Ainda não foi cadastrada nenhuma notícia ou aviso." >
 			
-	        <p:column headerText="Código" rendered="#{listagemNoticiaController.podeEditar()}">
+	        <p:column headerText="Código" rendered="#{listagemNoticiaController.podeEditar()}" styleClass="colunaLargura100">
 		        <h:outputText value="#{noticia.id}" />
 		    </p:column>
 		    
@@ -24,18 +25,19 @@
 		        <h:outputText value="#{noticia.titulo}" />
 		    </p:column>
 		    
-		    <p:column headerText="Data">
+		    <p:column headerText="Data" styleClass="colunaLargura100" >
 		        <h:outputText value="#{noticia.data}" >
 		        	<f:convertDateTime pattern="dd/MM/yyyy"/>
 		        </h:outputText>
 		    </p:column>
 		    
-		    <p:column headerText="Ativa?">
+		    <p:column headerText="Ativa?" styleClass="colunaLargura100">
 		        <h:outputText rendered="#{noticia.ativa}" value="Sim" />
-	        <h:outputText rendered="#{not noticia.ativa}" value="Não" />
+	        	<h:outputText rendered="#{not noticia.ativa}" value="Não" />
 		    </p:column>
 		    
-		    <p:column rendered="#{listagemNoticiaController.podeEditar()}"  style="text-align:center">
+		    <p:column rendered="#{listagemNoticiaController.podeEditar()}"  style="text-align:center"
+		    	 styleClass="colunaLargura100" >
 		     	<p:commandLink actionListener="#{listagemNoticiaController.editar(noticia)}" 
 	         		id="editarNotSelecionada"  immediate="true" >
 	         		<p:graphicImage id="imgEditarNot" url="/img/icones/editar.png" 
@@ -43,7 +45,7 @@
 	         	</p:commandLink>
 		    </p:column>
 		    
-		    <p:column rendered="#{listagemNoticiaController.podeExcluir()}" style="text-align:center">
+		    <p:column rendered="#{listagemNoticiaController.podeExcluir()}" style="text-align:center" styleClass="colunaLargura100">
 		    	<p:commandLink actionListener="#{listagemNoticiaController.removerNoticia(noticia)}" 
 	         		id="excluirNotSelecionada" immediate="true" update="dtListagemNoticias"  >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa notícia?" icon="ui-icon-alert" />
@@ -53,6 +55,7 @@
 		</p:dataTable> 
 	    
 	   	<p:commandButton id="novaNoticia" value="Nova Notícia" immediate="true" 
+	   		styleClass="botao botao-grande"
 	   		rendered="#{listagemNoticiaController.podeEditar()}"
 	   		actionListener="#{listagemNoticiaController.irParaCadastro}"  >
 	   	</p:commandButton>

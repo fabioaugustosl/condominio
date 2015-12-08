@@ -9,35 +9,13 @@
    
    
    <ui:define name="content">
-   <style>
-	.divMenuBotao{
-		height: 200px;
-		width: 15%;
-		border-bottom:1px solid #FAFAFA;
-		border-right:1px solid #FAFAFA;
-		background:#e0fecd;
-		float: left;
-		margin-left: 22.5%;
-		margin-top: 5%;
-	}
-	.divConteudoMenuBotao{
-		margin: 0 auto;
-		text-align:center;
-	}
-	.divConteudoMenuBotao span{
-		text-align:center;
-		font-size: 1.5em;
-		font-weight: bold;
-		clear: both;
-		padding-top: 10px;
-	}
-</style>
+  
    	<h:form id="form" style="width:100%">
 	   
 		<div class="divMenuBotao">
 			<div class="divConteudoMenuBotao">
 				<p:graphicImage id="icoConfigMenu" url="/img/icones/ico_visitantes.png" />
-				<span>Visitantes</span>
+				<div>Visitantes</div>
 			</div>
 		</div>
 	
@@ -46,7 +24,7 @@
 				<p:commandLink actionListener="#{controlePortariaController.irParaCadastroRecebido()}" 
 	         		id="irParaCadastroRecebidos" immediate="true" >
 				<p:graphicImage id="icoCorrespondenciaMenu" url="/img/icones/ico_correio.png" />
-				<span>Correspondência</span>
+				<div>Correspondência</div>
 	         	</p:commandLink>
 			</div>
 		

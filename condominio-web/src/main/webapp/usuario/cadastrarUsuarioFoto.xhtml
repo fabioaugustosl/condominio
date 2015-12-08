@@ -15,39 +15,39 @@
 	   <p:messages autoUpdate="true"></p:messages>
 	   
 	   <p:outputPanel id="cadastroInicialFotoTitulo" rendered="#{not cadastrarUsuarioFotoController.cadastroFinalizado}">
-		   <h1 >Falta pouco! <br/>
-		   	Agora é só cadastrar sua foto e pronto.
-		   </h1>
+		   <h1 >Falta pouco! </h1>
+		   	<h2>Agora é só cadastrar sua foto e pronto. </h2>
 	   </p:outputPanel>
 	   		
    		<p:outputPanel id="cadastroInicialFoto" rendered="#{not cadastrarUsuarioFotoController.cadastroFinalizado}">
 	   				
-	   				 <p:fileUpload mode="advanced" immediate="true" label="Selecionar arquivo"
-				        fileUploadListener="#{cadastrarUsuarioFotoController.uploadArquivo}"
-				        allowTypes="/(\.|\/)(JPG|jpg|jpeg|JPEG|png|PNG)$/"  
-				        multiple="false" sizeLimit="1000000" 
-				        invalidFileMessage="Arquivo não válido." 
-				        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
-				        oncomplete="PF('modalCortarFoto').show(); " update="@form"  />
-				        
-		   				<p:outputPanel  id="containerCortadorImagem" rendered="#{empty cadastrarUsuarioFotoController.caminhoImagem}" >
-	        				<p:graphicImage id="imagemUsuario" library="img" url="foto.jpg" width="300" />
-	        			</p:outputPanel>	 
-	        			
-	        			<p:imageCropper id="cortadorImagem" value="#{cadastrarUsuarioFotoController.imagemCortada}" 
-	        				rendered="#{not empty cadastrarUsuarioFotoController.caminhoImagem}"
-		    				initialCoords="0,0,300,375" maxSize="750,900" minSize="300,375"
-	   						image="#{cadastrarUsuarioFotoController.caminhoImagem}" />
-        	
-        				<!-- <p:commandButton value="Pronto!" action="#{cadastrarUsuarioFotoController.cortar}"
-        					process="cortadorImagem, @this" update="imagemUsuario" icon="ui-icon-scissors"/> -->
+  			<p:fileUpload mode="advanced" immediate="true" label="Selecionar arquivo"
+		        fileUploadListener="#{cadastrarUsuarioFotoController.uploadArquivo}"
+		        allowTypes="/(\.|\/)(JPG|jpg|jpeg|JPEG|png|PNG)$/"  
+		        multiple="false" sizeLimit="1000000" 
+		        invalidFileMessage="Arquivo não válido." 
+		        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
+		        oncomplete="PF('modalCortarFoto').show(); " update="@form"  />
+		        
+			<p:outputPanel  id="containerCortadorImagem" rendered="#{empty cadastrarUsuarioFotoController.caminhoImagem}" >
+   				<p:graphicImage id="imagemUsuario" library="img" url="foto.jpg" width="300" />
+   			</p:outputPanel>	 
+   			
+   			<p:imageCropper id="cortadorImagem" value="#{cadastrarUsuarioFotoController.imagemCortada}" 
+   				rendered="#{not empty cadastrarUsuarioFotoController.caminhoImagem}"
+					initialCoords="0,0,300,375" maxSize="750,900" minSize="300,375"
+				image="#{cadastrarUsuarioFotoController.caminhoImagem}" />
+  	
+  				<!-- <p:commandButton value="Pronto!" action="#{cadastrarUsuarioFotoController.cortar}"
+  					process="cortadorImagem, @this" update="imagemUsuario" icon="ui-icon-scissors"/> -->
 
-						<br />
-						
-						<p:commandButton id="salvarUsuario" value="Finalizar o Cadastro" 
-					   		actionListener="#{cadastrarUsuarioFotoController.cortar}" 
-					   		update="@form" process="cortadorImagem, @this">
-					   	</p:commandButton>
+			<br />
+			
+			<p:commandButton id="salvarUsuario" value="Finalizar o Cadastro" 
+				styleClass="botao"
+		   		actionListener="#{cadastrarUsuarioFotoController.cortar}" 
+		   		update="@form" process="cortadorImagem, @this">
+		   	</p:commandButton>
 	   		
 			
 		</p:outputPanel>
@@ -62,7 +62,9 @@
 			<br />
 			<br />
 			<br />
-			<p:commandButton id="redirecionar" value="Voltar para página inicial" actionListener="#{cadastrarUsuarioFotoController.redirecionarPaginaInicial}">
+			<p:commandButton id="redirecionar" value="Voltar para página inicial"
+			 styleClass="botao"
+			 actionListener="#{cadastrarUsuarioFotoController.redirecionarPaginaInicial}">
 			</p:commandButton>  
 		</p:outputPanel>
 		

@@ -27,16 +27,17 @@
 				<br />
 				
 				<p:outputLabel value="Digite uma senha:" /><br />
-			   	<p:password id="senhaUsuario" value="#{confirmarEsqueciSenhaController.usuario.senhaDigitada}" 
+			   	<p:password id="senhaUsuario" styleClass="inputPadrao" value="#{confirmarEsqueciSenhaController.usuario.senhaDigitada}" 
 			   			maxlength="20" required="true" requiredMessage="Favor inserir uma senha."
 			   			/>
 			   	<br />
-				<p:outputLabel value="Confirme sua senha:" /><br />		
-	       		<p:password id="senhaUsuario2" value="#{confirmarEsqueciSenhaController.usuario.senhaDigitadaConfirmacao}" required="true" maxlength="20" />
+				<p:outputLabel value="Confirme sua senha:"  /><br />		
+	       		<p:password id="senhaUsuario2" styleClass="inputPadrao" value="#{confirmarEsqueciSenhaController.usuario.senhaDigitadaConfirmacao}" required="true" maxlength="20" />
 	
 			    <br />
 					
 				<p:commandButton id="salvarSeanha" value="Salvar" 
+						styleClass="botao"
 				   		actionListener="#{confirmarEsqueciSenhaController.salvar}" 
 				   		update="@form">
 				</p:commandButton>

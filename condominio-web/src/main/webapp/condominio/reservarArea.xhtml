@@ -11,24 +11,25 @@
    	
    		<p:messages id="msgReserva" autoUpdate="false"></p:messages>
    		
-	   	<h1><p:outputLabel value="Reservar área em comum" /></h1>
-	 	<br /><br />
-	 	<p:outputLabel value="Para agendar uma área comum basta selecioná-la abaixo e clicar na data desejada." />
-	 	<br /><p:outputLabel value="Para excluir um agendamento basta selecionar a área abaixo e clicar sobre seu nome." />
+	   	<h1>Reservar área em comum</h1>
+	 	<p:outputLabel styleClass="textoInformativo" style="margin-bottom:0px;" value="Para agendar uma área comum basta selecioná-la abaixo e clicar na data desejada." />
+	 	<br /><p:outputLabel styleClass="textoInformativo" style="margin-top:5px;" value="Para excluir um agendamento basta selecionar a área abaixo e clicar sobre seu nome." />
 	 	<br />
-	 	<div>
-		 	<p:outputLabel value="Selecione a área que você deseja reservar: " />
-	 	</div>
-	 	<p:selectOneMenu id="comboArea" value="#{reservaController.areaSelecionada}" 
-	 		styleClass="selectPadrao" converter="converterEntityById" style="width:50%" >
-	 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
-	 		<f:selectItems value="#{reservaController.areas}" var="area" itemLabel="#{area.nome}" itemValue="#{area}" />
-	 		<p:ajax event="change" update="containerAgenda" listener="#{reservaController.recuperarEventos}" />
-	 	</p:selectOneMenu>
+	 	<p:outputPanel >
+		 	<div>
+			 	<p:outputLabel value="Selecione a área que você deseja reservar: " styleClass="labelPadrao" />
+		 	</div>
+		 	<p:selectOneMenu id="comboArea" value="#{reservaController.areaSelecionada}" 
+		 		styleClass="selectPadrao" converter="converterEntityById" style="width:50%" >
+		 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+		 		<f:selectItems value="#{reservaController.areas}" var="area" itemLabel="#{area.nome}" itemValue="#{area}" />
+		 		<p:ajax event="change" update="containerAgenda" listener="#{reservaController.recuperarEventos}" />
+		 	</p:selectOneMenu>
+	 	</p:outputPanel>
 	 	
 	 	<p:outputPanel id="containerSelecionarUsuario" rendered="#{principalController.ehSindico() || principalController.ehAdministrativo()}">
 		 	<div>
-			 	<p:outputLabel value="Qual usuário está realizando a reserva? " />
+			 	<p:outputLabel value="Qual usuário está realizando a reserva? " styleClass="labelPadrao" />
 		 	</div>
 		 	<p:selectOneMenu id="comboUsuario" value="#{reservaController.usuario}" immediate="true"
 		 		styleClass="selectPadrao" converter="converterEntityById" style="width:50%" >
@@ -47,8 +48,8 @@
 	    </p:outputPanel> 
 	    
 	    <p:outputPanel id="containerMaximoDia" rendered="#{reservaController.maximoDiasFuturo > 0}">
-	    	<p:outputLabel value="Data máxima para agendamento: "  />
-	    	<p:outputLabel value="#{reservaController.dataMaximaAgendamento}"  >
+	    	<p:outputLabel value="Data máxima para agendamento: "  styleClass="textoInformativo" />
+	    	<p:outputLabel value="#{reservaController.dataMaximaAgendamento}"  styleClass="textoInformativo"  >
 	    		<f:convertDateTime pattern="dd/MM/yyyy"/>
 	    	</p:outputLabel>
 	    	

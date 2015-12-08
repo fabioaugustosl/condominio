@@ -16,18 +16,39 @@
 	   			width: auto;
     			height: auto; 
 	   		}
+	   		
+	   		#divCloud{
+	   			width: 100%;
+	   			text-align: center;
+	   			height: 160px;
+	   		}
+	   		
+	   		.tagCloud{
+	   			width: 30%;
+	   			height: 150px;
+	   			float:left;
+	   			margin-left:35%;
+	   		}
 	   	</style>
 	   
    	
 	   	<h1>Veja as indicações de seus vizinhos!</h1>
+	 	<p:outputLabel styleClass="textoInformativo" style="margin-bottom:0px;"
+   			value="Pesquise as indicações de seus vizinhos. Forma fácil e pratica de encontrar o que você precisa perto de sua casa. " />
+   			<p:outputLabel styleClass="textoInformativo" style="margin-top:0px;" 
+   			value="Filtre pela categoria, produto ou serviço desejado. Para isso basta clicar no nome. " />
 	 	<br />
 	 	
-	 	<p:tagCloud model="#{listagemIndicacaoController.model}" id="tagCloudCategoria" >
-	        <p:ajax event="select" update="listaIndicacoes" listener="#{listagemIndicacaoController.selecionarCategoria}" />
-	    </p:tagCloud>
+	 	
+	 	<div id="divCloud">
+		 	<p:tagCloud model="#{listagemIndicacaoController.model}" id="tagCloudCategoria"  styleClass="tagCloud">
+		        <p:ajax event="select" update="listaIndicacoes" listener="#{listagemIndicacaoController.selecionarCategoria}" />
+		    </p:tagCloud>
+	    </div>
 	    
 	    
-	    <p:dataScroller id="listaIndicacoes" value="#{listagemIndicacaoController.indicacoes}" var="indicacao" chunkSize="10" >
+	    <p:dataScroller id="listaIndicacoes" value="#{listagemIndicacaoController.indicacoes}" 
+	    		var="indicacao" chunkSize="20" style="margin-top:10px;"  >
 	        <f:facet name="header">
 	            Veja todas as indicações
 	        </f:facet>
@@ -66,6 +87,7 @@
 	    
 			    
 	   	<p:commandButton id="novaIndicacao" value="Nova Indicação" immediate="true"
+	   		styleClass="botao botao-grande"
 	   		actionListener="#{listagemIndicacaoController.irParaCadastro}"  >
 	   	</p:commandButton>
 	   

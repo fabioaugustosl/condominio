@@ -8,7 +8,13 @@
    
    <ui:define name="content">
    
-   	<h1><p:outputLabel value="Assembléia" /></h1>
+   <style>
+   .ui-panelgrid-cell{ text-align: left !important;}
+   </style>
+   
+   	<h1>Cadastro de assembleias</h1>
+   	<p:outputLabel styleClass="textoInformativo" 
+   		value="Gerencie as assembleias do condomínio." />
  	<br />
  	
  	<h:form id="form" >
@@ -17,22 +23,22 @@
 	   		
 		   	<p:tab id="tabAssembleia" title="Informações sobre a Assembléia" disabled="false">
 		        
-			    <p:panelGrid columns="1" id="containerNovaAssembleia" >
+			    <p:panelGrid columns="1" id="containerNovaAssembleia" style="text-align:left;" >
 			    
-					<p:outputLabel value="Data da assembléia:" />
+					<p:outputLabel value="Data da assembléia:" styleClass="labelPadrao" />
 					<p:calendar id="data" locale="pt"
 							alt="Insira a data em que a assembléia será realizada"  
 							value="#{cadastrarAssembleiaController.assembleia.data}" showOn="button" 
 							required="true" requiredMessage="Favor preencher a data de realização da assembléia."  />
 					
-					<p:outputLabel value="Horário da 1ª chamada:" />
+					<p:outputLabel value="Horário da 1ª chamada:" styleClass="labelPadrao" />
 			       	<p:calendar id="horario1"  locale="pt"
 							alt="Insira o horário da 1ª chamada em  que a assembléia será realizada" 
 							value="#{cadastrarAssembleiaController.assembleia.horario1}" 
 							required="true" requiredMessage="Favor preencher o horário da 1ª chamda da realização da assembléia." 
 							pattern="HH:mm a" timeOnly="true"   />
 							
-					<p:outputLabel value="Horário da 2ª chamada:" />
+					<p:outputLabel value="Horário da 2ª chamada:" styleClass="labelPadrao" />
 			       	<p:calendar id="horario2"  locale="pt"
 							alt="Insira o horário da 2ª chamada em  que a assembléia será realizada" 
 							value="#{cadastrarAssembleiaController.assembleia.horario2}"  
@@ -54,7 +60,7 @@
 			 
 			 <p:tab id="tabPauta" title="Pauta" disabled="#{not cadastrarAssembleiaController.possoCadastrarPauta}">
 			 	
-			 	<p:outputLabel value="Insira uma nova pauta:" /> <br />
+			 	<p:outputLabel value="Insira uma nova pauta:" styleClass="labelPadrao" /> <br />
 			 	<p:inputText id="novaPauta" styleClass="inputPadrao" value="#{cadastrarAssembleiaController.novaPauta}" maxlength="1000"></p:inputText>
 			 	
 			 	<p:commandButton id="salvarPauta" value="Inserir"  styleClass="botao"
@@ -129,6 +135,7 @@
 		</p:tabView>
 		
 		<p:commandButton id="listagemAssembleia" value="Ir para listagem" immediate="true"
+			styleClass="botao botao-grande"
 	   		actionListener="#{cadastrarAssembleiaController.irParaListagem}"  >
 	   	</p:commandButton>
 		

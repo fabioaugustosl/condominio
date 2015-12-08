@@ -8,57 +8,63 @@
    
    <ui:define name="content">
    	<h:form id="form" style="width:100%">
-	   	<h1><p:outputLabel value="Crie uma nova votação online" /></h1>
+	   	<h1>Crie uma nova votação online</h1>
+	   	<p:outputLabel styleClass="textoInformativo" 
+   		value="Crie votações para facilitar decisões em seu condomínio. " />
 	 	<br />
 	 	
 	 	<p:outputPanel id="containerNovaVotacao" >
-	    
-			<p:outputLabel value="Qual é a pergunta a ser respondida?" />
-			<p:inputTextarea id="assuntoVotacao" label="Insira aqui a pergunta a ser respondida pelos moradores."
-							value="#{cadastroVotacaoController.votacao.assuntoVotacao}" required="true" styleClass="textAreaPadrao"
-							requiredMessage="Favor preencher a pergunta da votação." maxlength="2000" >
-			</p:inputTextarea>
-			
-			<p:outputLabel value="Qual é a data limite para votação?" />
-	        <p:calendar id="dataLimiteVotacao" value="#{cadastroVotacaoController.votacao.dataLimite}" showOn="button"
-	         				alt="Preenche a data que a votação vai ser expirada. Lembrando que a mesma é válida até às 23:59. Caso não seja preenchido data a votação é valida até que a votação seja desativada." />
-	        
-	        <p:outputPanel>
-	        	<p:selectBooleanCheckbox value="#{cadastroVotacaoController.votacao.ativa}" />
-	        	<p:outputLabel value=" Você deseja ativar a votação imediatamente?" />
-	        </p:outputPanel>
-	        
-	        <p:outputPanel>
-	        	<p:selectBooleanCheckbox value="#{cadastroVotacaoController.votacao.resultadoParcial}" />
-	        	<p:outputLabel value=" Você deseja permitir a visualização do resultado parcial?" />
-	        </p:outputPanel>
-	        
-	        <p:outputPanel>
-	        	<p:selectBooleanCheckbox value="#{cadastroVotacaoController.votacao.votacaoOficial}" />
-	        	<p:outputLabel value=" É uma votação oficial? Caso não marque essa opção será a votação será considera apenas como enquete." />
-	        </p:outputPanel>
-	        
-	        <p:outputLabel value="Qual é o tipo de votação?" />
+	     
+	        <p:outputLabel value="Qual é o tipo de votação?" styleClass="labelPadrao" /> <br/>
 		    <p:selectOneMenu id="comboTipoVotacao" required="true"
 		    			requiredMessage="É necessário quer você selecione o tipo de votação"
 		    			value="#{cadastroVotacaoController.tipoVotacaoSelecionado}"  >
 		   		<f:selectItem itemLabel="Selecione..." itemValue="" />
 		    	<f:selectItems value="#{cadastroVotacaoController.tiposVotacao}" />	
 		    	<p:ajax event="change" update=":form:opcoesTipoVotacao" listener="#{cadastroVotacaoController.montarOpcaoTipoVotacao}" />
-		    </p:selectOneMenu>
+		    </p:selectOneMenu><br/>
+		    
+			<p:outputLabel value="Qual é a pergunta a ser respondida?" styleClass="labelPadrao" />
+			<p:inputTextarea id="assuntoVotacao" label="Insira aqui a pergunta a ser respondida pelos moradores."
+							value="#{cadastroVotacaoController.votacao.assuntoVotacao}" required="true" styleClass="textAreaPadrao"
+							requiredMessage="Favor preencher a pergunta da votação." maxlength="2000" >
+			</p:inputTextarea>
+			
+			<p:outputLabel value="Qual é a data limite para votação?" styleClass="labelPadrao" /><br />
+	        <p:calendar id="dataLimiteVotacao" value="#{cadastroVotacaoController.votacao.dataLimite}" showOn="button"
+	         				alt="Preenche a data que a votação vai ser expirada. Lembrando que a mesma é válida até às 23:59. Caso não seja preenchido data a votação é valida até que a votação seja desativada." />
+	        
+	        <p:outputPanel>
+	        	<p:selectBooleanCheckbox value="#{cadastroVotacaoController.votacao.ativa}" />
+	        	<p:outputLabel styleClass="labelPadrao" value=" Você deseja ativar a votação imediatamente?" />
+	        </p:outputPanel>
+	        
+	        <p:outputPanel>
+	        	<p:selectBooleanCheckbox value="#{cadastroVotacaoController.votacao.resultadoParcial}" />
+	        	<p:outputLabel styleClass="labelPadrao" value=" Você deseja permitir a visualização do resultado parcial?" />
+	        </p:outputPanel>
+	        
+	        <p:outputPanel>
+	        	<p:selectBooleanCheckbox value="#{cadastroVotacaoController.votacao.votacaoOficial}" />
+	        	<p:outputLabel styleClass="labelPadrao" value=" É uma votação oficial? Caso não marque essa opção será a votação será considera apenas como enquete." />
+	        </p:outputPanel>
+	       
 	    </p:outputPanel>
 	    <br />
 	    <p:outputPanel id="opcoesTipoVotacao">
 	    	<p:outputPanel id="tipoOpcao" rendered="#{cadastroVotacaoController.isOpcoes()}"> 
 	    		<p:panel id="cadastroOpcaoPergunta">
 		
-				   	<p:outputLabel value="Digite uma nova opção: " />
+				   	<p:outputLabel value="Digite uma nova opção: " styleClass="labelPadrao" />
 					<p:inputText id="inputNome" value="#{cadastroVotacaoController.descricaoNovaOpcao}" 
 						alt="Digite uma nova opção a ser votada"  maxlength="2000" 
 						requiredMessage="Favor preencher a opção para a pergunta."
 						styleClass="textAreaPadrao"></p:inputText>
 				
-					<p:commandButton id="btnSalvarOpcaoVotacao" value="Adicionar" actionListener="#{cadastroVotacaoController.adicionarOpcao}" update="dtOpcoesVotacao, cadastroOpcaoPergunta"></p:commandButton>
+					<p:commandButton id="btnSalvarOpcaoVotacao" value="Adicionar"
+						styleClass="botao" 
+						actionListener="#{cadastroVotacaoController.adicionarOpcao}" 
+						update="dtOpcoesVotacao, cadastroOpcaoPergunta"></p:commandButton>
 			
 				</p:panel>
 				<p:dataTable id="dtOpcoesVotacao" var="opc" 
@@ -79,16 +85,19 @@
 	    </p:outputPanel>
 	   	
 	   	<p:commandButton id="salvarNovaVotacao" value="Salvar" 
+	   		styleClass="botao botao-grande"
 	   		actionListener="#{cadastroVotacaoController.salvarVotacao}" 
 	   		update="containerNovaVotacao, opcoesTipoVotacao">
 	   	</p:commandButton>
 	   	
 	   	<p:commandButton id="listagemVotacao" value="Ver Votações" immediate="true"
+	   		styleClass="botao botao-grande"
 	   		actionListener="#{cadastroVotacaoController.irParaListagem}" >
 	   	</p:commandButton>
 	    </h:form>
 	    
 	    <br /> <br />
-	    <p:outputLabel value="Caso deseje exibir algum termo de aceite de concordância favor verificar na tela Configurações > Termo de concordância. Ao ser cadastrado esse termo aparecerá automaticamente para aceite na tela de votação." />
+	    <p:outputLabel styleClass="textoInformativo" 
+	    	value="Caso deseje exibir algum termo de aceite de concordância favor verificar na tela Configurações > Termo de concordância. Ao ser cadastrado esse termo aparecerá automaticamente para aceite na tela de votação." />
    </ui:define>
 </ui:composition>

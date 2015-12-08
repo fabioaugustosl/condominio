@@ -10,19 +10,22 @@
    	<h:form id="form" style="width:100%">
 	   	<h1>Enviar Mensagens aos Condôminos</h1>
 	 	<br />
-	 	
+	 	<p:outputLabel styleClass="textoInformativo" 
+	    	value="Aque você pode optar por enviar mensagens para os condômininos por email, sms ou notificações que serão exibidas no sitema." />
+	    	<br /><br />
 	 	<p:tabView>
 			<p:ajax event="tabChange" update=":form:dtListagemUsuarios"/>
 	        <p:tab title="Email">
-	            <p:outputLabel>Assunto:</p:outputLabel><br />
+	            <p:outputLabel value="Assunto:" styleClass="labelPadrao" /><br />
 	            <p:inputText value="#{enviarMensagemUsuarioController.assunto}" id="campoAssunto" styleClass="inputPadrao"></p:inputText>
 	            <br /><br />
-	            <p:outputLabel>Mensagem:</p:outputLabel><br />
+	            <p:outputLabel value="Mensagem: " styleClass="labelPadrao"/><br />
 	            <p:editor id="editorCorpoEmail" widgetVar="editorWidget" value="#{enviarMensagemUsuarioController.mensagem}" 
 		        	maxlength="10000"
 		        	controls="bold italic underline font size color style numbering alignleft center alignright justify undo redo image link cut copy paste indent" />
 	        	<br />
-	        	<p:commandButton id="enviarEmail" value="Enviar" 
+	        	<p:commandButton id="enviarEmail" value="Enviar"
+	        		styleClass="botao" 
 	        		process="campoAssunto, editorCorpoEmail :form:dtListagemUsuarios, @this" 
 			   		actionListener="#{enviarMensagemUsuarioController.enviarEmail}" update="@form">
 			   		<p:confirm header="Confirmação" message="Tem certeza que deseja enviar este email para os condôminos selecionados?" icon="ui-icon-alert" />
@@ -31,14 +34,15 @@
 	        
 	        
 	        <p:tab title="Notificação">
-	        	<p:outputLabel>Digite a mensagem:</p:outputLabel>
+	        	<p:outputLabel value="Digite a mensagem: " styleClass="labelPadrao" />
 	            <br />
 	            <p:inputTextarea id="msgNotificacao" alt="Digite a mensagem" styleClass="textAreaPadrao"
 						value="#{enviarMensagemUsuarioController.mensagem}" maxlength="200"
 						counter="msgNotCounter" counterTemplate="{0} caracteres restantes."  />
 				<h:outputText id="msgNotCounter" />
 				<br />
-				<p:commandButton id="enviarNotificacao" value="Enviar" process="msgNotificacao, :form:dtListagemUsuarios, @this" 
+				<p:commandButton id="enviarNotificacao" value="Enviar" process="msgNotificacao, :form:dtListagemUsuarios, @this"
+					styleClass="botao" 
 			   		actionListener="#{enviarMensagemUsuarioController.enviarNotificacao}" update="@form">
 			   		<p:confirm header="Confirmação" message="Tem certeza que deseja enviar esta notificação para os condôminos selecionados?" icon="ui-icon-alert" />
 			   	</p:commandButton>
@@ -49,7 +53,7 @@
 			        <h3>Créditos para envio de SMS: R$ 0,00</h3>
 			    </p:outputPanel>
 			    <br />
-	            <p:outputLabel>Digite a mensagem:</p:outputLabel>
+	            <p:outputLabel value="Digite a mensagem: "  styleClass="labelPadrao" />
 	            <br />
 	            <p:inputTextarea id="msgSMS" alt="Digite a mensagem" styleClass="textAreaPadrao"
 						value="#{enviarMensagemUsuarioController.mensagem}" maxlength="140"
@@ -57,6 +61,7 @@
 				<h:outputText id="msgSMSCounter" />
 				<br />
 				<p:commandButton id="enviarSMS" value="Enviar" disabled="true" 
+					styleClass="botao"
 			   		actionListener="#{enviarMensagemUsuarioController.enviarSms}">
 			   		<p:confirm header="Confirmação" message="Tem certeza que deseja enviar este SMS para os condôminos selecionados?" icon="ui-icon-alert" />
 			   	</p:commandButton>
@@ -87,7 +92,9 @@
 		    </p:column>
 		</p:dataTable> 
 		
-		<p:outputLabel>O envio de email e sms só será possível se o condômino tiver cadastrados seus dados corretamente. Caso não tenha cadastrados essas informações a mensagem não será enviada.</p:outputLabel>
+		<p:outputLabel
+			style="margin-top:10px;" 
+			styleClass="textoInformativo" value="O envio de email e sms só será possível se o condômino tiver cadastrados seus dados corretamente. Caso não tenha cadastrados essas informações a mensagem não será enviada." />
 	    
 	    
 	   	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

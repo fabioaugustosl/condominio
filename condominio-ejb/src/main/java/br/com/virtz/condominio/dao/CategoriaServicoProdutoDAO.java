@@ -13,9 +13,9 @@ public class CategoriaServicoProdutoDAO extends DAO<CategoriaServicoProduto> imp
 	@Override
 	public List<CategoriaServicoProduto> recuperarComQuantidade() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" SELECT new ").append(CategoriaServicoProduto.class.getName()).append("( ");
-		sb.append("c.id, c.nome, (select count(i) from CategoriaServicoProduto c1 JOIN c1.indicacoes i WHERE c1.id = c.id) )");
-		sb.append(" FROM ").append(CategoriaServicoProduto.class.getName()).append(" c");
+		sb.append(" SELECT new ").append("categoriaservicoproduto").append("( ");
+		sb.append("c.id, c.nome, (select count(i) from categoriaservicoproduto  c1 JOIN c1.indicacoes i WHERE c1.id = c.id) )");
+		sb.append(" FROM ").append(" categoriaservicoproduto ").append(" c");
 		
 		Query qry = getEntityManager().createQuery(sb.toString());
 		

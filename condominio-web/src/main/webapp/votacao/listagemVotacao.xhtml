@@ -8,7 +8,9 @@
    
    <ui:define name="content">
    	<h:form id="form" style="width:100%">
-	   	<h1><p:outputLabel value="Todas as votações já realizadas no condomínio" /></h1>
+	   	<h1>Veja todas votações</h1>
+	   	<p:outputLabel styleClass="textoInformativo" 
+   		value="Acompanhe todas as votações realizadas ou em andamento. Veja informações detalhadas como data limite para votação e resultados." />
 	 	<br />
 	 	
 		<p:dataTable id="dtListagemVotacao" var="votacao" 
@@ -16,25 +18,25 @@
 				rowKey="#{votacao.id}"
 				emptyMessage="Ainda não foi realizada nenhuma votação." >
 			
-	        <p:column headerText="Código">
+	        <p:column headerText="Código"  styleClass="colunaLargura100">
 		        <h:outputText value="#{votacao.id}" />
-		    </p:column>
-		    
-		    <p:column headerText="Assunto da votação">
-		        <h:outputText value="#{votacao.assuntoVotacao}" />
-		    </p:column>
-		    
-		    <p:column headerText="Data limite">
-		        <h:outputText value="#{votacao.dataLimite}" >
-		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
-		        </h:outputText>
 		    </p:column>
 		    
 		    <p:column headerText="Tipo">
 		        <h:outputText value="#{votacao.tipoVotacao.descricao}" />
 		    </p:column>
 		    
-		    <p:column headerText="Status">
+		    <p:column headerText="Assunto da votação">
+		        <h:outputText value="#{votacao.assuntoVotacao}" />
+		    </p:column>
+		    
+		    <p:column headerText="Data limite"  styleClass="colunaLargura100">
+		        <h:outputText value="#{votacao.dataLimite}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="Status"  styleClass="colunaLargura120" style="text-align:center">
 		        <p:outputLabel value="#{votacao.qualStatus()}" rendered="#{listagemVotacaoController.estaEncerrada(votacao)}"></p:outputLabel>
 		         
 			    <p:commandButton actionListener="#{listagemVotacaoController.ativarVotacao(votacao)}"
@@ -55,11 +57,10 @@
 
 		    </p:column>
 		    
-		    <p:column headerText="Ações">
-		    	<p:panelGrid id="panelGridAcao" columns="4" styleClass="teste" >
-			    	
+		    <p:column headerText="Ações" styleClass="colunaLargura160" style="text-align:center">
 			        
 			         <p:commandLink actionListener="#{listagemVotacaoController.excluirVotacao(votacao)}"
+			         styleClass="linkBotao"
 			        	rendered="#{listagemVotacaoController.possoRemover(votacao)}" update="dtListagemVotacao"
 			         	id="excluirVotacaoSelecionada" >
 			         		<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa votação?" icon="ui-icon-alert" />
@@ -67,6 +68,7 @@
 			         </p:commandLink>
 			         
 			         <p:commandLink actionListener="#{listagemVotacaoController.editar(votacao)}"
+			         styleClass="linkBotao"
 			        	rendered="#{listagemVotacaoController.possoEditar(votacao)}" 
 			         	id="editarVotacaoSelecionada" >
 			         	<p:graphicImage id="imgEditarVotacao" url="/img/icones/editar.png" 
@@ -74,21 +76,23 @@
 			         </p:commandLink>
 			         
 			         <p:commandLink actionListener="#{listagemVotacaoController.verResultado(votacao)}"
+			         	styleClass="linkBotao"
 			        	id="resultadoVotacaoSelecionada" update=":form:dialogResultado" onsuccess="PF('dialogResultado').show()" >
 			        	<p:graphicImage id="imgResultadoVot" url="/img/icones/resultado.png" title="Clique para ver o resultado dessa votação." />
 			         </p:commandLink>
 			         
 			         <p:commandLink actionListener="#{listagemVotacaoController.carregarVotos(votacao)}"
+			         styleClass="linkBotao"
 			         	rendered="#{principalController.ehSindico()}" update=":form:dialogResultadoDetalhado"
 			        	id="resultadoVotacaoSelecionadaDetalhamento" onsuccess="PF('dialogResultadoDetalhado').show()" >
 			        	<p:graphicImage id="imgResultadoVotDetalhada" url="/img/icones/ico_resultado_det.png" title="Clique para ver o resultado detalhado dessa votação. Voto por apto." />
 			         </p:commandLink>
 			         
-		         </p:panelGrid>
 		    </p:column>
 		</p:dataTable> 
 	    
 	   	<p:commandButton id="novaVotacao" value="Nova Votação" immediate="true"
+	   		styleClass="botao botao-grande"
 	   		actionListener="#{listagemVotacaoController.irParaCadastro}"  >
 	   	</p:commandButton>
 	    

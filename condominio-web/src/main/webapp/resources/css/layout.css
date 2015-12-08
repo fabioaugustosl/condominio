@@ -45,7 +45,7 @@ form{
     font-size:14px;
     color:#fff;
     height:62px;
-    background:#E0EEEE;
+    background:#3B9EFE ;
 }
 .menu a{
     color:#fff;
@@ -113,82 +113,29 @@ form{
 
 
 
-.header-btn-text {
-  padding: 0 8px;
-}
-
-.header-btn {
-  background: -webkit-linear-gradient(top,rgba(255,255,255,.3) 0,rgba(255,255,255,.2) 100%);
-  background: linear-gradient(to bottom,rgba(255,255,255,.3) 0,rgba(255,255,255,.2) 100%);
-  border-radius: 3px;
-  color: #f3f3f3;
-  display: block;
-  float: left;
-  font-weight: 700;
-  height: 30px;
-  line-height: 30px;
-  margin-right: 8px;
-  min-width: 30px;
-  padding: 0;
-  position: relative;
-  text-decoration: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-
-.painelWidget{
-	margin-bottom:10px;
-	/*background: #B6C1C5 !important;*/
-}
-
-.painelWidgetAzul{
-	margin-bottom:10px;
-	background: #A4C6D4 !important;
-}
-.painelWidgetInterno{
-	background: transparent;
-}
-
-.ui-panel-titlebar{
-	display: inline-block !important;
-	background: #C15B50 !important;
-	color: #FFF !important;
-	border-radius: 4px !important;
-	width: 100%;
-}
-
-
-.botao{
-	height:45px !important;
-	display: inline-block !important;
-	background: #3A5B6B !important;
-	color: #FFF !important;
-	padding: 10px 20px !important;
-	text-decoration: none !important;
-	box-sizing: border-box !important;
-	font-size: 14px !important;
-	border: 0px !important;
-	border-radius: 4px !important;
-	cursor: pointer !important;
-}
-
-
-.botao:hover {
-	background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,.15));
-}
-
-
-.botao-vermelho {
-	color: #fff;
-	background-color: #F38630;
-}
-
-.botao-grande {
-	font-size: 140%;
-}
 
 .ui-button {}
 .ui-widget{}
+
+.ui-panel-titlebar{
+	
+}
+
+.ui-selectonemenu-trigger{
+	width: 24px !important;	
+}
+
+
+.ui-panelgrid-cell{
+	text-align: center;
+	border: 0px;
+	
+}
+
+.ui-state-highlight{
+	background: #E57968  none repeat-x scroll 50% 50% !important;
+}
+
+.ui-state-active{
+	color: #E57968; 
+}

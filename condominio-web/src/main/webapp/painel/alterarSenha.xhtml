@@ -21,25 +21,30 @@
 			</p:outputPanel>
 		
 			<p:outputPanel id="gridAlterarSenha"  rendered="#{not configuracaoController.isSucesso()}">  
-				<p:outputLabel for="senhaAtual" value="Digite sua senha atual:"></p:outputLabel>                 
+				<p:outputLabel for="senhaAtual" value="Digite sua senha atual:" styleClass="labelPadrao"></p:outputLabel>                 
 		        <p:outputPanel>
-			        <p:password id="senhaAtual" value="#{configuracaoController.senhaAtual}" label="Senha atual" styleClass="inputPadrao" requiredMessage="Campo obrigatório" required="true" />
+			        <p:password id="senhaAtual" value="#{configuracaoController.senhaAtual}" 
+			        		label="Senha atual" styleClass="inputPadrao" requiredMessage="Campo obrigatório" 
+			        			required="true" />
 			        <p:message id="msgSenha" for="senhaAtual"></p:message>
 		        </p:outputPanel> <br />
 		        
-		       	<p:outputLabel for="novaSenha" value="Digite sua NOVA senha:"></p:outputLabel>
+		       	<p:outputLabel for="novaSenha" value="Digite sua NOVA senha:" styleClass="labelPadrao"></p:outputLabel>
 		        <p:outputPanel>
-			        <p:password id="novaSenha" value="#{configuracaoController.senhaNova}" match="novaSenha2" styleClass="inputPadrao" requiredMessage="Campo obrigatório" validatorMessage="A nova senha deve ser repetida corretamente." label="Nova senha" required="true" />
+			        <p:password id="novaSenha" value="#{configuracaoController.senhaNova}" 
+			        		match="novaSenha2" styleClass="inputPadrao" requiredMessage="Campo obrigatório" 
+			        		validatorMessage="A nova senha deve ser repetida corretamente." label="Nova senha" required="true" />
 			        <p:message id="msgNovaSenha" for="novaSenha"></p:message>
 		  		</p:outputPanel> <br />
 		  		
-		        <p:outputLabel for="novaSenha2" value="REPITA sua nova senha:"></p:outputLabel>
+		        <p:outputLabel for="novaSenha2" value="REPITA sua nova senha:" styleClass="labelPadrao"></p:outputLabel>
 			     <p:outputPanel>
 			        <p:password id="novaSenha2" value="#{configuracaoController.senhaNova2}" requiredMessage="Campo obrigatório" styleClass="inputPadrao" label="Repita a nova senha" required="true" />
 			        <p:message id="msgNovaSenha2" for="novaSenha2"></p:message>
 		         </p:outputPanel>
 		    </p:outputPanel>
 		    <p:commandButton  value="Alterar" actionListener="#{configuracaoController.alterarSenha}"
+		    	styleClass="botao"
 		    	process="formAlterarSenha" update="blocoSucessoAlterarSenha" rendered="#{not configuracaoController.isSucesso()}"></p:commandButton>
 	    </p:outputPanel>
 	    </h:form>

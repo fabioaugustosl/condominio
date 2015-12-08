@@ -8,7 +8,9 @@
    
    <ui:define name="content">
    	<h:form id="formMensagemSindico" >
-	   	<h1><p:outputLabel value="Mensagens enviadas para o síndico" /></h1>
+	 	<h1>Mensagens enviadas para o síndico</h1>
+	   	<p:outputLabel styleClass="textoInformativo" 
+   		value="Veja todas as mensagens enviadas pelos moradores para você." />
 	 	<br />
 	 	
 		<p:dataTable id="dtListagemMsgSindico" var="msg" 
@@ -20,13 +22,13 @@
                 rowsPerPageTemplate="20, 50, 100"
 				emptyMessage="Ainda não foram enviadas nenhuma mensagem para o síndico através do site." >
 				
-		     <p:column headerText="Data">
+		     <p:column headerText="Data" styleClass="colunaLargura100">
 		        <h:outputText value="#{msg.data}" >
 		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
 		        </h:outputText>
 		    </p:column>
 		    
-		    <p:column headerText="Usuário">
+		    <p:column headerText="Usuário" styleClass="colunaLargura160">
 		        <h:outputText value="#{msg.usuario.nome}"></h:outputText>
 		    </p:column>
 		    
@@ -34,7 +36,7 @@
 		        <h:outputText value="#{msg.mensagem}"></h:outputText>
 		    </p:column>
 		    
-		    <p:column style="text-align:center">
+		    <p:column style="text-align:center" styleClass="colunaLargura100">
 		    	<p:commandLink actionListener="#{listagemMensagemSindicoController.removerMensagem(msg)}" ajax="false"
 	         		id="excluirMsgSelecionada" immediate="true" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa mensagem?" icon="ui-icon-alert" />

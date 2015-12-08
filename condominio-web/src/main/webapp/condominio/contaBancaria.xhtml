@@ -11,14 +11,13 @@
  	
  	<h:form id="formConta" >
 	   	<h1>Configuração da Conta Bancária Principal do condomínio</h1>
-	 	<br />
-	 	<br />
-	 	<p:outputLabel value="Utilizamos essa conta para geração do boleto bancária de pagamento do condomínio. Favor preencher com o máximo de atenção."  />
-	   		
+	 	<p:outputLabel styleClass="textoInformativo" 
+	 		value="Favor preencher com o máximo de atenção. Utilizamos essa conta para geração do boleto bancária de pagamento do condomínio. "  />
+	   		<br />
    		<p:outputPanel id="cadastroconta" >
    		
 		 	<p:outputPanel id="containerComboBanco" >
-		 		<p:outputLabel value="Banco:"></p:outputLabel>
+		 		<p:outputLabel value="Banco:" styleClass="labelPadrao"></p:outputLabel>
 		 		<br />
 			 	<p:selectOneMenu id="banco" value="#{cadastroContaBancariaController.banco}" 
 			 	  required="true" style="width:400px;"
@@ -27,9 +26,8 @@
 		         <f:selectItems value="#{cadastroContaBancariaController.bancos}" />
 		     </p:selectOneMenu>
 			</p:outputPanel>
-			
-			<br />	
- 			<p:outputLabel value="Agência" /><br />
+
+		<p:outputLabel value="Agência"  styleClass="labelPadrao" /><br />
 			<p:inputText id="agencia" styleClass="inputPadrao" 
 				value="#{cadastroContaBancariaController.conta.agencia}"  
 				required="true"
@@ -37,21 +35,23 @@
 				maxlength="10" style="width:100px;"></p:inputText>
 			
 			<br />
-			<p:outputLabel value="Dígito Agência" /><br />
+			<p:outputLabel value="Dígito Agência"  styleClass="labelPadrao" /><br />
 			<p:inputText id="digitoagencia" styleClass="inputPadrao" 
 				value="#{cadastroContaBancariaController.conta.digitoAgencia}"  
 				maxlength="2" style="width:40px;"></p:inputText>
 			
 			<br />	
-			<p:outputLabel value="Código da Carteira" /><br />
+			<p:outputLabel value="Código da Carteira"  styleClass="labelPadrao" /><br />
 			<p:inputText id="carteira" styleClass="inputPadrao" 
 				value="#{cadastroContaBancariaController.conta.codigoCarteira}"  
 				required="true"
 				requiredMessage="Favor preencher o código da carteira"
 				maxlength="10" style="width:100px;"></p:inputText>
-			
+			<p:graphicImage id="imgValorCond" url="/img/icones/ajuda.png"  />
+			<p:tooltip id="ttImgValorCond" for="imgValorCond" 
+							value="O código da carteira é fornecido pelo seu banco onde possui convênio para emissão de boletos bancários." />
 			<br />	
-			<p:outputLabel value="Número da conta bancária" /><br />
+			<p:outputLabel value="Número da conta bancária"  styleClass="labelPadrao" /><br />
 			<p:inputText id="numeroConta" styleClass="inputPadrao" 
 				value="#{cadastroContaBancariaController.conta.numeroConta}"  
 				required="true"
@@ -66,9 +66,11 @@
 			<br />
 			<br />
 			<p:commandButton id="voltar" value="Voltar" immediate="true"
+				styleClass="botao botao-grande"
 		   		actionListener="#{cadastroContaBancariaController.voltar()}"  >
 		   	</p:commandButton>
-			<p:commandButton id="btnSalvarConta" value="Salvar" 
+			<p:commandButton id="btnSalvarConta" value="Salvar"
+				styleClass="botao botao-grande" 
 		   		actionListener="#{cadastroContaBancariaController.salvar}" >
 		   	</p:commandButton>
 

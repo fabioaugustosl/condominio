@@ -37,16 +37,18 @@
    	
    		<p:remoteCommand id="atualizarConf" name="atualizarConf" 
    				actionListener="#{lancarBalancoController.montarBalanco()}" immediate="true" 
-   				update="panelInfoItem"></p:remoteCommand>
+   				update="panelInfoItem, containerItens"></p:remoteCommand>
    				
    	
-   		<h1><p:outputLabel value="Lançamento de Balanço Mensal" /></h1>
+   		<h1>Lançamento de receitas e despesas</h1>
+	 	<p:outputLabel styleClass="textoInformativo" 
+	   			value="Cadastre as receitas e despesas do condomínio. Se desejar anexe o comprovante de cada lançamento. Torne a prestação de contas do condomínio mais transparente!" />
 	 	<br />
 	 	
 	 	<br />
 	 	
 	 	<p:outputPanel id="containerCompetencia">
-		 	<p:outputLabel value="Qual a competência?" />
+		 	<p:outputLabel value="Qual a competência?"  styleClass="labelPadraoInline"/>
 		 	
 		 	<span>
 	 			<p:selectOneMenu id="anoRef" styleClass="inputPadrao" required="true" 
@@ -57,7 +59,7 @@
 			 			var="entry" itemValue="#{entry}" itemLabel="#{entry}" />
 			 	</p:selectOneMenu>
 			</span>	
-	 		<p:outputLabel value=" / " /> 
+	 		<p:outputLabel value=" / " styleClass="labelPadraoInline" /> 
 		 	<span>
 			 	<p:selectOneMenu id="mesRef" styleClass="inputPadrao" required="true" 
 			 			requiredMessage="Favor selecionar o mês de refência" immediate="true" 
@@ -72,7 +74,7 @@
 	 	<br />
 	 	
 	 	<p:outputPanel id="panelInfoItem" >
-		 	<p:outputLabel value="Você deseja lançar uma " />
+		 	<p:outputLabel value="Você deseja lançar uma " styleClass="labelPadraoInline" />
 		 	<p:selectOneButton value="#{lancarBalancoController.tipoBalanco}" 
 		 			valueChangeListener="#{lancarBalancoController.carregarDescricoesAutoCompletar(null)}">
 	            <f:selectItem itemLabel="Receita" itemValue="RECEITA" />
@@ -80,25 +82,25 @@
 	        </p:selectOneButton>
 	        
 	        <br /><br />
-	        <div style="float:left; width:75%">		 	
-			 	<p:outputLabel for="descItem" value="Descrição:" /><br />
-			 	<p:autoComplete id="descItem" label="Descrição"
-			 			 value="#{lancarBalancoController.descricao}" maxlength="100"
-			 			 style="width:90%; border: 0px;" required="true" requiredMessage="O campo descrição é obrigatório."  
-			 			completeMethod="#{lancarBalancoController.completeText}" />
-				
-			</div>
-			<div style="float:left; width:15%">
-				<p:outputLabel for="valorItem" value="Valor:"  /> <br />
-				<p:outputLabel value="R$"  />
-				<p:inputText id="valorItem" styleClass="inputPadrao"  style="width:60%" 
+	        
+			<div >
+				<p:outputLabel for="valorItem" value="Valor: R$" styleClass="labelPadrao"  />
+				<p:inputText id="valorItem" styleClass="inputPadrao"  style="width:100px" 
 						required="true" requiredMessage="O campo valor é obrigatório."
 						value="#{lancarBalancoController.valor}" maxlength="10"  >
 							<f:convertNumber pattern="#0.00"/>
 				</p:inputText> 
 			</div>
+	        <div >		 	
+			 	<p:outputLabel for="descItem" value="Descrição:" styleClass="labelPadrao" /><br />
+			 	<p:autoComplete id="descItem"   styleClass="inputPadraoAutocompleteTxt"
+			 			 value="#{lancarBalancoController.descricao}" maxlength="100" 
+			 			  required="true" requiredMessage="O campo descrição é obrigatório."  
+			 			completeMethod="#{lancarBalancoController.completeText}" />
+				
+			</div>
 			
-			<p:outputPanel id="painelArquivo" style="position:relative; diplay:block;" layout="block" >
+			<p:outputPanel id="painelArquivo" style="position:relative; diplay:block; margin-top:10px; " layout="block" >
 		       
 		        <p:fileUpload rendered="#{lancarBalancoController.arqBalanco == null}"
 				        mode="advanced" update="painelArquivo" label="Anexar comprovante"
@@ -120,17 +122,19 @@
 		
 			<div style="width:100%; text-align: center; margin:5px; height: 30px;">
 				<p:commandButton id="btnSalvar" value="Salvar"  update="panelInfoItem, containerItens"
+					styleClass="botao"
 			   		actionListener="#{lancarBalancoController.salvarItemBanlanco}"  >
 		   		</p:commandButton>
 		   		
 		   		<p:commandButton id="btnLimpar" value="Limpar"  update="panelInfoItem"
+		   			styleClass="botao"
 			   		actionListener="#{lancarBalancoController.limparDadosItem()}"  >
 		   		</p:commandButton>
 	   		</div>
 		</p:outputPanel>				 	
 	 
 	 	
-	 	<p:outputPanel id="containerItens" style="margin-top:20px;">
+	 	<p:outputPanel id="containerItens" style="margin-top:50px;">
 	 	
 	 	<table style="width: 100%">
 	 	<tr>

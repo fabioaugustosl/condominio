@@ -8,33 +8,35 @@
    
    <ui:define name="content">
    	<h1>Cadastrar uma nova Notícia ou Aviso</h1>
+   	<p:outputLabel styleClass="textoInformativo" 
+   		value="Insira uma notícia ou aviso que deseje divulgar para os moradores do condomínio." />
  	<br />
  	
  	<h:form id="form" enctype="multipart/form-data">
 	    
 	    <p:outputPanel id="containerNovaNoticia" >
 	    
-				<p:outputLabel value="Título" /> <br />
+				<p:outputLabel value="Título" styleClass="labelPadrao"  /> <br />
 				<p:inputText id="titulo" alt="Insira o título da notícia ou aviso" styleClass="inputPadrao"
 					value="#{cadastroNoticiaController.noticia.titulo}" maxlength="400" 
 					required="true" requiredMessage="Favor preencher o título da notícia ou aviso." />
 				<br />
 				
-				<p:outputLabel value="Texto da notícia ou aviso:" /> <br />
+				<p:outputLabel value="Texto da notícia ou aviso:" styleClass="labelPadrao"  /> <br />
 		        <p:editor id="editorConteudoNoticia" widgetVar="editorWidget" value="#{cadastroNoticiaController.noticia.conteudo}" 
 		        	required="true" requiredMessage="Favor preencher o texto da notícia ou aviso." maxlength="10000"
 		        	controls="bold italic underline font size color style numbering alignleft center alignright justify undo redo image link cut copy paste indent" />
 	        	<br />
 	        	
 		        <p:outputPanel>
-			        <p:outputLabel value="Notícia ativa?" />
+			        <p:outputLabel value="Notícia ativa?" styleClass="labelPadrao"  />
 			        <p:selectBooleanCheckbox value="#{cadastroNoticiaController.noticia.ativa}" />	
 			    </p:outputPanel>
 	       
 	 	</p:outputPanel>
 	 	
 	 	<div>
-	 		<p:outputLabel value="Anexar arquivo" />
+	 		<p:outputLabel value="Anexar arquivo"  styleClass="labelPadrao"  />
 	        <p:fileUpload mode="advanced" update="@this, dtArquivosNoticia" label="Selecionar arquivo"
 		        fileUploadListener="#{cadastroNoticiaController.uploadArquivo}"
 		        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX|JPg|jpg|jpeg|JPEG|png|PNG)$/" 
@@ -70,7 +72,7 @@
 	 	
 	 	
 	 	<p:commandButton id="salvarNoticia" value="Salvar" 
-	 	styleClass="botao botao-grande"
+	 		styleClass="botao botao-grande"
 	   		actionListener="#{cadastroNoticiaController.salvarNoticia}" 
 	   		update="@form">
 	   	</p:commandButton>

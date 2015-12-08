@@ -8,23 +8,27 @@
    
    <ui:define name="content">
    	<h1>Indicar um produto/serviço aos seus vizinhos</h1>
+   	<p:outputLabel styleClass="textoInformativo" 
+   		value="Indique algum produto ou serviço que tenha gostado e ache intessante compartilhar com seus vizinhos." />
  	<br />
  	
  	<h:form id="form" enctype="multipart/form-data">
 	    
 	    <p:outputPanel id="containerNovaIndicacao" >
 	    
-				<p:outputLabel value="Nome da pessoa/empresa ou nome do produto:" /> <br />
+				<p:outputLabel value="Nome da pessoa/empresa ou nome do produto:" styleClass="labelPadrao"  /> <br />
 				<p:inputText id="nome" alt="Insira nome da pessoa/empresa que forneceu o serviço ou o nome do produto que você deseja indicar" styleClass="inputPadrao"
 					value="#{cadastrarIndicacaoController.indicacao.nome}" maxlength="100" 
 					required="true" requiredMessage="Favor preencher o nome da pessoa/empresa ou produto." />
 				<br />
 				
-				<p:outputLabel value="Classifique o serviço/produto: (ex.: pintor, armários, marceneiro, etc)" for="tags" />
+				<p:outputLabel value="Classifique o serviço/produto: (ex.: pintor, armários, marceneiro, etc)" 
+					styleClass="labelPadrao"  for="tags" />
 		        <p:autoComplete id="tags" multiple="true" value="#{cadastrarIndicacaoController.categoriasSelecionadas}" 
 		        				completeMethod="#{cadastrarIndicacaoController.completarCategoria}"
 		                        var="tag" itemLabel="#{tag.nome}" itemValue="#{tag}" converter="converterEntityById"
 		                        forceSelection="true" 
+		                        styleClass="inputPadraoAutocomplete"
 		                        required="true" requiredMessage="Favor classificar o serviço/produto.">
 		            <p:column>
 		                <h:outputText value="#{tag.nome}" />
@@ -32,7 +36,7 @@
 		        </p:autoComplete>
 		        <br />
 		        
-				<p:outputLabel value="Comentário:" /> <br />
+				<p:outputLabel value="Comentário:" styleClass="labelPadrao"  /> <br />
 		        <p:inputTextarea id="comentarioIndicacao" alt="Insira um comentário detalhando o porque você deseja indicar esse produto ou serviço para seus vizinhos." styleClass="textAreaPadrao"
 					value="#{cadastrarIndicacaoController.indicacao.comentario}" maxlength="10000"  />
 		        <br />
@@ -40,7 +44,7 @@
 	 	</p:outputPanel>
 	 	
 	 	<div>
-	 		<p:outputLabel value="Anexar fotos: (máximo 5 fotos)" />
+	 		<p:outputLabel value="Anexar fotos: (máximo 5 fotos)" styleClass="labelPadrao"  />
 	        <p:fileUpload mode="advanced" update="@this, dtArquivosNoticia" label="Selecionar arquivo"
 		        fileUploadListener="#{cadastrarIndicacaoController.uploadArquivo}" fileLimit="5"
 		        allowTypes="/(\.|\/)(JPg|jpg|jpeg|JPEG|png|PNG)$/" 
@@ -70,12 +74,14 @@
 	 	<br />
 	 	
 	 	
-	 	<p:commandButton id="salvarIndicacao" value="Salvar" 
+	 	<p:commandButton id="salvarIndicacao" value="Salvar"
+	 		styleClass="botao botao-grande" 
 	   		actionListener="#{cadastrarIndicacaoController.salvarIndicacao}" 
 	   		update="@form">
 	   	</p:commandButton>
 	   	
 	 	<p:commandButton id="listagemIndicacao" value="Ir para listagem" immediate="true"
+	 		styleClass="botao botao-grande"
 	   		actionListener="#{cadastrarIndicacaoController.irParaListagem}"  >
 	   	</p:commandButton>
 	 	

@@ -9,13 +9,16 @@
    <ui:define name="content">
    	<h:form id="form" style="width:100%">
    	
-	   	<h1><p:outputLabel value="Todos meus boletos" /></h1>
+	   	<h1>Todos meus boletos</h1>
+	   	<p:outputLabel styleClass="textoInformativo" 
+   			value="Baixe ou envie por email seus boletos do condomínio." />
 	 	<br />
 	 	
 	 	
-	 	<p:outputPanel id="containerUsuarios" >
+	 	<p:outputPanel id="containerUsuarios" style="float:left; width:50%;  margin-left:25%;" >
 	 	
 	 	 <p:dataTable id="dtListagemUsuariosBoleto" var="cobranca" 
+	 	 		style="width:100%;"
 				value="#{geracaoBoletoUsuarioController.cobrancas}"
 				rowKey="#{cobranca.id}"
 				emptyMessage="Ainda não foi lançada nenhuma cobrança para você." >

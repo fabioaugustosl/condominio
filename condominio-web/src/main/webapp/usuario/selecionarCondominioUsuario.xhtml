@@ -14,11 +14,12 @@
 	   
 	<h:form id="form" >   
 		<p:outputPanel id="associacaoCondominioUsuario" >
-		
-			<p:outputLabel rendered="#{not selecionarCondominioUsuarioController.sucesso}" value="Para finalizar seu cadastro precisamos que você nos informe qual é o seu condomínio."></p:outputLabel>
+			<h2>
+				<p:outputLabel rendered="#{not selecionarCondominioUsuarioController.sucesso}" value="Para finalizar seu cadastro precisamos que você nos informe qual é o seu condomínio."></p:outputLabel>
+			</h2>
 					
 			<p:outputPanel id="containerCidade" rendered="#{empty selecionarCondominioUsuarioController.cidadeSelecionada and !selecionarCondominioUsuarioController.sucesso}">	
-				<div>Primeiro qual é a sua cidade?</div>   
+				<label>Primeiro qual é a sua cidade?</label>   
 				<br />
 				<p:selectOneMenu id="comboCidades" value="#{selecionarCondominioUsuarioController.cidadeSelecionada}" 
 					 converter="converterEntityById" >
@@ -29,7 +30,9 @@
 				
 				<br />
 				
-				<p:commandButton id="salvarCondominio1" value="Ops. Sua cidade não está ai. Clique aqui e cadastre seu condomínio." 
+				<p:commandButton id="salvarCondominio1" 
+					styleClass="botao"
+					value="Ops. Sua cidade não está ai. Clique aqui e cadastre seu condomínio." 
 			   		actionListener="#{selecionarCondominioUsuarioController.cadastrarCondominio}">
 			   	</p:commandButton>
 			   	
@@ -37,7 +40,7 @@
 		 	
 		 	
 			<p:outputPanel id="containerCondominio" rendered="#{not empty selecionarCondominioUsuarioController.cidadeSelecionada and !selecionarCondominioUsuarioController.sucesso}">	
-				<div>Ótimo! Você é de <p:outputLabel value="#{selecionarCondominioUsuarioController.cidadeSelecionada.nome}"></p:outputLabel>. </div>
+				<p:outputLabel value="Ótimo! Você é de " /> <p:outputLabel value="#{selecionarCondominioUsuarioController.cidadeSelecionada.nome}."></p:outputLabel>
 				<p:outputLabel value="Agora selecione o seu condomínio."></p:outputLabel>   
 				<br />
 				<p:selectOneMenu id="comboCondominio" value="#{selecionarCondominioUsuarioController.condominioSelecionado}" 
@@ -77,12 +80,15 @@
 				<br />
 				<p:outputPanel id="containerBotoes">
 					<p:commandButton id="selecionarCondominio" value="Ok" 
+						styleClass="botao"
 						rendered="#{not empty selecionarCondominioUsuarioController.apartamentoSelecionado}"
 				   		actionListener="#{selecionarCondominioUsuarioController.selecionarCondominio}"
 				   		update="associacaoCondominioUsuario" >
 				   	</p:commandButton>
 					
-					<p:commandButton id="salvarCondominio2" value="Ihh. Seu condomínio não está ai? Clique aqui e cadastre seu condomínio." 
+					<p:commandButton id="salvarCondominio2" 
+						styleClass="botao"
+						value="Ihh. Seu condomínio não está ai? Clique aqui e cadastre seu condomínio." 
 				   		actionListener="#{selecionarCondominioUsuarioController.cadastrarCondominio}"
 				   		rendered="#{empty selecionarCondominioUsuarioController.apartamentoSelecionado}" >
 				   	</p:commandButton>
@@ -91,9 +97,12 @@
 			</p:outputPanel>
 		
 			<p:outputPanel id="containerSucesso" rendered="#{selecionarCondominioUsuarioController.sucesso}">	
-				<div>Parabéns. Seu agora sim você está pronto pra acessar o sistema.</div>   
-				
-				<p:commandButton id="salvarCondominio3" value="Ir para login" 
+				<h1>Parabéns. Seu agora sim você está pronto pra acessar o sistema.</h1>   
+				<br />
+				<br />
+				<br />
+				<p:commandButton id="salvarCondominio3" value="Ir para login"
+					styleClass="botao" 
 			   		actionListener="#{selecionarCondominioUsuarioController.login}" >
 			   	</p:commandButton>
 				   	

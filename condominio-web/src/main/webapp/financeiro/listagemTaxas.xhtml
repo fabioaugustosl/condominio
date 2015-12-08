@@ -8,7 +8,7 @@
    
    <ui:define name="content">
    	<h:form id="form" style="width:100%">
-	   	<h1><p:outputLabel value="Todas as taxas cadastradas" /></h1>
+	   	<h1>Todas as taxas cadastradas</h1>
 	 	<br />
 	 	
 		<p:dataTable id="dtListagemTaxa" var="tx" 
@@ -53,11 +53,13 @@
 		</p:dataTable> 
 	    
 	    <p:commandButton id="voltar" value="Voltar" immediate="true"
+	    	styleClass="botao botao-grande"
 	   		actionListener="#{listagemTaxaController.voltar()}"  >
 	   	</p:commandButton>
 	    
 	    
 	   	<p:commandButton id="novaTaxa" value="Nova Taxa" immediate="true"
+	   		styleClass="botao botao-grande"
 	   		actionListener="#{listagemTaxaController.irParaCadastro}"  >
 	   	</p:commandButton>
 	    

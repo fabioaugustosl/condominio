@@ -14,11 +14,13 @@
    				update="containerUsuarios"></p:remoteCommand>
    	
    	
-	   	<h1><p:outputLabel value="Geração de boleto para moradores" /></h1>
-	 	<br />
+	   	<h1>Geração de boleto para moradores</h1>
+   		<p:outputLabel styleClass="textoInformativo" 
+   			value="Você emitir e enviar o boleto para os moradores. Para isso selecione a competência e os moradores desejados." />
+ 	 	<br />
 	 	
 	 	<p:outputPanel id="containerCompetencia" >
-	 		<p:outputLabel value="Competência: " /> 
+	 		<p:outputLabel value="Competência: "  styleClass="labelPadraoInline"/> 
 		 	<p:selectOneMenu id="comboCompetencia" styleClass="inputPadrao" value="#{geracaoBoletoController.anoMes}"   >
 		 		<p:ajax event="change" oncomplete="atualizarUsuarios()" process="@this" />
 		 		<f:selectItem itemLabel="Selecione..." />
@@ -26,22 +28,23 @@
 		 	</p:selectOneMenu>
 		</p:outputPanel>
 	 	
-		   
-	 	<p:outputPanel id="containerUsuarios" >
+	 	<p:outputPanel id="containerUsuarios" style="float:left; width:60%;" >
 	    	<p:commandButton value="Download"
 	    				rendered="#{ not empty geracaoBoletoController.cobrancas}" 
+	    				styleClass="botao"
 	    				ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
 			       <p:fileDownload value="#{geracaoBoletoController.download()}" />
 		    </p:commandButton>
 		    
 		    <p:commandButton value="Enviar por Email"
+		    			styleClass="botao"
 		    			actionListener="#{geracaoBoletoController.enviar()}"
 	    				rendered="#{ not empty geracaoBoletoController.cobrancas}" 
 	    				onclick="PrimeFaces.monitorDownload(start, stop);" 
 	    				update="dtListagemUsuariosBoleto">
 		    </p:commandButton>
 	 	
-		 	 <p:dataTable id="dtListagemUsuariosBoleto" var="cobranca" 
+		 	 <p:dataTable id="dtListagemUsuariosBoleto" var="cobranca" style="margin-top:10px;" 
 					value="#{geracaoBoletoController.cobrancas}"
 					rowKey="#{cobranca.id}"
 					selection="#{geracaoBoletoController.cobrancasSelecionadas}" 
@@ -54,7 +57,7 @@
 			        <h:outputText value="#{cobranca.usuario.nome}" />
 			    </p:column>
 			    
-			     <p:column headerText="Morador" >
+			     <p:column headerText="Apartamento" styleClass="colunaLargura160" style="text-align:center;" >
 			        <h:outputText value="#{cobranca.usuario.apartamento.nomeExibicao}" />
 			    </p:column>
 			    

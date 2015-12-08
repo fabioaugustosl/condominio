@@ -84,11 +84,6 @@ public class LancarBalancoController {
 		despesas = new ArrayList<ItemBalanco>();
 		tipoBalanco = EnumTipoBalanco.RECEITA.name().toString();
 		
-		/*valorBase = usuario.getCondominio().getValorCondominioMes();
-		if(valorBase == null){
-			valorBase = 0d;
-			message.addWarn("O valor do condomínio está zerado! Para configurar o valor base do condomínio acesse o menu Configurações > Meu Condominio ");
-		}*/
 		carregarInformacoesPeriodoPadroes();
 		montarBalanco();
 		carregarDescricoesAutoCompletar(EnumTipoBalanco.RECEITA);
@@ -130,6 +125,9 @@ public class LancarBalancoController {
 		balanco.setMes(mes);
 		balanco.setAno(ano);
 		
+		despesas = new ArrayList<ItemBalanco>();
+		receitas= new ArrayList<ItemBalanco>();
+		
 	}
 	
 	public void montarBalanco(){
@@ -145,31 +143,27 @@ public class LancarBalancoController {
 		
 		if(balanco == null){
 			criarBalanco();
+		} else{
 			try {
-				balanco = balancoService.salvar(balanco);
+				despesas = balancoService.recuperarDespesas(balanco);
+				receitas = balancoService.recuperarReceitas(balanco);
 			} catch (AppException e) {
-				message.addError("Ocorreu um erro grave ao inicializar o lançamento do balanço");
 			}
-		} 
-		
-		try {
-			despesas = balancoService.recuperarDespesas(balanco);
-			receitas = balancoService.recuperarReceitas(balanco);
-		} catch (AppException e) {
 		}
 
 		balanco.zerarTotais();
-		
 		atualizarSomatorio();
 		
 		limparDadosItem();
 	}
 
 	private void atualizarSomatorio() {
-		try {
-			balanco.setTotalReceitas(balancoService.somarItens(receitas));
-			balanco.setTotalDespesas(balancoService.somarItens(despesas));
-		} catch (AppException e) {
+		if(balanco != null){
+			try {
+				balanco.setTotalReceitas(balancoService.somarItens(receitas));
+				balanco.setTotalDespesas(balancoService.somarItens(despesas));
+			} catch (AppException e) {
+			}
 		}
 	}
 
@@ -189,6 +183,15 @@ public class LancarBalancoController {
 	
 	
 	public void salvarItemBanlanco(ActionEvent event) throws CondominioException {
+		
+		if(balanco.getId() == null){
+			try {
+				balanco = balancoService.salvar(balanco);
+			} catch (AppException e) {
+				message.addError("Ocorreu um erro grave ao inicializar o lançamento do balanço");
+			}
+		}
+		
 		try{
 			
 			EnumTipoBalanco tipo = EnumTipoBalanco.valueOf(tipoBalanco);

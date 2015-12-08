@@ -12,7 +12,6 @@
    <style>
    	.itemReceita{
    		color: blue;
-   		background-color: #FFFAF0;
    		border-bottom: 1px solid blank;
    		margin-top: 1px;
    		margin-bottom: 1px; 
@@ -22,7 +21,6 @@
    	
    	.itemDespesa{
    		color: red;
-   		background-color: #FFFAF0;
    		border-bottom: 1px solid blank;
    		margin-top: 1px;
    		margin-bottom: 1px; 
@@ -34,14 +32,11 @@
    
    	<h:form id="form" style="width:100%">
    	
-   		<h1><p:outputLabel value="Detalhamento de Balanço Mensal" /></h1>
-	 	<br />
+   		<h1>Detalhamento da prestação de contas mensal</h1>
+	 	<p:outputLabel styleClass="textoInformativo" 
+	   			value="Acompanhe todas as receitas e despesas do condomínio para a competência " /><p:outputLabel styleClass="textoInformativo" style="margin-left:5px; color:#525A6E ;" value="#{detalharBalancoController.balanco.anoMes}" />
 	 	
 	 	<br />
-	 	
-	 	<p:outputPanel id="containerCompetencia">
-		 	<p:outputLabel value="Competência: " /> <p:outputLabel value="#{detalharBalancoController.balanco.anoMes}" />
-		</p:outputPanel>
 	 	
 	 	<p:outputPanel id="containerItens" style="margin-top:20px;">
 	 	
@@ -99,7 +94,7 @@
 					        		rendered="#{despesa.arquivo != null}"
 						     		id="downloadDocSelecionada" immediate="true" >
 							        <p:fileDownload value="#{detalharBalancoController.download(despesa.arquivo)}" />
-						     		<p:graphicImage id="imgDownDespesa" url="/img/icones/download.png" 
+						     		<p:graphicImage id="imgDownDespesa" url="/img/icones/ico_download_16.png" 
 						     				title="Clique para baixar o comprovante." />
 					         	</p:commandLink>
 				        </div>
@@ -107,10 +102,11 @@
 		 		</td>
 		 	</tr>
 		 	</table>
-	 	
+	 		 	
 	 	</p:outputPanel>
 	 	
 	 	<p:commandButton id="irParaListagemBalanco" value="Voltar para listagem" immediate="true"
+	 	styleClass="botao botao-grande"
 	   		actionListener="#{detalharBalancoController.irParaListagem()}"  >
 	   	</p:commandButton>
 	 

@@ -138,7 +138,10 @@ public class ConfiguracaoBoletoController {
 	
 	
 	public void gerarCobranca(ActionEvent event) throws CondominioException {
+		salvar(event);
+		
 		try{
+			
 			if(configuracao == null || configuracao.getId() == null){
 				message.addError("Você deve salvar a configuração do título primeiro.");
 				return;

@@ -13,6 +13,9 @@
 		    /*list-style-type: none !important;*/
 		    padding: 5px;
 		}
+		 
+		#formAssembleiaConvocacao\:dtListagemAssembleiaGadget_data{background:#ACB4C5 !important; }
+		#formAssembleiaConvocacao\:dtListagemAssembleiaGadget_head th{background:transparent !important ; border:0px !important; }
 	</style>
 	
    <h:form id="formAssembleiaConvocacao" style="width:100%">
@@ -20,7 +23,7 @@
 	   <p:outputPanel id="containerConvocacaoAssembleia" rendered="#{assembleiaController.possuiAssembleiaAgendada()}" >
 		
 			<p:dataTable id="dtListagemAssembleiaGadget" var="assembleia" 
-				value="#{assembleiaController.assembleias}"
+				value="#{assembleiaController.assembleias}" 
 				rowKey="#{assembleia.id}" >
 			
 			    <p:column>
@@ -33,26 +36,26 @@
 						</p:outputLabel>
 						às <p:outputLabel value="#{assembleia.horario1}">
 							<f:convertDateTime pattern="HH:mm"  timeZone="GMT-03:00" />
-						</p:outputLabel>.
-					
+						</p:outputLabel> horas.
+						<br />
 						<p:commandButton id="btnVerPauta" value="Ver pautas" onsuccess="PF('dialogPautasAprovadas').show();">
 					 		<f:setPropertyActionListener target="#{assembleiaController.assembleiaSelecionada}" value="#{assembleia}"></f:setPropertyActionListener>
 					 	</p:commandButton>	
+						 	<p:commandButton id="novaPauta" rendered="#{assembleia.permitirPautas}"
+						 	actionListener="#{assembleiaController.resetPauta}" value="Enviar Pauta">
+						 		<f:setPropertyActionListener target="#{assembleiaController.assembleiaSelecionada}" value="#{assembleia}"></f:setPropertyActionListener>
+						 	</p:commandButton>
+						 	
+						 	<p:overlayPanel id="panelNovaPaula" for="novaPauta" hideEffect="fade"
+						 			rendered="#{assembleia.permitirPautas}"
+						 			dynamic="true" style="width:600px; height:200px;"
+						 			widgetVar="panelNovaPaula">
+						        <p:inputTextarea id="txtPauta" styleClass="textAreaPadrao" value="#{assembleiaController.textoPauta}" style="height:150px"></p:inputTextarea>					        <br />
+						        <p:commandButton actionListener="#{assembleiaController.novaPauta}" value="Enviar"
+						        	onsuccess="PF('panelNovaPaula').hide();" update=":formAssembleiaConvocacao:msgsGrowlAssembleia" ></p:commandButton>
+						    </p:overlayPanel>
 					</p:outputPanel>
 					
-					<p:outputPanel rendered="#{assembleia.permitirPautas}">
-					 	<p:commandButton id="novaPauta" actionListener="#{assembleiaController.resetPauta}" value="Enviar Pauta">
-					 		<f:setPropertyActionListener target="#{assembleiaController.assembleiaSelecionada}" value="#{assembleia}"></f:setPropertyActionListener>
-					 	</p:commandButton>
-					 	
-					 	<p:overlayPanel id="panelNovaPaula" for="novaPauta" hideEffect="fade" 
-					 			dynamic="true" style="width:600px; height:200px;"
-					 			widgetVar="panelNovaPaula">
-					        <p:inputTextarea id="txtPauta" styleClass="textAreaPadrao" value="#{assembleiaController.textoPauta}" style="height:150px"></p:inputTextarea>					        <br />
-					        <p:commandButton actionListener="#{assembleiaController.novaPauta}" value="Enviar"
-					        	onsuccess="PF('panelNovaPaula').hide();" update=":formAssembleiaConvocacao:msgsGrowlAssembleia" ></p:commandButton>
-					    </p:overlayPanel>
-					</p:outputPanel>
 			       
 			    </p:column>
 			</p:dataTable>

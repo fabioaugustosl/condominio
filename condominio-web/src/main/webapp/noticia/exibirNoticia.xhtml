@@ -7,23 +7,37 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
+   	<style >
+   		.tituloNoticia{
+   			font-size: 1.5em !important;
+   			color: #1F8CF7  ;
+   			font-weight:bold;
+   		}
+   		.subTituloNoticia{
+   			font-size: 1em !important;
+   			font-style:italic;
+   			color: #3B9EFE  ;
+   		}
+   		.textoNoticia{
+   			font-size: 1em !important;
+   			color: #525A6E  ;
+   			text-align: justify;
+   		}
+   	</style>
    	<h:form id="form" style="width:100%">
-	   	<h1>Notícias e Avisos</h1>
+   	
+	   	<h1>#{exibirNoticiaController.noticia.titulo}</h1>
 	 	<br />
-	 	
-	 	<table style="width:100%">
+		<table style="width:100%">
 	 		<tr>
 	 			<td style="width:70%; top:0;">
 		 			<p:outputPanel id="panelNoticiaDestaque" rendered="#{exibirNoticiaController.noticia != null}" style="width:90%;">
-						<p:outputLabel id="noticiaDestaqueTitulo" value="#{exibirNoticiaController.noticia.titulo}" style="font-weight:bold"></p:outputLabel>
-						<br />
-						[<p:outputLabel id="noticiaDestaqueData" value="#{exibirNoticiaController.noticia.data}">
-							<f:convertDateTime pattern="dd/MM/yyyy"/>
-						</p:outputLabel>]
-						<br />
 						
+						<p:outputLabel id="noticiaDestaqueData" value="#{exibirNoticiaController.noticia.data}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</p:outputLabel>
 						<p:outputLabel id="noticiaDestaqueConteudo" style="display:block"
-							escape="false" 
+							escape="false" styleClass="textoNoticia"
 							value="#{exibirNoticiaController.noticia.conteudo}">
 						</p:outputLabel>
 						

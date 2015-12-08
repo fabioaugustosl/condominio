@@ -1,23 +1,78 @@
 .textAreaPadrao{
 	width: 100%;
 	height:80px;
-	border:1px solid #3366FF;
-	border-left: 3px solid #3366FF;
+	border:1px solid #B6C1C5;
+	border-left: 3px solid #6D909F;
 	box-shadow: none !important;
 }
 
 .inputPadrao {
 	width:100%;
-	border:1px solid #3366FF;
-	border-left: 3px solid #3366FF;
+	border:1px solid #B6C1C5;
+	border-left: 3px solid #6D909F;
 	box-shadow: none !important;
 }
 
+.inputPadraoAutocomplete ul {
+	width:100%;
+	border:1px solid #B6C1C5;
+	border-left: 3px solid #6D909F;
+	box-shadow: none !important;
+}
+
+.inputPadraoAutocomplete ul>li input {
+	width:100%;
+	box-shadow: none !important;
+}
+
+.inputPadraoAutocompleteTxt {
+	width:100% !important;
+	border:0px solid #B6C1C5;
+}
+
+.inputPadraoAutocompleteTxt input {
+	width:100%;
+	border:1px solid #B6C1C5;
+	border-left: 3px solid #6D909F;
+	box-shadow: none !important;
+}
+
+.labelPadrao {
+	margin-top:10px;
+	margin-bottom:0px;
+	padding:0px;
+	font-size: 1.0em !important;	
+	color: #525A6E;
+}
+
+.labelPadraoInline {
+	margin-top:3px;
+	line-height:25px;
+	vertical-align:top;
+	margin-bottom:0px;
+	margin-right:5px;
+	padding:0px;
+	font-size: 1.0em !important;	
+	color: #525A6E;
+}
+
+
+.textoInformativo{
+	margin-top:8px;
+	margin-bottom:15px;
+	font-size: 1.1em;
+	color: #ACB4C5;
+}
+
+
+.labelPadraoObrigatorio {
+	font-weight: 200;
+}
 
 .selectPadrao {
 	width:100%;
-	border:1px solid #3366FF;
-	border-left: 3px solid #3366FF;
+	border:1px solid #B6C1C5;
+	border-left: 3px solid #6D909F;
 	box-shadow: none !important;
 }
 

@@ -20,7 +20,7 @@ public class TokenDAO extends DAO<Token> implements ITokenDAO {
 
 	@Override
 	public void invalidarToken(String token) {
-		Query qry = getEntityManager().createQuery("UPDATE Token SET ativo = 0 WHERE token = :token ");
+		Query qry = getEntityManager().createQuery("UPDATE token SET ativo = 0 WHERE token = :token ");
 		qry.setParameter("token", token);
 		qry.executeUpdate();
 	}

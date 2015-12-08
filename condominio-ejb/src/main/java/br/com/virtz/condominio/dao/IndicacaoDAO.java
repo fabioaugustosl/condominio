@@ -28,7 +28,7 @@ public class IndicacaoDAO extends DAO<Indicacao> implements IIndicacaoDAO {
 	@Override
 	public List<Indicacao> recuperarPorCategoria(Long idCondominio, Long idCategoria) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Select n FROM Indicacao n  ");
+		sb.append("Select n FROM indicacao n  ");
 		sb.append(" JOIN n.categorias cat ");
 		sb.append(" WHERE n.condominio.id = :idCondominio AND cat.id = :idCategoria  ");
 		sb.append(" ORDER BY n.data desc ");

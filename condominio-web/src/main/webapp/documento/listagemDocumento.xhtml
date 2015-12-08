@@ -8,7 +8,9 @@
    
    <ui:define name="content">
    	<h:form id="form" style="width:100%">
-	   	<h1><p:outputLabel value="Documentos" /></h1>
+	   	<h1>Veja todos os documentos</h1>
+	 	
+	 	<p:outputLabel styleClass="textoInformativo" value="Aqui você pode visualizar todos os arquivos e documentos importantes para o condomínio." />
 	 	<br />
 	 	
 		<p:dataTable id="dtListagemDocumentos" var="doc" 
@@ -20,7 +22,7 @@
 		        <h:outputText value="#{doc.titulo}" />
 		    </p:column>
 		    
-		    <p:column headerText="Data">
+		    <p:column headerText="Data" styleClass="colunaLargura100">
 		        <h:outputText value="#{doc.data}" >
 		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
 		        </h:outputText>
@@ -34,7 +36,8 @@
 		        <h:outputText value="#{doc.descricao}" />
 		    </p:column>
 		    
-		    <p:column headerText="Download" style="text-align:center">
+		    <p:column headerText="Download" style="text-align:center"
+		    			styleClass="colunaLargura100">
 		    	<p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" 
 		     		id="downloadDocSelecionada" immediate="true" >
 			        <p:fileDownload value="#{listagemDocumentoController.download(doc.arquivo)}" />
@@ -43,7 +46,8 @@
 	         	</p:commandLink>
 		    </p:column>
 		    
-		    <p:column rendered="#{listagemDocumentoController.podeEditar()}" style="text-align:center">
+		    <p:column headerText="Editar" rendered="#{listagemDocumentoController.podeEditar()}" 
+		    		style="text-align:center" styleClass="colunaLargura100">
 		     	<p:commandLink actionListener="#{listagemDocumentoController.editar(doc)}" 
 		     		id="editarDocSelecionada" immediate="true" >
 		     		<p:graphicImage id="imgEditarDoc" url="/img/icones/editar.png" 
@@ -51,7 +55,7 @@
 	         	</p:commandLink>
 		    </p:column>
 		    
-		    <p:column rendered="#{listagemDocumentoController.podeExcluir()}" style="text-align:center">
+		    <p:column headerText="Excluir" rendered="#{listagemDocumentoController.podeExcluir()}" style="text-align:center" styleClass="colunaLargura100">
 		    	<p:commandLink actionListener="#{listagemDocumentoController.removerDocumento(doc)}" 
 		    		update="dtListagemDocumentos"
 	         		id="excluirDocSelecionada" immediate="true" >
@@ -62,6 +66,7 @@
 		</p:dataTable> 
 	    
 	   	<p:commandButton id="novoDocumento" value="Novo Documento" immediate="true"
+	   		styleClass="botao botao-grande"
 	   		rendered="#{listagemDocumentoController.podeEditar()}"
 	   		actionListener="#{listagemDocumentoController.irParaCadastro}"  >
 	   	</p:commandButton>
