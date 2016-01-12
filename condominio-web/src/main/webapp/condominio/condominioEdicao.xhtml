@@ -7,41 +7,50 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
+   
+   <style >
+   .ui-state-active a{color: #E57968 !important; }
+   
+   </style>
+   
    	<h:form id="form" style="width:100%">
 	   	<h1>#{condominioEdicaoController.nomeCondominio}</h1>
+	   	<p:outputLabel styleClass="textoInformativo" 
+   			value="Configure informações sobre o condomínio." />
 	 	<br />
 	 	
 		<p:tabView id="tabConcominio" orientation="left">
 	        <p:tab title="O condomínio">
 	        	<p:outputPanel layout="block" rendered="#{condominioEdicaoController.isEditavel()}">
-		        	<p:outputLabel value="Nome do condomínio: " />
-		       		<p:inputText value="#{condominioEdicaoController.condominio.nome}" style="width:100%" label="Nome:"  required="true" requiredMessage="O nome do condomínio é obrigatório." /> <br />
+		        	<p:outputLabel value="Nome do condomínio: " styleClass="labelPadrao" />
+		       		<p:inputText value="#{condominioEdicaoController.condominio.nome}" styleClass="inputPadrao"  
+		       			required="true" requiredMessage="O nome do condomínio é obrigatório." /> <br />
 	       		</p:outputPanel>
 	       		
 	       		<p:outputPanel layout="block">
-		       		<p:outputLabel value="CNPJ: " />
+		       		<p:outputLabel value="CNPJ: " styleClass="labelPadrao"  />
 		       		<p:inputMask id="cnpjCondominio" 
 		       				value="#{condominioEdicaoController.condominio.cnpj}"  
 		       				alt="Insira o CNPJ do condomínio."
-							maxlength="18" styleClass="inputPadrao" style="width:100%"
+							maxlength="18" styleClass="inputPadrao" 
 							rendered="#{condominioEdicaoController.isEditavel()}"
 							mask="99.999.999/9999-99" >
 					</p:inputMask>
 		       			
 		       		<p:outputLabel value="#{condominioEdicaoController.condominio.cnpj}" 
-		       			rendered="#{not condominioEdicaoController.isEditavel()}" />
+		       			rendered="#{not condominioEdicaoController.isEditavel()}" styleClass="labelPadrao" />
 		       			
 	       		</p:outputPanel>
 	       		
 	       		
 	       		<p:outputPanel layout="block">
-		       		<p:outputLabel value="Total de apartamentos: " />
+		       		<p:outputLabel value="Total de apartamentos: " styleClass="labelPadrao" />
 		       		<p:inputText value="#{condominioEdicaoController.condominio.quantidadeApartamentos}" 
-		       			size="10" maxlength="3"  style="width:100%"  
+		       			size="10" maxlength="3"  styleClass="inputPadrao"  
 		       			rendered="#{condominioEdicaoController.isEditavel()}"/>
 		       			
 		       		<p:outputLabel value="#{condominioEdicaoController.condominio.quantidadeApartamentos}" 
-		       			rendered="#{not condominioEdicaoController.isEditavel()}" />
+		       			rendered="#{not condominioEdicaoController.isEditavel()}" styleClass="labelPadrao" />
 		       			
 	       		</p:outputPanel>
 	        	<br />
@@ -69,7 +78,9 @@
 			       </p:column>
 			   </p:dataTable>
 			
-				<p:commandButton id="btnBlocoSalvarTab1" value="Salvar" style="margin-left:10px;" rendered="#{condominioEdicaoController.isEditavel()}"
+				<p:commandButton id="btnBlocoSalvarTab1" value="Salvar" style="margin-left:10px;" 
+									rendered="#{condominioEdicaoController.isEditavel()}"
+									styleClass="botao"
 								actionListener="#{condominioEdicaoController.salvar}"
 								update="tabConcominio" />
 	            
@@ -96,13 +107,14 @@
 			   	</p:dataTable>
 	            
 	          	<p:commandButton value="Nova Área" actionListener="#{condominioEdicaoController.novaArea}" 
+	          		styleClass="botao"
 	          		rendered="#{condominioEdicaoController.isEditavel()}" update="novaAreaContainer" /> 
 	          	
 	          	<p:outputPanel id="novaAreaContainer">
 		          	<p:panelGrid id="gridCadArea" rendered="#{condominioEdicaoController.area ne null}" style="border:0px !important">
 			   	 	<p:row>
 		        		<p:column>
-		        			<p:outputLabel value="Nome:"></p:outputLabel>
+		        			<p:outputLabel value="Nome:" ></p:outputLabel>
 		        		</p:column>
 		        		<p:column>
 		        			<p:inputText id="nomeArea" value="#{condominioEdicaoController.area.nome}" 
@@ -130,6 +142,7 @@
 		 	   		<p:row>
 		        		<p:column colspan="2">
 					 	   		<p:commandButton id="btnBlocoSalvarTab2" value="Salvar" 
+					 	   			styleClass="botao"
 												actionListener="#{condominioEdicaoController.salvarArea}"
 												update=":form:tabConcominio:dtAreas, novaAreaContainer" />
 		        		</p:column>
@@ -144,15 +157,16 @@
 	        
 	        <p:tab title="Financeiro">
 	        	<p:outputPanel layout="block" rendered="#{condominioEdicaoController.isEditavel()}">
-		        	<p:outputLabel value="Valor do condomínio por mês (valor base): " />
+		        	<p:outputLabel value="Valor do condomínio por mês (valor base): " styleClass="labelPadrao" />
 		       		
-		       		<p:inputText id="valoCondo" value="#{condominioEdicaoController.condominio.valorCondominioMes}" style="width:100px" >
+		       		<p:inputText id="valoCondo" value="#{condominioEdicaoController.condominio.valorCondominioMes}" style="width:100px" styleClass="inputPadrao" >
 		    			R$<f:convertNumber type="number" maxFractionDigits="2" /> 
 		    		</p:inputText> <span style="font-size: 0.6em">Ex.: 200,00</span>
 	       		</p:outputPanel>
 	       		
 	    		<p:commandButton id="btnBlocoSalvarTab3" value="Salvar" style="margin-left:10px;" 
 	    						rendered="#{condominioEdicaoController.isEditavel()}"
+	    						styleClass="botao"
 								actionListener="#{condominioEdicaoController.salvar}"
 								update="tabConcominio" />
 	            

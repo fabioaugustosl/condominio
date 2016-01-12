@@ -48,8 +48,14 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 	public String getCaminhaPastaTemplatesEmail(){
 		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
 	    if(path.contains("/")){
+	    	if(!path.endsWith("/")){
+	    		path += "/";
+	    	}
 	    	path +=DIRETORIO_PADRAO_TEMPLATES.replace("\\", "/");
 	    } else {
+	    	if(!path.endsWith("\\")){
+	    		path += "\\";
+	    	}
 	    	path +=DIRETORIO_PADRAO_TEMPLATES;
 	    }
 	    

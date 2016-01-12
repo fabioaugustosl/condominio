@@ -85,7 +85,7 @@
 				        update="@form"  />
 			        
 		 				<p:outputPanel  id="containerCortadorImagem" rendered="#{empty atualizarUsuarioController.caminhoImagem}" >
-		     				<p:graphicImage id="imagemUsuario" url="/arquivos/usuario/foto.jpg" width="300" />
+		     				<p:graphicImage id="imagemUsuario" url="/imagem?arquivo='/arquivos/usuario/foto.jpg'" width="300" />
 		     			</p:outputPanel>	 
 		     			
 						<p:outputPanel id="cadastroFoto" rendered="#{not empty atualizarUsuarioController.caminhoImagem}">

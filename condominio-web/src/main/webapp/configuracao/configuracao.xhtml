@@ -8,17 +8,21 @@
    
    <ui:define name="content">
    	<h1>Configurações</h1>
+   	<p:outputLabel styleClass="textoInformativo" 
+   		value="Tela para configurações gerais do sistema." />
  	<br />
  	
  	<h:form id="form" >
 	    
-   	 	<p:outputLabel value="Qual a quantidade máxima de dias futuros que uma área comum pode ser agendada?" /> <br />
+   	 	<p:outputLabel value="Qual a quantidade máxima de dias futuros que uma área comum pode ser agendada?" styleClass="labelPadrao" /> <br />
 	 	<p:inputMask  id="qtdDiaAgendaAreaComum" value="#{parametroController.parametroMaximoDias.valor}" 
-	 			mask="9?999" maxlength="4" placeHolder=" "/>
+	 			style="width:200px;"
+	 			mask="9?999" maxlength="4" placeHolder=" " styleClass="inputPadrao"/>
 	 	
 	 	<!-- p:outputLabel value="Deve enviar email avisando sobre reserva de área comum?" /> <br / -->
 	 	
 	 	<p:commandButton id="salvarConfiguracao" value="Salvar" 
+	 		styleClass="botao botao-grande"
 	   		actionListener="#{parametroController.salvar}" >
 	   	</p:commandButton>
 	

@@ -93,6 +93,7 @@ public class CadastroRecebidoController {
 			descricao = null;
 			apartamentoSelecionado = null;
 			tipo = null;
+			blocoSelecionado = null;
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new CondominioException("Ocorreu um erro inesperado ao salvar a correspondência/encomenda.");

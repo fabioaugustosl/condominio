@@ -65,7 +65,7 @@ public class Indicacao extends Entidade implements Serializable {
 	private List<AvaliacaoIndicacao> avaliacoes;
 
 	@ManyToMany(fetch=FetchType.EAGER)
-    @JoinTable(name = "CategoriaIndicacao", 
+    @JoinTable(name = "categoriaindicacao", 
     			joinColumns = @JoinColumn(name = "idIndicacao"), 
     			inverseJoinColumns = @JoinColumn(name = "idCategoria"))
 	private Set<CategoriaServicoProduto> categorias;

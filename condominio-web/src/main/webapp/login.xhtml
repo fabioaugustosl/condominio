@@ -48,7 +48,7 @@
                 <div class="col-lg-12 conteudoSite">
 
                     <div class="col-lg-4">
-                        <p:graphicImage url="/img/logo_media.png" styleClass="img-responsive logo"  />
+                        <p:graphicImage url="/img/logo_media_azul.png" styleClass="img-responsive logo"  />
                     </div>
 
                     <div class="col-lg-8" style="text-align: right; ">
@@ -198,8 +198,8 @@
 								actionListener="#{loginController.logar}" update="panelLogin" 
 								styleClass="botao"/>
 								<p:commandLink value="Esqueci minha senha" 
-									style="margin-left:10px;"
-									styleClass="forgot" onclick="esqueciMinhaSenha()" />
+									style="margin-left:10px;" update="messagesLogin"
+									styleClass="forgot" actionListener="#{loginController.esqueciMinhaSenha}" />
 							</div>
 			
 						

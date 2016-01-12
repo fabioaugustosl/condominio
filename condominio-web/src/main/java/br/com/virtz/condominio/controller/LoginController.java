@@ -116,30 +116,32 @@ public class LoginController {
 	 * @throws Exception
 	 */
 	public void esqueciMinhaSenha() throws AppException{
-		if(StringUtils.isNotBlank(emailEsqueciMinhaSenha)){
+		if(StringUtils.isNotBlank(login)){
 			
 			Usuario usuario = usuarioService.recuperarUsuario(emailEsqueciMinhaSenha);
 			if(usuario == null ){
-				throw new AppException("O email digitado não existe em nossa base de dados.");
+				messageHelper.addError("O email digitado não existe em nossa base de dados.");
 			}
 			
 			Token token = tokenService.novoToken(usuario.getId().toString());
 			
 			// TODO - terminar envio de email
-			enviarEmailEsqueciMinhaSenha(token);
+			enviarEmailEsqueciMinhaSenha(token, emailEsqueciMinhaSenha);
 			
 			messageHelper.addInfo("Aguarde alguns minutos, acesse seu email para concluir a recuperação de senha.");
+		} else {
+			messageHelper.addError("Para recuperar sua senha digite seu email e cliente em Equeci Minha Senha.");
 		}
 	}
 	
 	
-	private void enviarEmailEsqueciMinhaSenha(Token token) {
+	private void enviarEmailEsqueciMinhaSenha(Token token, String para) {
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
 		mapParametrosEmail.put("token", token.getToken());
 		
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
 		String msg = leitor.processarTemplate(caminho, EnumTemplates.ESQUECI_MINHA_SENHA.getNomeArquivo(), mapParametrosEmail);
-		Email email = new Email("fabioaugustosl@gmail.com", "fabioaugustosl@gmail.com", "teste Fabio", msg);
+		Email email = new Email(EnumTemplates.ESQUECI_MINHA_SENHA.getDe(), para, EnumTemplates.ESQUECI_MINHA_SENHA.getAssunto(), msg);
    		enviarEmail.enviar(email);
 	}
 	

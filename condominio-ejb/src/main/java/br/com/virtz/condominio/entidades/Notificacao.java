@@ -117,7 +117,7 @@ public class Notificacao extends Entidade implements Serializable {
 			return this.texto;
 		}
 		
-		SimpleDateFormat dt1 = new SimpleDateFormat("dd/mm/yyyy");
+		SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
 		StringBuilder sb = new StringBuilder();
 		sb.append("Você recebeu um(a) ");
 		sb.append(this.tipoNotificacao.getDescricao());

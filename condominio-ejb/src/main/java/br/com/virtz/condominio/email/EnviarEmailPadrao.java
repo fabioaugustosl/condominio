@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.email;
 
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -36,25 +37,29 @@ public class EnviarEmailPadrao implements EnviarEmail {
             
             // creates body part for the message
             MimeBodyPart msgEmail = new MimeBodyPart();
-            msgEmail.setContent(email.getMensagem(), "text/html; charset=UTF-8");
+            msgEmail.setContent(email.getMensagem(), "text/html");
              
-            
             // adds parts to the multipart
             multiparteEmail.addBodyPart(msgEmail);
             
             // se tiver anexo
-            if(email.getAnexo() != null && email.getAnexo().length > 0){
-            	// creates body part for the attachment
-            	MimeBodyPart anexoEmail = new MimeBodyPart();
-            	DataSource source = new ByteArrayDataSource(email.getAnexo(), "application/octet-stream");
-            	anexoEmail.setDataHandler(new DataHandler(source)); 
-            	anexoEmail.setFileName(email.getNomeAnexo()); 
-            	multiparteEmail.addBodyPart(anexoEmail);
+            try {
+	            if(email.getAnexo() != null && email.getAnexo().length > 0){
+	            	// creates body part for the attachment
+	            	MimeBodyPart anexoEmail = new MimeBodyPart();
+	            	DataSource source = new ByteArrayDataSource(email.getAnexo(), "application/octet-stream");
+	            	anexoEmail.setDataHandler(new DataHandler(source)); 
+	            	anexoEmail.setFileName(email.getNomeAnexo()); 
+	            	multiparteEmail.addBodyPart(anexoEmail);
+	
+	            	// sets the multipart as message's content
+	            }
+            } catch(Exception e ){
+            	e.printStackTrace();
             }
-            // sets the multipart as message's content
-            m.setContent(multiparteEmail);
             
-//            m.setContent(email.getMensagem(), "text/html"); 
+            m.setContent(multiparteEmail,"text/html");
+                        
             Transport.send(m);
             return Boolean.TRUE;
         } catch (javax.mail.MessagingException e) {
@@ -67,7 +72,7 @@ public class EnviarEmailPadrao implements EnviarEmail {
 
 	private Session getSessao() {
         Properties props = new Properties();
-        /** Parâmetros de conexão com servidor Gmail */
+        //Parâmetros de conexão com servidor Gmail
         
         props.put ("mail.smtp.host", "in-v3.mailjet.com"); //in-v3.mailjet.com
 		props.put ("mail.smtp.socketFactory.port", "587");
@@ -82,11 +87,35 @@ public class EnviarEmailPadrao implements EnviarEmail {
                          }
                     });
 
-        /** Ativa Debug para sessão */
+        // Ativa Debug para sessão
         session.setDebug(true);
         return session;
 	}
 	
+	// Usando o SES da AWS - email da amazon
+	/*private Session getSessao() {
+        Properties props = new Properties();
+        
+        props.put("mail.smtp.host", "email-smtp.us-west-2.amazonaws.com"); 
+        props.put("mail.smtp.auth", "true");
+		props.put("mail.transport.protocol", "smtp");
+		props.put("mail.smtp.port", 25); 
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.starttls.required", "true");
+		
+        Session session = Session.getDefaultInstance(props,
+                    new javax.mail.Authenticator() {
+                         protected PasswordAuthentication getPasswordAuthentication()   {
+                               return new PasswordAuthentication("AKIAIP3E2Q4KP557HTPQ", "Ap0sLdR4hG+Dfigw9rijKvS8DJlgvbs4C+SYApuOrDl5");
+                         }
+                    });
+
+        // Ativa Debug para sessão 
+        session.setDebug(true);
+        return session;
+	}*/
+	
+
 }
 
 

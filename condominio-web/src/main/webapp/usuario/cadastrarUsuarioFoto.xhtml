@@ -30,7 +30,7 @@
 		        oncomplete="PF('modalCortarFoto').show(); " update="@form"  />
 		        
 			<p:outputPanel  id="containerCortadorImagem" rendered="#{empty cadastrarUsuarioFotoController.caminhoImagem}" >
-   				<p:graphicImage id="imagemUsuario" library="img" url="foto.jpg" width="300" />
+   				<p:graphicImage id="imagemUsuario"  url="/imagem?arquivo='/arquivos/usuario/foto.jpg'" width="300" />
    			</p:outputPanel>	 
    			
    			<p:imageCropper id="cortadorImagem" value="#{cadastrarUsuarioFotoController.imagemCortada}" 

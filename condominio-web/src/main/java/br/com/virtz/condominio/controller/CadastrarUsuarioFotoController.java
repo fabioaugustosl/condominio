@@ -84,8 +84,8 @@ public class CadastrarUsuarioFotoController implements Serializable{
 
 	
 	 public void redirecionarPaginaInicial() throws AppException{
-			navegacao.redirectToPage("../login.faces");
-		 }
+		navegacao.redirectToPage("/login.faces");
+	 }
 
 
    
