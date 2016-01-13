@@ -6,7 +6,7 @@
 	
 		<h1>Olá ${nome_sindico}.</h1>
 		
-		<p>O morador ${nome_usuario} enviou uma sugestão de pauta para a assembléia do dia ${data_assembleia}.</p>
+		<p>O morador ${nome_usuario} enviou uma sugestão de pauta para a assembleia do dia ${data_assembleia}.</p>
 		<br/>
 		<p>A pauta sugerida foi:</p>
 		<br/>

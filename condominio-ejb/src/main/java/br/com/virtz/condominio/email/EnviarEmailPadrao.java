@@ -23,6 +23,7 @@ import br.com.virtz.condominio.bean.Email;
 @Stateless
 public class EnviarEmailPadrao implements EnviarEmail {
 
+	
 	public boolean enviar(Email email) {
         try {
         	Session sessaoEmail = getSessao();
@@ -71,51 +72,52 @@ public class EnviarEmailPadrao implements EnviarEmail {
 	
 
 	private Session getSessao() {
-        Properties props = new Properties();
-        //Parâmetros de conexão com servidor Gmail
-        
-        props.put ("mail.smtp.host", "in-v3.mailjet.com"); //in-v3.mailjet.com
+	    Properties props = new Properties();
+	    //Parâmetros de conexão com servidor Gmail
+	    
+	    props.put ("mail.smtp.host", "in-v3.mailjet.com"); //in-v3.mailjet.com
 		props.put ("mail.smtp.socketFactory.port", "587");
 		props.put ("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put ("mail.smtp.auth", "true");
 		props.put ("mail.smtp.port", "587");
 		
-        Session session = Session.getDefaultInstance(props,
-                    new javax.mail.Authenticator() {
-                         protected PasswordAuthentication getPasswordAuthentication()   {
-                               return new PasswordAuthentication("75126758f304eb7c71d30c3810ec3a49", "f15bafbffae7d3fe106e51f2c9a56bf9");
-                         }
-                    });
-
-        // Ativa Debug para sessão
-        session.setDebug(true);
-        return session;
+	    Session session = Session.getDefaultInstance(props,
+	                new javax.mail.Authenticator() {
+	                     protected PasswordAuthentication getPasswordAuthentication()   {
+	                           return new PasswordAuthentication("75126758f304eb7c71d30c3810ec3a49", "f15bafbffae7d3fe106e51f2c9a56bf9");
+	                     }
+	                });
+	
+	    // Ativa Debug para sessão
+	    session.setDebug(true);
+	    return session;
 	}
 	
+	
 	// Usando o SES da AWS - email da amazon
-	/*private Session getSessao() {
+	private Session getSessaoAWS() {
         Properties props = new Properties();
         
         props.put("mail.smtp.host", "email-smtp.us-west-2.amazonaws.com"); 
         props.put("mail.smtp.auth", "true");
 		props.put("mail.transport.protocol", "smtp");
-		props.put("mail.smtp.port", 25); 
+		props.put("mail.smtp.port", "587"); 
+		props.put ("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.starttls.required", "true");
 		
         Session session = Session.getDefaultInstance(props,
                     new javax.mail.Authenticator() {
                          protected PasswordAuthentication getPasswordAuthentication()   {
-                               return new PasswordAuthentication("AKIAIP3E2Q4KP557HTPQ", "Ap0sLdR4hG+Dfigw9rijKvS8DJlgvbs4C+SYApuOrDl5");
+                               return new PasswordAuthentication("AKIAJTZZ2ONI3FZG3EXQ", "AqJ12mRGp0cKnbWTJQfpwd8zS8kKePnJ7Ql0/Num/GhY");
                          }
                     });
 
         // Ativa Debug para sessão 
         session.setDebug(true);
         return session;
-	}*/
+	}
 	
-
 }
 
 

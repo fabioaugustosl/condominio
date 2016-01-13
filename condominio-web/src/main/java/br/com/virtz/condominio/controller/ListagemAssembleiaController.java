@@ -211,7 +211,7 @@ public class ListagemAssembleiaController {
 
 		 if(StringUtils.isNotBlank(mensagemLembrete)){
 			 if(assembleiaSelecionada == null){
-				 messageHelper.addError("Ocorreu um erro ao identificar dados da Assembléia. ");
+				 messageHelper.addError("Ocorreu um erro ao identificar dados da Assembleia. ");
 			 } else {
 			 
 				 List<Usuario> usuarios = usuarioService.recuperarTodos(sessao.getUsuarioLogado().getCondominio());

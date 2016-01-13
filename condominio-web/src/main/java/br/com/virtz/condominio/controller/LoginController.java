@@ -7,7 +7,9 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -118,15 +120,16 @@ public class LoginController {
 	public void esqueciMinhaSenha() throws AppException{
 		if(StringUtils.isNotBlank(login)){
 			
-			Usuario usuario = usuarioService.recuperarUsuario(emailEsqueciMinhaSenha);
+			Usuario usuario = usuarioService.recuperarUsuario(login);
 			if(usuario == null ){
 				messageHelper.addError("O email digitado não existe em nossa base de dados.");
+				return;
 			}
 			
 			Token token = tokenService.novoToken(usuario.getId().toString());
 			
 			// TODO - terminar envio de email
-			enviarEmailEsqueciMinhaSenha(token, emailEsqueciMinhaSenha);
+			enviarEmailEsqueciMinhaSenha(token, login);
 			
 			messageHelper.addInfo("Aguarde alguns minutos, acesse seu email para concluir a recuperação de senha.");
 		} else {
@@ -136,8 +139,13 @@ public class LoginController {
 	
 	
 	private void enviarEmailEsqueciMinhaSenha(Token token, String para) {
+		// recuperar url da aplicação
+		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		StringBuffer sb = origRequest.getRequestURL().delete(origRequest.getRequestURL().indexOf("login.faces"), origRequest.getRequestURL().toString().length()); 
+		sb.append("usuario/confirmarEsqueciSenha.faces?token=").append(token.getToken());
+		
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
-		mapParametrosEmail.put("token", token.getToken());
+		mapParametrosEmail.put("token", sb.toString());
 		
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
 		String msg = leitor.processarTemplate(caminho, EnumTemplates.ESQUECI_MINHA_SENHA.getNomeArquivo(), mapParametrosEmail);

@@ -82,9 +82,12 @@ public class MensagemSindicoController {
 				messageHelper.addInfo("Sua mensagem enviada para o sindico!");
 				
 				this.mensagem = null;
-				
-				List<Usuario> sindicos = usuarioService.recuperarSindicos(usuario.getCondominio().getId());
-				envioEmail(sindicos, msg);
+				try {
+					List<Usuario> sindicos = usuarioService.recuperarSindicos(usuario.getCondominio().getId());
+					envioEmail(sindicos, msg);
+				}catch(Exception e1){
+					messageHelper.addError("Sua mensagem foi salva porém ocorreu um erro ao enviar o email para o sindíco.");	
+				}
 				
 			} catch (Exception e) {
 				messageHelper.addError("Ocorreu um erro ao enviar sua mensagem.");

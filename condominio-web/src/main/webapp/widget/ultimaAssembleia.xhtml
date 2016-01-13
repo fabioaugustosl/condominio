@@ -10,7 +10,7 @@
 	   <p:outputPanel id="containerUltimaAssembleia" rendered="#{ultimaAssembleiaController.possuiUltimaAssembleia()}" >
 		
 				<div >
-					Última assembléia realizada dia 
+					Última assembleia realizada dia 
 					<p:outputLabel value="#{ultimaAssembleiaController.assembleia.data}" >
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</p:outputLabel>
@@ -25,12 +25,12 @@
 			    </p:commandButton>	
 			    
 			    <p:outputPanel id="panelUltimaAssembleiaNaoTemAta" rendered="#{empty ultimaAssembleiaController.assembleia.arquivoAta}" >
-			    	<p:outputLabel value="Ainda não foi disponibilizada a ata desta assembléia.">
+			    	<p:outputLabel value="Ainda não foi disponibilizada a ata desta assembleia.">
 					</p:outputLabel>
 			    </p:outputPanel>
 			    
 			    <div>
-				    <p:commandLink id="btnLinkUltimaAssembleiaListar" value="Ver todas as assembléias"
+				    <p:commandLink id="btnLinkUltimaAssembleiaListar" value="Ver todas as assembleias"
 				    	actionListener="#{ultimaAssembleiaController.irParaListagem()}">
 				    </p:commandLink>
 			    </div>

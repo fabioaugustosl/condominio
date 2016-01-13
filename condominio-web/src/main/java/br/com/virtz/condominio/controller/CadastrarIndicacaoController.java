@@ -95,7 +95,7 @@ public class CadastrarIndicacaoController {
 			indicacaoService.salvarIndicacao(indicacao);
 			criarNovaIndicacao(usuario);
 			categoriasSelecionadas.clear();
-			message.addInfo("A Notícia foi salva com sucesso.");
+			message.addInfo("Sua indicação foi salva com sucesso.");
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new CondominioException("Ocorreu um erro inesperado ao salvar a indicação. Favor tente novamente.");

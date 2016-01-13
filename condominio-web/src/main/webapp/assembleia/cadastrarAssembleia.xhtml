@@ -21,33 +21,33 @@
 	    <p:tabView id="tabsAssembleias" dynamic="true" activeIndex="0">
 	   		
 	   		
-		   	<p:tab id="tabAssembleia" title="Informações sobre a Assembléia" disabled="false">
+		   	<p:tab id="tabAssembleia" title="Informações sobre a Assembleia" disabled="false">
 		        
 			    <p:panelGrid columns="1" id="containerNovaAssembleia" style="text-align:left;" >
 			    
-					<p:outputLabel value="Data da assembléia:" styleClass="labelPadrao" />
+					<p:outputLabel value="Data da assembleia:" styleClass="labelPadrao" />
 					<p:calendar id="data" locale="pt"
-							alt="Insira a data em que a assembléia será realizada"  
+							alt="Insira a data em que a assembleia será realizada"  
 							value="#{cadastrarAssembleiaController.assembleia.data}" showOn="button" 
-							required="true" requiredMessage="Favor preencher a data de realização da assembléia."  />
+							required="true" requiredMessage="Favor preencher a data de realização da assembleia."  />
 					
 					<p:outputLabel value="Horário da 1ª chamada:" styleClass="labelPadrao" />
 			       	<p:calendar id="horario1"  locale="pt"
-							alt="Insira o horário da 1ª chamada em  que a assembléia será realizada" 
+							alt="Insira o horário da 1ª chamada em  que a assembleia será realizada" 
 							value="#{cadastrarAssembleiaController.assembleia.horario1}" 
-							required="true" requiredMessage="Favor preencher o horário da 1ª chamda da realização da assembléia." 
+							required="true" requiredMessage="Favor preencher o horário da 1ª chamda da realização da assembleia." 
 							pattern="HH:mm a" timeOnly="true"   />
 							
 					<p:outputLabel value="Horário da 2ª chamada:" styleClass="labelPadrao" />
 			       	<p:calendar id="horario2"  locale="pt"
-							alt="Insira o horário da 2ª chamada em  que a assembléia será realizada" 
+							alt="Insira o horário da 2ª chamada em  que a assembleia será realizada" 
 							value="#{cadastrarAssembleiaController.assembleia.horario2}"  
 							pattern="HH:mm a" timeOnly="true"   />
 					
 					<p:selectBooleanCheckbox id="permitirPautas"
 								value="#{cadastrarAssembleiaController.assembleia.permitirPautas}" 
-								itemLabel="Permitir que os moradores enviem pautas para assembléia " 
-								label="Permitir que os moradores enviem pautas para assembléia " />
+								itemLabel="Permitir que os moradores enviem pautas para assembleia " 
+								label="Permitir que os moradores enviem pautas para assembleia " />
 					
 			 	</p:panelGrid>
 			 	
@@ -73,7 +73,7 @@
 						value="#{cadastrarAssembleiaController.assembleia.pautas}"
 						rowKey="#{pt.id}"
 						editable="true" editMode="cell"
-						emptyMessage="Ainda não foi inserida nenhuma pauta para assembléia." >
+						emptyMessage="Ainda não foi inserida nenhuma pauta para assembleia." >
 					
 			     	<p:column headerText="Pauta">
 				        <p:cellEditor>

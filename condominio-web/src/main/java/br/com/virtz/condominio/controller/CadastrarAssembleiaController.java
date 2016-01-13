@@ -90,17 +90,17 @@ public class CadastrarAssembleiaController {
 	
 	public void salvarAssembleia(ActionEvent event) throws CondominioException {
 		if(assembleia == null){
-			throw new CondominioException("Nenhuma assembléia encontrada para ser salva.");
+			throw new CondominioException("Nenhuma assembleia encontrada para ser salva.");
 		}
 				
 		try{
 			assembleiaService.salvar(assembleia);
-			message.addInfo("A assembléia foi salva com sucesso.");
+			message.addInfo("A assembleia foi salva com sucesso.");
 			possoCadastrarPauta = true;
 			possoCadastrarAta = true;
 		}catch(Exception e){
 			e.printStackTrace();
-			throw new CondominioException("Ocorreu um erro inesperado ao salvar a nova assembléia. Favor tente novamente.");
+			throw new CondominioException("Ocorreu um erro inesperado ao salvar a nova assembleia. Favor tente novamente.");
 		}
 	}
 	

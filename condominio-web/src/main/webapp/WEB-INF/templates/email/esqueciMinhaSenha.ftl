@@ -8,8 +8,9 @@
 		
 		<br />
 		
-		Para alterar sua senha favor clicar no link abaixo. <br />
-		${token}
+		Para alterar sua senha favor clicar no link abaixo. <br /><br />
+
+		<a href="${token}" target="_blank">${token}</a>
 		
 		<br/>
 		

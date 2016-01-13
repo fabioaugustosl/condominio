@@ -43,7 +43,7 @@
 		     		rendered="#{not empty assemb.arquivoAta}">
 			        <p:fileDownload value="#{listagemAssembleiaController.download(assemb.arquivoAta)}" />
 		     		<p:graphicImage id="imgDownDoc" url="/img/icones/download.png" 
-		     				title="Clique para baixar a ata desta assembléia." />
+		     				title="Clique para baixar a ata desta assembleia." />
 	         	</p:commandLink>
 		    </p:column> 
 		    
@@ -66,14 +66,14 @@
 		     	<p:commandLink actionListener="#{listagemAssembleiaController.editar(assemb)}" 
 	         		id="editarAssSelecionada" immediate="true" >
 	         		<p:graphicImage id="imgEditarAss" url="/img/icones/editar.png" 
-		     				title="Clique para editar essa assembléia." />
+		     				title="Clique para editar essa assembleia." />
 	         	</p:commandLink>
 		    </p:column>
 		    
 		    <p:column rendered="#{listagemAssembleiaController.podeExcluir()}" style="text-align:center; " styleClass="colunaLargura100" headerText="Excluir">
 		    	<p:commandLink actionListener="#{listagemAssembleiaController.removerAssembleia(assemb)}" ajax="false"
 	         		id="excluirAssSelecionada" immediate="true" >
-	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa assembléia?" icon="ui-icon-alert" />
+	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa assembleia?" icon="ui-icon-alert" />
 	         			<p:graphicImage id="imgDeletarAss" url="/img/icones/deletar.png" title="Clique para deletar esse documento." />
 	         	</p:commandLink>
 	         </p:column>
@@ -95,10 +95,10 @@
 						dynamic="true" width="600" >
 						
 		    <p:dataTable id="dtPauta" style="width:100%"
-		    		var="pauta" emptyMessage="Não existem pautas aprovadas para essa assembléia."
+		    		var="pauta" emptyMessage="Não existem pautas aprovadas para essa assembleia."
 		    		value="#{listagemAssembleiaController.assembleiaSelecionada.pautasAprovadas}">
 
-			    <p:column headerText="Pauta aprovadas para assembléia">
+			    <p:column headerText="Pauta aprovadas para assembleia">
 			        <h:outputText value="#{pauta.mensagem}" />
 			    </p:column>
  
@@ -106,10 +106,10 @@
 		</p:dialog> 
 		
 		
-		<p:dialog modal="true" id="dlgLembrete" widgetVar="dlgLembrete" header="Envio de lembrete de assembléia por email para os moradores" 
+		<p:dialog modal="true" id="dlgLembrete" widgetVar="dlgLembrete" header="Envio de lembrete de assembleia por email para os moradores" 
 						draggable="true" closable="true" resizable="false" 
 						dynamic="true" width="400" >
-			<p:outputLabel value="Digite uma mensagem de lembrete: (os dados da assembléia serão inserido no email automaticamente)"></p:outputLabel>
+			<p:outputLabel value="Digite uma mensagem de lembrete: (os dados da assembleia serão inserido no email automaticamente)"></p:outputLabel>
 			<p:inputTextarea id="textLembrete" style="width:100%;" maxlength="1000" styleClass="textAreaPadrao" 
 			        		counterTemplate="{0}" autoResize="false" value="#{listagemAssembleiaController.mensagemLembrete}"  />
 	    	<p:commandButton id="btnEnviaMsgLembrete" 

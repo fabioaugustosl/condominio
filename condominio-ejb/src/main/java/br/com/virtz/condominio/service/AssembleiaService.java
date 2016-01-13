@@ -36,7 +36,7 @@ public class AssembleiaService implements IAssembleiaService {
 			}
 			return assembleiaDAO.salvar(assembleia);
 		} catch (Exception e) {
-			throw new ErroAoSalvar("Ocorreu um erro ao salvar a assembléia.", assembleia);
+			throw new ErroAoSalvar("Ocorreu um erro ao salvar a assembleia.", assembleia);
 		}
 	}
 

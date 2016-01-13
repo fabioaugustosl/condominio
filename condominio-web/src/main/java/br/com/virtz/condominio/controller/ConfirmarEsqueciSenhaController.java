@@ -59,9 +59,7 @@ public class ConfirmarEsqueciSenhaController {
 			String chave = tokenEntidade.getChaveEntidade();
 			if(StringUtils.isNotBlank(chave)){
 				usuario = usuarioService.recuperarUsuarioCompleto(Long.valueOf(chave));
-				
 			}
-			
 			
 			emailConfirmado = Boolean.TRUE;
 		} else {

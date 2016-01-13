@@ -8,7 +8,7 @@
 		<br />
 		<p>${msg}</p>
 		<br/>
-		<p>Dados da assembléia:</p>
+		<p>Dados da assembleia:</p>
 		------------------------------------------------------------
 		<div>
 			Data:<b> ${data} </b><br />

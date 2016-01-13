@@ -116,7 +116,9 @@ public class CadastrarUsuarioFotoController implements Serializable{
         	try{
         		enviarEmailAvisoCadastro(usuario);
         	}catch(Exception e){
+        		e.printStackTrace();
         	}
+        
 
         	cadastroFinalizado = Boolean.TRUE;
         } catch (Exception e) {

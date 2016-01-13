@@ -19,7 +19,7 @@
 	</style>
 	
    <h:form id="formAssembleiaConvocacao" style="width:100%">
-   		<p:growl id="msgsGrowlAssembleia" showDetail="true" />
+   		<p:growl id="msgsGrowlAssembleia" showDetail="false"  />
 	   <p:outputPanel id="containerConvocacaoAssembleia" rendered="#{assembleiaController.possuiAssembleiaAgendada()}" >
 		
 			<p:dataTable id="dtListagemAssembleiaGadget" var="assembleia" 
@@ -30,7 +30,7 @@
 					
 					<p:outputPanel>
 						
-						Assembléia agendada para o dia 
+						Assembleia agendada para o dia 
 						<p:outputLabel value="#{assembleia.data}" >
 							<f:convertDateTime pattern="dd/MM/yyyy"  />
 						</p:outputLabel>
@@ -64,7 +64,7 @@
 					draggable="true" closable="true" resizable="false" 
 						dynamic="true" width="500" height="400" header="Pautas Aprovadas" >
 				<p:dataList id="dataListPautas" value="#{assembleiaController.assembleiaSelecionada.pautasAprovadas}" var="pauta" style="border:0px; width:100%; height:100%; overflow:auto;" 
-						emptyMessage="Ainda não foi aprovada nenhuma pauta para essa assembléia.">
+						emptyMessage="Ainda não foi aprovada nenhuma pauta para essa assembleia.">
 					<p:outputLabel value="#{pauta.mensagem}"></p:outputLabel>
 				</p:dataList>
 			</p:dialog>

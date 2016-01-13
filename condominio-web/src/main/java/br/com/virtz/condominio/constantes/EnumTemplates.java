@@ -1,14 +1,14 @@
 package br.com.virtz.condominio.constantes;
 
 public enum EnumTemplates {
-	PADRAO("padrao.ftl", "Informativo CondominioSOBCOntrole.com.br", "contatovirtz@gmail.com"),
-	CONFIRMACAO_USUARIO("confirmacaoUsuario.ftl", "Confirmação de usuário", "contatovirtz@gmail.com"),
-	LEMBRETE_ASSEMBLEIA("lembreteAssembleia.ftl", "Lembrete de assembléia", "contatovirtz@gmail.com"),
-	MENSAGEM_SINDICO("mensagemSindico.ftl", "Fale com o Síndico - Contato enviado através do site", "contatovirtz@gmail.com"),
-	BOLETO("boletoPorEmail.ftl", "Boleto", "contatovirtz@gmail.com"),
-	NOVO_MORADOR("novoMorador.ftl", "Novo Morador Cadastrado no Site", "contatovirtz@gmail.com"),
-	PAUTA_ENVIADA("pautaEnviada.ftl", "Pauta para assembléia enviada pelo site.", "contatovirtz@gmail.com"),
-	ESQUECI_MINHA_SENHA("esqueciMinhaSenha.ftl", "Esqueci minha senha", "contatovirtz@gmail.com");
+	PADRAO("padrao.ftl", "Informativo CondominioSOBCOntrole.com.br", "contato@condominiosobcontrole.com.br"),
+	CONFIRMACAO_USUARIO("confirmacaoUsuario.ftl", "Confirmação de usuário", "contato@condominiosobcontrole.com.br"),
+	LEMBRETE_ASSEMBLEIA("lembreteAssembleia.ftl", "Lembrete de assembleia", "contato@condominiosobcontrole.com.br"),
+	MENSAGEM_SINDICO("mensagemSindico.ftl", "Fale com o Síndico - Contato enviado através do site", "contato@condominiosobcontrole.com.br"),
+	BOLETO("boletoPorEmail.ftl", "Boleto", "contato@condominiosobcontrole.com.br"),
+	NOVO_MORADOR("novoMorador.ftl", "Novo Morador Cadastrado no Site", "contato@condominiosobcontrole.com.br"),
+	PAUTA_ENVIADA("pautaEnviada.ftl", "Pauta para assembleia enviada pelo site.", "contato@condominiosobcontrole.com.br"),
+	ESQUECI_MINHA_SENHA("esqueciMinhaSenha.ftl", "Esqueci minha senha", "contato@condominiosobcontrole.com.br");
 
 	private String nomeArquivo;
 	private String assunto;
