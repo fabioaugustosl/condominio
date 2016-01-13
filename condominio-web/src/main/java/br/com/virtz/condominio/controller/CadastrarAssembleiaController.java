@@ -244,6 +244,7 @@ public class CadastrarAssembleiaController {
     }*/
 	
 	public void irParaListagem(){
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idAssembleia", null);
 		navegacao.redirectToPage("/assembleia/listagemAssembleia.faces");
 	}
 

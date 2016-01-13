@@ -12,19 +12,19 @@
 		    
 		    <li><a href="#"><p:graphicImage id="icoCondMenu" url="/img/icones/ico_condominio.png" ></p:graphicImage> <span id="titulosubmenu">Condomínio</span></a>
 		      <ul id="submenu">
-		      	<li><p:link value="Reservar Área" outcome="/condominio/reservarArea.faces" ></p:link></li>
-		      	<li><p:link value="Documentos" outcome="/documento/listagemDocumento.faces" ></p:link></li>
 		      	<li><p:link value="Assembleias" outcome="/assembleia/listagemAssembleia.faces" ></p:link></li>
+		      	<li><p:link value="Documentos" outcome="/documento/listagemDocumento.faces" ></p:link></li>
+				<li><p:link value="Indicações de seus vizinhos" outcome="/indicacao/listagemIndicacao.faces" /></li>
+		      	<li><p:link value="Reservar Área" outcome="/condominio/reservarArea.faces" ></p:link></li>
+		      	<li><p:link value="Votações" rendered="#{principalController.ehSindico()}" outcome="/votacao/cadastrarVotacao.faces" /></li>
 		      	<li><p:link value="Moradores" rendered="#{principalController.ehSindico()}" outcome="/usuario/listagemUsuario.faces" ></p:link></li>
 		      </ul>
 		    </li>
-		    <li><a href="#"><p:graphicImage id="icoComumMenu" url="/img/icones/ico_comum.png" /> <span id="titulosubmenu">Geral</span></a>
+		    <li><a href="#"><p:graphicImage id="icoComumMenu" url="/img/icones/ico_comum.png" /> <span id="titulosubmenu">Comunicação</span></a>
 			    <ul id="submenu">
 					<li><p:link value="Notícias e Avisos" outcome="/noticia/listagemNoticia.faces" /></li>
-					<li><p:link value="Votações" rendered="#{principalController.ehSindico()}" outcome="/votacao/cadastrarVotacao.faces" /></li>
-					<li><p:link value="Enviar Mensagem Para Moradores" rendered="#{principalController.ehSindico()}" outcome="/enviarmsg/enviar.faces" /></li>
 					<li><p:link value="Mensagens do Síndico" rendered="#{principalController.ehSindico()}" outcome="/sindico/listagemMensagemSindico.faces" /></li>
-					<li><p:link value="Indicações de seus vizinhos" outcome="/indicacao/listagemIndicacao.faces" /></li>
+					<li><p:link value="Enviar Mensagem Para Moradores" rendered="#{principalController.ehSindico()}" outcome="/enviarmsg/enviar.faces" /></li>
 				</ul>
 			</li>
 			<li><a href="#"><p:graphicImage id="icoFinanceiroMenu" url="/img/icones/ico_financeiro.png" /> <span id="titulosubmenu">Financeiro</span></a>
