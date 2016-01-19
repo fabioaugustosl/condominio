@@ -82,7 +82,10 @@ public class LoginController {
 	
 	
 	public void logar() throws Exception{
-		
+		if(StringUtils.isBlank(senha)){
+			messageHelper.addError("Favor preencher sua senha de acesso.");
+			return;
+		}
 		//metodoAuxiliarCriacaoUsuarioDesenv();
 		UsernamePasswordToken tokenShiro = new UsernamePasswordToken(login, usuarioService.criptografarSenhaUsuario(senha));
 		Subject usuarioAtual = SecurityUtils.getSubject();

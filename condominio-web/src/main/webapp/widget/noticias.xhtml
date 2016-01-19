@@ -9,14 +9,14 @@
    
    		<style>
    		 .containerNoticiasDestaque{
-   		 	background-color: #f6f6f6;
+   		 	border-top: 1px solid #FAFAFA;
    		 }
    		 
-   		 .noticiasDestaque div{
-   		 	border: none;
-   		 }
+   		.noticiasDestaque div{
+   			border: none;
+   		}
    		 
-   		 .containerImg img {
+   		.containerImg img {
 		    max-width:400px;
 		    max-height:400px;
 		    width: auto;
@@ -47,8 +47,9 @@
 				<p:commandLink id="linkVisualizarNoticia" actionListener="#{noticiaController.preencherNoticiaDestaque(noticiaController.noticiaDestaque)}"
 				  	action="#{noticiaController.visualizar}" ajax="false" value="Ver mais"></p:commandLink>
 			</p:outputPanel>
+
+			<p:outputPanel id="panelNoticiasoutras" styleClass="containerNoticiasDestaque" rendered="#{noticiaController.noticias.size() > 0}">
 			
-			<div style="containerNoticiasDestaque">
 				<p:outputLabel id="noticiaTxtOutros" value="Outras Notícias" style="font-weight:bold; margin-top:10px;"></p:outputLabel>
 				<p:dataList id="dlNoticiasDestaque" value="#{noticiaController.noticias}" styleClass="noticiasDestaque" 
 					var="noticia" rendered="#{not empty noticiaController.noticias}" >
@@ -59,7 +60,7 @@
 					  	action="#{noticiaController.visualizar}" ajax="false" value="#{noticia.titulo}"></p:commandLink>
 					 
 				</p:dataList>
-			</div>
+			</p:outputPanel>
 			
 	   </p:outputPanel>
 	</h:form>

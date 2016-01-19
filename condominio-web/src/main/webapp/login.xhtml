@@ -188,9 +188,7 @@
 							<div>
 								<p:password id="password" value="#{loginController.senha}" 
 										 label="password" styleClass="inputPadrao"
-										maxlength="10" placeholder="Senha"
-										required="true"
-										requiredMessage="Você não preencheu sua senha."  />
+										maxlength="10" placeholder="Senha"   />
 								<span class="fa fa-lock signin-form-icon"></span>
 							</div>
 							<div style="margin-top: 20px;">
@@ -199,6 +197,7 @@
 								styleClass="botao"/>
 								<p:commandLink value="Esqueci minha senha" 
 									style="margin-left:10px;" update="messagesLogin"
+									immediate="false" process="@form"
 									styleClass="forgot" actionListener="#{loginController.esqueciMinhaSenha}" />
 							</div>
 			

@@ -1,5 +1,7 @@
 package br.com.virtz.condominio.email;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -26,7 +28,18 @@ public class EnviarEmailPadrao implements EnviarEmail {
 	
 	public boolean enviar(Email email) {
         try {
-        	Session sessaoEmail = getSessao();
+        	Session sessaoEmail = null;
+        	try {
+				String host = InetAddress.getLocalHost().getHostAddress();
+				if("127.0.0.1".equals(host) || "192.168.1.3".equals(host)){
+					sessaoEmail = getSessao();
+				} else {
+					sessaoEmail = getSessaoAWS();
+				}
+			} catch (UnknownHostException e1) {
+				sessaoEmail = getSessaoAWS();
+			}
+        	getSessaoAWS();
             MimeMessage m = new MimeMessage(sessaoEmail);
             Address de = new InternetAddress(email.getDe());
             Address[] para = InternetAddress.parse(email.getParaToString());  

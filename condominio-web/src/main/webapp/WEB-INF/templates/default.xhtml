@@ -36,6 +36,26 @@
   ga('create', 'UA-70676822-1', 'auto');
   ga('send', 'pageview');
 
+
+  // percorre o menu e oculta os menus que não possual nenhum submenu
+  $( document ).ready(function() {
+	  $("ul#submenu").each(function(){
+		  var temTxt = false;
+		  $(this).find("li a").each(
+		    function(){
+		      if($(this).html() != ""){
+		         temTxt = true;
+		      }
+		    }
+		  );
+		  
+		  if(!temTxt){
+		    $(this).hide().parent().hide();
+		    
+		  }
+	});
+	});
+
 </script>
 
 <h:body>

@@ -62,16 +62,22 @@
 	            <p:outputPanel>
 	                <h:panelGrid columns="2" cellpadding="5">
 	                    <h:outputText value="O quê ou quem: " style="font-weight: bold" />
-	                    <h:outputText value="#{indicacao.nome}" />
+	                    <h:outputText value=" #{indicacao.nome}" />
 	                    
 	                    <h:outputText value="Classificação: " style="font-weight: bold" />
-	                    <h:outputText value="#{indicacao.nomesCategoriasPorExtenso}" />
+	                    <h:outputText value=" #{indicacao.nomesCategoriasPorExtenso}" />
 	                    
 	                    <h:outputText value="Comentário: " style="font-weight: bold" />
-	                    <h:outputText value="#{indicacao.comentario}" />
+	                    <h:outputText value=" #{indicacao.comentario}" />
 
 	                    <h:outputText value="Quem indicou: "  style="font-weight: bold" />
-	                    <h:outputText value="#{indicacao.usuario.nome}" />
+	                    <h:outputText value=" #{indicacao.usuario.nome}" />
+	                    
+	                    <h:outputText value="Fotos: "  style="font-weight: bold" rendered="#{not empty indicacao.arquivos}"  />
+	                    <p:commandLink value="Ver" actionListener="#{listagemIndicacaoController.selecionarIndicacao(indicacao)}" 
+	                    		rendered="#{not empty indicacao.arquivos}" 
+	                    		update=":form:galeriaImagensFotos" oncomplete="PF('dlgFotos').show();" >
+	                    </p:commandLink>
 	                    
 	                    <p:commandLink value="Excluir" actionListener="#{listagemIndicacaoController.removerIndicacao(indicacao)}" rendered="#{listagemIndicacaoController.podeExcluir(indicacao)}" update="listaIndicacoes" ></p:commandLink>
 	                    
@@ -91,6 +97,16 @@
 	   		actionListener="#{listagemIndicacaoController.irParaCadastro}"  >
 	   	</p:commandButton>
 	   
+	   
+	  	<p:dialog modal="true" id="dlgFotos" widgetVar="dlgFotos" header="Fotos" 
+						draggable="true" closable="true" resizable="false" 
+						dynamic="true" width="630" >
+						
+		    <p:galleria id="galeriaImagensFotos" transitionInterval="10000"
+				 var="imagem" value="#{listagemIndicacaoController.arquivos}">
+				<p:graphicImage url="/imagem?arquivo=#{imagem.caminhoCompleto}" style="max-width:800px;" />
+			</p:galleria>
+		</p:dialog> 
 
 	 </h:form>
   </ui:define>

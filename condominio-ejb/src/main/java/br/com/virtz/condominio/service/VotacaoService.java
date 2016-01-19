@@ -117,7 +117,7 @@ public class VotacaoService implements IVotacaoService {
 		}
 		
 		Date hoje = new Date();
-		if(hoje.after(votacao.getDataLimite())){
+		if(votacao.getDataLimite() != null && hoje.after(votacao.getDataLimite())){
 			throw new AppException("Essa votação já expirou e por isso não pode ser ativada.");
 		}
 		

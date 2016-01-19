@@ -66,7 +66,7 @@ public class NoticiaService implements INoticiaService {
 	
 	@Override
 	public List<Noticia> recuperarNoticiasAtivas(Long idCondominio, Integer totalRegistros) {
-		return noticiaDAO.recuperarAtivas(idCondominio, null);
+		return noticiaDAO.recuperarAtivas(idCondominio, totalRegistros);
 	}
 
 	@Override

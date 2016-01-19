@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <style type="text/css">
+   </style>
+   
+   
+   <ui:define name="content">
+	
+	<h:form id="form" >   
+	   
+	   	<h1>Cadastrar visitante</h1>
+	   		
+   		<p:outputPanel id="cadastroVisitantePanel" >
+   		
+   		
+   			<p:outputPanel id="containerComboBloco" rendered="#{empty cadastroVisitanteController.blocoSelecionado}" >
+				<p:outputLabel value="Selecione o bloco:" styleClass="labelPadrao" ></p:outputLabel>
+				<br />
+			 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
+			 			value="#{cadastroVisitanteController.blocoSelecionado}" 
+						converter="converterEntityById"  >
+			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+			 		<f:selectItems value="#{cadastroVisitanteController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
+			 		<p:ajax event="change" update="containerComboApartamentos"  />
+			 	</p:selectOneMenu>
+			 </p:outputPanel>
+			 	
+		 	<p:outputPanel id="containerComboApartamentos" >
+			 	<p:outputPanel id="containerComboApartamentosInterno" rendered="#{not empty cadastroVisitanteController.blocoSelecionado}" >
+			 		<p:outputLabel value="Selecione o apartamento:" styleClass="labelPadrao"></p:outputLabel>
+			 		<br />
+				 	<p:selectOneMenu id="comboApartamentos"  style="width:400px;"
+				 			value="#{cadastroVisitanteController.apartamentoSelecionado}" 
+							converter="converterEntityById" required="true"
+							requiredMessage="Favor selecionar o apartamento." >
+				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+				 		<f:selectItems value="#{cadastroVisitanteController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
+				 	</p:selectOneMenu>
+				 </p:outputPanel>
+			</p:outputPanel>
+			
+			<br />
+			<p:outputLabel value="Nome: "  /> <br />
+		      			<p:inputText value="#{cadastroVisitanteController.visitante.nome}"  
+		      					maxlength="100" styleClass="inputPadrao" 
+		      					required="true" requiredMessage="O nome do visitante é obrigatório." />
+		    <br />  
+		    
+		    <p:outputLabel value="Documento (CPF ou RG): "  /> <br />
+		      			<p:inputText value="#{cadastroVisitanteController.visitante.documento}"  
+		      					maxlength="100" styleClass="inputPadrao" />
+		    <br />  
+		    
+		    <p:outputLabel value="Empresa: "  /> <br />
+		      			<p:inputText value="#{cadastroVisitanteController.visitante.empresa}"  
+		      					maxlength="100" styleClass="inputPadrao" />
+		    <br />  					
+
+ 			<p:outputLabel value="Comentário" styleClass="labelPadrao" /><br />
+			<p:inputTextarea rows="10" cols="50" id="txtAreaComentario" 
+					styleClass="textAreaPadrao"
+					value="#{cadastroVisitanteController.visitante.comentario}"   />
+			<br/>
+			
+			<p:outputLabel value="Data entrada:" styleClass="labelPadrao" /><br/>
+			<p:calendar id="dataEntrada" locale="pt"
+					alt="Insira a data que o visitante entrou no condominio."  
+					value="#{cadastroVisitanteController.visitante.dataEntrada}" showOn="button" 
+					required="true" requiredMessage="Favor preencher a data da entrada."  />
+			<br/>				
+			
+			<p:commandButton id="btnSalvarRecebido" value="Salvar"  update="cadastroVisitantePanel"
+				styleClass="botao botao-grande"
+		   		actionListener="#{cadastroVisitanteController.salvar}" >
+		   	</p:commandButton>
+		
+			<p:commandButton id="btnVoltarGerenciarPortaria" value="Voltar" immediate="true"
+				styleClass="botao botao-grande"
+		   		actionListener="#{cadastroVisitanteController.voltar}" >
+		   	</p:commandButton>
+		</p:outputPanel>
+		
+				
+		</h:form>
+   </ui:define>
+</ui:composition>

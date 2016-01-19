@@ -25,12 +25,12 @@
    		}
    	</style>
    	<h:form id="form" style="width:100%">
-   	
-	   	<h1>#{exibirNoticiaController.noticia.titulo}</h1>
-	 	<br />
+
 		<table style="width:100%">
 	 		<tr>
-	 			<td style="width:70%; top:0;">
+	 			<td style="width:70%; top:0; background: #FFF; padding: 10px; border: 1px solid #CCCCCC;">
+	 				<h1>#{exibirNoticiaController.noticia.titulo}</h1>
+	 				<br />
 		 			<p:outputPanel id="panelNoticiaDestaque" rendered="#{exibirNoticiaController.noticia != null}" style="width:90%;">
 						
 						<p:outputLabel id="noticiaDestaqueData" value="#{exibirNoticiaController.noticia.data}">
@@ -45,9 +45,9 @@
 						
 						<p:galleria id="galeriaImagensNoticia" transitionInterval="10000"
 							 rendered="#{exibirNoticiaController.existeImagensParaExibicao()}"
-							 var="imagem" value="#{exibirNoticiaController.arquivosImagens}">
+							 var="imagem" value="#{exibirNoticiaController.arquivosImagens}" style="width:max-width:900;" >
 							<p:graphicImage     
-					 			url="/imagem?arquivo=#{imagem.caminhoCompleto}" />
+					 			url="/imagem?arquivo=#{imagem.caminhoCompleto}" style="max-width:880px;" />
 						</p:galleria>
 						
 						<p:dataTable id="dtListagemDownloads" var="arquivo"
@@ -66,17 +66,16 @@
 						</p:dataTable>
 					</p:outputPanel>
 	 			</td>
-	 			<td style="width:30%; top:0; margin:0px; padding:0px;" >
-	 				<div style="position: absolute; float: right; top:25%;  ">
+	 			<td style="width:30%; top:0; margin:0px; vertical-align: top; padding-left: 10px;"  >
+	 				<div>
 			 			<p:dataList id="dlNoticiasExibicao" value="#{exibirNoticiaController.noticias}" 
 							var="noticia" rendered="#{not empty exibirNoticiaController.noticias}"   >
 							  [<p:outputLabel id="noticiaDestaqueData" value="#{noticia.data}">
 								<f:convertDateTime pattern="dd/MM/yyyy"/>
 							</p:outputLabel>] - 
 							 <p:commandLink id="linkVisualizarNoticia" actionListener="#{exibirNoticiaController.preencherNoticiaDestaque(noticia)}"
-							 	 ajax="true" value="#{noticia.titulo}"
+							 	ajax="true" value="#{noticia.titulo}"
 							  	update="@form" ></p:commandLink>
-							 
 						</p:dataList>
 	 			</div>
 	 			</td>

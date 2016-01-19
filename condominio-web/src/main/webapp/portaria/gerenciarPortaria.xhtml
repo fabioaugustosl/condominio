@@ -7,15 +7,17 @@
    template="/WEB-INF/templates/default.xhtml">
    
    
-   
    <ui:define name="content">
   
    	<h:form id="form" style="width:100%">
 	   
 		<div class="divMenuBotao">
 			<div class="divConteudoMenuBotao">
-				<p:graphicImage id="icoConfigMenu" url="/img/icones/ico_visitantes.png" />
-				<div>Visitantes</div>
+				<p:commandLink actionListener="#{controlePortariaController.irParaCadastroVisitante()}" 
+		         		id="irParaCadastroVisitantes" immediate="true" >
+					<p:graphicImage id="icoConfigMenu" url="/img/icones/ico_visitantes.png" />
+					<div>Visitantes</div>
+				</p:commandLink>
 			</div>
 		</div>
 	
@@ -23,8 +25,8 @@
 			<div class="divConteudoMenuBotao">
 				<p:commandLink actionListener="#{controlePortariaController.irParaCadastroRecebido()}" 
 	         		id="irParaCadastroRecebidos" immediate="true" >
-				<p:graphicImage id="icoCorrespondenciaMenu" url="/img/icones/ico_correio.png" />
-				<div>Correspondência</div>
+					<p:graphicImage id="icoCorrespondenciaMenu" url="/img/icones/ico_correio.png" />
+					<div>Correspondência</div>
 	         	</p:commandLink>
 			</div>
 		

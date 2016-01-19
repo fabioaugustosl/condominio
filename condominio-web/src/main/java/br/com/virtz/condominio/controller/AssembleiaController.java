@@ -22,10 +22,12 @@ import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.Assembleia;
 import br.com.virtz.condominio.entidades.PautaAssembleia;
+import br.com.virtz.condominio.entidades.Token;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exception.ErroAoSalvar;
 import br.com.virtz.condominio.service.IAssembleiaService;
+import br.com.virtz.condominio.service.ITokenService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.IArquivosUtil;
@@ -49,9 +51,6 @@ public class AssembleiaController {
 	private SessaoUsuario sessao;
 	
 	@Inject
-	private NavigationPage navegacao;
-	
-	@Inject
 	private IArquivosUtil arquivoUtil;
 
 	@Inject
@@ -60,12 +59,17 @@ public class AssembleiaController {
 	@EJB
 	private EnviarEmail enviarEmail;
 	
+	@EJB
+	private ITokenService tokenService;
+	
 	
 	private List<Assembleia> assembleias;
 	private Assembleia assembleiaSelecionada;
 	private String textoPauta = null;
 	
 	private Usuario usuario = null;
+
+	
 	
 	@PostConstruct
 	public void init(){
@@ -75,9 +79,7 @@ public class AssembleiaController {
 	
 	
 	public List<Assembleia> listarTodos(){
-		
 		List<Assembleia> lista =  assembleiaService.recuperarAssembleiasNaoRealizadas(usuario.getCondominio().getId());
-		
 		return lista;
 	}
 	
@@ -85,11 +87,11 @@ public class AssembleiaController {
 	public void novaPauta() throws AppException{
 		if(StringUtils.isNotBlank(textoPauta)){
 			try {
-				assembleiaService.novaPauta(assembleiaSelecionada.getId(), textoPauta, usuario);
+				PautaAssembleia pauta = assembleiaService.novaPauta(assembleiaSelecionada.getId(), textoPauta, usuario);
 				messageHelper.addInfo("Pauta enviada com sucesso! Aguarde até o sindico aprová-la.");
 				
 				try{
-					enviarEmailPauta(usuario, textoPauta, assembleiaSelecionada);
+					enviarEmailPautaParaSindico(usuario, textoPauta, assembleiaSelecionada, pauta);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -104,7 +106,18 @@ public class AssembleiaController {
 	}
 	
 	
-	private void enviarEmailPauta(Usuario usuario, String txtPauta, Assembleia assembleia) {
+	private void enviarEmailPautaParaSindico(Usuario usuario, String txtPauta, Assembleia assembleia, PautaAssembleia pauta) {
+		Token token = null;
+		StringBuffer sb = null;
+		try {
+			token = tokenService.novoToken(pauta.getId().toString());
+			// recuperar url da aplicação
+			HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+			sb = origRequest.getRequestURL().delete(origRequest.getRequestURL().indexOf("login.faces"), origRequest.getRequestURL().toString().length()); 
+			sb.append("assembleia/confirmarAprovacaoPauta.faces?token=").append(token.getToken());
+			
+		} catch (Exception e) {
+		}
 		
 		DataUtil dataUtil = new DataUtil();
 		
@@ -117,6 +130,9 @@ public class AssembleiaController {
 				mapParametrosEmail.put("data_assembleia", dataUtil.formatarData(assembleia.getData(),"dd/MM/yyyy"));
 				mapParametrosEmail.put("nome_usuario", usuario.getNome());
 				mapParametrosEmail.put("msg", txtPauta);
+				if(sb != null){
+					mapParametrosEmail.put("link", sb.toString());
+				}
 				
 				String msg = leitor.processarTemplate(caminho, EnumTemplates.PAUTA_ENVIADA.getNomeArquivo(), mapParametrosEmail);
 				

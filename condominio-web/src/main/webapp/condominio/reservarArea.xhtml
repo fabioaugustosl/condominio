@@ -23,7 +23,7 @@
 			 	<p:outputLabel value="Selecione a área que você deseja reservar: " styleClass="labelPadrao" />
 		 	</div>
 		 	<p:selectOneMenu id="comboArea" value="#{reservaController.areaSelecionada}" 
-		 		styleClass="selectPadrao" converter="converterEntityById" style="width:50%" >
+		 			stsyleClass="selectPadrao" converter="converterEntityById" style="width:50%" >
 		 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 		 		<f:selectItems value="#{reservaController.areas}" var="area" itemLabel="#{area.nome}" itemValue="#{area}" />
 		 		<p:ajax event="change" update="containerAgenda" listener="#{reservaController.recuperarEventos}" />

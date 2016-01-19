@@ -1,6 +1,5 @@
 package br.com.virtz.condominio.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,18 +10,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import br.com.virtz.condominio.constantes.EnumTipoUsuario;
-import br.com.virtz.condominio.entidades.ArquivoDocumento;
 import br.com.virtz.condominio.entidades.ArquivoNoticia;
-import br.com.virtz.condominio.entidades.Documento;
 import br.com.virtz.condominio.entidades.Noticia;
 import br.com.virtz.condominio.entidades.Usuario;
-import br.com.virtz.condominio.exceptions.CondominioException;
-import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.service.INoticiaService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.IArquivosUtil;
-import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean

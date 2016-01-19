@@ -51,7 +51,7 @@ public class CondominioEdicaoController {
 	}
 	
 	public List<Bloco> listarTodosBlocos(){
-		return condominioService.recuperarTodosBlocos();
+		return condominioService.recuperarTodosBlocosComApartamentos(condominio.getId());
 	}
 	
 	public void salvar() throws Exception{

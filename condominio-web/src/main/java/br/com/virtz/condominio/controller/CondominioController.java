@@ -32,6 +32,9 @@ public class CondominioController {
 	@Inject
 	private MessageHelper message;
 	
+	@Inject
+	private NavigationPage navegacao;
+	
 	private List<Bloco> blocos;
 	private Condominio condominio;
 	private Usuario usuario;
@@ -44,7 +47,12 @@ public class CondominioController {
 		
 		blocos = listarTodosBlcoso();
 		if(blocos != null && blocos.size() > 0){
-			NavigationPage.redirectToPage("/condominio/condominioEdicao.faces");
+			//NavigationPage.redirectToPage("/condominio/condominioEdicao.faces");
+			try {
+				editarCondominio();
+			} catch (Exception e) {
+				
+			}
 		}
 		
 		if(blocos == null || blocos.isEmpty()){
@@ -80,7 +88,7 @@ public class CondominioController {
 	}
 	
 	public void editarCondominio() throws Exception{
-		NavigationPage.redirectToPage("condominioEdicao.faces");
+		navegacao.redirectToPage("/condominio/condominioEdicao.faces");
 	}
 	
 	

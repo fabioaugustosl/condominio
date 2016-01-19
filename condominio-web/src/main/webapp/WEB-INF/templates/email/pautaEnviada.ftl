@@ -14,7 +14,12 @@
 
 		<br/>
 		<br/>
-		Essa sugestão de pauta está com status <b>Não Aprovada</b>. Para aprová-la favor acessar o site.
+		Essa sugestão de pauta está com status <b>Não Aprovada</b>. Para aprová-la favor logar no site e acessar o menu Condomínio > Assembleias e clicar em Editar na assembleia desejada.
+		<br/>
+		<br/>
+		Agora se quiser aprová-la imediatamente clique no link abaixo: <br />
+		${link}
+		<br/>
 	</body>
 
 </html>

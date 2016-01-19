@@ -56,6 +56,7 @@ public class ListagemIndicacaoController {
 	
     private TagCloudModel model = null;
     private CategoriaServicoProduto categoriaSelecionada = null;
+    private Set<ArquivoIndicacao> arquivos = null;
 
 	
 	
@@ -64,6 +65,7 @@ public class ListagemIndicacaoController {
 		usuario = sessao.getUsuarioLogado();
 		indicacoes = listarTodas(); 
 		categorias = indicacaoService.recuperarTodasCategoriasComQuantidade();
+		arquivos = null;
 		
 		model = new DefaultTagCloudModel();
 		for(CategoriaServicoProduto c : categorias){
@@ -147,7 +149,10 @@ public class ListagemIndicacaoController {
 		return null;
 	}
 	
-
+	
+	public void selecionarIndicacao(Indicacao indicacao) {
+        arquivos = indicacao.getArquivos();
+	}
 	
 	
 	/* GETTERS e SETTERS */
@@ -175,7 +180,14 @@ public class ListagemIndicacaoController {
 	public void setCategoriaSelecionada(CategoriaServicoProduto categoriaSelecionada) {
 		this.categoriaSelecionada = categoriaSelecionada;
 	}
-	
-	
+
+	public Set<ArquivoIndicacao> getArquivos() {
+		return arquivos;
+	}
+
+	public void setArquivos(Set<ArquivoIndicacao> arquivos) {
+		this.arquivos = arquivos;
+	}
+
 		 
 }

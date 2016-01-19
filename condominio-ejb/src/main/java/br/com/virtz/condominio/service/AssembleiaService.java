@@ -66,7 +66,7 @@ public class AssembleiaService implements IAssembleiaService {
 	}
 
 	@Override
-	public void novaPauta(Long idAssembleia, String textoPauta, Usuario usuario) throws ErroAoSalvar {
+	public PautaAssembleia novaPauta(Long idAssembleia, String textoPauta, Usuario usuario) throws ErroAoSalvar {
 		Assembleia a = assembleiaDAO.recuperarPorId(idAssembleia);
 		PautaAssembleia pauta = new PautaAssembleia();
 		pauta.setAprovada(false);
@@ -80,15 +80,29 @@ public class AssembleiaService implements IAssembleiaService {
 		a.getPautas().add(pauta);
 		try {
 			assembleiaDAO.salvar(a);
+			return a.getPautas().get(a.getPautas().size()-1);
 		} catch (Exception e) {
 			throw new ErroAoSalvar("Aconteceu um erro ao salvar nova pauta.", pauta);
 		}
-		
 	}
 
 	@Override
 	public Assembleia recuperarUltimaAssembleiasRealizadas(Long idCondominio) {
 		return assembleiaDAO.recuperarUltimaAssembleia(idCondominio);
+	}
+
+	@Override
+	public PautaAssembleia recuperarPautaPorId(Long idPauta) {
+		return pautaDAO.recuperarPorId(idPauta);
+	}
+
+	@Override
+	public PautaAssembleia salvarPauta(PautaAssembleia pauta) throws ErroAoSalvar {
+		try {
+			return pautaDAO.salvar(pauta);
+		} catch (Exception e) {
+			throw new ErroAoSalvar("Ocorreu um erro ao salvar a pauta.", pauta);
+		}
 	}
 	
 

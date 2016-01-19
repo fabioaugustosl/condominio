@@ -163,12 +163,12 @@ public class Balanco extends Entidade implements Serializable {
 	
 	public String getAnoMes(){
 		StringBuilder sb = new StringBuilder();
-		if(this.ano != null){
-			sb.append(this.ano);
-		}
-		sb.append("/");
 		if(this.mes != null){
 			sb.append(this.mes);
+		}
+		sb.append("/");
+		if(this.ano != null){
+			sb.append(this.ano);
 		}
 		return sb.toString();
 	}

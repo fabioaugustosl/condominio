@@ -23,8 +23,6 @@ public class ControlePortariaController {
 	@Inject
 	private MessageHelper message;
 	
-
-	
 	@PostConstruct
 	public void init(){
 	}
@@ -35,4 +33,8 @@ public class ControlePortariaController {
 	}
 	
 		
+	public void irParaCadastroVisitante(){
+		navegacao.redirectToPage("/portaria/cadastrarVisitante.faces");
+	}
+	
 }

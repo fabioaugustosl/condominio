@@ -25,8 +25,8 @@
 						</p:panel -->
 						
 			            <p:panel id="panelWidgetUltimaAssembleia" header="Última Assembleia" 
-			            	style="height:100%;"  rendered="#{ultimaAssembleiaController.possuiUltimaAssembleia()}" 
-			            	styleClass="painelWidget" >            
+			            	style="height:100%; padding-top: 0;"  rendered="#{ultimaAssembleiaController.possuiUltimaAssembleia()}" 
+			            	styleClass="painelWidget"  >            
 							<ui:include src="widget/ultimaAssembleia.xhtml" />
 						</p:panel>
 						
@@ -45,7 +45,7 @@
 			            
 			            <p:panel id="panelWidgetNoticia" header="Notícias" style="height:100%;"
 			            	styleClass="painelWidget"
-			            		rendered="#{noticiaController.noticias.size() > 0}" > 
+			            		rendered="#{noticiaController.noticias.size() > 0 || noticiaController.noticiaDestaque != null}" > 
 			                <ui:include src="widget/noticias.xhtml" />
 			            </p:panel>
 			            

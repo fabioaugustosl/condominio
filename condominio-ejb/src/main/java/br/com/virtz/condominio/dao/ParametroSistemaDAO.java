@@ -14,8 +14,8 @@ public class ParametroSistemaDAO extends DAO<ParametroSistema> implements IParam
 
 	@Override
 	public ParametroSistema recuperar(EnumParametroSistema parametro, Condominio condominio) {
-		Query qry = getEntityManager().createQuery("FROM "+ParametroSistema.class.getName()+" p WHERE p.id = :idParametro and p.condominio.id = :idCondominio ");
-		qry.setParameter("idParametro", parametro.getId());
+		Query qry = getEntityManager().createQuery("FROM "+ParametroSistema.class.getName()+" p WHERE p.nome = :idParametro and p.condominio.id = :idCondominio ");
+		qry.setParameter("idParametro", parametro.toString());
 		qry.setParameter("idCondominio", condominio.getId());
 		return (ParametroSistema) qry.getSingleResult();
 	}

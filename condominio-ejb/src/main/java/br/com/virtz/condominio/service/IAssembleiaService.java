@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import br.com.virtz.condominio.entidades.Assembleia;
+import br.com.virtz.condominio.entidades.PautaAssembleia;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.ErroAoSalvar;
 
@@ -14,8 +15,10 @@ public interface IAssembleiaService {
 	public void removerAssembleia(Long id);
 	public List<Assembleia> recuperarTodos(Long idCondominio);
 	public void removerPauta(Long idPauta);
-	public void novaPauta(Long idAssembleia,String textoPauta, Usuario usuario) throws ErroAoSalvar;
+	public PautaAssembleia novaPauta(Long idAssembleia,String textoPauta, Usuario usuario) throws ErroAoSalvar;
 	public Assembleia recuperar(Long idAssembleia);
 	public List<Assembleia> recuperarAssembleiasNaoRealizadas(Long idCondominio);
 	public Assembleia recuperarUltimaAssembleiasRealizadas(Long idCondominio);
+	public PautaAssembleia recuperarPautaPorId(Long idPauta);
+	public PautaAssembleia salvarPauta(PautaAssembleia pauta) throws ErroAoSalvar;
 }
