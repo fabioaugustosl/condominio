@@ -113,10 +113,11 @@ public class AssembleiaController {
 			token = tokenService.novoToken(pauta.getId().toString());
 			// recuperar url da aplicação
 			HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-			sb = origRequest.getRequestURL().delete(origRequest.getRequestURL().indexOf("login.faces"), origRequest.getRequestURL().toString().length()); 
+			sb = origRequest.getRequestURL().delete(origRequest.getRequestURL().indexOf("portal.faces"), origRequest.getRequestURL().toString().length()); 
 			sb.append("assembleia/confirmarAprovacaoPauta.faces?token=").append(token.getToken());
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		DataUtil dataUtil = new DataUtil();
@@ -132,6 +133,8 @@ public class AssembleiaController {
 				mapParametrosEmail.put("msg", txtPauta);
 				if(sb != null){
 					mapParametrosEmail.put("link", sb.toString());
+				} else {
+					mapParametrosEmail.put("link", " - Nâo foi possível gerar o link - ");
 				}
 				
 				String msg = leitor.processarTemplate(caminho, EnumTemplates.PAUTA_ENVIADA.getNomeArquivo(), mapParametrosEmail);

@@ -62,6 +62,7 @@ public class ConfirmarEsqueciSenhaController {
 						assembleiaService.salvarPauta(pauta);
 						messageHelper.addInfo("A pauta foi aprovada com sucesso!");
 					} catch (ErroAoSalvar e) {
+						e.printStackTrace();
 					}
 				}
 			} 
