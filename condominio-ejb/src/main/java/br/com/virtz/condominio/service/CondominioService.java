@@ -53,6 +53,9 @@ public class CondominioService implements ICondominioService {
 
 	@Override
 	public Condominio salvar(Condominio condominio) throws Exception {
+		if(condominio != null && condominio.getEhTeste() == null){
+			condominio.setEhTeste(Boolean.FALSE);
+		}
 		return condominioDAO.salvar(condominio);
 	}
 

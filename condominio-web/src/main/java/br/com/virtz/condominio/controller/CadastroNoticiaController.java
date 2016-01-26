@@ -16,6 +16,8 @@ import javax.inject.Inject;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
+import br.com.virtz.condominio.email.EnviarEmail;
+import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.ArquivoNoticia;
 import br.com.virtz.condominio.entidades.Noticia;
 import br.com.virtz.condominio.entidades.Usuario;
@@ -45,6 +47,9 @@ public class CadastroNoticiaController {
 	
 	@Inject
 	private IArquivosUtil arquivoUtil;
+	
+	@Inject
+	private EnviarEmailSuporteController emailSuporte;
 	
 	
 	private Noticia noticia;
@@ -85,6 +90,10 @@ public class CadastroNoticiaController {
 			message.addInfo("A Notícia foi salva com sucesso.");
 		}catch(Exception e){
 			e.printStackTrace();
+			try{
+				emailSuporte.enviarEmail("Ocorreu um erro inesperado ao salvar a notícia.", e.getMessage(), usuario.getCondominio().getId());
+			}catch(Exception e1){
+			}
 			throw new CondominioException("Ocorreu um erro inesperado ao salvar a notícia. Favor tente novamente.");
 		}
 	}
@@ -92,13 +101,21 @@ public class CadastroNoticiaController {
 	
 	public void removerArquivo(ArquivoNoticia arquivo) throws CondominioException {
 		if(arquivo != null){
-			File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arquivo.getNome());
-			arquivoDeletar.delete();
-			noticia.getArquivos().remove(arquivo);
-			if(arquivo.getId() != null){
-				noticiaService.remover(arquivo.getId());
+			try{
+				noticia.getArquivos().remove(arquivo);
+				if(arquivo.getId() != null){
+					noticiaService.removerArquivo(arquivo.getId());
+				}
+				File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arquivo.getNome());
+				arquivoDeletar.delete();
+				message.addInfo("Arquivo removido com sucesso!");
+			}catch(Exception e){
+				message.addError("Ocorreu um erro ao remover o arquivo da notícia. Foi enviado um email para o suporte técnico. Em breve o problema será corrigido.");
+				try{
+					emailSuporte.enviarEmail("Ocorreu um erro ao remover o arquivo da notícia.", e.getMessage(), usuario.getCondominio().getId());
+				}catch(Exception e1){
+				}
 			}
-			message.addInfo("Arquivo removido com sucesso!");
 		}
 	}
 	
@@ -107,10 +124,12 @@ public class CadastroNoticiaController {
         try {
 			InputStream inputStream = event.getFile().getInputstream();
 			
+			
 			String caminho = arquivoUtil.getCaminhoArquivosUpload();
 			String nomeAntigo = event.getFile().getFileName();
 			String extensao = arquivoUtil.pegarExtensao(nomeAntigo);
 			String nomeNovo = arquivoUtil.gerarNomeArquivo(extensao, ArquivosUtil.TIPO_ARQUIVO_NOTICIA);
+
 			
 			ArquivoNoticia arqNoticia = new ArquivoNoticia();
 			arqNoticia.setCaminho(caminho);
@@ -120,13 +139,18 @@ public class CadastroNoticiaController {
 			arqNoticia.setNome(nomeNovo);
 			arqNoticia.setNoticia(noticia);
 			
-			arquivoUtil.arquivar(inputStream, nomeNovo);
+			//arquivoUtil.arquivar(inputStream, nomeNovo);
+			arquivoUtil.redimensionarImagem(inputStream, arquivoUtil.getCaminhoArquivosUpload(), nomeNovo, extensao, 1000, 1000);
 			
 			noticia.getArquivos().add(arqNoticia);
 			
 			message.addInfo("Arquivo "+nomeAntigo+" foi anexado com sucesso.");
         } catch (IOException e) {
             e.printStackTrace();
+            try{
+				emailSuporte.enviarEmail("Ocorreu um erro upload de imagem na notícia.", e.getMessage(), usuario.getCondominio().getId());
+			}catch(Exception e1){
+			}
         }
     }
 	

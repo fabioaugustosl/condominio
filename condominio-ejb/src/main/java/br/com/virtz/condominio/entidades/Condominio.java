@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Condominio.recuperarPorCidade", 
-			query = "Select c FROM condominio c WHERE c.cidade.id = :idCidade ")
+			query = "Select c FROM condominio c WHERE c.cidade.id = :idCidade AND ehTeste != 0 ")
 })
 public class Condominio extends Entidade implements Serializable {
 
@@ -86,6 +86,8 @@ public class Condominio extends Entidade implements Serializable {
 	@Column(name = "jurosAposVencimento")
 	private boolean jurosAposVencimento;
 	
+	@Column(name = "indTeste")
+	private Boolean ehTeste;
 	
 
 	public Long getId() {
@@ -231,6 +233,13 @@ public class Condominio extends Entidade implements Serializable {
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
-	
-	
+
+	public Boolean getEhTeste() {
+		return ehTeste;
+	}
+
+	public void setEhTeste(Boolean ehTeste) {
+		this.ehTeste = ehTeste;
+	}
+		
 }

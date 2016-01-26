@@ -67,11 +67,13 @@ public class BatePapoController {
 	public void positivar(BatePapo batePapo){
 		try {
 			if(usuarioJaAvaliou(batePapo, usuario)){
+				messageHelper.addError("Você já deu sua opinião para essa mensagem.");
 				return;	
 			}
 			Avaliacao avaliacao = batePapoService.avaliarPositivamente(batePapo, sessao.getUsuarioLogado(), null);
 			adicionarNovaAvaliacao(batePapo, avaliacao);
 			contarAvaliacoes(batePapos);
+			messageHelper.addInfo("Obrigado por contribuir com sua opinião.");
 		} catch (ErroAoSalvar e) {
 			e.printStackTrace();
 			messageHelper.addError("Ocorreu um erro ao positivar mensagem.");
@@ -82,11 +84,13 @@ public class BatePapoController {
 	public void negativar(BatePapo batePapo){
 		try {
 			if(usuarioJaAvaliou(batePapo, usuario)){
+				messageHelper.addError("Você já deu sua opinião para essa mensagem.");
 				return;	
 			}
 			Avaliacao avaliacao = batePapoService.avaliarNegativamente(batePapo, sessao.getUsuarioLogado(), null);
 			adicionarNovaAvaliacao(batePapo, avaliacao);
 			contarAvaliacoes(batePapos);
+			messageHelper.addInfo("Obrigado por contribuir com sua opinião.");
 		} catch (ErroAoSalvar e) {
 			e.printStackTrace();
 			messageHelper.addError("Ocorreu um erro ao negativar mensagem.");

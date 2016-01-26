@@ -11,8 +11,6 @@
 		
 		<br/>
 		<p>Seu cadastro foi realizado com sucesso!</p>
-		<p>Para finalizar basta clicar no link abaixo e confirmar seu cadastro.</p>
-		<br  />
 		<br  />
 		<p>Para finalizar basta clicar no link abaixo e confirmar seu cadastro.</p>
 		<a href="${link}" target="_blank">${link}</a>

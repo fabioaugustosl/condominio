@@ -14,19 +14,19 @@
    
    	<h:form id="form" >  
 	   
-	   	<p:outputPanel id="mensagemFalha" rendered="#{empty confirmarEsqueciSenhaController.pauta}">
+	   	<p:outputPanel id="mensagemFalha" rendered="#{empty confirmarAprovacaoPautaController.pauta}">
 	   		Infelizmente ocorreu um erro ao aprovar sua pauta.<br /> Acesse o sistema e tenta aprová-la novamente. <br />
 	   		<br />
 		</p:outputPanel>
 		
-		<p:outputPanel id="mensagemSucessoContainer" rendered="#{not empty confirmarEsqueciSenhaController.pauta}">
+		<p:outputPanel id="mensagemSucessoContainer" rendered="#{not empty confirmarAprovacaoPautaController.pauta}">
 			<p:outputPanel id="mensagemSucesso" >
 				<h1>Pronto. </h1>
 				<br /> 
 				<h4>A pauta foi aprovada com sucesso.</h4> 
 				<br />
 				<br />
-				<p:commandLink action="#{confirmarEsqueciSenhaController.irParaLogin()}"
+				<p:commandLink action="#{confirmarAprovacaoPautaController.irParaLogin()}"
 					 value="Ir para tela de login"
 					 immediate="true" ajax="false" ></p:commandLink>
 			</p:outputPanel>

@@ -20,9 +20,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity(name="visitante")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Visitante.recuperarPorCondominio", 
-				query = "SELECT v FROM visitante v "
+					query = "SELECT v FROM visitante v "
 								+ " WHERE v.condominio.id = :idCondominio  "
-								+ " ORDER BY v.id DESC")
+								+ " ORDER BY v.id DESC"),
+				@NamedQuery(name = "Visitante.totalVisitantes", 
+					query = "SELECT count(v) FROM visitante v ")
+				
 })
 public class Visitante extends Entidade implements Serializable {
 

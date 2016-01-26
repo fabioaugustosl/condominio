@@ -40,12 +40,12 @@ public class ContatoController {
 		msg.append("Email : ").append(this.email).append("<br >");
 		msg.append("Mensagem : ").append("<br >").append(this.mensagem).append("<br >");
 			
-		Email email = new Email(EnumTemplates.PADRAO.getDe(), EnumTemplates.PADRAO.getDe(), "Contato pelo site - Condominio SOBControle", msg.toString());
-		enviarEmail.enviar(email);
+		Email emailEnviar = new Email(EnumTemplates.PADRAO.getDe(), EnumTemplates.PADRAO.getDe(), "Contato pelo site - Condominio SOBControle", msg.toString());
+		enviarEmail.enviar(emailEnviar);
 			
-		mensagem = null;
-		email = null;
-		nome = null;
+		this.mensagem = null;
+		this.email = null;
+		this.nome = null;
 		
 		msgHelper.addInfo("Obrigado. Sua mensagem foi enviada com sucesso!");
 	}

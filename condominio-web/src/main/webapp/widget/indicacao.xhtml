@@ -20,14 +20,41 @@
 	   		width: auto;
     		height: auto; 
 	   	}
-	   
+	   	
+	   	#containerIndicacaoDestaque{
+	   		max-width:210px;
+	   		max-height:280px;
+	   		min-width:100px;
+	   		min-height:100px; 
+	   		margin:3px;
+	   	}
+	   	
+	   	.corouselImg{
+	   		width:100% !important;
+	   		height: 330px;	 
+	   	}
+	   	
+	   	div.ui-carousel-viewport{
+	   		width: 100% !important;
+	   		height: 100% !important;
+	   	}
+	   	
+	   .indItem{
+	   		max-width:220px;
+	   		max-height:280px;
+	   		min-width:100px;
+	   		min-height:100px;
+	   		width: 33%!important;
+	   		margin:3px !important; 
+	   		
+	   	}
 	   </style>
-	   <p:outputPanel id="panelIndicacoes" rendered="#{not empty indicacaoController.indicacoes}" style="width:100%">
-		   <p:carousel value="#{indicacaoController.indicacoes}" style="height:340px; width:100%;" itemStyleClass="indItem" 
+	   <p:outputPanel id="panelIndicacoes" rendered="#{not empty indicacaoController.indicacoes}" >
+		   <p:carousel value="#{indicacaoController.indicacoes}"  itemStyleClass="indItem"  styleClass="corouselImg"
 		   			headerText="Olha o que seus vizinhos indicaram pra você" var="ind" 
 		   			numVisible="3" >
 		   
-		   		<p:outputPanel id="containerIndicacaoDestaque" style="width:210px;height:280px; margin:3px; ">
+		   		<p:outputPanel id="containerIndicacaoDestaque" >
 		   			
 		   			<p:outputLabel id="labelTituloIndicacaro" value="#{ind.nome}"></p:outputLabel>
 		   			

@@ -51,6 +51,9 @@ public class CadastrarIndicacaoController {
 	@Inject
 	private IArquivosUtil arquivoUtil;
 	
+	@Inject
+	private EnviarEmailSuporteController emailSuporte;
+	
 	
 	private Indicacao indicacao = null;
 	private UploadedFile arquivo = null;
@@ -98,6 +101,10 @@ public class CadastrarIndicacaoController {
 			message.addInfo("Sua indicação foi salva com sucesso.");
 		}catch(Exception e){
 			e.printStackTrace();
+			try{
+				emailSuporte.enviarEmail("Ocorreu um erro inesperado ao salvar uma indicação.", e.getMessage(), usuario.getCondominio().getId());
+			}catch(Exception e1){
+			}
 			throw new CondominioException("Ocorreu um erro inesperado ao salvar a indicação. Favor tente novamente.");
 		}
 	}
@@ -107,6 +114,13 @@ public class CadastrarIndicacaoController {
 		if(arquivo != null){
 			File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arquivo.getNome());
 			arquivoDeletar.delete();
+			
+			try{
+				File arquivoDeletarThumb = new File(getCaminhoCompletoThumb(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arquivo.getNome()));
+				arquivoDeletarThumb.delete();
+			}catch(Exception e1){
+			}
+			
 			indicacao.getArquivos().remove(arquivo);
 			if(arquivo.getId() != null){
 				indicacaoService.remover(arquivo.getId());
@@ -119,6 +133,7 @@ public class CadastrarIndicacaoController {
 	public void uploadArquivo(FileUploadEvent event) {
         try {
 			InputStream inputStream = event.getFile().getInputstream();
+			//InputStream inputStreamThumb = event.getFile().getInputstream();
 			
 			String caminho = arquivoUtil.getCaminhoArquivosUpload();
 			String nomeAntigo = event.getFile().getFileName();
@@ -133,17 +148,38 @@ public class CadastrarIndicacaoController {
 			arqIndicacao.setNome(nomeNovo);
 			arqIndicacao.setIndicacao(indicacao);
 			
-			arquivoUtil.arquivar(inputStream, nomeNovo);
+			//arquivoUtil.arquivar(inputStream, nomeNovo);
+			
+			arquivoUtil.redimensionarImagem(inputStream, arquivoUtil.getCaminhoArquivosUpload(), nomeNovo, extensao, 1000, 1000);
+			
 			if(indicacao.getArquivos() == null){
 				indicacao.setArquivos(new HashSet<ArquivoIndicacao>());
 			}
 			indicacao.getArquivos().add(arqIndicacao);
 			
+			try{
+				// cria um thumb
+				//arquivoUtil.redimensionarImagem(inputStreamThumb, arquivoUtil.getCaminhoArquivosUpload(), this.getCaminhoCompletoThumb(nomeNovo), extensao, 50, 50);
+				arquivoUtil.gravarThumb(nomeNovo);
+			}catch(Exception e1){
+				e1.printStackTrace();
+			}
+			
 			message.addInfo("Arquivo "+nomeAntigo+" foi anexado com sucesso.");
         } catch (IOException e) {
             e.printStackTrace();
+            try{
+				emailSuporte.enviarEmail("Ocorreu um erro inesperado ao fazer upload de foto na indicação.", e.getMessage(), usuario.getCondominio().getId());
+			}catch(Exception e1){
+			}
         }
     }
+	
+	public String getCaminhoCompletoThumb(String nomeArq){
+		String ext = "."+arquivoUtil.pegarExtensao(nomeArq);
+		String novoNome = nomeArq.replace(ext, "");
+		return novoNome+ArquivosUtil.THUMB_POS_FIXO+ext;
+	}
 	
 
 	public void irParaListagem(){

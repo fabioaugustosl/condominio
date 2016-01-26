@@ -50,6 +50,18 @@ public class VisitanteService implements IVisitanteService {
 			throw new AppException("Ocorreu um erro ao salvar o visitante.");
 		}
 	}
+
+
+	@Override
+	public int totalVisitantes(Long idCondominio) {
+		return visitanteDAO.totalVisitantes(idCondominio);
+	}
+
+
+	@Override
+	public List<Visitante> recuperarPorCondominioPaginado(Long idCondominio, int inicio, int qtdRegistros) {
+		return visitanteDAO.recuperarPaginado(idCondominio, inicio, qtdRegistros);
+	}
 	
 
 }

@@ -27,4 +27,6 @@ public interface IArquivosUtil {
 	public void copiarArquivos(String nomeArquivo) throws IOException;
 	public String getCaminhoUploadArquivosTemporario();
 	public String getCaminhoBaseArquivosTemporario();
+	public void gravarThumb(String nomeArquivo);
+	public String getCaminhoCompletoThumb(String nomeArq);
 }

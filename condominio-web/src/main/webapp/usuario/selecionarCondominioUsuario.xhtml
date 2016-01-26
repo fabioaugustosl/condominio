@@ -40,7 +40,7 @@
 		 	
 		 	
 			<p:outputPanel id="containerCondominio" rendered="#{not empty selecionarCondominioUsuarioController.cidadeSelecionada and !selecionarCondominioUsuarioController.sucesso}">	
-				<p:outputLabel value="Ótimo! Você é de " /> <p:outputLabel value="#{selecionarCondominioUsuarioController.cidadeSelecionada.nome}."></p:outputLabel>
+				<p:outputLabel value="Ótimo! Você é de " /> <p:outputLabel style="margin-left:8px;" value="#{selecionarCondominioUsuarioController.cidadeSelecionada.nome}."></p:outputLabel><br />
 				<p:outputLabel value="Agora selecione o seu condomínio."></p:outputLabel>   
 				<br />
 				<p:selectOneMenu id="comboCondominio" value="#{selecionarCondominioUsuarioController.condominioSelecionado}" 
@@ -97,7 +97,7 @@
 			</p:outputPanel>
 		
 			<p:outputPanel id="containerSucesso" rendered="#{selecionarCondominioUsuarioController.sucesso}">	
-				<h1>Parabéns. Seu agora sim você está pronto pra acessar o sistema.</h1>   
+				<h1>Parabéns. Agora sim você está pronto pra acessar o sistema.</h1>   
 				<br />
 				<br />
 				<br />

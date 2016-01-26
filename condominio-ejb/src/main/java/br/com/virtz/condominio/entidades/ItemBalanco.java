@@ -65,6 +65,10 @@ public class ItemBalanco extends Entidade implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idUsuario")
 	private Usuario usuario;
+	
+	@ManyToOne
+	@JoinColumn(name = "idCategoria")
+	private CategoriaItemBalanco categoria;
 
 	
 	
@@ -133,5 +137,13 @@ public class ItemBalanco extends Entidade implements Serializable {
 		this.usuario = usuario;
 	}
 
+	public CategoriaItemBalanco getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaItemBalanco categoria) {
+		this.categoria = categoria;
+	}
+	
 
 }

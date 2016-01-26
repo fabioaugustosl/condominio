@@ -7,6 +7,7 @@ import javax.ejb.Local;
 import br.com.virtz.condominio.constantes.EnumTipoBalanco;
 import br.com.virtz.condominio.entidades.ArquivoBalanco;
 import br.com.virtz.condominio.entidades.Balanco;
+import br.com.virtz.condominio.entidades.CategoriaItemBalanco;
 import br.com.virtz.condominio.entidades.ItemBalanco;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
@@ -23,6 +24,13 @@ public interface IBalancoService {
 	public List<ItemBalanco> recuperarDespesas(Balanco balanco) throws AppException;
 	public List<ItemBalanco> recuperarReceitas(Balanco balanco) throws AppException;
 	
+	
+	// Categoria itemBalanco
+	public CategoriaItemBalanco salvarCategoriaItem(Long idCondominio, String nome) throws AppException;
+	public CategoriaItemBalanco salvarCategoriaItem(CategoriaItemBalanco categoria) throws AppException;
+	public void inativarCategoriaItem(Long idCategoria) throws AppException;
+	public void ativarCategoriaItem(Long idCategoria) throws AppException;
+	public void removerCategoriaItem(Long idCategoria) throws AppException;
 
 	
 	// Despesas / Receitas

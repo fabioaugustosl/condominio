@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.email;
 
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Properties;
@@ -19,6 +20,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
+
+import org.apache.commons.lang.StringUtils;
 
 import br.com.virtz.condominio.bean.Email;
 
@@ -51,7 +54,13 @@ public class EnviarEmailPadrao implements EnviarEmail {
             
             // creates body part for the message
             MimeBodyPart msgEmail = new MimeBodyPart();
-            msgEmail.setContent(email.getMensagem(), "text/html");
+            String msgEnviar= null;
+			try {
+				msgEnviar = new String(email.getMensagem().getBytes(), "UTF-8");
+			} catch (UnsupportedEncodingException e1) {
+				msgEnviar = email.getMensagem();
+			}
+            msgEmail.setContent(msgEnviar, "text/html; charset=UTF-8");
              
             // adds parts to the multipart
             multiparteEmail.addBodyPart(msgEmail);

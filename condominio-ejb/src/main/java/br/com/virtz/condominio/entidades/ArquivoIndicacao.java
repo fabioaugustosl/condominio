@@ -115,6 +115,7 @@ public class ArquivoIndicacao extends Entidade implements Serializable {
 	public String getCaminhoCompleto(){
 		return "/arquivos/"+getNome();
 	}
+		
 	
 	@Override
 	public boolean equals(Object obj) {

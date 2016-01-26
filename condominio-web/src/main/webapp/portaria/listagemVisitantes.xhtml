@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%">
+	   	<h1>Todos os visitantes que acessaram o condomínio.</h1>
+	 	<br />
+	 	
+		<p:dataTable id="dtListagemVisitants" var="visitante" 
+				value="#{listagemVisitanteController.visitantes}"
+				emptyMessage="Ainda não foi cadastradas nenhuma correspondência para você."
+				rows="50" paginator="true"
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="20,50,100" >
+			
+	        <p:column headerText="Data" styleClass="colunaLargura160" style="text-align:center">
+		        <h:outputText value="#{visitante.dataEntrada}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="Nome">
+		        <h:outputText value="#{visitante.nome}" />
+		    </p:column>
+		    
+		    <p:column headerText="Apartamento" styleClass="colunaLargura160">
+		        <h:outputText value="#{visitante.apartamento.nomeExibicao}" />
+		    </p:column>
+		    
+		</p:dataTable> 
+			 	
+	 </h:form>
+  </ui:define>
+</ui:composition>

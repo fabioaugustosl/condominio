@@ -40,6 +40,9 @@ public class VotacaoController {
 	@Inject
 	private MessageHelper message;
 	
+	@Inject
+	private EnviarEmailSuporteController emailSuporte;
+	
 	
 	private Votacao votacao;
 	private List<Votacao> votacoes;
@@ -72,6 +75,10 @@ public class VotacaoController {
 					}
 				} catch (AppException e1) {
 					// ocorreu um erro ao recuperar o resultado parcial
+					try{
+						emailSuporte.enviarEmail("ocorreu um erro ao recuperar o resultado parcial.", e1.getMessage(), usuario.getCondominio().getId());
+					}catch(Exception e2){
+					}
 				}
 				
 				Voto votoUsuario;
@@ -81,6 +88,10 @@ public class VotacaoController {
 						vv.setVotou(Boolean.TRUE);
 					}
 				} catch (ParametroObrigatorioNuloException e) {
+					try{
+						emailSuporte.enviarEmail("ocorreu um erro ao recuperar voto por apto.", e.getMessage(), usuario.getCondominio().getId());
+					}catch(Exception e2){
+					}
 				}
 				
 				votacoesView.add(vv);
@@ -132,6 +143,10 @@ public class VotacaoController {
 			}
 			
 		} catch (AppException e) {
+			try{
+				emailSuporte.enviarEmail("Ocorreu um erro ao salvar a votação.", e.getMessage(), usuario.getCondominio().getId());
+			}catch(Exception e2){
+			}
 			message.addError("Ocorreu um erro ao salvar a votação.");
 		}
 	}

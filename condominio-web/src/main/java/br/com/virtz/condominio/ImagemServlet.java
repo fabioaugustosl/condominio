@@ -29,10 +29,12 @@ public class ImagemServlet extends HttpServlet {
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("[ERRO] File Not Found ao exibir a imagem "+arquivo);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("[ERRO] IOException ao exibir a imagem "+arquivo);
 		}
 
          

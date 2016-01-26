@@ -62,6 +62,8 @@ public class AssembleiaController {
 	@EJB
 	private ITokenService tokenService;
 	
+	@Inject
+	private EnviarEmailSuporteController emailSuporte;
 	
 	private List<Assembleia> assembleias;
 	private Assembleia assembleiaSelecionada;
@@ -100,7 +102,12 @@ public class AssembleiaController {
 				assembleiaSelecionada = null;
 				
 			} catch (ErroAoSalvar e) {
+				try{
+					emailSuporte.enviarEmail("Ocorreu um erro ao inserir nova pauta.", e.getMessage(), usuario.getCondominio().getId());
+				}catch(Exception e1){
+				}
 				throw new AppException(e.getMessage());
+				
 			}
 		}
 	}

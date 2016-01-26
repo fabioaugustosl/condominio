@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.tagcloud.DefaultTagCloudItem;
 import org.primefaces.model.tagcloud.DefaultTagCloudModel;
@@ -27,6 +28,7 @@ import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.IIndicacaoService;
 import br.com.virtz.condominio.session.SessaoUsuario;
+import br.com.virtz.condominio.util.ArquivosUtil;
 import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
@@ -50,6 +52,7 @@ public class ListagemIndicacaoController {
 	@Inject
 	private IArquivosUtil arquivoUtil;
 	
+	private List<Indicacao> indicacoesTodas = null;
 	private List<Indicacao> indicacoes = null;
 	private List<CategoriaServicoProduto> categorias = null;
 	private Usuario usuario = null;
@@ -63,7 +66,8 @@ public class ListagemIndicacaoController {
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
-		indicacoes = listarTodas(); 
+		indicacoesTodas = listarTodas(); 
+		indicacoes = indicacoesTodas;
 		categorias = indicacaoService.recuperarTodasCategoriasComQuantidade();
 		arquivos = null;
 		
@@ -109,6 +113,13 @@ public class ListagemIndicacaoController {
 			 for(ArquivoIndicacao arq : indicacaoFull.getArquivos()){
 				 File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arq.getNome());
 				 arquivoDeletar.delete();
+				 
+				 try{
+					File arquivoDeletarThumb = new File(getCaminhoCompletoThumb(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arq.getNome()));
+					arquivoDeletarThumb.delete();
+				}catch(Exception e1){
+				}
+			 
 			 }
 		 }
 	}
@@ -136,9 +147,34 @@ public class ListagemIndicacaoController {
         indicacoes = new ArrayList<Indicacao>();
         if(categoriaSelecionada != null){
         	indicacoes = indicacaoService.recuperarIndicacoesPorCategoria(usuario.getCondominio().getId(), categoriaSelecionada.getId());
+        } else {
+        	indicacoes =indicacoesTodas;
         }
 	}
 
+	public void selecionarCategoriaCombo() {
+        indicacoes = new ArrayList<Indicacao>();
+        if(categoriaSelecionada != null){
+        	indicacoes = indicacaoService.recuperarIndicacoesPorCategoria(usuario.getCondominio().getId(), categoriaSelecionada.getId());
+        }
+	}
+	
+	public List<CategoriaServicoProduto> completarCategoria(String query) {
+        List<CategoriaServicoProduto> categFiltradas = new ArrayList<CategoriaServicoProduto>();
+        
+        if(StringUtils.isBlank(query)){
+        	return categorias;
+        }
+        
+        for (int i = 0; i < categorias.size(); i++) {
+        	CategoriaServicoProduto skin = categorias.get(i);
+            if(skin.getNome().toLowerCase().startsWith(query.toLowerCase())) {
+                categFiltradas.add(skin);
+            }
+        }
+         
+        return categFiltradas;
+    }
 
 	private CategoriaServicoProduto getCategoriaByTag(TagCloudItem item) {
 		for(CategoriaServicoProduto c : categorias){
@@ -154,6 +190,12 @@ public class ListagemIndicacaoController {
         arquivos = indicacao.getArquivos();
 	}
 	
+	
+	public String getCaminhoCompletoThumb(String nomeArq){
+		String ext = "."+arquivoUtil.pegarExtensao(nomeArq);
+		String novoNome = nomeArq.replace(ext, "");
+		return novoNome+ArquivosUtil.THUMB_POS_FIXO+ext;
+	}
 	
 	/* GETTERS e SETTERS */
 	

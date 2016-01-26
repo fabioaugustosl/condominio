@@ -4,15 +4,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
@@ -21,16 +25,24 @@ import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
 import br.com.virtz.boleto.util.DataUtil;
+import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumParametroSistema;
+import br.com.virtz.condominio.constantes.EnumTemplates;
+import br.com.virtz.condominio.email.EnviarEmail;
+import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.AreaComum;
+import br.com.virtz.condominio.entidades.Assembleia;
 import br.com.virtz.condominio.entidades.ParametroSistema;
+import br.com.virtz.condominio.entidades.PautaAssembleia;
 import br.com.virtz.condominio.entidades.Reserva;
+import br.com.virtz.condominio.entidades.Token;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.service.IReservaService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
+import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
 
 @ManagedBean
@@ -51,6 +63,15 @@ public class ReservaController {
 	
 	@Inject
 	private MessageHelper message;
+	
+	@Inject
+	private IArquivosUtil arquivoUtil;
+
+	@Inject
+	private LeitorTemplate leitor;
+	
+	@EJB
+	private EnviarEmail enviarEmail;
 	
 	@Inject
 	private PrincipalController principalController;
@@ -178,6 +199,21 @@ public class ReservaController {
         message.addInfo("Sua reserva foi confirmada com sucesso!");
     }
 	
+	
+	private void enviarEmailConfirmacaoReserva(Usuario usuario, Reserva reserva) {
+		DataUtil dataUtil = new DataUtil();
+		
+		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
+		mapParametrosEmail.put("nome_usuario", usuario.getNome());
+		mapParametrosEmail.put("data_assembleia", dataUtil.formatarData(reserva.getData().getTime(),"dd/MM/yyyy"));
+		mapParametrosEmail.put("nome_area", reserva.getAreaComum().getNome());
+		
+		String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.CONFIRMACAO_RESERVA_AREA.getNomeArquivo(), mapParametrosEmail);
+		
+		Email email = new Email(EnumTemplates.PAUTA_ENVIADA.getDe(), usuario.getEmail(), EnumTemplates.CONFIRMACAO_RESERVA_AREA.getAssunto(), msg);
+		enviarEmail.enviar(email);
+	}
+	
 	public void mensagemSucesso(){
 		message.addInfo("Sua reserva foi confirmada com sucesso!");
 	}
@@ -213,6 +249,12 @@ public class ReservaController {
 		} catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar a reserva.");
 		}
+        try {
+        	  enviarEmailConfirmacaoReserva(usu, reserva);
+		} catch (Exception e) {
+			
+		}
+      
 	}
 	
 	public void removerReserva() throws AppException {

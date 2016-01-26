@@ -11,10 +11,13 @@ import javax.ejb.Stateless;
 
 import br.com.virtz.condominio.constantes.EnumTipoBalanco;
 import br.com.virtz.condominio.dao.IBalancoDAO;
+import br.com.virtz.condominio.dao.ICategoriaItemBalancoDAO;
 import br.com.virtz.condominio.dao.ICondominioDAO;
 import br.com.virtz.condominio.dao.IItemBalancoDAO;
 import br.com.virtz.condominio.entidades.ArquivoBalanco;
 import br.com.virtz.condominio.entidades.Balanco;
+import br.com.virtz.condominio.entidades.CategoriaItemBalanco;
+import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.ItemBalanco;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
@@ -31,6 +34,8 @@ public class BalancoService implements IBalancoService {
 	@EJB
 	private IItemBalancoDAO itemBalancoDAO;
 	
+	@EJB
+	private ICategoriaItemBalancoDAO categoriaDAO;
 	
 	
 
@@ -212,5 +217,71 @@ public class BalancoService implements IBalancoService {
 	}
 
 
-	
+	@Override
+	public CategoriaItemBalanco salvarCategoriaItem(Long idCondominio, String nome) throws AppException {
+		CategoriaItemBalanco categoria = categoriaDAO.recuperarPorCondominio(idCondominio, nome);
+		if(categoria == null){
+			categoria = new CategoriaItemBalanco();
+			categoria.setAtiva(Boolean.TRUE);
+			Condominio cond = new Condominio();
+			cond.setId(idCondominio);
+			categoria.setCondominio(cond);
+			categoria.setNome(nome);
+			
+			try {
+				categoriaDAO.salvar(categoria);
+			} catch (Exception e) {
+				throw new AppException("Ocorreu um erro ao salvar a categoria.");
+			}
+		}
+		return categoria;
+	}
+
+
+	@Override
+	public CategoriaItemBalanco salvarCategoriaItem(CategoriaItemBalanco categoria) throws AppException {
+		try {
+			categoria = categoriaDAO.salvar(categoria);
+		} catch (Exception e) {
+			throw new AppException("Ocorreu um erro ao salvar a categoria.");
+		}
+		return categoria;
+	}
+
+
+	@Override
+	public void inativarCategoriaItem(Long idCategoria) throws AppException {
+		CategoriaItemBalanco categoria = categoriaDAO.recuperarPorId(idCategoria);
+		if(categoria == null){
+			throw new AppException("Não foi possível recuperar a categoria para inativá-la.");
+		}
+		categoria.setAtiva(Boolean.FALSE);
+		try {
+			categoria = categoriaDAO.salvar(categoria);
+		} catch (Exception e) {
+			throw new AppException("Ocorreu um erro ao inativar a categoria.");
+		}
+	}
+
+
+	@Override
+	public void ativarCategoriaItem(Long idCategoria) throws AppException {
+		CategoriaItemBalanco categoria = categoriaDAO.recuperarPorId(idCategoria);
+		if(categoria == null){
+			throw new AppException("Não foi possível recuperar a categoria para ativá-la.");
+		}
+		categoria.setAtiva(Boolean.TRUE);
+		try {
+			categoria = categoriaDAO.salvar(categoria);
+		} catch (Exception e) {
+			throw new AppException("Ocorreu um erro ao ativar a categoria.");
+		}
+	}
+
+
+	@Override
+	public void removerCategoriaItem(Long idCategoria) throws AppException {
+		categoriaDAO.remover(idCategoria);
+	}
+
 }

@@ -18,7 +18,7 @@
 		<br/>
 		<br/>
 		Agora se quiser aprová-la imediatamente clique no link abaixo: <br />
-		${link}
+		<a href="${link}" target="_blank">${link}</a>
 		<br/>
 	</body>
 

@@ -12,5 +12,9 @@ public interface IVisitanteService {
 	public List<Visitante> recuperar(Long idCondominio);
 	public void salvarVisitante(Visitante visitante) throws AppException ;
 	public void remover(Long idVisitante) throws AppException;
+	
+	public int totalVisitantes(Long idCondominio);
+	public List<Visitante> recuperarPorCondominioPaginado(Long idCondominio, int inicio, int qtdRegistros);
 }
+
 

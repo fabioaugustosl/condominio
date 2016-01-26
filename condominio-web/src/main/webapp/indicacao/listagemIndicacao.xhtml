@@ -29,6 +29,32 @@
 	   			float:left;
 	   			margin-left:35%;
 	   		}
+	   		
+	   		.scrollerCss{
+	   			margin: 10px;
+	   			width: 75%!important;
+	   		}
+	   		.autoCompleteCss{
+	   			border: 0px!important;
+	   		}
+	   		
+	   		.autoCompleteCss input{
+	   			width:300px;
+				border:1px solid #B6C1C5;
+				border-left: 3px solid #6D909F;
+				box-shadow: none !important;
+	   		}
+	   		
+	   		.imgThumbDiv{
+	   			max-height: 100px;
+	   			max-width: 100px;
+	   			border: 2px solid #B6C1C5;
+	   		}
+	   		
+	   		.imgThumb{
+	   			max-height: 90px;
+	   			max-width: 90px;
+	   		}
 	   	</style>
 	   
    	
@@ -36,61 +62,81 @@
 	 	<p:outputLabel styleClass="textoInformativo" style="margin-bottom:0px;"
    			value="Pesquise as indicações de seus vizinhos. Forma fácil e pratica de encontrar o que você precisa perto de sua casa. " />
    			<p:outputLabel styleClass="textoInformativo" style="margin-top:0px;" 
-   			value="Filtre pela categoria, produto ou serviço desejado. Para isso basta clicar no nome. " />
+   			value="Filtre pela categoria, produto ou serviço desejado. " />
 	 	<br />
 	 	
 	 	
-	 	<div id="divCloud">
+	    <div style="width:100%; padding-left: 15%">
+	    	<div id="divFiltro" style="margin-left:10px;">
+				<p:outputLabel value="Selecione a categoria que deseja: " for="comboCateg" />
+	        	<p:autoComplete id="comboCateg" dropdown="true" value="#{listagemIndicacaoController.categoriaSelecionada}" 
+	        			var="cat" itemLabel="#{cat.nome}" itemValue="#{cat}" converter="converterEntityById"
+	        			styleClass="autoCompleteCss"
+	        			completeMethod="#{listagemIndicacaoController.completarCategoria}"  >
+	         	<p:ajax event="itemSelect"  update="listaIndicacoes" listener="#{listagemIndicacaoController.selecionarCategoriaCombo}" />
+	            </p:autoComplete>
+		    </div>
+		    
+		    <p:dataScroller id="listaIndicacoes" value="#{listagemIndicacaoController.indicacoes}" 
+		    		var="indicacao" chunkSize="20" styleClass="scrollerCss" >
+		        <f:facet name="header">
+		            Veja todas as indicações
+		        </f:facet>
+		 
+		        <f:facet name="loader">
+		            <p:commandButton type="button" value="Mais" icon="ui-icon-circle-triangle-s"/>
+		        </f:facet>
+		 
+		        <h:panelGrid columns="2" style="width:100%; border-bottom:1px solid #C3C3C3;"  columnClasses="logo,detail" >
+		        
+		            <p:outputPanel>
+		                <h:panelGrid columns="2" cellpadding="5">
+		                    <h:outputText value="O quê ou quem: " style="font-weight: bold" />
+		                    <h:outputText value=" #{indicacao.nome}" />
+		                    
+		                    <h:outputText value="Classificação: " style="font-weight: bold" />
+		                    <h:outputText value=" #{indicacao.nomesCategoriasPorExtenso}" />
+		                    
+		                    <h:outputText value="Comentário: " style="font-weight: bold" />
+		                    <h:outputText value=" #{indicacao.comentario}" />
+	
+		                    <h:outputText value="Quem indicou: "  style="font-weight: bold" />
+		                    <h:outputText value=" #{indicacao.usuario.nome}" />
+		                    
+		                    <p:commandLink value="Excluir" actionListener="#{listagemIndicacaoController.removerIndicacao(indicacao)}" rendered="#{listagemIndicacaoController.podeExcluir(indicacao)}" update="listaIndicacoes" ></p:commandLink>
+		                    
+		                </h:panelGrid>
+		            </p:outputPanel>
+	
+					<p:outputLabel rendered="#{not empty indicacao.arquivos}" >	
+						<p:dataGrid var="thumbGrid"  value="#{indicacao.arquivos}" 
+		                     	columns="3" layout="grid" id="thumbGrids">
+		                     	
+		                     	<div class="imgThumbDiv">
+			                     	<p:graphicImage  id="imgIndicacaoTHUMB1"  
+				 						url="/imagem?arquivo=#{listagemIndicacaoController.getCaminhoCompletoThumb(thumbGrid.caminhoCompleto)}" 
+				 						style="cursor:pointer" />
+				 				
+			                     	<p:overlayPanel id="imagePanel" for="imgIndicacaoTHUMB1" hideEffect="fade">
+								        <p:graphicImage  id="imgIndicacao1"  
+				 							url="/imagem?arquivo=#{thumbGrid.caminhoCompleto}" />
+								    </p:overlayPanel>
+							    </div>
+						 </p:dataGrid>
+						    
+			            <!-- p:graphicImage  id="imgIndicacao"
+		            		styleClass="gridIndicacao" rendered="#{indicacao.arquivoDestaque != null}"    
+				 			url="/imagem?arquivo=#{indicacao.arquivoDestaque.caminhoCompleto}"/ -->
+		 			</p:outputLabel>
+		        </h:panelGrid>
+		    </p:dataScroller>
+	    </div>
+	    
+	    <div id="divCloud">
 		 	<p:tagCloud model="#{listagemIndicacaoController.model}" id="tagCloudCategoria"  styleClass="tagCloud">
 		        <p:ajax event="select" update="listaIndicacoes" listener="#{listagemIndicacaoController.selecionarCategoria}" />
 		    </p:tagCloud>
 	    </div>
-	    
-	    
-	    <p:dataScroller id="listaIndicacoes" value="#{listagemIndicacaoController.indicacoes}" 
-	    		var="indicacao" chunkSize="20" style="margin-top:10px;"  >
-	        <f:facet name="header">
-	            Veja todas as indicações
-	        </f:facet>
-	 
-	        <f:facet name="loader">
-	            <p:commandButton type="button" value="Mais" icon="ui-icon-circle-triangle-s"/>
-	        </f:facet>
-	 
-	        <h:panelGrid columns="2" style="width:100%; border-bottom:1px solid #C3C3C3;"  columnClasses="logo,detail" >
-	        
-	            <p:outputPanel>
-	                <h:panelGrid columns="2" cellpadding="5">
-	                    <h:outputText value="O quê ou quem: " style="font-weight: bold" />
-	                    <h:outputText value=" #{indicacao.nome}" />
-	                    
-	                    <h:outputText value="Classificação: " style="font-weight: bold" />
-	                    <h:outputText value=" #{indicacao.nomesCategoriasPorExtenso}" />
-	                    
-	                    <h:outputText value="Comentário: " style="font-weight: bold" />
-	                    <h:outputText value=" #{indicacao.comentario}" />
-
-	                    <h:outputText value="Quem indicou: "  style="font-weight: bold" />
-	                    <h:outputText value=" #{indicacao.usuario.nome}" />
-	                    
-	                    <h:outputText value="Fotos: "  style="font-weight: bold" rendered="#{not empty indicacao.arquivos}"  />
-	                    <p:commandLink value="Ver" actionListener="#{listagemIndicacaoController.selecionarIndicacao(indicacao)}" 
-	                    		rendered="#{not empty indicacao.arquivos}" 
-	                    		update=":form:galeriaImagensFotos" oncomplete="PF('dlgFotos').show();" >
-	                    </p:commandLink>
-	                    
-	                    <p:commandLink value="Excluir" actionListener="#{listagemIndicacaoController.removerIndicacao(indicacao)}" rendered="#{listagemIndicacaoController.podeExcluir(indicacao)}" update="listaIndicacoes" ></p:commandLink>
-	                    
-	                </h:panelGrid>
-	            </p:outputPanel>
-
-	            <p:graphicImage  id="imgIndicacao"
-	            		styleClass="gridIndicacao" rendered="#{indicacao.arquivoDestaque != null}"    
-			 			url="/imagem?arquivo=#{indicacao.arquivoDestaque.caminhoCompleto}"/>
-	 
-	        </h:panelGrid>
-	    </p:dataScroller>
-	    
 			    
 	   	<p:commandButton id="novaIndicacao" value="Nova Indicação" immediate="true"
 	   		styleClass="botao botao-grande"

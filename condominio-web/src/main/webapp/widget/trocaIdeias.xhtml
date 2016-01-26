@@ -28,6 +28,7 @@
 				</div>
 		   	</p:outputPanel>
 		   	<p:outputPanel id="painelBatePapoMensagens">
+		   		<p:messages autoUpdate="false" id="msgTrocaIdeiaAvaliacao" closable="true"></p:messages>
 				<p:dataScroller id="dataScrollerBatePapo" value="#{batePapoController.batePapos}" var="papo" chunkSize="10" mode="inline" style="width:100%; height:100%;" >
 			        <h:panelGrid columns="1" style="width:100%; height:100%;" >
 			            <p:outputPanel styleClass="noPadding">
@@ -53,8 +54,10 @@
 										<p:commandLink value="Excluir" style="margin-left:10px" actionListener="#{batePapoController.excluir(papo)}" rendered="#{batePapoController.podeExcluir(papo)}" update="@form" ></p:commandLink>
 			                    	</div>
 			                    	
-			                    	<p:commandButton id="positivarBP" styleClass="iconOnlyButton" icon="btnGostei" actionListener="#{batePapoController.positivar(papo)}" update="dataScrollerBatePapo"></p:commandButton><h:outputText value="#{papo.qtdPositivas}" />
-			                    	<p:commandButton id="negativarBP" styleClass="iconOnlyButton" icon="btnNaoGostei" actionListener="#{batePapoController.negativar(papo)}" update="dataScrollerBatePapo" ></p:commandButton> <h:outputText value=" #{papo.qtdNegativas}" />
+			                    	<p:commandButton id="positivarBP" styleClass="iconOnlyButton" icon="btnGostei" actionListener="#{batePapoController.positivar(papo)}" 
+			                    			update=":formTroca:painelBatePapoMensagens"></p:commandButton><h:outputText value="#{papo.qtdPositivas}" />
+			                    	<p:commandButton id="negativarBP" styleClass="iconOnlyButton" icon="btnNaoGostei" actionListener="#{batePapoController.negativar(papo)}" 
+			                    			update=":formTroca:painelBatePapoMensagens" ></p:commandButton> <h:outputText value=" #{papo.qtdNegativas}" />
 			                    	
 			                    </p:outputPanel>
 			

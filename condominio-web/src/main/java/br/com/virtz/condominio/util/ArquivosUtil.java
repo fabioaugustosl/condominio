@@ -1,8 +1,11 @@
 package br.com.virtz.condominio.util;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,6 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 import javax.imageio.ImageIO;
 import javax.inject.Named;
+import javax.swing.ImageIcon;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -41,6 +45,9 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 	public static final String TIPO_ARQUIVO_BALANCO = "BAL";
 	public static final String TIPO_IMAGEM = "IMG";
 	public static final String DIRETORIO_PADRAO_TEMPLATES = "WEB-INF\\templates\\email";
+	public static final String THUMB_POS_FIXO = "_THUMB";
+	
+	private static final int MAX_THUMBNAIL_WIDTH = 100;
 	
 	private String[] extensoesTipoImagens = new String[]{"jpg" ,"JPG", "jpeg", "JPEG", "png", "PNG", "gif", "GIF"};
 
@@ -248,6 +255,44 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	
+	
+	public void gravarThumb(String nomeArquivo){
+		
+		File arq = new File(getCaminhoArquivosUpload()+nomeArquivo);
+		
+		ImageIcon imageIcon = new ImageIcon(converter(arq));  
+		Image inImage = imageIcon.getImage();  
+		double scale = (double) MAX_THUMBNAIL_WIDTH / (double) inImage.getWidth(null);  
+		   
+		int scaledW = (int) (scale * inImage.getWidth(null));  
+		int scaledH = (int) (scale * inImage.getHeight(null));  
+		   
+		BufferedImage outImage = new BufferedImage(scaledW, scaledH, BufferedImage.TYPE_INT_RGB);  
+		   
+		AffineTransform tx = new AffineTransform();  
+		   if(scale < 1.0d){  
+		      tx.scale(scale, scale);  
+		   }  
+		   
+		   Graphics2D g2d = outImage.createGraphics();  
+		   g2d.drawImage(inImage, tx, null);  
+		   g2d.dispose();  
+		   
+		   try {  
+			   String ext = pegarExtensao(nomeArquivo);
+		      ImageIO.write(outImage, ext,  new File(getCaminhoArquivosUpload(), getCaminhoCompletoThumb(nomeArquivo)));  
+		   } catch (IOException e) {  
+		      e.printStackTrace();  
+		   }  
+		} 
+	
+	public String getCaminhoCompletoThumb(String nomeArq){
+		String ext = "."+pegarExtensao(nomeArq);
+		String novoNome = nomeArq.replace(ext, "");
+		return novoNome+ArquivosUtil.THUMB_POS_FIXO+ext;
 	}
 	
 }

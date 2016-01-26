@@ -9,4 +9,6 @@ import br.com.virtz.condominio.entidades.Visitante;
 @Local
 public interface IVisitanteDAO extends CrudDAO<Visitante> {
 	public List<Visitante> recuperar(Long idCondominio);
+	public int totalVisitantes(Long idCondominio);
+	public List<Visitante> recuperarPaginado(Long idCondominio, int inicio, int qtdRegistros);
 }

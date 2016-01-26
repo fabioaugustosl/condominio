@@ -19,6 +19,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.CroppedImage;
 
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
+import br.com.virtz.condominio.controller.EnviarEmailSuporteController;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.ArquivoUsuario;
 import br.com.virtz.condominio.entidades.Bloco;
@@ -55,6 +56,9 @@ public class AtualizarUsuarioController implements Serializable{
 	
 	@Inject
 	private IArquivosUtil arquivoUtil;
+	
+	@Inject
+	private EnviarEmailSuporteController emailSuporte;
 	
 	
 	private CroppedImage imagemCortada = null;
@@ -98,6 +102,10 @@ public class AtualizarUsuarioController implements Serializable{
 					removerArquivo(caminhoImagem);
 				}
 			} catch (IOException e) {
+				try{
+					emailSuporte.enviarEmail("Ocorreu um erro ao recortar a foto.", e.getMessage(), usuario.getCondominio().getId());
+				}catch(Exception e1){
+				}
 				throw new CondominioException("Ocorreu um erro ao recortar a foto.");
 			}
 	    	
@@ -111,6 +119,10 @@ public class AtualizarUsuarioController implements Serializable{
 			trocouFoto = false;
 			message.addInfo("Parabéns. Seu cadastro foi atualizado com sucesso.");
 		} catch (AppException e) {
+			try{
+				emailSuporte.enviarEmail("Aconteceu um erro ao salvar o usuário.", e.getMessage(), usuario.getCondominio().getId());
+			}catch(Exception e1){
+			}
 			throw new CondominioException("Aconteceu um erro ao salvar o usuário. Favor tentar novamente.");
 		}
 	}
@@ -144,6 +156,10 @@ public class AtualizarUsuarioController implements Serializable{
         	
         	trocouFoto = true;
         } catch (IOException e) {
+        	try{
+				emailSuporte.enviarEmail("Ocorreu um erro ao realizar o upload da imagem na atualização de usuário.", e.getMessage(), usuario.getCondominio().getId());
+			}catch(Exception e1){
+			}
             throw new CondominioException("Ocorreu um erro ao realizar o upload da imagem.");
         }
 	 }
