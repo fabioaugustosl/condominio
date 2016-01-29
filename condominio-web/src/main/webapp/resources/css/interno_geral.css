@@ -180,24 +180,62 @@ h1{
 }
 
 .divMenuBotao{
-		height: 190px;
-		width: 15%;
-		border:1px solid #5E85EF ;
-		background:#FFFFFF;
-		float: left;
-		margin-left: 22.5%;
-		margin-top: 5%;
-		padding: 10px;
-	}
-	.divConteudoMenuBotao{
-		margin: 0 auto;
-		text-align:center;
-	}
-	.divConteudoMenuBotao div{
-		text-align:center;
-		font-size: 1.5em;
-		font-weight: bold;
-		clear: both;
-		color: #525A6E;
-		padding-top: 10px;
-	}
+	height: 190px;
+	width: 15%;
+	border:1px solid #5E85EF ;
+	background:#FFFFFF;
+	float: left;
+	margin-left: 22.5%;
+	margin-top: 5%;
+	padding: 10px;
+}
+.divConteudoMenuBotao{
+	margin: 0 auto;
+	text-align:center;
+}
+.divConteudoMenuBotao div{
+	text-align:center;
+	font-size: 1.5em;
+	font-weight: bold;
+	clear: both;
+	color: #525A6E;
+	padding-top: 10px;
+}
+
+.dataArquivosMenorEsquerda{
+	width: 50%;
+	margin-top: 2px;
+}
+
+.containerArquivoSimples{
+	border: 1px solid #525A6E;
+	background-color: #ACB4C5;
+	padding: 5px;
+}
+
+.dataArquivosMenor{
+	width: 50%;
+	margin-left: 20%;
+	margin-top: 2px;
+}
+
+.botaoPequeno{
+	height: 30px !important; 
+	padding:2px !important; 
+	width:80px !important;
+}
+
+.formPad5{
+	padding-left:5%; padding-right:5%;
+}
+
+.formPad10{
+	padding-left:10%; padding-right:10%;
+}
+.formPad15{
+	padding-left:15%; padding-right:15%;
+}
+
+.formPad20{
+	padding-left:20%; padding-right:20%;
+}

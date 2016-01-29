@@ -183,8 +183,8 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
             imgProporcao = (novaImgAltura / novaImgLargura);  
             larguraTmp = novaImgLargura - (novaImgLargura * imgProporcao); 
             alturaTmp = novaImgAltura - (novaImgAltura * imgProporcao); 
-            if(alturaMinima != 0d && larguraMinima != 0d 
-            		&& alturaTmp > (double)alturaMinima && larguraTmp > (double)larguraMinima){
+            if(alturaMinima == 0d && larguraMinima == 0d // eh pq o cara nao passou o minimo 
+            		|| (alturaTmp > (double)alturaMinima && larguraTmp > (double)larguraMinima) && alturaTmp > 0 && larguraTmp > 0){
             	novaImgAltura = alturaTmp;
             	novaImgLargura = larguraTmp;
             } else {
@@ -195,14 +195,34 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
             imgProporcao = (novaImgLargura / novaImgAltura);  
             larguraTmp = novaImgLargura - (novaImgLargura * imgProporcao); 
             alturaTmp = novaImgAltura - (novaImgAltura * imgProporcao); 
-            if(alturaMinima != 0d && larguraMinima != 0d 
-            		&& alturaTmp > (double)alturaMinima && larguraTmp > (double)larguraMinima){
+            if(alturaMinima == 0d && larguraMinima == 0d 
+            		|| (alturaTmp > (double)alturaMinima && larguraTmp > (double)larguraMinima) && alturaTmp > 0 && larguraTmp > 0){
             	novaImgAltura = alturaTmp;
             	novaImgLargura = larguraTmp;
             } else {
             	break;
             }
         }  
+        
+        // se o cara não conseguiu achar uma proporção legal tenta reduzir pelo menos até o limite maximo passado
+        if(novaImgLargura > larguraMaxima || novaImgAltura > alturaMaxima){
+        	
+        	larguraTmp = novaImgLargura;
+            alturaTmp = novaImgAltura;
+            
+            int c = 0;
+        	while((larguraTmp > (double) larguraMaxima || alturaTmp > (double) alturaMaxima) && c <= 8){
+        		larguraTmp = ((double) larguraTmp * 0.80d);  
+        		alturaTmp = ((double) alturaTmp * 0.80d);
+        		c++;
+        	}
+        	
+        	if(alturaMinima == 0d && larguraMinima == 0d 
+            		|| (alturaTmp > (double)alturaMinima && larguraTmp > (double)larguraMinima) && alturaTmp > 0 && larguraTmp > 0){
+            	novaImgAltura = alturaTmp;
+            	novaImgLargura = larguraTmp;
+            }
+        }
   
         BufferedImage novaImagem = new BufferedImage(novaImgLargura.intValue(), novaImgAltura.intValue(), BufferedImage.TYPE_INT_RGB);  
         Graphics g = novaImagem.getGraphics();  

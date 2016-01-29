@@ -30,18 +30,18 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 			query = "Select u FROM usuario u "
 					+ "	LEFT JOIN u.apartamento ap "
 					+ "	LEFT JOIN u.arquivo arq "
-					+ " WHERE u.condominio.id = :idCondominio "),
+					+ " WHERE u.condominio.id = :idCondominio AND u.deletado = 0 "),
 	@NamedQuery(name = "Usuario.recuperarSindicosPorCondominio", 
-			query = "Select u FROM usuario u WHERE u.condominio.id = :idCondominio AND u.tipoUsuario = 'SINDICO'"),
+			query = "Select u FROM usuario u WHERE u.condominio.id = :idCondominio AND u.tipoUsuario = 'SINDICO' AND u.deletado = 0"),
 	@NamedQuery(name = "Usuario.recuperarPorEmail", 
 			query = "Select u FROM usuario u "
 					+ " LEFT JOIN FETCH u.condominio c "
 					+ " LEFT JOIN FETCH c.areasComuns areas "
-					+ " WHERE u.email = :email and u.cadastroConfirmado = 1"),
+					+ " WHERE u.email = :email and u.cadastroConfirmado = 1 AND u.deletado = 0"),
 	@NamedQuery(name = "Usuario.recuperarPorCondominioETipoUsuario", 
 			query = "Select u FROM usuario u "
 					+ " JOIN u.condominio c "
-					+ " WHERE c.id = :idCondominio AND u.tipoUsuario = :tipoUsuario")
+					+ " WHERE c.id = :idCondominio AND u.tipoUsuario = :tipoUsuario AND u.deletado = 0")
 })
 public class Usuario extends Entidade implements Serializable {
 
@@ -99,6 +99,9 @@ public class Usuario extends Entidade implements Serializable {
 	@ManyToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="idImagem")
 	private ArquivoUsuario arquivo;
+	
+	@Column(name = "deletado")
+	private Boolean deletado;
 	
 	@Transient
 	private String senhaDigitada;
@@ -265,6 +268,15 @@ public class Usuario extends Entidade implements Serializable {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
+	public Boolean getDeletado() {
+		return deletado;
+	}
+
+	public void setDeletado(Boolean deletado) {
+		this.deletado = deletado;
+	}
+	
 	
 	
 }

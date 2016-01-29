@@ -7,12 +7,35 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h1>Indicar um produto/serviço aos seus vizinhos</h1>
-   	<p:outputLabel styleClass="textoInformativo" 
+   
+   <style>
+   
+	   		.autoCompleteCss{
+	   			border: 0px!important;
+	   		}
+	   		
+	   		.autoCompleteCss input{
+	   			width:300px;
+				border:1px solid #B6C1C5;
+				border-left: 3px solid #6D909F;
+				box-shadow: none !important;
+	   		}
+	   		
+	   		.autoCompleteCss button{
+	   			height: 30px !important; 
+	   			margin-top:5px !important;
+	   		}
+	   		
+   </style>
+   
+   <p:outputLabel styleClass="formPad5">
+	   	<h1>Indicar um produto/serviço aos seus vizinhos</h1>
+	   	<p:outputLabel styleClass="textoInformativo" 
    		value="Indique algum produto ou serviço que tenha gostado e ache intessante compartilhar com seus vizinhos." />
+ 	</p:outputLabel>
  	<br />
  	
- 	<h:form id="form" enctype="multipart/form-data">
+ 	<h:form id="form" enctype="multipart/form-data" styleClass="formPad10">
 	    
 	    <p:outputPanel id="containerNovaIndicacao" >
 	    
@@ -23,17 +46,16 @@
 				<br />
 				
 				<p:outputLabel value="Classifique o serviço/produto: (ex.: pintor, armários, marceneiro, etc)" 
-					styleClass="labelPadrao"  for="tags" />
-		        <p:autoComplete id="tags" multiple="true" value="#{cadastrarIndicacaoController.categoriasSelecionadas}" 
+					styleClass="labelPadrao"  for="tags" /> <br />
+		        <p:autoComplete id="tags" multiple="false" dropdown="true" value="#{cadastrarIndicacaoController.categoriaSelecionada}" 
 		        				completeMethod="#{cadastrarIndicacaoController.completarCategoria}"
 		                        var="tag" itemLabel="#{tag.nome}" itemValue="#{tag}" converter="converterEntityById"
 		                        forceSelection="true" 
-		                        styleClass="inputPadraoAutocomplete"
+		                        styleClass="autoCompleteCss"
 		                        required="true" requiredMessage="Favor classificar o serviço/produto.">
-		            <p:column>
-		                <h:outputText value="#{tag.nome}" />
-		            </p:column>
+	
 		        </p:autoComplete>
+		        
 		        <br />
 		        
 				<p:outputLabel value="Comentário:" styleClass="labelPadrao"  /> <br />
@@ -43,16 +65,17 @@
 	        	
 	 	</p:outputPanel>
 	 	
-	 	<div>
-	 		<p:outputLabel value="Anexar fotos: (máximo 5 fotos)" styleClass="labelPadrao"  />
+	 	<p:outputPanel>
+	 		<p:outputLabel value="Anexar fotos: (máximo 5 fotos): " styleClass="labelPadrao"  />
 	        <p:fileUpload mode="advanced" update="@this, dtArquivosNoticia" label="Selecionar arquivo"
+	        	styleClass="dataArquivosMenor"
 		        fileUploadListener="#{cadastrarIndicacaoController.uploadArquivo}" fileLimit="5"
 		        allowTypes="/(\.|\/)(JPg|jpg|jpeg|JPEG|png|PNG)$/" 
 		        multiple="false" sizeLimit="100000000" fileLimitMessage="Permitido apenas 5 fotos. "
 		        invalidFileMessage="Arquivo não válido." invalidSizeMessage="O arquivo é muito grande."
 		        auto="true" dragDropSupport="false" />
 	 	
-		 	<p:dataTable id="dtArquivosNoticia" var="arqNoticia"
+		 	<p:dataTable id="dtArquivosNoticia" var="arqNoticia" styleClass="dataArquivosMenor"
 		 		value="#{cadastrarIndicacaoController.indicacao.arquivos}"
 		 		rowKey="#{arqNoticia.id}"
 		 		emptyMessage="Ainda não foi anexado nenhum arquivo" >
@@ -69,7 +92,7 @@
 			    </p:column>
 		    	
 			</p:dataTable>	
-	 	</div>
+	 	</p:outputPanel>
 	 	
 	 	<br />
 	 	

@@ -17,7 +17,7 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		sb.append("SELECT u FROM ").append(Usuario.class.getName()).append(" u ")
 		.append(" LEFT JOIN FETCH u.condominio c ")
 		.append(" LEFT JOIN FETCH c.areasComuns areas ")
-		.append(" WHERE u.id = :idUsuario ");
+		.append(" WHERE u.id = :idUsuario AND u.deletado = 0 ");
 		
 		Query qry = getEntityManager().createQuery(sb.toString());
 		qry.setParameter("idUsuario", id);
@@ -41,7 +41,7 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE ").append(Usuario.class.getName()).append(" u ")
 		.append(" SET u.tipoUsuario = :tipoUsuairo ")
-		.append(" WHERE u.id = :idUsuario ");
+		.append(" WHERE u.id = :idUsuario AND u.deletado = 0 ");
 		
 		Query qry = getEntityManager().createQuery(sb.toString());
 		
@@ -80,5 +80,19 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		return qry.getResultList();
 	}
 	
+	
+	@Override
+	public void remover(Long id)  {
+		Usuario u = recuperarPorId(id);
+		if(u != null){
+			u.setEmail("");
+			u.setDeletado(Boolean.TRUE);
+			try {
+				salvar(u);
+			} catch (Exception e) {
+				super.remover(id);
+			}
+		}
+	}
 	
 }

@@ -7,7 +7,7 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h:form id="form" style="width:100%">
+   
    			
    		<style>
 	  		.gridIndicacao{ 
@@ -24,15 +24,14 @@
 	   		}
 	   		
 	   		.tagCloud{
-	   			width: 30%;
+	   			width: 50%;
 	   			height: 150px;
 	   			float:left;
-	   			margin-left:35%;
+	   			margin-left:25%;
 	   		}
 	   		
 	   		.scrollerCss{
 	   			margin: 10px;
-	   			width: 75%!important;
 	   		}
 	   		.autoCompleteCss{
 	   			border: 0px!important;
@@ -46,39 +45,54 @@
 	   		}
 	   		
 	   		.imgThumbDiv{
-	   			max-height: 100px;
-	   			max-width: 100px;
+	   			height: 80px !important;
+	   			width: 80px !important;
+	   			max-height: 80px !important;
+	   			max-width: 80px !important;
 	   			border: 2px solid #B6C1C5;
+	   			text-align:center;
+	   			vertical-align:middle;
+	   			overflow: hidden;
+	   			margin:2px;
+	   			padding: 1px;
+	   		}
+	   		
+	   		.imgThumbDivImg{
+	   			max-height: 75px !important;
+	   			max-width: 75px !important;
+	   		}
+	   		
+	   		.imgThumbDivImgGrande{
+	   			max-height: 600px !important;
+	   			max-width: 600px !important;
 	   		}
 	   		
 	   		.imgThumb{
-	   			max-height: 90px;
-	   			max-width: 90px;
+	   			max-height: 75px !important;
+	   			max-width: 75px !important;
 	   		}
 	   	</style>
 	   
    	
-	   	<h1>Veja as indicações de seus vizinhos!</h1>
-	 	<p:outputLabel styleClass="textoInformativo" style="margin-bottom:0px;"
-   			value="Pesquise as indicações de seus vizinhos. Forma fácil e pratica de encontrar o que você precisa perto de sua casa. " />
-   			<p:outputLabel styleClass="textoInformativo" style="margin-top:0px;" 
-   			value="Filtre pela categoria, produto ou serviço desejado. " />
+	   <p:outputPanel styleClass="formPad5">
+		   	<h1>Veja as indicações de seus vizinhos!</h1>
+		 	<p:outputLabel styleClass="textoInformativo" style="margin-bottom:0px;"
+	   			value="Pesquise as indicações de seus vizinhos. Forma fácil e pratica de encontrar o que você precisa perto de sua casa. " />
+	   			<p:outputLabel styleClass="textoInformativo" style="margin-top:0px;" 
+	   			value="Filtre pela categoria, produto ou serviço desejado. " />
+	   </p:outputPanel>
 	 	<br />
 	 	
-	 	
-	    <div style="width:100%; padding-left: 15%">
-	    	<div id="divFiltro" style="margin-left:10px;">
-				<p:outputLabel value="Selecione a categoria que deseja: " for="comboCateg" />
-	        	<p:autoComplete id="comboCateg" dropdown="true" value="#{listagemIndicacaoController.categoriaSelecionada}" 
-	        			var="cat" itemLabel="#{cat.nome}" itemValue="#{cat}" converter="converterEntityById"
-	        			styleClass="autoCompleteCss"
-	        			completeMethod="#{listagemIndicacaoController.completarCategoria}"  >
-	         	<p:ajax event="itemSelect"  update="listaIndicacoes" listener="#{listagemIndicacaoController.selecionarCategoriaCombo}" />
-	            </p:autoComplete>
+	 	<h:form id="form" style="width:100%" styleClass="formPad15">
+		    
+		    <div id="divCloud">
+			 	<p:tagCloud model="#{listagemIndicacaoController.model}" id="tagCloudCategoria"  styleClass="tagCloud">
+			        <p:ajax event="select" update="listaIndicacoes" listener="#{listagemIndicacaoController.selecionarCategoria}" />
+			    </p:tagCloud>
 		    </div>
 		    
 		    <p:dataScroller id="listaIndicacoes" value="#{listagemIndicacaoController.indicacoes}" 
-		    		var="indicacao" chunkSize="20" styleClass="scrollerCss" >
+		    		var="indicacao" chunkSize="20" styleClass="scrollerCss"  >
 		        <f:facet name="header">
 		            Veja todas as indicações
 		        </f:facet>
@@ -108,38 +122,30 @@
 		                </h:panelGrid>
 		            </p:outputPanel>
 	
-					<p:outputLabel rendered="#{not empty indicacao.arquivos}" >	
+					<p:outputLabel rendered="#{not empty indicacao.arquivos}" style="float:right; margin-right:5px;" >	
 						<p:dataGrid var="thumbGrid"  value="#{indicacao.arquivos}" 
 		                     	columns="3" layout="grid" id="thumbGrids">
 		                     	
 		                     	<div class="imgThumbDiv">
 			                     	<p:graphicImage  id="imgIndicacaoTHUMB1"  
+			                     	styleClass="imgThumbDivImg"
 				 						url="/imagem?arquivo=#{listagemIndicacaoController.getCaminhoCompletoThumb(thumbGrid.caminhoCompleto)}" 
 				 						style="cursor:pointer" />
 				 				
 			                     	<p:overlayPanel id="imagePanel" for="imgIndicacaoTHUMB1" hideEffect="fade">
-								        <p:graphicImage  id="imgIndicacao1"  
+								        <p:graphicImage  id="imgIndicacao1" styleClass="imgThumbDivImgGrande" 
 				 							url="/imagem?arquivo=#{thumbGrid.caminhoCompleto}" />
 								    </p:overlayPanel>
 							    </div>
 						 </p:dataGrid>
 						    
-			            <!-- p:graphicImage  id="imgIndicacao"
-		            		styleClass="gridIndicacao" rendered="#{indicacao.arquivoDestaque != null}"    
-				 			url="/imagem?arquivo=#{indicacao.arquivoDestaque.caminhoCompleto}"/ -->
 		 			</p:outputLabel>
 		        </h:panelGrid>
 		    </p:dataScroller>
-	    </div>
 	    
-	    <div id="divCloud">
-		 	<p:tagCloud model="#{listagemIndicacaoController.model}" id="tagCloudCategoria"  styleClass="tagCloud">
-		        <p:ajax event="select" update="listaIndicacoes" listener="#{listagemIndicacaoController.selecionarCategoria}" />
-		    </p:tagCloud>
-	    </div>
 			    
 	   	<p:commandButton id="novaIndicacao" value="Nova Indicação" immediate="true"
-	   		styleClass="botao botao-grande"
+	   		styleClass="botao botao-grande" 
 	   		actionListener="#{listagemIndicacaoController.irParaCadastro}"  >
 	   	</p:commandButton>
 	   
@@ -155,5 +161,6 @@
 		</p:dialog> 
 
 	 </h:form>
+	 
   </ui:define>
 </ui:composition>

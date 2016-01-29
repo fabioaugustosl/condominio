@@ -9,40 +9,48 @@
    <ui:define name="content">
    <style>
    .fc-event-time{display: none!important;}
+   .fc-header-right{display: none!important;}
+   .fc-header-title{padding-left:30% !important; }
+   .fc-header-center{text-align: left;}
    </style>
-   	<h:form id="formReservar" >
-   	
-   		<p:messages id="msgReserva" autoUpdate="false"></p:messages>
-   		
+
+	<p:outputPanel styleClass="formPad5">
 	   	<h1>Reservar área em comum</h1>
 	 	<p:outputLabel styleClass="textoInformativo" style="margin-bottom:0px;" value="Para agendar uma área comum basta selecioná-la abaixo e clicar na data desejada." />
 	 	<br /><p:outputLabel styleClass="textoInformativo" style="margin-top:5px;" value="Para excluir um agendamento basta selecionar a área abaixo e clicar sobre seu nome." />
+	</p:outputPanel>
+
+   	<h:form id="formReservar" styleClass="formPad5">
+   	
+   		<p:messages id="msgReserva" autoUpdate="false"></p:messages>
+   		
 	 	<br />
-	 	<p:outputPanel >
+	 	<p:outputPanel style="margin-left:10%">
 		 	<div>
 			 	<p:outputLabel value="Selecione a área que você deseja reservar: " styleClass="labelPadrao" />
 		 	</div>
 		 	<p:selectOneMenu id="comboArea" value="#{reservaController.areaSelecionada}" 
-		 			stsyleClass="selectPadrao" converter="converterEntityById" style="width:50%" >
+		 			stsyleClass="selectPadrao" converter="converterEntityById" style="width:40%" >
 		 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 		 		<f:selectItems value="#{reservaController.areas}" var="area" itemLabel="#{area.nome}" itemValue="#{area}" />
 		 		<p:ajax event="change" update="containerAgenda" listener="#{reservaController.recuperarEventos}" />
 		 	</p:selectOneMenu>
 	 	</p:outputPanel>
 	 	
-	 	<p:outputPanel id="containerSelecionarUsuario" rendered="#{principalController.ehSindico() || principalController.ehAdministrativo()}">
+	 	<p:outputPanel id="containerSelecionarUsuario" rendered="#{principalController.ehSindico() || principalController.ehAdministrativo()}" style="margin-left:10%">
 		 	<div>
 			 	<p:outputLabel value="Qual usuário está realizando a reserva? " styleClass="labelPadrao" />
 		 	</div>
 		 	<p:selectOneMenu id="comboUsuario" value="#{reservaController.usuario}" immediate="true"
-		 		styleClass="selectPadrao" converter="converterEntityById" style="width:50%" >
+		 		styleClass="selectPadrao" converter="converterEntityById" style="width:40%" >
 		 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 		 		<f:selectItems value="#{reservaController.usuarios}" var="usu" itemLabel="#{usu.nome} [#{usu.email}]" itemValue="#{usu}" />
 		 	</p:selectOneMenu>
 	 	</p:outputPanel>
 	 	
-	 	<p:outputPanel id="containerAgenda" style="margin-top:30px;margin-left:20px; width:80%;">
-	  		<p:schedule id="agendaReserva" value="#{reservaController.reservas}" widgetVar="agendaReserva" timeZone="GMT-3" locale="pt" >
+	 	<p:outputPanel id="containerAgenda" style="margin-top:30px;margin-left:10%; width:80%;">
+	  		<p:schedule id="agendaReserva" value="#{reservaController.reservas}"
+	  			 widgetVar="agendaReserva" timeZone="GMT-3" locale="pt_br" timeFormat="dd/MM/yyyy"  >
 	            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" process="@form"
 	             update="novoEventoPanelContainer"  
 	             onsuccess="PF('novoEvento').show();" onerror="alert('error'); " onstart="" />
@@ -111,7 +119,7 @@
 	    
 	   
 	    <script type="text/javascript">
-		    PrimeFaces.locales['pt'] = {
+		    PrimeFaces.locales['pt_br'] = {
 		        closeText: 'Fechar',
 		        prevText: 'Anterior',
 		        nextText: 'Próximo',

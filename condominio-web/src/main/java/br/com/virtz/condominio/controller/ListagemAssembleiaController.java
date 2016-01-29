@@ -130,12 +130,16 @@ public class ListagemAssembleiaController {
 			 nomeArquivo = assembleia.getArquivoAta().getNome();
 		 }
 		 assembleiaService.removerAssembleia(assembleia.getId());
-		 
+		 assembleias.remove(assembleia);
 		 messageHelper.addInfo("Assembleia removida com sucesso!");
 
-		 if(StringUtils.isNotBlank(nomeArquivo)){
-			 File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+nomeArquivo);
-			 arquivoDeletar.delete();
+		 try {
+			 if(StringUtils.isNotBlank(nomeArquivo)){
+				 File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+nomeArquivo);
+				 arquivoDeletar.delete();
+			 }
+		 }catch(Exception e){
+			 // foda-se
 		 }
 	 }
 	 

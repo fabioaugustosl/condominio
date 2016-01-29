@@ -33,10 +33,10 @@
 						
 						Assembleia agendada para o dia 
 						<p:outputLabel value="#{assembleia.data}" >
-							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+							<f:convertDateTime pattern="dd/MM/yyyy" />
 						</p:outputLabel>
 						às <p:outputLabel value="#{assembleia.horario1}">
-							<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00" />
+							<f:convertDateTime pattern="HH:mm" />
 						</p:outputLabel> horas.
 						<br />
 						<p:commandButton id="btnVerPauta" value="Ver pautas" onsuccess="PF('dialogPautasAprovadas').show();">

@@ -48,6 +48,8 @@ public class ListagemNoticiaController {
 	
 	public List<Noticia> noticias;
 	
+	public Noticia noticiaSelecionada = null;
+	
 	Usuario usuario = null;
 	
 	@PostConstruct
@@ -91,6 +93,21 @@ public class ListagemNoticiaController {
 			 }
 		 }
 	}
+	
+	
+
+	public void visualizar(){
+		if(noticiaSelecionada != null){
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idNoticia", noticiaSelecionada.getId());
+			navegacao.redirectToPage("/noticia/exibirNoticia.faces");
+		}
+	}
+	
+	
+	public void preencherNoticia(Noticia noticia) {
+		this.noticiaSelecionada = noticia;
+	}
+
 	 
 	 
 	public boolean podeEditar(){

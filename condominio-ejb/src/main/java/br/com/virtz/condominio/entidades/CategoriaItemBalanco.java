@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +17,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import br.com.virtz.condominio.constantes.EnumTipoBalanco;
+
 @Entity
 @Table(name="categoriaitembalanco")
 @XmlRootElement
@@ -22,7 +26,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "CategoriaItemBalanco.recuperarCategoriaItemBalanco", 
 				query = "Select a FROM CategoriaItemBalanco a WHERE a.condominio.id = :idCondominio" ),
 		@NamedQuery(name = "CategoriaItemBalanco.recuperarCategoriaPorNomeECondominio", 
-			query = "Select a FROM CategoriaItemBalanco a WHERE a.condominio.id = :idCondominio AND a.nome = :nome" )})
+			query = "Select a FROM CategoriaItemBalanco a WHERE a.condominio.id = :idCondominio AND a.nome = :nome" ),
+		@NamedQuery(name = "CategoriaItemBalanco.recuperarCategoriaPorTipo", 
+			query = "Select a FROM CategoriaItemBalanco a WHERE a.condominio.id = :idCondominio AND a.tipoBalanco = :tipo " )
+})
 public class CategoriaItemBalanco extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -40,6 +47,10 @@ public class CategoriaItemBalanco extends Entidade implements Serializable {
 
 	@Column(name = "nome", length = 100)
 	private String nome;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "tipoBalanco", nullable = false)
+	private EnumTipoBalanco tipoBalanco;
 
 
 	public Long getId() {
@@ -73,5 +84,15 @@ public class CategoriaItemBalanco extends Entidade implements Serializable {
 	public void setAtiva(Boolean ativa) {
 		this.ativa = ativa;
 	}
+
+	public EnumTipoBalanco getTipoBalanco() {
+		return tipoBalanco;
+	}
+
+	public void setTipoBalanco(EnumTipoBalanco tipoBalanco) {
+		this.tipoBalanco = tipoBalanco;
+	}
+	
+	
 	
 }

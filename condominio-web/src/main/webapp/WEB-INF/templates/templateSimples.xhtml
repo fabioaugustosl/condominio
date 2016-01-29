@@ -21,10 +21,16 @@
 	<p:ajaxStatus onstart="PF('statusDialog').show()"
 		onsuccess="PF('statusDialog').hide()" />
 
-	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+	<!-- p:dialog widgetVar="statusDialog" modal="true" draggable="false"
 		closable="false" resizable="false" showHeader="false">
 		<p:graphicImage library="img" name="ajax-loader.GIF" />
+	</p:dialog-->
+	<p:dialog id="statusDialog" widgetVar="statusDialog" modal="true" 
+  					draggable="false" closable="false" resizable="false" 
+  					showHeader="false" appendTo="@(body)">
+	    <p:graphicImage url="/img/ajax-loader.GIF" />
 	</p:dialog>
+	
 
 
 	<div class="page-header-entrada row topo">

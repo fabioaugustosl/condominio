@@ -7,7 +7,12 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <style type="text/css">
- 
+
+ 	
+ 	.cropCss {
+ 		max-height: 600px;
+ 		max-width: 600px;
+ 	}
    </style>
    
    <ui:define name="content">
@@ -18,31 +23,31 @@
 	   	<h5><p:outputLabel value="Seu email(login) é #{atualizarUsuarioController.usuario.email}."/></h5>
    		<table id="divConteudo" class="tabelaPadrao">
     		<tr>
-    			<td style="width:50%; align:top;">        
+    			<td style="width:30%; align:top;">        
 		            <p:outputPanel id="atualizacaoUsuario" styleClass="labelPadrao" >
 		  				<p:outputLabel value="Nome: " /><br />
 						<p:inputText id="nomeUsuario" alt="Insira seu nome. Exemplo: João Lopes" 
-							value="#{atualizarUsuarioController.usuario.nome}" maxlength="100" styleClass="inputPadrao"
+							value="#{atualizarUsuarioController.usuario.nome}" maxlength="100" styleClass="inputPadrao100"
 							required="true" requiredMessage="Favor preencher o nome." />
 						<br />
 									    
 					    <p:outputLabel value="Telefone: " styleClass="labelPadrao" /><br />
 						<p:inputMask id="telefoneUsuario" value="#{atualizarUsuarioController.usuario.telefone}" alt="Insira seu telefone residencial."
 							 maxlength="20" 
-							styleClass="inputPadrao" style="width:30%"
+							styleClass="inputPadrao100" style="width:30%"
 							mask="(99) 9999-9999"/>
 						<br />
 							
 						<p:outputLabel value="Celular: " styleClass="labelPadrao" /><br />
 						<p:inputMask id="celularUsuario" value="#{atualizarUsuarioController.usuario.celular}" alt="Insira seu celular."
-							maxlength="20" styleClass="inputPadrao" style="width:30%"
+							maxlength="20" styleClass="inputPadrao100" style="width:30%"
 							mask="(99) 9999-9999?9" />
 						
 						<br />
 							
 						<p:outputLabel value="CPF: " styleClass="labelPadrao" /><br />
 						<p:inputMask id="cpfUsuario" value="#{atualizarUsuarioController.usuario.cpf}" alt="Insira seu CPF. Isso é importante em funcionalidades como a geração do boleto por exemplo."
-								maxlength="14" styleClass="inputPadrao" style="width:30%"
+								maxlength="14" styleClass="inputPadrao100" style="width:30%"
 								mask="999.999.999-99" >
 						</p:inputMask>
 							
@@ -75,21 +80,21 @@
 				</p:outputPanel>
 	 			</td>
 	 			
-	 			<td style="width:50%; align:top;">
+	 			<td style="width:70%; align:top;">
 	 				<p:fileUpload mode="advanced" immediate="true" label="Selecionar arquivo"
 				        fileUploadListener="#{atualizarUsuarioController.uploadArquivo}"
 				        allowTypes="/(\.|\/)(JPg|jpg|jpeg|JPEG|png|PNG)$/"  
-				        multiple="false" sizeLimit="1000000" 
+				        multiple="false" sizeLimit="6000000" 
 				        invalidFileMessage="Arquivo não válido." 
 				        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
 				        update="@form"  />
 			        
 		 				<p:outputPanel  id="containerCortadorImagem" rendered="#{empty atualizarUsuarioController.caminhoImagem}" >
-		     				<p:graphicImage id="imagemUsuario" url="/imagem?arquivo='/arquivos/usuario/foto.jpg'" width="300" />
+		     				<p:graphicImage id="imagemUsuario" url="/imagem?arquivo=/arquivos/usuario/foto.jpg" width="300" />
 		     			</p:outputPanel>	 
 		     			
-						<p:outputPanel id="cadastroFoto" rendered="#{not empty atualizarUsuarioController.caminhoImagem}">
-				      		<p:imageCropper id="cortadorImagem"
+						<p:outputPanel id="cadastroFoto" rendered="#{not empty atualizarUsuarioController.caminhoImagem}" styleClass="cropCss">
+				      		<p:imageCropper id="cortadorImagem"  
 				      				value="#{atualizarUsuarioController.imagemCortada}" 
 				      				rendered="#{atualizarUsuarioController.trocouFoto}"
 				   					initialCoords="0,0,300,375" maxSize="600,750" minSize="300,375"

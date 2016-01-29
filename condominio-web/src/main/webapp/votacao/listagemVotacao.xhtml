@@ -7,7 +7,7 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h:form id="form" style="width:100%">
+   	<h:form id="form" style="width:100%" styleClass="formPad5">
 	   	<h1>Veja todas votações</h1>
 	   	<p:outputLabel styleClass="textoInformativo" 
    		value="Acompanhe todas as votações realizadas ou em andamento. Veja informações detalhadas como data limite para votação e resultados." />
@@ -17,22 +17,18 @@
 				value="#{listagemVotacaoController.votacoes}"
 				rowKey="#{votacao.id}"
 				emptyMessage="Ainda não foi realizada nenhuma votação." >
-			
-	        <p:column headerText="Código"  styleClass="colunaLargura100">
-		        <h:outputText value="#{votacao.id}" />
-		    </p:column>
-		    
-		    <p:column headerText="Tipo">
-		        <h:outputText value="#{votacao.tipoVotacao.descricao}" />
-		    </p:column>
-		    
-		    <p:column headerText="Assunto da votação">
+
+		    <p:column headerText="Assunto da votação" >
 		        <h:outputText value="#{votacao.assuntoVotacao}" />
+		    </p:column>
+
+		    <p:column headerText="Tipo" styleClass="colunaLargura160">
+		        <h:outputText value="#{votacao.tipoVotacao.descricao}" />
 		    </p:column>
 		    
 		    <p:column headerText="Data limite"  styleClass="colunaLargura100">
 		        <h:outputText value="#{votacao.dataLimite}" >
-		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+		        	<f:convertDateTime pattern="dd/MM/yyyy" />
 		        </h:outputText>
 		    </p:column>
 		    
@@ -50,7 +46,7 @@
 			    <p:commandButton actionListener="#{listagemVotacaoController.desativarVotacao(votacao)}"
 			    		icon="btnAtivo"
 			        	rendered="#{listagemVotacaoController.estaAtiva(votacao)}" update="dtListagemVotacao"
-			        	title="Clique para inativar a votação."
+			        	title="Clique para desativar a votação."
 			         	id="desativarVotacaoSelecionada" styleClass="iconOnlyButton" >
 			    	<p:confirm header="Confirmação" message="Tem certeza que deseja desativar essa votação?" icon="ui-icon-alert" />
 			 	</p:commandButton>
@@ -133,9 +129,10 @@
 				
 				<p:column headerText="Usuário">
 			        <p:outputLabel value="#{voto.usuario.apartamento.nomeExibicao}"></p:outputLabel>
+			        - <p:outputLabel value="#{voto.usuario.nome}"></p:outputLabel>
 			    </p:column>
 			    
-			    <p:column headerText="Voto">
+			    <p:column headerText="Voto" >
 			        <p:outputLabel value="#{voto.getOpcaoVotadaString(voto.votacao.tipoVotacao)}"></p:outputLabel>
 			    </p:column>
 				

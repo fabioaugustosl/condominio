@@ -56,6 +56,12 @@ public class ConfiguracaoController implements Serializable {
 	
 	public void alterarSenha(ActionEvent event) throws AppException{
 		
+		if(senhaNova.length() < 6){
+			msgErro = "A senha deve possuir no mínimo 6 caracteres.";
+			sucesso = false;
+			return;
+		}
+		
 		String senhaAtualCript = usuarioService.criptografarSenhaUsuario(senhaAtual);
 		if(!senhaAtualCript.equals(usuario.getSenha())){
 			msgErro = "Senha atual incorreta!";

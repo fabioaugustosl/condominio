@@ -218,7 +218,7 @@ public class BalancoService implements IBalancoService {
 
 
 	@Override
-	public CategoriaItemBalanco salvarCategoriaItem(Long idCondominio, String nome) throws AppException {
+	public CategoriaItemBalanco salvarCategoriaItem(Long idCondominio, String nome, EnumTipoBalanco tipoBalanco) throws AppException {
 		CategoriaItemBalanco categoria = categoriaDAO.recuperarPorCondominio(idCondominio, nome);
 		if(categoria == null){
 			categoria = new CategoriaItemBalanco();
@@ -227,6 +227,7 @@ public class BalancoService implements IBalancoService {
 			cond.setId(idCondominio);
 			categoria.setCondominio(cond);
 			categoria.setNome(nome);
+			categoria.setTipoBalanco(tipoBalanco);
 			
 			try {
 				categoriaDAO.salvar(categoria);
@@ -282,6 +283,18 @@ public class BalancoService implements IBalancoService {
 	@Override
 	public void removerCategoriaItem(Long idCategoria) throws AppException {
 		categoriaDAO.remover(idCategoria);
+	}
+
+
+	@Override
+	public List<CategoriaItemBalanco> recuperarPorCondominio(Long idCondominio, EnumTipoBalanco tipoBalanco) {
+		return categoriaDAO.recuperarPorCondominio(idCondominio, tipoBalanco);
+	}
+
+
+	@Override
+	public List<CategoriaItemBalanco> recuperarPorCondominio(Long idCondominio) {
+		return categoriaDAO.recuperarPorCondominio(idCondominio);
 	}
 
 }

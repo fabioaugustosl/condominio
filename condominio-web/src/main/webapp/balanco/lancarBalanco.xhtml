@@ -33,7 +33,7 @@
  .ui-autocomplete-input{width: 100%;}
    </style>
    
-   	<h:form id="form" style="width:100%">
+   	<h:form id="form" style="width:100%" styleClass="formPad5">
    	
    		<p:remoteCommand id="atualizarConf" name="atualizarConf" 
    				actionListener="#{lancarBalancoController.montarBalanco()}" immediate="true" 
@@ -109,14 +109,19 @@
 				        invalidFileMessage="Tipo do arquivo inválido"
 				        invalidSizeMessage="Tamanho do arquivo inválido"
 				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
-				        auto="true" dragDropSupport="false" />
+				        auto="true" dragDropSupport="false"
+				        styleClass="dataArquivosMenorEsquerda" />
 				<br />
-				<p:outputPanel rendered="#{lancarBalancoController.arqBalanco != null}" style="width:85%; height:30px; background-color:#CED8F6;">
+				<p:outputPanel rendered="#{lancarBalancoController.arqBalanco != null}" 
+							styleClass="dataArquivosMenorEsquerda containerArquivoSimples">
 					<p:outputLabel value="Arquivo anexado: "/> <p:outputLabel value="#{lancarBalancoController.arqBalanco.nomeOriginal}"></p:outputLabel>
-					<p:commandButton id="removerArq" value="Remover" immediate="true" style="margin-left:10px; float:right;"
-				   		actionListener="#{lancarBalancoController.removerArquivo}" 
-				   		update="painelArquivo">
-				   	</p:commandButton>
+					
+					<p:commandLink actionListener="#{lancarBalancoController.removerArquivo}" 
+							style="float:right; "  
+		         			id="removerArq" immediate="true" update="painelArquivo"  >
+		         		<p:graphicImage id="imgDeletarNot" url="/img/icones/deletar.png" title="Clique para deletar esse arquivo." />
+		         	</p:commandLink>
+		         
 				</p:outputPanel>
 			</p:outputPanel>
 		

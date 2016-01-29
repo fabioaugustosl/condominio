@@ -7,13 +7,13 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h:form id="form" style="width:100%">
+   	<h:form id="form" style="width:100%" styleClass="formPad10">
 	   	<h1>Verifique suas correnpondências e itens para entrega deixados na portaria</h1>
 	 	<br />
 	 	
 		<p:dataTable id="dtListagemCorrespondencias" var="carta" 
 				value="#{listagemCorrespondenciaController.recebidos}"
-				emptyMessage="Ainda não foi cadastradas nenhuma correspondência para você." >
+				emptyMessage="Ainda não foi cadastrada nenhuma correspondência para você." >
 			
 	        <p:column headerText="Data" styleClass="colunaLargura160" style="text-align:center">
 		        <h:outputText value="#{carta.data}" >

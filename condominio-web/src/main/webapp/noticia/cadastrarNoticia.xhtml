@@ -7,12 +7,14 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h1>Cadastrar uma nova Notícia ou Aviso</h1>
-   	<p:outputLabel styleClass="textoInformativo" 
-   		value="Insira uma notícia ou aviso que deseje divulgar para os moradores do condomínio." />
- 	<br />
+   	
  	
- 	<h:form id="form" enctype="multipart/form-data">
+ 	<h:form id="form" enctype="multipart/form-data" styleClass="formPad5">
+ 	
+	 	<h1>Cadastrar uma nova Notícia ou Aviso</h1>
+	   	<p:outputLabel styleClass="textoInformativo" 
+	   		value="Insira uma notícia ou aviso que deseje divulgar para os moradores do condomínio." />
+	 	<br />
 	    
 	    <p:outputPanel id="containerNovaNoticia" >
 	    
@@ -35,16 +37,20 @@
 	       
 	 	</p:outputPanel>
 	 	
-	 	<div>
-	 		<p:outputLabel value="Anexar arquivo"  styleClass="labelPadrao"  />
+	 	<p:outputPanel id="containerFile" >
+	 	
+	 	
+ 		<p:outputLabel value="Anexar arquivo:"  styleClass="labelPadrao" style="margin-top:10px;"  />
+	 	
 	        <p:fileUpload mode="advanced" update="@this, dtArquivosNoticia" label="Selecionar arquivo"
 		        fileUploadListener="#{cadastroNoticiaController.uploadArquivo}"
+		        styleClass="dataArquivosMenor"
 		        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX|JPg|jpg|jpeg|JPEG|png|PNG)$/" 
 		        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. "
 		        invalidFileMessage="Arquivo não válido." 
 		        auto="true" dragDropSupport="false" />
 	 	
-		 	<p:dataTable id="dtArquivosNoticia" var="arqNoticia"
+		 	<p:dataTable id="dtArquivosNoticia" var="arqNoticia" styleClass="dataArquivosMenor"
 		 		value="#{cadastroNoticiaController.noticia.arquivos}"
 		 		rowKey="#{arqNoticia.id}"
 		 		emptyMessage="Ainda não foi anexado nenhum arquivo" >
@@ -66,7 +72,7 @@
 			    </p:column>
 		    	
 			</p:dataTable>	
-	 	</div>
+	 	</p:outputPanel>
 	 	
 	 	<br />
 	 	

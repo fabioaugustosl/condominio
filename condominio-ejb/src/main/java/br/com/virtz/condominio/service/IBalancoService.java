@@ -26,11 +26,13 @@ public interface IBalancoService {
 	
 	
 	// Categoria itemBalanco
-	public CategoriaItemBalanco salvarCategoriaItem(Long idCondominio, String nome) throws AppException;
+	public CategoriaItemBalanco salvarCategoriaItem(Long idCondominio, String nome, EnumTipoBalanco tipoBalanco) throws AppException;
 	public CategoriaItemBalanco salvarCategoriaItem(CategoriaItemBalanco categoria) throws AppException;
 	public void inativarCategoriaItem(Long idCategoria) throws AppException;
 	public void ativarCategoriaItem(Long idCategoria) throws AppException;
 	public void removerCategoriaItem(Long idCategoria) throws AppException;
+	public List<CategoriaItemBalanco> recuperarPorCondominio(Long idCondominio, EnumTipoBalanco tipoBalanco);
+	public List<CategoriaItemBalanco> recuperarPorCondominio(Long idCondominio);
 
 	
 	// Despesas / Receitas

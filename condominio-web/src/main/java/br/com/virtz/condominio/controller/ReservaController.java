@@ -1,7 +1,6 @@
 package br.com.virtz.condominio.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,9 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
@@ -31,11 +28,8 @@ import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.AreaComum;
-import br.com.virtz.condominio.entidades.Assembleia;
 import br.com.virtz.condominio.entidades.ParametroSistema;
-import br.com.virtz.condominio.entidades.PautaAssembleia;
 import br.com.virtz.condominio.entidades.Reserva;
-import br.com.virtz.condominio.entidades.Token;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
@@ -130,7 +124,8 @@ public class ReservaController {
 			List<Reserva> reservasPersistidas = reservaService.recuperar(getAreaSelecionada());
 			for(Reserva r : reservasPersistidas){
 				Calendar hora = r.getData();
-				hora.add(Calendar.HOUR, 6);
+				hora.add(Calendar.HOUR_OF_DAY, 12);
+				//hora.add(Calendar.DATE, 1); // gambiarra pra burlar o pau do componente q sempre exibe a data -1 dia.
 				reservas.addEvent(new DefaultScheduleEvent(montarNomeEvento(r.getUsuario()), hora.getTime(), hora.getTime()));
 			}
 		}

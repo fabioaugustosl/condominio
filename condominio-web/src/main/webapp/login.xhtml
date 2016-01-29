@@ -37,12 +37,21 @@
 	<h:body >
 		<style> 
 		.ui-dialog{
-	    position: fixed;
-	    margin-top: 10%;
-	    margin-left: 35%;
-	    width: 30% !important;
-	  }
-  </style>
+		    position: fixed;
+		    margin-top: 10%;
+		    margin-left: 35%;
+		    width: 30% !important;
+		  }
+	  </style>
+	  
+	  <script>
+	  	$(document).ready(function() {
+	  		setTimeout(function(){
+	  		  $(".right.carousel-control").click();
+	  		}, 8000);
+		});
+	  </script>
+	  
 		<div class="container">
             <div class="row">
                 <div class="col-lg-12 conteudoSite">

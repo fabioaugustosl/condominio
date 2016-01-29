@@ -238,10 +238,6 @@ public class CadastrarAssembleiaController {
         }
     }
 	
-/*	public void handleFileUpload(FileUploadEvent event) {
-        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }*/
 	
 	public void irParaListagem(){
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idAssembleia", null);

@@ -14,59 +14,70 @@
 	    background-color: #FAFAFA;
 	}
 	
-	.panelJaVotou{font-size: 0.6em !important; color: red; }
+	.panelJaVotou{font-size: 0.7em !important; color: red; margin-left:3px; }
 	
 	.botaoResultadoParcial{margin-top: 3px; }
+	
+	.divInputVotacao { padding: 3px; }
+	.divInputVotacao input{ 
+		width:100%;
+		border:1px solid #B6C1C5;
+		border-left: 3px solid #6D909F;
+		box-shadow: none !important;
+		padding: 3px; 
+		margin-left: 3px;
+	}
+	
 	
    </style>
   
   
   
    <h:form id="formVotacao" style="width:100%">	  
-	<p:growl id="msgsGrowlVotacao" showDetail="true" autoUpdate="false"  />
+	<p:growl id="msgsGrowlVotacao" showDetail="false" autoUpdate="false" />
    	<p:outputPanel id="containerVotacao" style="border:0px !important;">
    		<p:dataGrid paginator="false"  
    		id="dtVotacao" var="vv" value="#{votacaoController.votacoesView}" style="border:0px !important;" 
    		columns="1" >
-			<p:outputPanel id="perguntinha" style="margin-top:5px;" >
+			<p:outputPanel id="perguntinha" style="margin-top:5px; padding:3px;" >
 				<p:outputLabel value="#{vv.votacao.assuntoVotacao}"></p:outputLabel> 
 	    	</p:outputPanel>
 	    	
 			<p:outputPanel id="opcoesTipoVotacao" rendered="#{not vv.votou}" >
 		    	
-		    	<p:outputPanel id="tipoSimNao" rendered="#{vv.util.isSimNao()}"> 
+		    	<p:outputPanel id="tipoSimNao" rendered="#{vv.util.isSimNao()}" styleClass="divInputVotacao"> 
 		    		<p:selectOneRadio  id="consoleSN"  value="#{vv.util.valorSimNao}">
 			          	<f:selectItem itemLabel="Não" itemValue="false" />
 	            		<f:selectItem itemLabel="Sim" itemValue="true" />
 			        </p:selectOneRadio>
 		    	</p:outputPanel>
-		    	<p:outputPanel id="tipoData" rendered="#{vv.util.isData()}"> 
+		    	<p:outputPanel id="tipoData" rendered="#{vv.util.isData()}" styleClass="divInputVotacao"> 
 		    		<p:calendar id="button" value="#{vv.util.valorData}" showOn="button" />
 		    	</p:outputPanel>	
-		    	<p:outputPanel id="tipoMoeda" rendered="#{vv.util.isMoeda()}" > 
+		    	<p:outputPanel id="tipoMoeda" rendered="#{vv.util.isMoeda()}" styleClass="divInputVotacao"> 
 		    		<p:inputText id="valorTipoMoeda" value="#{vv.util.valorMoeda}" style="width:100px" styleClass="inputNumerico" >
 		    			R$<f:convertNumber type="number"  maxFractionDigits="2"  pattern="#0,00" groupingUsed="true"  /> 
 		    		</p:inputText> <span style="font-size: 0.6em">Ex.: 20,00</span>
 		    	</p:outputPanel>
-		    	<p:outputPanel id="tipoNumerico" rendered="#{vv.util.isNumerico()}" styleClass="inputNumerico"> 
+		    	<p:outputPanel id="tipoNumerico" rendered="#{vv.util.isNumerico()}" styleClass="inputNumerico divInputVotacao"> 
 		    		<p:inputText id="valorTipoNumerico" value="#{vv.util.valorNumerico}" 
 		    				converterMessage="Favor inserir apenas valores númericos." style="width:100px" >
 		    			<f:convertNumber type="number" maxFractionDigits="2"  pattern="#0,00" groupingUsed="true"  /> 
 		    		</p:inputText>
 		    	</p:outputPanel>
-		    	<p:outputPanel id="tipoOpcao" rendered="#{vv.util.isOpcoes()}" > 
+		    	<p:outputPanel id="tipoOpcao" rendered="#{vv.util.isOpcoes()}"  styleClass="divInputVotacao"> 
 		    		<p:selectOneRadio id="opc" value="#{vv.util.idValorOpcao}" layout="grid" columns="1">
 			            <f:selectItems value="#{vv.votacao.opcoes}" var="o" itemLabel="#{o.descricao}" itemValue="#{o.id}"/>
 			        </p:selectOneRadio>
 		    	</p:outputPanel>
 		    		<!-- <p:captcha label="Captcha" /> -->
 		    		<p:commandButton value="Votar" actionListener="#{votacaoController.votar(vv)}" 
-		    				update="@form"></p:commandButton>
+		    				update="@form" styleClass="botao" style="height: 30px !important; padding:2px !important; width:80px !important"></p:commandButton>
 		    	
 		    </p:outputPanel>
 
 		    <p:outputPanel id="jaVotouVotacao" rendered="#{vv.votou}" >
-				<p:outputLabel styleClass="panelJaVotou" value="Parabéns. O voto do seu APTO foi registrado."></p:outputLabel> 
+				<p:outputLabel styleClass="panelJaVotou" value="Parabéns! O voto do seu APTO foi registrado."></p:outputLabel> 
 		    </p:outputPanel>
 		    
 		    

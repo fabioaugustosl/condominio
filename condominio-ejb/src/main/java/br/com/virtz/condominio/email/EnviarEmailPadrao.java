@@ -55,12 +55,12 @@ public class EnviarEmailPadrao implements EnviarEmail {
             // creates body part for the message
             MimeBodyPart msgEmail = new MimeBodyPart();
             String msgEnviar= null;
-			try {
-				msgEnviar = new String(email.getMensagem().getBytes(), "UTF-8");
-			} catch (UnsupportedEncodingException e1) {
+//			try {
+//				msgEnviar = new String(email.getMensagem().getBytes(), "ISO-8859-1");
+//			} catch (UnsupportedEncodingException e1) {
 				msgEnviar = email.getMensagem();
-			}
-            msgEmail.setContent(msgEnviar, "text/html; charset=UTF-8");
+//			}
+            msgEmail.setContent(msgEnviar, "text/html;");
              
             // adds parts to the multipart
             multiparteEmail.addBodyPart(msgEmail);

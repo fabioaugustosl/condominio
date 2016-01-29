@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "Indicacao.recuperarPorCondominio", 
-				query = "Select n FROM indicacao n WHERE n.condominio.id = :idCondominio ORDER BY n.data desc ")
+				query = "Select n FROM indicacao n WHERE n.condominio.id = :idCondominio ORDER BY n.id desc ")
 })
 public class Indicacao extends Entidade implements Serializable {
 

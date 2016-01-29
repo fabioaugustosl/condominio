@@ -15,21 +15,30 @@
 		</script>
 		
 	   <p:outputPanel id="containerBatePapo">
-	   		<p:messages autoUpdate="false" id="msgTrocaIdeia"></p:messages>
-		   	<p:outputPanel id="painelNovoBatePapo">
+	   		<p:outputPanel id="painelNovoBatePapo">
 		   		<p:commandButton id="btnAbreEnvia" value="Enviar Mensagem" styleClass="btn btn-primary btn-block btn-lg" widgetVar="btnAbreEnvia" onclick="enviarMSG()"/>
 		   		
 		   	 	<div id="divEnviarMsg" style="display:none" >
-			   	 	<p:inputTextarea style="width:100%;" maxlength="800" styleClass="textAreaPadrao" 
+			   	 	<p:inputTextarea style="width:100%; " maxlength="300" styleClass="textAreaPadrao" 
 			        		counterTemplate="{0}" autoResize="false" value="#{batePapoController.mensagem}"  />
-			        <p:commandLink id="enviarMensagemBatePapo" update=":formTroca:containerBatePapo" actionListener="#{batePapoController.enviarMensagem}" >
-						<h:outputText value="Enviar" />
-					</p:commandLink>
+			        
+			        <p:commandButton value="Enviar" 
+			        		id="enviarMensagemBatePapo"
+			        		actionListener="#{batePapoController.enviarMensagem}"
+		    				update=":formTroca:containerBatePapo" styleClass="botao" 
+		    				style="height: 30px !important; padding:2px !important; width:80px !important"></p:commandButton>
+		    				
 				</div>
 		   	</p:outputPanel>
 		   	<p:outputPanel id="painelBatePapoMensagens">
 		   		<p:messages autoUpdate="false" id="msgTrocaIdeiaAvaliacao" closable="true"></p:messages>
-				<p:dataScroller id="dataScrollerBatePapo" value="#{batePapoController.batePapos}" var="papo" chunkSize="10" mode="inline" style="width:100%; height:100%;" >
+				<p:dataScroller id="dataScrollerBatePapo" value="#{batePapoController.batePapos}" var="papo" 
+					chunkSize="10" mode="inline" scrollHeight="800" style="width:100%; height:100%;" >
+					
+					<f:facet name="loader">
+			            <p:commandButton type="button" value="Mais" icon="ui-icon-circle-triangle-s"/>
+			        </f:facet>
+			        
 			        <h:panelGrid columns="1" style="width:100%; height:100%;" >
 			            <p:outputPanel styleClass="noPadding">
 			                <h:panelGrid columns="2" styleClass="noPadding" >

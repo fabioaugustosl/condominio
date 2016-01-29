@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "Noticia.recuperarPorCondominio", 
-				query = "Select n FROM noticia n WHERE n.condominio.id = :idCondominio "),
+				query = "Select n FROM noticia n WHERE n.condominio.id = :idCondominio ORDER BY n.id DESC "),
 		@NamedQuery(name = "Noticia.recuperarPorCondominioAtivas", 
 				query = "Select n FROM noticia n WHERE n.condominio.id = :idCondominio AND n.ativa = 1 ORDER BY n.id DESC")
 })

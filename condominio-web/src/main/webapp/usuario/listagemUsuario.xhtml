@@ -7,7 +7,7 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h:form id="form" style="width:100%">
+   	<h:form id="form" style="width:100%" styleClass="formPad10">
 	   	<h1>Moradores</h1>
 	   	<p:outputLabel styleClass="textoInformativo" 
    			value="Gerencie todos os moradores do condominio. Aqui você pode alterar o perfil de cada morador. Para isso basta clicar no 'V' na coluna do perfil desejado. " />
@@ -55,6 +55,7 @@
 	
 		    <p:column style="text-align:center" styleClass="colunaLargura100" headerText="Excluir">
 		    	<p:commandLink actionListener="#{listagemUsuarioController.remover(usuario)}" ajax="false"
+		    		update="@form"
 		    		id="excluirUsuarioSelecionada" immediate="true" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover esse usuário" icon="ui-icon-alert" />
 	         			<p:graphicImage id="imgDeletarUsu" url="/img/icones/deletar.png" title="Clique para deletar esse morador." />

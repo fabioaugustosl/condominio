@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity(name="categoriaservicoproduto")
 @XmlRootElement
-public class CategoriaServicoProduto extends Entidade implements Serializable {
+public class CategoriaServicoProduto extends Entidade implements Serializable, Comparable<CategoriaServicoProduto> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -87,6 +87,23 @@ public class CategoriaServicoProduto extends Entidade implements Serializable {
 
 	public void setIndicacoes(List<Indicacao> indicacoes) {
 		this.indicacoes = indicacoes;
+	}
+
+
+	@Override
+	public int compareTo(CategoriaServicoProduto o) {
+		if(o == null){
+			return 1;
+		}
+		if(this.getNome() == null){
+			if(o.getNome() != null){
+				return -1;
+			} else {
+				return 0;
+			}
+		}
+		
+		return this.getNome().compareTo(o.getNome());
 	}
 	
 }

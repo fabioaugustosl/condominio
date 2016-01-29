@@ -79,7 +79,9 @@ public class CadastrarUsuarioFotoController implements Serializable{
 		Object usuarioEditar = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idUsuario");
 		cadastroFinalizado= false;
 		usuario = usuarioService.recuperarUsuarioCompleto(Long.parseLong(usuarioEditar.toString()));
-		usuario.setArquivo(new ArquivoUsuario());
+		if(usuario != null){
+			usuario.setArquivo(new ArquivoUsuario());
+		}
 	}
 
 	
@@ -205,7 +207,7 @@ public class CadastrarUsuarioFotoController implements Serializable{
         	}
             
         	ArquivoUsuario arquivo = createArquivo(event.getFile().getSize());
-        	arquivoUtil.redimensionarImagem(event.getFile().getInputstream(), arquivoUtil.getCaminhoUploadArquivosTemporario(), arquivo.getNome(), arquivo.getExtensao(), 750, 900, 300, 375);
+        	arquivoUtil.redimensionarImagem(event.getFile().getInputstream(), arquivoUtil.getCaminhoUploadArquivosTemporario(), arquivo.getNome(), arquivo.getExtensao(), 900, 900, 300, 375);
 //        	arquivoUtil.copiarArquivos(arquivo.getCaminhoCompleto());
         	this.caminhoImagem = arquivo.getCaminhoCompleto();
         } catch (IOException e) {

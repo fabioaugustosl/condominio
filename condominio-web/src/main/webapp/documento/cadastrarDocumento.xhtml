@@ -7,11 +7,13 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h1>Cadastrar documento</h1>
- 	<p:outputLabel styleClass="textoInformativo" value="Insira novo arquivo ou documento que deseje compartilhar com os moradores." />
+   	<p:outputPanel styleClass="formPad5">
+	   	<h1>Cadastrar documento</h1>
+	 	<p:outputLabel styleClass="textoInformativo" value="Insira novo arquivo ou documento que deseje compartilhar com os moradores." />
+ 	</p:outputPanel>
  	<br />
  	
- 	<h:form id="form" enctype="multipart/form-data">
+ 	<h:form id="form" enctype="multipart/form-data" styleClass="formPad10">
 	    
 	    <p:outputPanel id="containerNovoDoc">
 	    
@@ -31,7 +33,7 @@
 		        <p:outputLabel value="Anexar documento:" styleClass="labelPadrao" /><br />
 		      
 		        <p:fileUpload rendered="#{cadastroDocumentoController.documento.arquivo == null}"
-				        mode="advanced" update="painelArquivo" label="Selecionar arquivo"
+				        mode="advanced" update="painelArquivo" label="Selecionar arquivo" styleClass="dataArquivosMenorEsquerda"
 				        fileUploadListener="#{cadastroDocumentoController.uploadArquivo}"
 				        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX|xlsx|xls|XLSX|XLS|txt)$/" 
 				        invalidFileMessage="Tipo do arquivo inválido"
@@ -39,13 +41,18 @@
 				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
 				        auto="true" dragDropSupport="false" />
 				<br />
-				<p:outputPanel rendered="#{cadastroDocumentoController.documento.arquivo != null}">
-					<p:outputLabel value="#{cadastroDocumentoController.documento.arquivo.nomeOriginal}"></p:outputLabel>
-					<p:commandButton id="removerArq" value="Remover" immediate="true"
-						styleClass="botao botao-vermelho"
-				   		actionListener="#{cadastroDocumentoController.removerArquivo}" 
-				   		update="painelArquivo">
-				   	</p:commandButton>
+				<p:outputPanel rendered="#{cadastroDocumentoController.documento.arquivo != null}"
+					styleClass="dataArquivosMenorEsquerda containerArquivoSimples" >
+					<p:outputLabel value="Arquivo: "></p:outputLabel>
+					<p:outputLabel value="#{cadastroDocumentoController.documento.arquivo.nomeOriginal}" style="margin-left:10px;"></p:outputLabel>
+					
+					<p:commandLink actionListener="#{cadastroDocumentoController.removerArquivo}"
+					style="float:right; "  
+		         			id="removerArq" immediate="true" update="painelArquivo"  >
+		         		<p:graphicImage id="imgDeletarNot" url="/img/icones/deletar.png" title="Clique para deletar esse arquivo." />
+		         	</p:commandLink>
+		         	
+					
 				</p:outputPanel>
 			</p:outputPanel>
 			

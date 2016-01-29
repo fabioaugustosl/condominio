@@ -100,6 +100,8 @@ public class UsuarioService implements IUsuarioService {
 			usuario.setDataCadastro(new Date());
 		}
 		
+		usuario.setDeletado(Boolean.FALSE);
+		
 		if(usuario.getTipoUsuario() == null){
 			usuario.setTipoUsuario(EnumTipoUsuario.MORADOR);
 		}

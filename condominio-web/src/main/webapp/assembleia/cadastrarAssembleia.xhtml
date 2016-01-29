@@ -12,12 +12,14 @@
    .ui-panelgrid-cell{ text-align: left !important;}
    </style>
    
-   	<h1>Cadastro de assembleias</h1>
-   	<p:outputLabel styleClass="textoInformativo" 
-   		value="Gerencie as assembleias do condomínio." />
- 	<br />
+   <p:outputPanel styleClass="formPad5">
+	   	<h1>Cadastro de assembleias</h1>
+   		<p:outputLabel styleClass="textoInformativo" 
+   			value="Gerencie as assembleias do condomínio." />
+ 	</p:outputPanel>
  	
- 	<h:form id="form" >
+ 	<br />
+ 	<h:form id="form" styleClass="formPad10">
 	    <p:tabView id="tabsAssembleias" dynamic="true" activeIndex="0">
 	   		
 	   		
@@ -112,23 +114,23 @@
 						        mode="advanced" update="@this, tabAta"
 						        fileUploadListener="#{cadastrarAssembleiaController.uploadArquivo}"
 						        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX)$/" 
-						        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
+						        multiple="false" sizeLimit="5000000" fileLimitMessage="O arquivo é muito grande. "
+						        invalidFileMessage="O formato do arquivo não é válido. Insira arquivos no formato PDF ou DOC."
+						        invalidSizeMessage="O arquivo é muito grande." 
 						        auto="true" dragDropSupport="false" />
 				 	</p:outputPanel>
 					
-					<p:outputPanel id="containerAtaAnexada" rendered="#{cadastrarAssembleiaController.assembleia.arquivoAta.id != null}">
+					<p:outputPanel id="containerAtaAnexada" rendered="#{cadastrarAssembleiaController.assembleia.arquivoAta.id != null}"
+							styleClass="dataArquivosMenorEsquerda containerArquivoSimples">
 						<p:outputLabel value="Ata anexada: "></p:outputLabel>
-						<p:outputLabel value="#{cadastrarAssembleiaController.assembleia.arquivoAta.nomeOriginal}"></p:outputLabel> <br /><br/>
-						<p:commandButton id="removerArq" value="Remover" immediate="true"
-					   		actionListener="#{cadastrarAssembleiaController.removerArquivo}" 
-					   		update="tabAta">
-					   	</p:commandButton> <br />
-					   	<p:media value="#{cadastrarAssembleiaController.assembleia.arquivoAta.caminhoCompleto}" 
-					   			height="400" width="100%"
-					   			id="mediaPDF" >
-					   	</p:media>
-				           
+						<p:outputLabel value="#{cadastrarAssembleiaController.assembleia.arquivoAta.nomeOriginal}" style="margin-left:10px;" ></p:outputLabel> 
+						
+						<p:commandLink actionListener="#{cadastrarAssembleiaController.removerArquivo}"
+								style="float:right; "  id="removerArq" immediate="true"  update="tabAta" >
+			         		<p:graphicImage id="imgDeletarNot" url="/img/icones/deletar.png" title="Clique para deletar esse arquivo." />
+			         	</p:commandLink>
 					</p:outputPanel>
+		        
 				</h:panelGroup>
 			 </p:tab>
 			 

@@ -13,7 +13,7 @@
    
    </style>
    
-   	<h:form id="form" style="width:100%">
+   	<h:form id="form" style="width:100%" styleClass="formPad5">
 	   	<h1>#{condominioEdicaoController.nomeCondominio}</h1>
 	   	<p:outputLabel styleClass="textoInformativo" 
    			value="Configure informações sobre o condomínio." />
@@ -21,14 +21,14 @@
 	 	
 		<p:tabView id="tabConcominio" orientation="left">
 	        <p:tab title="O condomínio">
-	        	<p:outputPanel layout="block" rendered="#{condominioEdicaoController.isEditavel()}">
-		        	<p:outputLabel value="Nome do condomínio: " styleClass="labelPadrao" />
+		        	<p:outputLabel value="Nome do condomínio: " styleClass="labelPadrao" /><br/>
 		       		<p:inputText value="#{condominioEdicaoController.condominio.nome}" styleClass="inputPadrao"  
-		       			required="true" requiredMessage="O nome do condomínio é obrigatório." /> <br />
-	       		</p:outputPanel>
+		       			required="true" rendered="#{condominioEdicaoController.isEditavel()}" requiredMessage="O nome do condomínio é obrigatório." /> 
+		       		<p:outputLabel value="#{condominioEdicaoController.condominio.nome}" 
+		       			rendered="#{not condominioEdicaoController.isEditavel()}" styleClass="labelPadrao" />
+		       		<br />
 	       		
-	       		<p:outputPanel layout="block">
-		       		<p:outputLabel value="CNPJ: " styleClass="labelPadrao"  />
+		       		<p:outputLabel value="CNPJ: " styleClass="labelPadrao"  /><br />
 		       		<p:inputMask id="cnpjCondominio" 
 		       				value="#{condominioEdicaoController.condominio.cnpj}"  
 		       				alt="Insira o CNPJ do condomínio."
@@ -39,12 +39,11 @@
 		       			
 		       		<p:outputLabel value="#{condominioEdicaoController.condominio.cnpj}" 
 		       			rendered="#{not condominioEdicaoController.isEditavel()}" styleClass="labelPadrao" />
-		       			
-	       		</p:outputPanel>
+						
+					<br />		       			
 	       		
 	       		
-	       		<p:outputPanel layout="block">
-		       		<p:outputLabel value="Total de apartamentos: " styleClass="labelPadrao" />
+		       		<p:outputLabel value="Total de apartamentos: " styleClass="labelPadrao" /><br />
 		       		<p:inputText value="#{condominioEdicaoController.condominio.quantidadeApartamentos}" 
 		       			size="10" maxlength="3"  styleClass="inputPadrao"  
 		       			rendered="#{condominioEdicaoController.isEditavel()}"/>
@@ -52,8 +51,9 @@
 		       		<p:outputLabel value="#{condominioEdicaoController.condominio.quantidadeApartamentos}" 
 		       			rendered="#{not condominioEdicaoController.isEditavel()}" styleClass="labelPadrao" />
 		       			
-	       		</p:outputPanel>
 	        	<br />
+	        	<br />
+	        	
 				<p:dataTable id="dtBlocos" var="bloco" value="#{condominioEdicaoController.blocos}" 
 					 editable="#{condominioEdicaoController.isEditavel()}" style="margin-bottom:20px">
 		 

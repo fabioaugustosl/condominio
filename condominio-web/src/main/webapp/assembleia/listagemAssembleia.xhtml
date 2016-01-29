@@ -7,7 +7,7 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h:form id="form" >
+   	<h:form id="form" styleClass="formPad5">
 	   	<h1>Todas as assembleias</h1>
 	   	<p:outputLabel styleClass="textoInformativo" 
 	   		value="Veja todas as assembleias realizadas ou agendas para o condomínio. Acesse as atas, datas e horários, pautas, entre outros." />
@@ -21,19 +21,19 @@
 			
 		     <p:column headerText="Data">
 		        <h:outputText value="#{assemb.data}" >
-		        	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+		        	<f:convertDateTime pattern="dd/MM/yyyy" />
 		        </h:outputText>
 		    </p:column>
 		    
 		    <p:column headerText="1ª Chamada">
 		        <h:outputText value="#{assemb.horario1}" >
-		        	<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00" />
+		        	<f:convertDateTime pattern="HH:mm" />
 		        </h:outputText>
 		    </p:column>
 		    
 		    <p:column headerText="2ª Chamada">
 		        <h:outputText value="#{assemb.horario2}" >
-		        	<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00" />
+		        	<f:convertDateTime pattern="HH:mm" />
 		        </h:outputText>
 		    </p:column>
 		    
@@ -71,7 +71,8 @@
 		    </p:column>
 		    
 		    <p:column rendered="#{listagemAssembleiaController.podeExcluir()}" style="text-align:center; " styleClass="colunaLargura100" headerText="Excluir">
-		    	<p:commandLink actionListener="#{listagemAssembleiaController.removerAssembleia(assemb)}" ajax="false"
+		    	<p:commandLink actionListener="#{listagemAssembleiaController.removerAssembleia(assemb)}" ajax="true"
+		    		update="@form"
 	         		id="excluirAssSelecionada" immediate="true" >
 	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa assembleia?" icon="ui-icon-alert" />
 	         			<p:graphicImage id="imgDeletarAss" url="/img/icones/deletar.png" title="Clique para deletar esse documento." />

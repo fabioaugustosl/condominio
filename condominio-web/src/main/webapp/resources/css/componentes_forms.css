@@ -7,6 +7,13 @@
 }
 
 .inputPadrao {
+	width:50%;
+	border:1px solid #B6C1C5;
+	border-left: 3px solid #6D909F;
+	box-shadow: none !important;
+}
+
+.inputPadrao100 {
 	width:100%;
 	border:1px solid #B6C1C5;
 	border-left: 3px solid #6D909F;

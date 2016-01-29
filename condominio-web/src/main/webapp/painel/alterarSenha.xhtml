@@ -29,7 +29,7 @@
 			        <p:message id="msgSenha" for="senhaAtual"></p:message>
 		        </p:outputPanel> <br />
 		        
-		       	<p:outputLabel for="novaSenha" value="Digite sua NOVA senha:" styleClass="labelPadrao"></p:outputLabel>
+		       	<p:outputLabel for="novaSenha" value="Digite sua NOVA senha: (mínimo 6 caracteres)" styleClass="labelPadrao"></p:outputLabel>
 		        <p:outputPanel>
 			        <p:password id="novaSenha" value="#{configuracaoController.senhaNova}" 
 			        		match="novaSenha2" styleClass="inputPadrao" requiredMessage="Campo obrigatório" 

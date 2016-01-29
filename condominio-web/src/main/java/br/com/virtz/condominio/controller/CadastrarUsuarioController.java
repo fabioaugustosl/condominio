@@ -9,8 +9,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import org.primefaces.model.CroppedImage;
-
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.ArquivoUsuario;
 import br.com.virtz.condominio.entidades.Usuario;
@@ -46,9 +44,6 @@ public class CadastrarUsuarioController implements Serializable{
 	private NavigationPage navegacao;
 	
 	
-	private CroppedImage imagemCortada = null;
-    private String caminhoImagem = null;
-    
 	private Usuario usuario = null;
 	
 	@PostConstruct
@@ -61,6 +56,10 @@ public class CadastrarUsuarioController implements Serializable{
 
 	private void salvar() throws AppException {
 		try {
+			
+			if(usuario.getSenhaDigitada().length() < 6){
+				throw new AppException("A senha deve possuir no mínimo 6 caracteres.");
+			}
 			
 			// validar se o email já existe
 			Usuario u = usuarioService.recuperarUsuario(usuario.getEmail());

@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -74,7 +75,9 @@ public class IndicacaoService implements IIndicacaoService {
 
 	@Override
 	public List<CategoriaServicoProduto> recuperarTodasCategorias() {
-		return categoriaDAO.recuperarTodos();
+		List<CategoriaServicoProduto> categorias =  categoriaDAO.recuperarTodos();
+		Collections.sort(categorias);
+		return categorias;
 	}
 
 

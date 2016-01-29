@@ -21,6 +21,8 @@ public class BatePapoDAO extends DAO<BatePapo> implements IBatePapoDAO {
 		Query qry = getEntityManager().createNamedQuery("BatePapo.recuperarTodosPorCondominio");
 		qry.setParameter("idCondominio", condominio.getId());
 		
+		qry.setMaxResults(200);
+		
 		return qry.getResultList();
 	}
 

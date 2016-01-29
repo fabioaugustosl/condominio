@@ -7,12 +7,12 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h1>Configurações</h1>
-   	<p:outputLabel styleClass="textoInformativo" 
-   		value="Tela para configurações gerais do sistema." />
- 	<br />
  	
- 	<h:form id="form" >
+ 	<h:form id="form" styleClass="formPad10">
+	   	<h1>Configurações</h1>
+	   	<p:outputLabel styleClass="textoInformativo" 
+	   		value="Tela para configurações gerais do sistema." />
+	 	<br />
 	    
    	 	<p:outputLabel value="Qual a quantidade máxima de dias futuros que uma área comum pode ser agendada?" styleClass="labelPadrao" /> <br />
 	 	<p:inputMask  id="qtdDiaAgendaAreaComum" value="#{parametroController.parametroMaximoDias.valor}" 

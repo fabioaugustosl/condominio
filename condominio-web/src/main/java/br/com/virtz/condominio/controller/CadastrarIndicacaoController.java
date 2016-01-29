@@ -61,6 +61,7 @@ public class CadastrarIndicacaoController {
 	
 	private List<CategoriaServicoProduto> todasCategorias = null;
 	private List<CategoriaServicoProduto> categoriasSelecionadas = null;
+	private CategoriaServicoProduto categoriaSelecionada = null;
 	
 	@PostConstruct
 	public void init(){
@@ -68,6 +69,7 @@ public class CadastrarIndicacaoController {
 		Object indicacaoEditar = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idIndicao");
 		
 		categoriasSelecionadas = new ArrayList<CategoriaServicoProduto>();
+		categoriaSelecionada = null;
 		todasCategorias = indicacaoService.recuperarTodasCategorias();
 
 		if(indicacaoEditar == null){
@@ -92,12 +94,17 @@ public class CadastrarIndicacaoController {
 		
 		indicacao.setData(new Date());
 		try{
-			if(categoriasSelecionadas != null && !categoriasSelecionadas.isEmpty()){
+			/*if(categoriasSelecionadas != null && !categoriasSelecionadas.isEmpty()){
 				indicacao.setCategorias(new HashSet<CategoriaServicoProduto>(categoriasSelecionadas));
+			}*/
+			if(categoriaSelecionada != null){
+				indicacao.setCategorias(new HashSet<CategoriaServicoProduto>());
+				indicacao.getCategorias().add(categoriaSelecionada);
 			}
 			indicacaoService.salvarIndicacao(indicacao);
 			criarNovaIndicacao(usuario);
 			categoriasSelecionadas.clear();
+			categoriaSelecionada = null;
 			message.addInfo("Sua indicação foi salva com sucesso.");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -237,8 +244,15 @@ public class CadastrarIndicacaoController {
 	public List<CategoriaServicoProduto> getTodasCategorias() {
 		return todasCategorias;
 	}
-	
 
+	public CategoriaServicoProduto getCategoriaSelecionada() {
+		return categoriaSelecionada;
+	}
+
+	public void setCategoriaSelecionada(CategoriaServicoProduto categoriaSelecionada) {
+		this.categoriaSelecionada = categoriaSelecionada;
+	}
+	
 	
 }
 

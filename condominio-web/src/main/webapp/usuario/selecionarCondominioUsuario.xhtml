@@ -21,7 +21,7 @@
 			<p:outputPanel id="containerCidade" rendered="#{empty selecionarCondominioUsuarioController.cidadeSelecionada and !selecionarCondominioUsuarioController.sucesso}">	
 				<label>Primeiro qual é a sua cidade?</label>   
 				<br />
-				<p:selectOneMenu id="comboCidades" value="#{selecionarCondominioUsuarioController.cidadeSelecionada}" 
+				<p:selectOneMenu id="comboCidades" styleClass="selectPadrao" value="#{selecionarCondominioUsuarioController.cidadeSelecionada}" 
 					 converter="converterEntityById" >
 			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 			 		<f:selectItems value="#{selecionarCondominioUsuarioController.cidades}" var="cidade" itemLabel="#{cidade.nomeExibicao}" itemValue="#{cidade}" />
@@ -32,6 +32,7 @@
 				
 				<p:commandButton id="salvarCondominio1" 
 					styleClass="botao"
+					style="display:none !important;"
 					value="Ops. Sua cidade não está ai. Clique aqui e cadastre seu condomínio." 
 			   		actionListener="#{selecionarCondominioUsuarioController.cadastrarCondominio}">
 			   	</p:commandButton>
@@ -43,7 +44,9 @@
 				<p:outputLabel value="Ótimo! Você é de " /> <p:outputLabel style="margin-left:8px;" value="#{selecionarCondominioUsuarioController.cidadeSelecionada.nome}."></p:outputLabel><br />
 				<p:outputLabel value="Agora selecione o seu condomínio."></p:outputLabel>   
 				<br />
-				<p:selectOneMenu id="comboCondominio" value="#{selecionarCondominioUsuarioController.condominioSelecionado}" 
+				<p:selectOneMenu id="comboCondominio" 
+					value="#{selecionarCondominioUsuarioController.condominioSelecionado}"
+					styleClass="selectPadrao" 
 					 converter="converterEntityById"  >
 			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 			 		<f:selectItems value="#{selecionarCondominioUsuarioController.condominios}" var="cond" itemLabel="#{cond.nome}" itemValue="#{cond}" />
@@ -57,7 +60,8 @@
 				 	<p:selectOneMenu id="comboBloco" 
 				 			rendered="#{not empty selecionarCondominioUsuarioController.condominioSelecionado}" 
 				 			value="#{selecionarCondominioUsuarioController.blocoSelecionado}" 
-							converter="converterEntityById"  >
+							converter="converterEntityById"  
+							styleClass="selectPadrao">
 				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 				 		<f:selectItems value="#{selecionarCondominioUsuarioController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
 				 		<p:ajax event="change" update="containerComboApartamentos"  />
@@ -68,7 +72,8 @@
 			 	<p:outputPanel id="containerComboApartamentos" >
 			 		<p:outputLabel rendered="#{not empty selecionarCondominioUsuarioController.blocoSelecionado}" value="Selecione seu apartamento:"></p:outputLabel>
 			 		<br />
-				 	<p:selectOneMenu id="comboApartamentos" 
+				 	<p:selectOneMenu id="comboApartamentos"
+				 			styleClass="selectPadrao" 
 				 			rendered="#{not empty selecionarCondominioUsuarioController.blocoSelecionado}" 
 				 			value="#{selecionarCondominioUsuarioController.apartamentoSelecionado}" 
 							converter="converterEntityById"  >
@@ -88,6 +93,7 @@
 					
 					<p:commandButton id="salvarCondominio2" 
 						styleClass="botao"
+						style="display:none !important;"
 						value="Ihh. Seu condomínio não está ai? Clique aqui e cadastre seu condomínio." 
 				   		actionListener="#{selecionarCondominioUsuarioController.cadastrarCondominio}"
 				   		rendered="#{empty selecionarCondominioUsuarioController.apartamentoSelecionado}" >
@@ -97,7 +103,7 @@
 			</p:outputPanel>
 		
 			<p:outputPanel id="containerSucesso" rendered="#{selecionarCondominioUsuarioController.sucesso}">	
-				<h1>Parabéns. Agora sim você está pronto pra acessar o sistema.</h1>   
+				<h1>Parabéns! Agora sim você está pronto pra acessar o sistema.</h1>   
 				<br />
 				<br />
 				<br />

@@ -7,11 +7,13 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h:form id="form" style="width:100%">
+	<p:outputPanel styleClass="formPad5">
 	   	<h1>Veja todos os documentos</h1>
-	 	
 	 	<p:outputLabel styleClass="textoInformativo" value="Aqui você pode visualizar todos os arquivos e documentos importantes para o condomínio." />
+	</p:outputPanel>
+	
 	 	<br />
+   	<h:form id="form" style="width:100%" styleClass="formPad10">
 	 	
 		<p:dataTable id="dtListagemDocumentos" var="doc" 
 				value="#{listagemDocumentoController.documentos}"

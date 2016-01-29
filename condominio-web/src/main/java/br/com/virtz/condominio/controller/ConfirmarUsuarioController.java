@@ -33,6 +33,9 @@ public class ConfirmarUsuarioController {
 	@Inject
 	private NavigationPage navegacao;
 	
+	@Inject
+	private EnviarEmailSuporteController emailSuporte;
+	
 
 	private boolean usuarioConfirmado;
 	private Usuario usuario = null;
@@ -58,6 +61,10 @@ public class ConfirmarUsuarioController {
 					usuario = usuarioService.salvar(usuario);
 				} catch (Exception e) {
 					e.printStackTrace();
+					try{
+						emailSuporte.enviarEmail("Ocorreu um erro inesperado confirmar o usuário.", e.getMessage(), null);
+					}catch(Exception e1){
+					}
 				}
 			}
 			

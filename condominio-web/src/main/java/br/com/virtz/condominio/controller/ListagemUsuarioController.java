@@ -57,6 +57,7 @@ public class ListagemUsuarioController {
 	
 	public void remover(Usuario usuario) throws CondominioException {
 		usuarioService.remover(usuario.getId());
+		usuarios.remove(usuario);
 		messageHelper.addInfo("Usuário removido com sucesso!");
 	}
 	

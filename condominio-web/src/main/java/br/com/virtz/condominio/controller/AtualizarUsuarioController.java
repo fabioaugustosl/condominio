@@ -4,37 +4,28 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.CroppedImage;
 
-import br.com.virtz.condominio.constantes.EnumTipoUsuario;
-import br.com.virtz.condominio.controller.EnviarEmailSuporteController;
-import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.ArquivoUsuario;
 import br.com.virtz.condominio.entidades.Bloco;
-import br.com.virtz.condominio.entidades.Token;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.ICondominioService;
-import br.com.virtz.condominio.service.ITokenService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
 import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
-import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
 @ViewScoped
@@ -151,7 +142,7 @@ public class AtualizarUsuarioController implements Serializable{
         	}
             
         	ArquivoUsuario arquivo = createArquivo(event.getFile().getSize());
-        	arquivoUtil.redimensionarImagem(event.getFile().getInputstream(), arquivoUtil.getCaminhoUploadArquivosTemporario(), arquivo.getNome(), arquivo.getExtensao(), 600, 750);
+        	arquivoUtil.redimensionarImagem(event.getFile().getInputstream(), arquivoUtil.getCaminhoUploadArquivosTemporario(), arquivo.getNome(), arquivo.getExtensao(), 900, 900, 300, 375);
         	this.caminhoImagem = arquivo.getCaminhoCompleto();
         	
         	trocouFoto = true;

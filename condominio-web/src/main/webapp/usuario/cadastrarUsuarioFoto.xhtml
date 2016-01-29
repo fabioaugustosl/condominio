@@ -24,13 +24,13 @@
   			<p:fileUpload mode="advanced" immediate="true" label="Selecionar arquivo"
 		        fileUploadListener="#{cadastrarUsuarioFotoController.uploadArquivo}"
 		        allowTypes="/(\.|\/)(JPG|jpg|jpeg|JPEG|png|PNG)$/"  
-		        multiple="false" sizeLimit="1000000" 
+		        multiple="false" sizeLimit="6000000" 
 		        invalidFileMessage="Arquivo não válido." 
 		        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
 		        oncomplete="PF('modalCortarFoto').show(); " update="@form"  />
 		        
 			<p:outputPanel  id="containerCortadorImagem" rendered="#{empty cadastrarUsuarioFotoController.caminhoImagem}" >
-   				<p:graphicImage id="imagemUsuario"  url="/imagem?arquivo='/usuario/foto.jpg'" width="300" />
+   				<p:graphicImage id="imagemUsuario"  url="/imagem?arquivo=/arquivos/usuario/foto.jpg" width="300" />
    			</p:outputPanel>	 
    			
    			<p:imageCropper id="cortadorImagem" value="#{cadastrarUsuarioFotoController.imagemCortada}" 
@@ -57,8 +57,9 @@
 			<br/>
 			<p>
 			Foi enviado um email de confirmação para você. Basta abri-lo e clicar no link para confirmar seu usuário e concluir seu cadastro. 
-			É bem rápido.
-			</p> 
+			É bem rápido. 
+			</p>
+			<p>Fique atento, caso o email demore confira sua caixa de spam.</p> 
 			<br />
 			<br />
 			<br />

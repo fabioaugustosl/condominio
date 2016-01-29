@@ -73,6 +73,12 @@ public class ConfirmarEsqueciSenhaController {
 	
 	
 	public void salvar() throws CondominioException{
+
+		if(usuario.getSenhaDigitada().length() < 6){
+			messageHelper.addError("A senha deve possuir no mínimo 6 caracteres.");
+			return;
+		}
+		
 		tokenService.invalidar(token);
 		try {
 			usuarioService.salvar(usuario);

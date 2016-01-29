@@ -7,7 +7,9 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h:form id="form" style="width:100%">
+	   	
+   	<h:form id="form" style="width:100%;" styleClass="formPad5">
+	 	
 	   	<h1>Notícias e Avisos</h1>
 	   	<p:outputLabel styleClass="textoInformativo" value="Listagem de todas as notícias cadastradas para o condomínio." />
 	 	<br />
@@ -17,12 +19,11 @@
 				rowKey="#{votacao.id}"
 				emptyMessage="Ainda não foi cadastrada nenhuma notícia ou aviso." >
 			
-	        <p:column headerText="Código" rendered="#{listagemNoticiaController.podeEditar()}" styleClass="colunaLargura100">
-		        <h:outputText value="#{noticia.id}" />
-		    </p:column>
-		    
+	    
 		    <p:column headerText="Título">
-		        <h:outputText value="#{noticia.titulo}" />
+		        <p:commandLink id="linkVisualizarNoticia" actionListener="#{listagemNoticiaController.preencherNoticia(noticia)}"
+					  	action="#{listagemNoticiaController.visualizar}" ajax="false" value="#{noticia.titulo}"></p:commandLink>
+					  	
 		    </p:column>
 		    
 		    <p:column headerText="Data" styleClass="colunaLargura100" >
@@ -31,7 +32,7 @@
 		        </h:outputText>
 		    </p:column>
 		    
-		    <p:column headerText="Ativa?" styleClass="colunaLargura100">
+		    <p:column headerText="Ativa?" styleClass="colunaLargura100" rendered="#{listagemNoticiaController.podeEditar()}" >
 		        <h:outputText rendered="#{noticia.ativa}" value="Sim" />
 	        	<h:outputText rendered="#{not noticia.ativa}" value="Não" />
 		    </p:column>
