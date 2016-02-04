@@ -23,6 +23,7 @@ import br.com.virtz.condominio.entidades.Balanco;
 import br.com.virtz.condominio.entidades.ItemBalanco;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
+import br.com.virtz.condominio.geral.Demonstrativo;
 import br.com.virtz.condominio.service.IBalancoService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.IArquivosUtil;
@@ -52,20 +53,16 @@ public class DetalharBalancoController {
 	
 	private Usuario usuario = null;
 	private Balanco balanco = null;
-	
-	private List<ItemBalanco> receitas = null;
-	private List<ItemBalanco> despesas = null;
+	private Demonstrativo demonstrativo = null;
+
 	
 	
 	@PostConstruct
 	public void init(){
-		usuario = sessao.getUsuarioLogado();
+		this.usuario = sessao.getUsuarioLogado();
 		Object competenciaDetalhar = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idBalanco");
 		
-		if(competenciaDetalhar == null){
-			receitas = new ArrayList<ItemBalanco>();
-			despesas = new ArrayList<ItemBalanco>();
-		} else {
+		if(competenciaDetalhar != null){
 			montarBalanco(Long.parseLong(competenciaDetalhar.toString()));
 		}
 	}
@@ -74,20 +71,17 @@ public class DetalharBalancoController {
 	public void montarBalanco(Long idBalanco){
 		
 		balanco = balancoService.recuperarBalanco(idBalanco);
-		
+		demonstrativo = new Demonstrativo(balanco);
 		if(balanco != null){
+
 			try {
-				despesas = balancoService.recuperarDespesas(balanco);
-				receitas = balancoService.recuperarReceitas(balanco);
+				List<ItemBalanco> despesas = balancoService.recuperarDespesas(balanco);
+				List<ItemBalanco>  receitas = balancoService.recuperarReceitas(balanco);
+				demonstrativo.setDespesas(despesas);
+				demonstrativo.setReceitas(receitas);
 			} catch (AppException e) {
 			}
 			
-			balanco.zerarTotais();
-			try {
-				balanco.setTotalReceitas(balancoService.somarItens(receitas));
-				balanco.setTotalDespesas(balancoService.somarItens(despesas));
-			} catch (AppException e) {
-			}
 		} 
 	}
 	
@@ -117,16 +111,13 @@ public class DetalharBalancoController {
 	
 	/* GETTER E SETTERS*/
 	
-	public List<ItemBalanco> getReceitas() {
-		return receitas;
-	}
-
-	public List<ItemBalanco> getDespesas() {
-		return despesas;
-	}
-
 	public Balanco getBalanco() {
 		return balanco;
 	}
+
+	public Demonstrativo getDemonstrativo() {
+		return demonstrativo;
+	}
+
 
 }

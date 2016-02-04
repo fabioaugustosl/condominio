@@ -30,7 +30,7 @@
  
    </style>
    
-   	<h:form id="form" style="width:100%">
+   	<h:form id="form" style="width:100%" styleClass="formPad10">
    	
    		<h1>Detalhamento da prestação de contas mensal</h1>
 	 	<p:outputLabel styleClass="textoInformativo" 
@@ -40,70 +40,85 @@
 	 	
 	 	<p:outputPanel id="containerItens" style="margin-top:20px;">
 	 	
-		 	<table style="width: 100%">
-		 	<tr>
-		 		<td style="width: 50%; padding: 5px; ">
-		 			<p:dataList value="#{detalharBalancoController.receitas}" var="receita"  style="top:0px;"
-		 				type="ordered" emptyMessage="Nenhuma receita lançada" itemStyleClass="itemReceita" >
-				        <f:facet name="header">
-				            Receitas
-				        </f:facet>
-				        
-				        <f:facet name="footer" >
-				        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="color:blue" value="#{detalharBalancoController.balanco.totalReceitas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
-				        </f:facet>
-				        
-				        <div style="width: 75%; float: left;">
-				        	#{receita.descricao}
-				        </div>
-				        <div style="width: 17%; float: left; text-align: right;">
-				        	<p:outputLabel value="R$ " /> <p:outputLabel value="#{receita.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
-				        </div>
-				        <div style="width: 8%; float: left; text-align: center;">
-				        	<p:commandLink ajax="false" 
-					        		rendered="#{receita.arquivo != null}"
-						     		id="downloadDocSelecionada" immediate="true" >
-							        <p:fileDownload value="#{detalharBalancoController.download(receita.arquivo)}" />
-						     		<p:graphicImage id="imgDownReceita" url="/img/icones/download.png" 
-						     				title="Clique para baixar o comprovante." />
-					         	</p:commandLink>
-				        </div>
-				    </p:dataList>
-		 		</td>
-		 		
-		 		<td style="width: 50%; padding: 5px; ">
-		 			
-		 			<p:dataList value="#{detalharBalancoController.despesas}" var="despesa"   style="top:0px;"
-		 				type="ordered" emptyMessage="Nenhuma despesa lançada" itemStyleClass="itemDespesa">
-				        <f:facet name="header">
-				            Despesas
-				        </f:facet>
-				        
-				        <f:facet name="footer">
-				        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="color:red" value="#{detalharBalancoController.balanco.totalDespesas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
-				        </f:facet>
+		 	
+	 		<p:dataTable var="receita" value="#{detalharBalancoController.demonstrativo.categoriasComItensReceita}">
+		        <f:facet name="header">
+		            Receitas
+		        </f:facet>
+		        
+		        <f:facet name="footer" >
+		        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="color:blue" value="#{detalharBalancoController.demonstrativo.totalReceitas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+		        </f:facet>
+		        
+		        <p:subTable var="item" value="#{receita.itens}">
+		            <f:facet name="header">
+		                <h:outputText value="#{receita.nome}" />
+		            </f:facet>
+		            <p:column>
+		                <h:outputText value="#{item.descricao}" />
+		            </p:column>
+		            <p:column>
+		                <p:outputLabel value="R$ " /> <p:outputLabel value="#{item.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+		            </p:column>
+		            <p:column styleClass="colunaLargura100">
+		                <p:commandLink ajax="false" 
+			        		rendered="#{item.arquivo != null}"
+				     		id="downloadDocSelecionada" immediate="true" >
+					        <p:fileDownload value="#{detalharBalancoController.download(item.arquivo)}" />
+				     		<p:graphicImage id="imgDownDespesa" url="/img/icones/download.png" 
+				     				title="Clique para baixar o comprovante." />
+			         	</p:commandLink>
+		            </p:column>
+		            
+		            <p:columnGroup type="footer">
+		                <p:row>
+		                    <p:column footerText="Subtotal: " style="text-align:right"/>
+		                    <p:column footerText="#{receita.totalCategoriaFormatado}" ></p:column>
+		                </p:row>
+		            </p:columnGroup>
+		        </p:subTable>
+     		</p:dataTable>
+      			 
+      		<br />
+      		<p:dataTable var="despesa" value="#{detalharBalancoController.demonstrativo.categoriasComItensDespesa}">
+			        <f:facet name="header">
+			            Despesas 
+			        </f:facet>
 			        
-				        <div style="width: 75%; float: left;">
-				        	#{despesa.descricao}
-				        </div>
-				        <div style="width: 17%; float: left; text-align: right;">
-					        <p:outputLabel value="R$ " /> <p:outputLabel value="#{despesa.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
-				        </div>
-				        <div style="width: 8%; float: left; text-align: center;">
-				        	<p:commandLink ajax="false" 
-					        		rendered="#{despesa.arquivo != null}"
-						     		id="downloadDocSelecionada" immediate="true" >
-							        <p:fileDownload value="#{detalharBalancoController.download(despesa.arquivo)}" />
-						     		<p:graphicImage id="imgDownDespesa" url="/img/icones/ico_download_16.png" 
-						     				title="Clique para baixar o comprovante." />
-					         	</p:commandLink>
-				        </div>
-				    </p:dataList>
-		 		</td>
-		 	</tr>
-		 	</table>
-	 		 	
-	 	</p:outputPanel>
+			        <f:facet name="footer" >
+			        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="color:red" value="#{detalharBalancoController.demonstrativo.totalDespesas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			        </f:facet>
+			        
+			        <p:subTable var="item" value="#{despesa.itens}">
+			            <f:facet name="header">
+			                <h:outputText value="#{despesa.nome}" />
+			            </f:facet>
+			            <p:column style="width:60% !important" >
+			                <h:outputText value="#{item.descricao}" />
+			            </p:column>
+			            <p:column style="width:30% !important">
+			                <p:outputLabel value="R$ " /> <p:outputLabel value="#{item.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			            </p:column>
+			            <p:column style="width:10% !important" styleClass="colunaLargura100"> 
+			                <p:commandLink ajax="false" 
+				        		rendered="#{item.arquivo != null}"
+					     		id="downloadDocSelecionada" immediate="true" >
+						        <p:fileDownload value="#{detalharBalancoController.download(item.arquivo)}" />
+					     		<p:graphicImage id="imgDownReceita" url="/img/icones/download.png" 
+					     				title="Clique para baixar o comprovante." />
+				         	</p:commandLink>
+			            </p:column>
+			            
+			            <p:columnGroup type="footer">
+			                <p:row>
+			                    <p:column footerText="Subtotal: " style="text-align:right"/>
+			                    <p:column footerText="#{despesa.totalCategoriaFormatado}" ></p:column>
+			                </p:row>
+			            </p:columnGroup>
+			        </p:subTable>
+      			 </p:dataTable>
+				        
+		</p:outputPanel>
 	 	
 	 	<p:commandButton id="irParaListagemBalanco" value="Voltar para listagem" immediate="true"
 	 	styleClass="botao botao-grande"

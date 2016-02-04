@@ -172,7 +172,7 @@ public class ReservaController {
 
 
 	private String montarNomeEvento(Usuario usuario) {
-		return usuario.getNome()+" ["+usuario.getEmail()+"]";
+		return usuario.getNomeExibicao()+" ["+usuario.getEmail()+"]";
 	}
      
 
@@ -199,8 +199,8 @@ public class ReservaController {
 		DataUtil dataUtil = new DataUtil();
 		
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
-		mapParametrosEmail.put("nome_usuario", usuario.getNome());
-		mapParametrosEmail.put("data_assembleia", dataUtil.formatarData(reserva.getData().getTime(),"dd/MM/yyyy"));
+		mapParametrosEmail.put("nome_usuario", usuario.getNomeExibicao());
+		mapParametrosEmail.put("data_reserva", dataUtil.formatarData(reserva.getData().getTime(),"dd/MM/yyyy"));
 		mapParametrosEmail.put("nome_area", reserva.getAreaComum().getNome());
 		
 		String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.CONFIRMACAO_RESERVA_AREA.getNomeArquivo(), mapParametrosEmail);

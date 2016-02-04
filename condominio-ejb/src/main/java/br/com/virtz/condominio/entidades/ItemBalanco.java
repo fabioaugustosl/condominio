@@ -145,5 +145,20 @@ public class ItemBalanco extends Entidade implements Serializable {
 		this.categoria = categoria;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof ItemBalanco)){
+			return false;
+		}
+		ItemBalanco c = (ItemBalanco) obj;
+		if(c.getId() != null){
+			return super.equals(obj);
+		}
+		if(this.getDescricao().equals(c.getDescricao()) && this.getTipoBalanco().equals(c.getTipoBalanco()) && this.getData().equals(c.getData()) && this.getValor().equals(c.getValor())){
+			return true;
+		}
+		return false;
+	}
+	
 
 }

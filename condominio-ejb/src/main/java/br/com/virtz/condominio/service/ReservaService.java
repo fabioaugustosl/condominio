@@ -7,7 +7,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import freemarker.template.utility.DateUtil;
 import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.dao.IReservaDAO;
 import br.com.virtz.condominio.entidades.AreaComum;
@@ -47,9 +46,25 @@ public class ReservaService implements IReservaService {
 	
 	@Override
 	public void remover(AreaComum areaReservada, String emailUsuarioReserva, Date dataInicioReserva) throws AppException{
+		DataUtil util = new DataUtil();
+		
 		Reserva r = reservaDAO.recuperarPorAreaEmailEData(areaReservada, emailUsuarioReserva, dataInicioReserva);
 		if (r == null){
-			throw new AppException("Ocorreu um erro ao recuperar a reserva para excluí-la.");
+			
+			List<Reserva> reservasUsuario = reservaDAO.recuperarPorAreaEEmail(areaReservada, emailUsuarioReserva);
+			if(reservasUsuario!=null && !reservasUsuario.isEmpty()){
+				for(Reserva res : reservasUsuario){
+					int diasEntre = util.diasEntreDatas(dataInicioReserva, res.getData().getTime());
+					if(diasEntre == 0){
+						r = res;
+						break;
+					}
+				}
+			}
+			
+			if (r == null){
+				throw new AppException("Ocorreu um erro ao recuperar a reserva para excluí-la.");
+			}
 		}
 		reservaDAO.remover(r.getId());
 	}

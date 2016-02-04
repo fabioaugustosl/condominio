@@ -115,12 +115,8 @@ public class BatePapoController {
 		if(batePapo == null || usuario == null || batePapo.getAvaliacoes() == null){
 			return Boolean.FALSE;
 		}
-		for(Avaliacao a : batePapo.getAvaliacoes()){
-			if(usuario.equals(a.getUsuario())){
-				return Boolean.TRUE;
-			}
-		}
-		return Boolean.FALSE;
+		
+		return batePapoService.usuarioJaAvaliou(batePapo, usuario);
 	}
 	
 	public boolean podeExcluir(BatePapo papo){

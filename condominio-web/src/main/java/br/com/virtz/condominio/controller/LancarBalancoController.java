@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.constantes.EnumTipoBalanco;
 import br.com.virtz.condominio.entidades.ArquivoBalanco;
 import br.com.virtz.condominio.entidades.Balanco;
+import br.com.virtz.condominio.entidades.CategoriaItemBalanco;
 import br.com.virtz.condominio.entidades.ItemBalanco;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
@@ -66,11 +68,14 @@ public class LancarBalancoController {
 	private String descricao = null;
 	private Double valor = null;
 	private String tipoBalanco = null;
+	private CategoriaItemBalanco categoriaItemBalancoSelecionada = null;
 	
 	private List<ItemBalanco> receitas = null;
 	private List<ItemBalanco> despesas = null;
 	private List<String> descricoesAutoCompletar = null;
-
+	private List<CategoriaItemBalanco> categoriasItemBalanco = null;
+	
+	private Map<String, List<CategoriaItemBalanco>> mapCategoriasItem = null;
 	
 	
 	@PostConstruct
@@ -79,10 +84,14 @@ public class LancarBalancoController {
 		receitas = new ArrayList<ItemBalanco>();
 		despesas = new ArrayList<ItemBalanco>();
 		tipoBalanco = EnumTipoBalanco.RECEITA.name().toString();
+		mapCategoriasItem = new HashMap<String, List<CategoriaItemBalanco>>();
 		
 		carregarInformacoesPeriodoPadroes();
 		montarBalanco();
-		carregarDescricoesAutoCompletar(EnumTipoBalanco.RECEITA);
+		
+		carregarComboTipo();
+		//carregarDescricoesAutoCompletar(EnumTipoBalanco.RECEITA);
+		
 	}
 
 	public void carregarDescricoesAutoCompletar(EnumTipoBalanco tipo) {
@@ -97,6 +106,17 @@ public class LancarBalancoController {
 			descricoesAutoCompletar = balancoService.recuperarUltimasDescricoes(usuario.getId(), this.ano, tipo);
 		} catch (AppException e) {
 		}
+	}
+	
+	public void carregarComboTipo() {
+		List<CategoriaItemBalanco> categs =	mapCategoriasItem.get(tipoBalanco);
+		if(categs == null){
+			EnumTipoBalanco tipo = EnumTipoBalanco.valueOf(tipoBalanco);
+			categs = balancoService.recuperarCategoriaItemPorCondominio(usuario.getCondominio().getId(), tipo);
+			mapCategoriasItem.put(tipoBalanco, categs);
+		}
+		categoriasItemBalanco = categs;
+		
 	}
 	
 	public void limparDadosItem(){
@@ -379,6 +399,25 @@ public class LancarBalancoController {
 	public ArquivoBalanco getArqBalanco() {
 		return arqBalanco;
 	}
+
+	public CategoriaItemBalanco getCategoriaItemBalancoSelecionada() {
+		return categoriaItemBalancoSelecionada;
+	}
+
+	public void setCategoriaItemBalancoSelecionada(
+			CategoriaItemBalanco categoriaItemBalancoSelecionada) {
+		this.categoriaItemBalancoSelecionada = categoriaItemBalancoSelecionada;
+	}
+
+	public List<CategoriaItemBalanco> getCategoriasItemBalanco() {
+		return categoriasItemBalanco;
+	}
+
+	public void setCategoriasItemBalanco(
+			List<CategoriaItemBalanco> categoriasItemBalanco) {
+		this.categoriasItemBalanco = categoriasItemBalanco;
+	}
+	
 	
 	
 }

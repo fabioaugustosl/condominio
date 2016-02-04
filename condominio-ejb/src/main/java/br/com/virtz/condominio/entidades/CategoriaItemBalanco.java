@@ -1,6 +1,8 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import br.com.virtz.condominio.constantes.EnumTipoBalanco;
@@ -51,7 +54,12 @@ public class CategoriaItemBalanco extends Entidade implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipoBalanco", nullable = false)
 	private EnumTipoBalanco tipoBalanco;
+	
+	@Transient
+	private List<ItemBalanco> itens;
 
+	@Transient
+	private Double totalCategoria;
 
 	public Long getId() {
 		return id;
@@ -92,7 +100,42 @@ public class CategoriaItemBalanco extends Entidade implements Serializable {
 	public void setTipoBalanco(EnumTipoBalanco tipoBalanco) {
 		this.tipoBalanco = tipoBalanco;
 	}
+
+	public List<ItemBalanco> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<ItemBalanco> itens) {
+		this.itens = itens;
+	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof CategoriaItemBalanco)){
+			return false;
+		}
+		CategoriaItemBalanco c = (CategoriaItemBalanco) obj;
+		if(c.getId() != null){
+			return super.equals(obj);
+		}
+		if(this.getNome() != null && this.getNome().equals(c.getNome()) &&  this.getTipoBalanco() != null && this.getTipoBalanco().equals(c.getTipoBalanco())){
+			return true;
+		}
+		return false;
+	}
+
+	public Double getTotalCategoria() {
+		return totalCategoria;
+	}
+	
+	public String getTotalCategoriaFormatado() {
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		return formatter.format(this.totalCategoria);
+	}
+
+	public void setTotalCategoria(Double totalCategoria) {
+		this.totalCategoria = totalCategoria;
+	}
 	
 	
 }

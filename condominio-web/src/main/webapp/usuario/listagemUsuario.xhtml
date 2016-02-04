@@ -9,7 +9,12 @@
    <ui:define name="content">
    	<h:form id="form" style="width:100%" styleClass="formPad10">
 	   	<h1>Moradores</h1>
-	   	<p:outputLabel styleClass="textoInformativo" 
+	   	
+	   	<p:outputLabel styleClass="textoInformativo" rendered="#{not principalController.ehSindico()}"
+   			value="Aqui estão todos seus vizinhos.  " />
+   			
+   			
+	   	<p:outputLabel styleClass="textoInformativo" rendered="#{principalController.ehSindico()}"
    			value="Gerencie todos os moradores do condominio. Aqui você pode alterar o perfil de cada morador. Para isso basta clicar no 'V' na coluna do perfil desejado. " />
 	 	<br />
 	 	
@@ -23,11 +28,20 @@
 					alt="#{usuario.nome}" style="width:60px;"/>
 		    </p:column>
 		    
-		    <p:column headerText="Morador" >
-		        <h:outputText value="#{usuario.nome}" />
+		    <p:column headerText="Morador" styleClass="colunaLargura200">
+		        <strong><h:outputText value="#{usuario.nome}" /></strong><br />
+		        <h:outputText value="Apto #{usuario.apartamento.numero}" />
+		        <h:outputText value=" - Bloco #{usuario.apartamento.bloco.numero}" />
 		    </p:column>
 		    
-		    <p:column headerText="Síndico" style="text-align:center;">
+		    <p:column headerText="Contatos" styleClass="colunaLargura200">
+		        <h:outputText value="#{usuario.email}" /><br />
+		        <h:outputText value="Celular: #{usuario.celular}" /> <br />
+		        <h:outputText value="Fixo: #{usuario.telefone}" />
+		    </p:column>
+		    
+		    <p:column headerText="Síndico" style="text-align:center;"  styleClass="colunaLargura120"
+		    			rendered="#{principalController.ehSindico()}">
 		    	
 		        <p:graphicImage id="imgSindicoS" url="/img/icones/icone_bola_ativo.png" rendered="#{usuario.isSindico()}" />
 		        
@@ -37,7 +51,8 @@
 		        </p:commandLink>
 		    </p:column>
 		    
-		    <p:column headerText="Administrativo" style="text-align:center;">
+		    <p:column headerText="Administrativo" style="text-align:center;"  styleClass="colunaLargura120"
+		    			rendered="#{principalController.ehSindico()}">
 		        <p:graphicImage id="imgAdmS" url="/img/icones/icone_bola_ativo.png" rendered="#{usuario.isAdministrativo()}"/>
 		        <p:commandLink actionListener="#{listagemUsuarioController.alterarParaAdministrativo(usuario)}" id="imgAdmNLink" 
 		        		immediate="true"  rendered="#{not usuario.isAdministrativo()}" update="@form" >
@@ -45,7 +60,8 @@
 		        </p:commandLink>
 		    </p:column>
 		    
-		    <p:column headerText="Morador" style="text-align:center;">
+		    <p:column headerText="Morador" style="text-align:center;"  styleClass="colunaLargura120"
+		    		rendered="#{principalController.ehSindico()}">
 		        <p:graphicImage id="imgMoradorS" url="/img/icones/icone_bola_ativo.png" rendered="#{usuario.isMorador()}"/>
 		        <p:commandLink actionListener="#{listagemUsuarioController.alterarParaMorador(usuario)}" id="imgMoradorNLink" 
 		        		immediate="true" rendered="#{not usuario.isMorador()}" update="@form" >
@@ -53,7 +69,8 @@
 		        </p:commandLink>
 		    </p:column>
 	
-		    <p:column style="text-align:center" styleClass="colunaLargura100" headerText="Excluir">
+		    <p:column style="text-align:center" styleClass="colunaLargura100" headerText="Excluir" 
+		    		rendered="#{principalController.ehSindico()}">
 		    	<p:commandLink actionListener="#{listagemUsuarioController.remover(usuario)}" ajax="false"
 		    		update="@form"
 		    		id="excluirUsuarioSelecionada" immediate="true" >

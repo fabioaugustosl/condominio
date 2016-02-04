@@ -102,7 +102,7 @@ public class LoginController {
 		} catch (AuthenticationException ae) {
 			ae.printStackTrace();
 			ae.getMessage();
-			messageHelper.addError("Usuário ou senha inválido(s).");
+			messageHelper.addError(ae.getMessage());
 		}
 	}
 	

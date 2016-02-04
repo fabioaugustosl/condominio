@@ -31,8 +31,8 @@ public interface IBalancoService {
 	public void inativarCategoriaItem(Long idCategoria) throws AppException;
 	public void ativarCategoriaItem(Long idCategoria) throws AppException;
 	public void removerCategoriaItem(Long idCategoria) throws AppException;
-	public List<CategoriaItemBalanco> recuperarPorCondominio(Long idCondominio, EnumTipoBalanco tipoBalanco);
-	public List<CategoriaItemBalanco> recuperarPorCondominio(Long idCondominio);
+	public List<CategoriaItemBalanco> recuperarCategoriaItemPorCondominio(Long idCondominio, EnumTipoBalanco tipoBalanco);
+	public List<CategoriaItemBalanco> recuperarCategoriaItemPorCondominio(Long idCondominio);
 
 	
 	// Despesas / Receitas

@@ -62,6 +62,13 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<Usuario> recuperarUsuariosPorEmail(String email) {
+		Query qry = getEntityManager().createNamedQuery("Usuario.recuperarUsuariosPorEmail");
+		qry.setParameter("email", email);
+		return qry.getResultList();
+	}
 
 
 	@Override
@@ -93,6 +100,18 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 				super.remover(id);
 			}
 		}
+	}
+
+
+	@Override
+	public Usuario recuperarUsuarioPorEmailAutenticacao(String email) {
+		Query qry = getEntityManager().createNamedQuery("Usuario.recuperarPorEmailAutenticacao");
+		qry.setParameter("email", email);
+		List<Usuario> usuarios = qry.getResultList();
+		if(usuarios != null && !usuarios.isEmpty()){
+			return usuarios.get(0);
+		}
+		return null;
 	}
 	
 }

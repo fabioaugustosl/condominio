@@ -51,7 +51,7 @@
 	            		<f:selectItem itemLabel="Sim" itemValue="true" />
 			        </p:selectOneRadio>
 		    	</p:outputPanel>
-		    	<p:outputPanel id="tipoData" rendered="#{vv.util.isData()}" styleClass="divInputVotacao"> 
+		    	<p:outputPanel id="tipoData" rendered="#{vv.util.isData()}" styleClass="divInputVotacao" style="width: 70% !important"> 
 		    		<p:calendar id="button" value="#{vv.util.valorData}" showOn="button" />
 		    	</p:outputPanel>	
 		    	<p:outputPanel id="tipoMoeda" rendered="#{vv.util.isMoeda()}" styleClass="divInputVotacao"> 
@@ -115,6 +115,8 @@
 			    
 			    <p:column headerText="Votos">
 			        <p:outputLabel value="#{votacaoController.votacaoViewResultado.resultadoVotacaoSelecionada[res]}"></p:outputLabel>
+			        <p:outputLabel style="margin-left:10px;" value=" (#{votacaoController.votacaoViewResultado.resultadoPercentagemVotacaoSelecionada[res]})%"></p:outputLabel>
+			        
 			    </p:column>
 				
 			</p:dataTable>

@@ -74,8 +74,6 @@ public class VotacaoService implements IVotacaoService {
 			throw new AppException("Você já votou!");
 		}
 		
-		// TODO : verificar se o pode haver mais de um voto por apto se não puder deve validar.
-				
 		try {
 			votoDAO.salvar(voto);
 			return true;
@@ -248,6 +246,8 @@ public class VotacaoService implements IVotacaoService {
 	
 	private Map<String, Integer> getResultadoVotacao(Votacao votacao){
 		ResultadoVotacao resultado = new ResultadoVotacao(votacao.getTipoVotacao());
+
+		resultado.inicializarResultado(votacao);
 		
 		for(Voto v : votacao.getVotos()){
 			resultado.contabilizarVoto(v.getOpcaoVotada(votacao.getTipoVotacao()));

@@ -1,5 +1,7 @@
 package br.com.virtz.condominio.controller.beanview;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ public class VotacaoView {
 	private boolean votou;
 	
 	private Map<String, Integer> resultadoVotacaoSelecionada;
+	private Map<String, Double> resultadoPercentagemVotacaoSelecionada;
 
 	
 	public VotacaoView(Votacao votacao) {
@@ -21,6 +24,7 @@ public class VotacaoView {
 		this.util.tratarTipoVotacaoExibicao(votacao.getTipoVotacao());
 		this.votou = Boolean.FALSE;
 		resultadoVotacaoSelecionada = new HashMap<String, Integer>();
+		resultadoPercentagemVotacaoSelecionada = new HashMap<String, Double>();
 	}
 	
 
@@ -51,7 +55,33 @@ public class VotacaoView {
 	public void setResultadoVotacaoSelecionada(
 			Map<String, Integer> resultadoVotacaoSelecionada) {
 		this.resultadoVotacaoSelecionada = resultadoVotacaoSelecionada;
+		montarVotacaoPercentagem();
 	}
 	
+	private void montarVotacaoPercentagem(){
+		resultadoPercentagemVotacaoSelecionada = new HashMap<String, Double>();
+		// descobre o total de votos da votação
+		int totalVotos = 0;
+		for(Integer votos : resultadoVotacaoSelecionada.values()){
+			totalVotos += votos;
+		}
+		
+		// calcula a percentagem de cada um
+		for(String chave : resultadoVotacaoSelecionada.keySet()){
+			Integer t = resultadoVotacaoSelecionada.get(chave);
+			BigDecimal p = new BigDecimal(((t*100)/totalVotos));
+					
+			resultadoPercentagemVotacaoSelecionada.put(chave, p.setScale(2, RoundingMode.HALF_EVEN).doubleValue());
+		}
+	}
+	
+	public Map<String, Double> getResultadoPercentagemVotacaoSelecionada() {
+		return resultadoPercentagemVotacaoSelecionada;
+	}
+
+	public void setResultadoPercentagemVotacaoSelecionada(
+			Map<String, Double> resultadoPercentagemVotacaoSelecionada) {
+		this.resultadoPercentagemVotacaoSelecionada = resultadoPercentagemVotacaoSelecionada;
+	}
 
 }

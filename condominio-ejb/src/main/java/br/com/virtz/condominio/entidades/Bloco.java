@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 	@NamedQuery(name = "Bloco.recuperarPorCondominioComApts", 
 			query = "Select distinct b FROM bloco b "
 					+ " LEFT JOIN FETCH b.apartamentos apts "
-					+ " WHERE b.condominio.id = :idCondominio "),
+					+ " WHERE b.condominio.id = :idCondominio ORDER BY b.id "),
 	@NamedQuery(name = "Bloco.recuperarBlocoCompleto", 
 			query = "Select distinct b FROM bloco b "
 					+ " LEFT JOIN FETCH b.apartamentos apts "

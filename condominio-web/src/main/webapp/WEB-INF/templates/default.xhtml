@@ -5,7 +5,7 @@
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:p="http://primefaces.org/ui">
 <h:head>
-   <title>Condomínio</title>
+   <title>Condomínio SOBControle - #{principalController.usuario.condominio.nome}</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
    
     <h:outputStylesheet library="css" name="bootstrap.css" /> <!-- NAO DEVE SER ALTERADO -->
@@ -78,8 +78,9 @@
 				 
 				<div style="float:right; padding:0px;">
 				
-					<p:outputPanel id="icoConfiguracao" styleClass="containerMenuFloat containerMenuUsuario containerMenuFloatTitulo" style="cursor:pointer; float:right;">
-						#{principalController.usuario.nome} <h6>Apto #{principalController.usuario.apartamento.numero}  Bloco #{principalController.usuario.apartamento.bloco.numero}</h6>
+					<p:outputPanel id="icoConfiguracao" styleClass="containerMenuFloat containerMenuUsuario containerMenuFloatTitulo" 
+							rendered="#{not empty principalController.usuario.apartamento}" style="cursor:pointer; float:right;">
+						#{principalController.usuario.nomeExibicao} <h6>Apto #{principalController.usuario.apartamento.numero}  Bloco #{principalController.usuario.apartamento.bloco.numero}</h6>
 					</p:outputPanel>
 					
 					

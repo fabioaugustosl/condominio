@@ -6,11 +6,13 @@
    xmlns:p="http://primefaces.org/ui"
    template="/WEB-INF/templates/templateSimples.xhtml">
    
-   <style type="text/css">
- 
-   </style>
    
    <ui:define name="content">
+   
+   <style type="text/css">
+ 	.negrito{font-weight: bold;}
+   </style>
+   
    <h:form id="form" enctype="multipart/form-data" >   
 	   <p:messages autoUpdate="true"></p:messages>
 	   
@@ -55,7 +57,7 @@
 		<p:outputPanel id="mensagemSucesso" rendered="#{cadastrarUsuarioFotoController.cadastroFinalizado}">
 			<h1>Seu cadastro foi realizado com sucesso!</h1>
 			<br/>
-			<p>
+			<p class="negrito">
 			Foi enviado um email de confirmação para você. Basta abri-lo e clicar no link para confirmar seu usuário e concluir seu cadastro. 
 			É bem rápido. 
 			</p>

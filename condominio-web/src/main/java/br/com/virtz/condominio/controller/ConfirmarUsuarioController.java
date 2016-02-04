@@ -56,20 +56,27 @@ public class ConfirmarUsuarioController {
 			if(StringUtils.isNotBlank(chave)){
 				usuario = usuarioService.recuperarUsuarioCompleto(Long.valueOf(chave));
 				
-				usuario.setCadastroConfirmado(Boolean.TRUE);
-				try {
-					usuario = usuarioService.salvar(usuario);
-				} catch (Exception e) {
-					e.printStackTrace();
-					try{
-						emailSuporte.enviarEmail("Ocorreu um erro inesperado confirmar o usuário.", e.getMessage(), null);
-					}catch(Exception e1){
+				// validar se o email já está sendo usado e ativo
+				if(usuarioService.emailJaEstaAtivo(usuario.getEmail())){
+					usuarioConfirmado = Boolean.FALSE;
+				} else {
+				
+					usuario.setCadastroConfirmado(Boolean.TRUE);
+					try {
+						usuario = usuarioService.salvar(usuario);
+					} catch (Exception e) {
+						e.printStackTrace();
+						try{
+							emailSuporte.enviarEmail("Ocorreu um erro inesperado confirmar o usuário.", e.getMessage(), null);
+						}catch(Exception e1){
+						}
 					}
+					usuarioConfirmado = Boolean.TRUE;
 				}
+				tokenService.invalidar(token);
 			}
 			
-			tokenService.invalidar(token);
-			usuarioConfirmado = Boolean.TRUE;
+			
 		} else {
 			usuarioConfirmado = Boolean.FALSE;
 		}

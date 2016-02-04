@@ -11,6 +11,7 @@ import java.util.Map;
 
 import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 import br.com.virtz.condominio.entidades.OpcaoVotacao;
+import br.com.virtz.condominio.entidades.Votacao;
 
 public class ResultadoVotacao {
 	
@@ -28,6 +29,16 @@ public class ResultadoVotacao {
 		}
 	}
 	
+	public void inicializarResultado( Votacao votacao){
+		if(votacao == null){
+			return;
+		}
+		if(EnumTipoVotacao.OPCOES.equals(votacao.getTipoVotacao())){
+			for(OpcaoVotacao opc : votacao.getOpcoes()){
+				resultado.put(opc.getDescricao(), 0);
+			}
+		}
+	}
 	
 	public void contabilizarVoto(Object opcao){
 		String chave = getChaveMap(opcao);

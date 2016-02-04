@@ -41,19 +41,26 @@ public class MeuRealm extends AuthenticatingRealm {
 			throw new AuthenticationException("Ocorreu erro ao processar a autenticação do usuário.");
 		}
 		 
-        Usuario credencial = dao.recuperarUsuarioPorEmail(principal);
+        Usuario credencial = dao.recuperarUsuarioPorEmailAutenticacao(principal);
  
         if(credencial != null) {
-             AuthenticationInfo info = new SimpleAuthenticationInfo(principal, credencial.getSenha() , "usuario");
-             SimpleCredentialsMatcher cmatcher = new SimpleCredentialsMatcher();
+        	
+        	if(!credencial.getCadastroConfirmado()){
+        		throw new AuthenticationException("Usuário não confirmado. Acesse seu email para finalizar seu cadastro.");
+        	}
+        	if(credencial.getCondominio() == null){
+        		throw new AuthenticationException("Condomínio não reconhecido. Favor enviar um email para contato@condominiosobcontrole.com.br com seu nome, condomínio e seu apto. Corrigiremos seu cadastro o mais rápido possível.");
+        	}
+            AuthenticationInfo info = new SimpleAuthenticationInfo(principal, credencial.getSenha() , "usuario");
+            SimpleCredentialsMatcher cmatcher = new SimpleCredentialsMatcher();
  
-             boolean credentialsMatch = cmatcher.doCredentialsMatch(token, info);
-             if(credentialsMatch) {
-                 return info;
-             }
+            boolean credentialsMatch = cmatcher.doCredentialsMatch(token, info);
+            if(credentialsMatch) {
+                return info;
+            }
  
          }
-         throw new AuthenticationException();
+         throw new AuthenticationException("Usuário ou senha inválido(s)");
 	}
 
 }

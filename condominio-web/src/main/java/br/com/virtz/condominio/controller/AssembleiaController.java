@@ -134,7 +134,7 @@ public class AssembleiaController {
 		if(sindicos != null){
 			for(Usuario sindico : sindicos){
 				Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
-				mapParametrosEmail.put("nome_sindico", usuario.getNome());
+				mapParametrosEmail.put("nome_sindico", usuario.getNomeExibicao());
 				mapParametrosEmail.put("data_assembleia", dataUtil.formatarData(assembleia.getData(),"dd/MM/yyyy"));
 				mapParametrosEmail.put("nome_usuario", usuario.getNome());
 				mapParametrosEmail.put("msg", txtPauta);

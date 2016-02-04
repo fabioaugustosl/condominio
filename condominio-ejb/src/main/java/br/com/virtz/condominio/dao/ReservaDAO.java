@@ -55,7 +55,8 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 		qry.setParameter("idAreaComum", area.getId());
 		qry.setParameter("emailUsuario", emailUsuario);
 		Calendar dt = Calendar.getInstance();
-		dt.setTime(util.limparHora(dataInicioReserva));
+		//dt.setTime(util.limparHora(dataInicioReserva));
+		dt.setTime(dataInicioReserva);
 		qry.setParameter("data", dt);
 		try {
 			return (Reserva) qry.getSingleResult();
@@ -64,6 +65,14 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 		}
 		
 	}
-	
+
+	@Override
+	public List<Reserva> recuperarPorAreaEEmail(AreaComum area, String emailUsuario) {
+		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorAreaEEmail");
+		qry.setParameter("idAreaComum", area.getId());
+		qry.setParameter("emailUsuario", emailUsuario);
+		
+		return qry.getResultList();
+	}
 	
 }

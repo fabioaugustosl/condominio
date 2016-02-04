@@ -17,7 +17,7 @@
 				<li><p:link value="Indicações de seus vizinhos" outcome="/indicacao/listagemIndicacao.faces" /></li>
 		      	<li><p:link value="Reservar Área" outcome="/condominio/reservarArea.faces" ></p:link></li>
 		      	<li><p:link value="Votações" rendered="#{principalController.ehSindico()}" outcome="/votacao/cadastrarVotacao.faces" /></li>
-		      	<li><p:link value="Moradores" rendered="#{principalController.ehSindico()}" outcome="/usuario/listagemUsuario.faces" ></p:link></li>
+		      	<li><p:link value="Moradores" outcome="/usuario/listagemUsuario.faces" ></p:link></li>
 		      </ul>
 		    </li>
 		    <li><a href="#"><p:graphicImage id="icoComumMenu" url="/img/icones/ico_comum.png" /> <span id="titulosubmenu">Comunicação</span></a>
@@ -29,11 +29,11 @@
 			</li>
 			<li><a href="#"><p:graphicImage id="icoFinanceiroMenu" url="/img/icones/ico_financeiro.png" /> <span id="titulosubmenu">Financeiro</span></a>
 				<ul id="submenu">
-				<li><p:link value="Configurações" rendered="#{principalController.ehSindico()}" outcome="/financeiro/gerenciarFinanceiro.faces" /></li>
-				<li><p:link value="Lançamento de título"  rendered="#{principalController.ehSindico()}" outcome="/boleto/configuracaoBoleto.faces" /></li>
-				<li><p:link value="Emitir de boleto" rendered="#{principalController.ehSindico()}" outcome="/financeiro/gerarBoletos.faces" /></li>
+				<!-- li><p:link value="Configurações" rendered="#{principalController.ehSindico()}" outcome="/financeiro/gerenciarFinanceiro.faces" /></li-->
+				<!-- li><p:link value="Lançamento de título"  rendered="#{principalController.ehSindico()}" outcome="/boleto/configuracaoBoleto.faces" /></li -->
+				<!-- li><p:link value="Emitir de boleto" rendered="#{principalController.ehSindico()}" outcome="/financeiro/gerarBoletos.faces" /></li -->
 				<li><p:link value="Meus boletos" outcome="/financeiro/gerarBoletoPorUsuario.faces" /></li>
-				<li><p:link value="Lançar receitas e despesas" outcome="/balanco/lancarBalanco.faces" rendered="#{principalController.ehSindico()}" /></li>
+				<!-- li><p:link value="Lançar receitas e despesas" outcome="/balanco/lancarBalanco.faces" rendered="#{principalController.ehSindico()}" /></li -->
 				<li><p:link value="Ver as prestações de contas" outcome="/balanco/listagemBalanco.faces"  /></li>
 				</ul>
 			</li>

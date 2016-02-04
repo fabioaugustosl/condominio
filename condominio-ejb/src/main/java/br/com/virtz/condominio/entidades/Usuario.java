@@ -38,10 +38,18 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 					+ " LEFT JOIN FETCH u.condominio c "
 					+ " LEFT JOIN FETCH c.areasComuns areas "
 					+ " WHERE u.email = :email and u.cadastroConfirmado = 1 AND u.deletado = 0"),
+	@NamedQuery(name = "Usuario.recuperarPorEmailAutenticacao", 
+			query = "Select u FROM usuario u "
+							+ " LEFT JOIN FETCH u.condominio c "
+							+ " LEFT JOIN FETCH c.areasComuns areas "
+							+ " WHERE u.email = :email AND u.deletado = 0 ORDER BY c.id DESC"),
 	@NamedQuery(name = "Usuario.recuperarPorCondominioETipoUsuario", 
 			query = "Select u FROM usuario u "
 					+ " JOIN u.condominio c "
-					+ " WHERE c.id = :idCondominio AND u.tipoUsuario = :tipoUsuario AND u.deletado = 0")
+					+ " WHERE c.id = :idCondominio AND u.tipoUsuario = :tipoUsuario AND u.deletado = 0"),
+	@NamedQuery(name = "Usuario.recuperarUsuariosPorEmail", 
+				query = "Select u FROM usuario u "
+							+ " WHERE u.email = :email AND u.deletado = 0")
 })
 public class Usuario extends Entidade implements Serializable {
 
@@ -275,6 +283,18 @@ public class Usuario extends Entidade implements Serializable {
 
 	public void setDeletado(Boolean deletado) {
 		this.deletado = deletado;
+	}
+	
+	public String getNomeExibicao(){
+		if(this.nome == null || this.nome.length() < 20){
+			return this.nome;
+		}
+		String[] nomeQuebrado = this.nome.split(" ");
+		if(nomeQuebrado.length > 1){
+			String n = nomeQuebrado[0];
+			return n;
+		}
+		return this.nome;
 	}
 	
 	

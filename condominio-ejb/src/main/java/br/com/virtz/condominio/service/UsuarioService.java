@@ -156,9 +156,34 @@ public class UsuarioService implements IUsuarioService {
 		}
 	}
 
+	
 	@Override
 	public List<Usuario> recuperarSindicos(Long idCondominio) {
 		return usuarioDAO.recuperarSindicos(idCondominio);
+	}
+
+	
+	@Override
+	public List<Usuario> recuperarUsuariosPorEmail(String email) {
+		return usuarioDAO.recuperarUsuariosPorEmail(email); 
+	}
+	
+	
+	@Override
+	public boolean emailJaEstaAtivo(String email) {
+		if(StringUtils.isBlank(email)){
+			return false;
+		}
+		
+		List<Usuario> usuarios = usuarioDAO.recuperarUsuariosPorEmail(email);
+		if(usuarios != null && !usuarios.isEmpty()){
+			for(Usuario u : usuarios){
+				if(u.getCadastroConfirmado() && u.getCondominio() != null){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

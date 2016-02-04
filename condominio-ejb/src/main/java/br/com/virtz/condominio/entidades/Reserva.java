@@ -28,7 +28,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.nome = :nomeUsuario AND r.data = :data "),
 	@NamedQuery(name = "Reserva.recuperarPorAreaEmailEData", 
 			query = "Select r FROM reserva r "
-					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.email = :emailUsuario AND r.data = :data ")
+					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.email = :emailUsuario AND r.data = :data "),
+	@NamedQuery(name = "Reserva.recuperarPorAreaEEmail", 
+			query = "Select r FROM reserva r "
+					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.email = :emailUsuario ")
 })
 public class Reserva extends Entidade implements Serializable {
 
@@ -38,7 +41,7 @@ public class Reserva extends Entidade implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@NotNull
 	@Column(name = "data", nullable = false)
 	private Calendar data;

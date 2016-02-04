@@ -30,7 +30,16 @@
    		vertical-align: middle;
    	}
  
- .ui-autocomplete-input{width: 100%;}
+ 	.ui-autocomplete-input{width: 100%;}
+ 	
+ 	.ui-radiobutton-icon{
+ 		margin-left: 0px !important;
+ 		margin-top:-1px !important;
+ 	}
+ 	
+ 	.ui-selectoneradio td {padding-left: 4px;}
+ 	
+ 	
    </style>
    
    	<h:form id="form" style="width:100%" styleClass="formPad5">
@@ -38,6 +47,12 @@
    		<p:remoteCommand id="atualizarConf" name="atualizarConf" 
    				actionListener="#{lancarBalancoController.montarBalanco()}" immediate="true" 
    				update="panelInfoItem, containerItens"></p:remoteCommand>
+   				
+   		
+   		<p:remoteCommand id="atualizarComboCategoria" name="atualizarComboCategoria" 
+   				actionListener="#{lancarBalancoController.carregarComboTipo()}" immediate="true" 
+   				update="selectCategoriaItens"></p:remoteCommand>		
+   				
    				
    	
    		<h1>Lançamento de receitas e despesas</h1>
@@ -74,32 +89,45 @@
 	 	<br />
 	 	
 	 	<p:outputPanel id="panelInfoItem" >
-		 	<p:outputLabel value="Você deseja lançar uma " styleClass="labelPadraoInline" />
-		 	<p:selectOneButton value="#{lancarBalancoController.tipoBalanco}" 
-		 			valueChangeListener="#{lancarBalancoController.carregarDescricoesAutoCompletar(null)}">
-	            <f:selectItem itemLabel="Receita" itemValue="RECEITA" />
-	            <f:selectItem itemLabel="Despesa" itemValue="DESPESA" />
-	        </p:selectOneButton>
-	        
-	        <br /><br />
-	        
-			<div >
+		 	
+		 	<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+		        <p:outputLabel value="Você deseja lançar uma " styleClass="labelPadraoInline" />
+				 	
+			 	 <p:selectOneRadio value="#{lancarBalancoController.tipoBalanco}" >
+		            <p:ajax event="change" oncomplete="atualizarComboCategoria()" process="@this" />
+		            <f:selectItem itemLabel="Receita" itemValue="RECEITA" />
+		            <f:selectItem itemLabel="Despesa" itemValue="DESPESA" />
+		        </p:selectOneRadio>
+	    	</h:panelGrid>
+	    
+   
 				<p:outputLabel for="valorItem" value="Valor: R$" styleClass="labelPadrao"  />
-				<p:inputText id="valorItem" styleClass="inputPadrao"  style="width:100px" 
+				<p:inputText id="valorItem" styleClass="inputPadrao"  style="width:100px; margin-left:10px;" 
 						required="true" requiredMessage="O campo valor é obrigatório."
 						value="#{lancarBalancoController.valor}" maxlength="10"  >
 							<f:convertNumber pattern="#0.00"/>
 				</p:inputText> 
-			</div>
-	        <div >		 	
+	 		<br />
 			 	<p:outputLabel for="descItem" value="Descrição:" styleClass="labelPadrao" /><br />
-			 	<p:autoComplete id="descItem"   styleClass="inputPadraoAutocompleteTxt"
+			 	<p:inputText id="descItem" styleClass="inputPadrao"
 			 			 value="#{lancarBalancoController.descricao}" maxlength="100" 
-			 			  required="true" requiredMessage="O campo descrição é obrigatório."  
-			 			completeMethod="#{lancarBalancoController.completeText}" />
+			 			  required="true" requiredMessage="O campo descrição é obrigatório." >
+			 	</p:inputText> 
 				
-			</div>
+			<br />
 			
+			<p:outputLabel value="Categoria:" styleClass="labelPadrao" /><br />
+		 	<p:selectOneMenu id="selectCategoriaItens" styleClass="selectPadrao"
+		 	style="width:50%"
+		 			value="#{lancarBalancoController.categoriaItemBalancoSelecionada}" 
+	 				converter="converterEntityById">
+	 			<f:selectItem itemLabel="Selecione ..." itemValue="" />
+	            <f:selectItems value="#{lancarBalancoController.categoriasItemBalanco}"
+		 			var="item" itemLabel="#{item.nome}" itemValue="#{item}"  />
+	        </p:selectOneMenu>
+			
+			<br />
+		
 			<p:outputPanel id="painelArquivo" style="position:relative; diplay:block; margin-top:10px; " layout="block" >
 		       
 		        <p:fileUpload rendered="#{lancarBalancoController.arqBalanco == null}"

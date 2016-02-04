@@ -68,13 +68,7 @@
       <!-- Optional, but highly recommended -->
       <!-- Arquillian allows you to test enterprise code such as EJBs and 
          Transactional(JTA) JPA from JUnit/TestNG -->
-      <dependency>
-         <groupId>org.jboss.arquillian.junit</groupId>
-         <artifactId>arquillian-junit-container</artifactId>
-         <version>1.0.0.CR4</version>
-         <scope>test</scope>
-      </dependency>
-      
+           
       <dependency>
 		<groupId>javax.mail</groupId>
 		<artifactId>mail</artifactId>
@@ -120,7 +114,7 @@
                   <artifactId>maven-surefire-plugin</artifactId>
                   <version>2.4.3</version>
                   <configuration>
-                     <skip>true</skip>
+                     <skip>false</skip>
                   </configuration>
                </plugin>
             </plugins>

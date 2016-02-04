@@ -287,13 +287,13 @@ public class BalancoService implements IBalancoService {
 
 
 	@Override
-	public List<CategoriaItemBalanco> recuperarPorCondominio(Long idCondominio, EnumTipoBalanco tipoBalanco) {
+	public List<CategoriaItemBalanco> recuperarCategoriaItemPorCondominio(Long idCondominio, EnumTipoBalanco tipoBalanco) {
 		return categoriaDAO.recuperarPorCondominio(idCondominio, tipoBalanco);
 	}
 
 
 	@Override
-	public List<CategoriaItemBalanco> recuperarPorCondominio(Long idCondominio) {
+	public List<CategoriaItemBalanco> recuperarCategoriaItemPorCondominio(Long idCondominio) {
 		return categoriaDAO.recuperarPorCondominio(idCondominio);
 	}
 

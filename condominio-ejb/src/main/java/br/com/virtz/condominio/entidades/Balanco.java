@@ -1,8 +1,13 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -71,7 +76,8 @@ public class Balanco extends Entidade implements Serializable {
 	@Transient
 	private Double totalDespesas = null;
 	
-	
+	@Transient
+	private List<CategoriaItemBalanco> categoriasItensBalanco = null;
 		
 	
 	public Balanco() {
@@ -193,5 +199,17 @@ public class Balanco extends Entidade implements Serializable {
 		this.totalDespesas = 0d;
 		this.totalReceitas = 0d;
 	}
+
+	public List<CategoriaItemBalanco> getCategoriasItensBalanco() {
+		return categoriasItensBalanco;
+	}
+
+	public void setCategoriasItensBalanco(
+			List<CategoriaItemBalanco> categoriasItensBalanco) {
+		this.categoriasItensBalanco = categoriasItensBalanco;
+	}
+
+
+	
 
 }
