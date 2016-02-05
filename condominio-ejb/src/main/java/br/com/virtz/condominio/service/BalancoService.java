@@ -85,7 +85,7 @@ public class BalancoService implements IBalancoService {
 
 	@Override
 	public ItemBalanco salvarReceita(Long idBalanco, Double valor,
-								String descricao, ArquivoBalanco arquivo, Usuario usuario) throws AppException {
+								String descricao, ArquivoBalanco arquivo, Usuario usuario, CategoriaItemBalanco categoria) throws AppException {
 		if(idBalanco == null || valor == null || descricao == null){
 			throw new AppException("Campos obrigatórios não preenchidos.");
 		}
@@ -97,6 +97,7 @@ public class BalancoService implements IBalancoService {
 		i.setTipoBalanco(EnumTipoBalanco.RECEITA);
 		i.setUsuario(usuario);
 		i.setValor(valor);
+		i.setCategoria(categoria);
 		
 		Balanco b = balancoDAO.recuperarPorId(idBalanco);
 		i.setBalanco(b);
@@ -111,7 +112,7 @@ public class BalancoService implements IBalancoService {
 
 	@Override
 	public ItemBalanco salvarDespesa(Long idBalanco, Double valor,
-								String descricao, ArquivoBalanco arquivo, Usuario usuario) throws AppException {
+								String descricao, ArquivoBalanco arquivo, Usuario usuario, CategoriaItemBalanco categoria) throws AppException {
 		if(idBalanco == null || valor == null || descricao == null){
 			throw new AppException("Campos obrigatórios não preenchidos.");
 		}
@@ -122,6 +123,7 @@ public class BalancoService implements IBalancoService {
 		i.setTipoBalanco(EnumTipoBalanco.DESPESA);
 		i.setUsuario(usuario);
 		i.setValor(valor);
+		i.setCategoria(categoria);
 		
 		Balanco b = balancoDAO.recuperarPorId(idBalanco);
 		i.setBalanco(b);

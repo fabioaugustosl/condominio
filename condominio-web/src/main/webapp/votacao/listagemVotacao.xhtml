@@ -53,10 +53,10 @@
 
 		    </p:column>
 		    
-		    <p:column headerText="Ações" styleClass="colunaLargura160" style="text-align:center">
+		    <p:column headerText="Ações" styleClass="colunaLargura220" style="text-align:right">
 			        
 			         <p:commandLink actionListener="#{listagemVotacaoController.excluirVotacao(votacao)}"
-			         styleClass="linkBotao"
+			         	styleClass="linkBotao"
 			        	rendered="#{listagemVotacaoController.possoRemover(votacao)}" update="dtListagemVotacao"
 			         	id="excluirVotacaoSelecionada" >
 			         		<p:confirm header="Confirmação" message="Tem certeza que deseja remover essa votação?" icon="ui-icon-alert" />
@@ -78,10 +78,23 @@
 			         </p:commandLink>
 			         
 			         <p:commandLink actionListener="#{listagemVotacaoController.carregarVotos(votacao)}"
-			         styleClass="linkBotao"
+			         	styleClass="linkBotao"
 			         	rendered="#{principalController.ehSindico()}" update=":form:dialogResultadoDetalhado"
 			        	id="resultadoVotacaoSelecionadaDetalhamento" onsuccess="PF('dialogResultadoDetalhado').show()" >
 			        	<p:graphicImage id="imgResultadoVotDetalhada" url="/img/icones/ico_resultado_det.png" title="Clique para ver o resultado detalhado dessa votação. Voto por apto." />
+			         </p:commandLink>
+			         
+			         <p:commandLink actionListener="#{listagemVotacaoController.enviarEmailResultadoVotacao(votacao)}"
+			         		rendered="#{listagemVotacaoController.estaEncerrada(votacao)}"
+				         	styleClass="linkBotao" id="resultadoPorEmail" >
+			        	<p:graphicImage id="imgResultadoVotEmail" url="/img/icones/email.png" title="Clique para enviar o resultado dessa votação por email." />
+			         </p:commandLink>
+			         
+			         <p:commandLink actionListener="#{listagemVotacaoController.encerrarVotacao(votacao)}"
+			         		rendered="#{not listagemVotacaoController.estaEncerrada(votacao)}"
+			         		styleClass="linkBotao" id="encerrarVotacaoSelecionada" update="dtListagemVotacao,@form" >
+			        	<p:confirm header="Confirmação" message="Tem certeza que deseja encerrar essar votação? Após encerrada não é possível reabrí-la novamente." icon="ui-icon-alert" />
+			        	<p:graphicImage id="imgEncerrar" url="/img/icones/ico_encerrar.png" title="Clique para encerrar essa votação." />
 			         </p:commandLink>
 			         
 		    </p:column>

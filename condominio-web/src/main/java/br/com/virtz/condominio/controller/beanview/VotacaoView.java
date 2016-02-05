@@ -66,10 +66,13 @@ public class VotacaoView {
 			totalVotos += votos;
 		}
 		
+		BigDecimal totalVotosBig = new BigDecimal(totalVotos);
+		
 		// calcula a percentagem de cada um
 		for(String chave : resultadoVotacaoSelecionada.keySet()){
-			Integer t = resultadoVotacaoSelecionada.get(chave);
-			BigDecimal p = new BigDecimal(((t*100)/totalVotos));
+			BigDecimal t = new BigDecimal(resultadoVotacaoSelecionada.get(chave));
+			
+			BigDecimal p = t.multiply(new BigDecimal(100)).divide(totalVotosBig,2, RoundingMode.HALF_UP);// new BigDecimal(((t.*100)/totalVotos));
 					
 			resultadoPercentagemVotacaoSelecionada.put(chave, p.setScale(2, RoundingMode.HALF_EVEN).doubleValue());
 		}

@@ -18,6 +18,7 @@
    		margin-bottom: 1px; 
    		min-height: 25px;
    		vertical-align: middle;
+   		margin-left:-12px;
    	}
    	
    	.itemDespesa{
@@ -28,6 +29,11 @@
    		margin-bottom: 1px; 
    		min-height: 25px;
    		vertical-align: middle;
+   		margin-left:-12px;
+   	}
+   	
+   	.textoValor{
+   		font-size: 0.9em!important;
    	}
  
  	.ui-autocomplete-input{width: 100%;}
@@ -171,22 +177,22 @@
 	 	
 	 	<table style="width: 100%">
 	 	<tr>
-	 		<td style="width: 50%; padding: 5px; ">
+	 		<td style="width: 50%; padding: 5px; vertical-align: top; ">
 	 			<p:dataList value="#{lancarBalancoController.receitas}" var="receita"  style="top:0px;"
-	 				type="ordered" emptyMessage="Nenhuma receita lançada" itemStyleClass="itemReceita" >
+	 				 emptyMessage="Nenhuma receita lançada" itemStyleClass="itemReceita" >
 			        <f:facet name="header">
 			            Receitas
 			        </f:facet>
 			        
 			        <f:facet name="footer" >
-			        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="color:blue" value="#{lancarBalancoController.balanco.totalReceitas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="margin-left:5px;color:blue" value="R$ #{lancarBalancoController.balanco.totalReceitas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
 			        </f:facet>
 			        
-			        <div style="width: 65%; float: left;">
+			        <div style="width: 62%; float: left;">
 			        	#{receita.descricao}
 			        </div>
 			        <div style="width: 25%; float: left; text-align: right;">
-			        	R$ #{receita.valor}
+			        	<p:outputLabel  value="#{receita.valorFormatado}" styleClass="textoValor"></p:outputLabel>
 			        </div>
 			        <div style="width: 10%; float: left; text-align: center;">
 			        	<p:commandLink actionListener="#{lancarBalancoController.removerItemBanlanco(receita)}" 
@@ -199,23 +205,23 @@
 			    </p:dataList>
 	 		</td>
 	 		
-	 		<td style="width: 50%; padding: 5px; ">
+	 		<td style="width: 50%; padding: 5px;vertical-align: top; ">
 	 			
 	 			<p:dataList value="#{lancarBalancoController.despesas}" var="despesa"   style="top:0px;"
-	 				type="ordered" emptyMessage="Nenhuma despesa lançada" itemStyleClass="itemDespesa">
+	 				 emptyMessage="Nenhuma despesa lançada" itemStyleClass="itemDespesa">
 			        <f:facet name="header">
 			            Despesas
 			        </f:facet>
 			        
 			        <f:facet name="footer">
-			        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="color:red" value="#{lancarBalancoController.balanco.totalDespesas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="margin-left:5px; color:red;" value="R$ #{lancarBalancoController.balanco.totalDespesas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
 			        </f:facet>
 			        
-			        <div style="width: 65%; float: left;">
+			        <div style="width: 62%; float: left;">
 			        	#{despesa.descricao}
 			        </div>
 			        <div style="width: 25%; float: left; text-align: right;">
-			        	R$ #{despesa.valor}
+			        	<p:outputLabel  value="#{despesa.valorFormatado}" styleClass="textoValor"></p:outputLabel>
 			        </div>
 			        <div style="width: 10%; float: left; text-align: center;">
 			           	<p:commandLink actionListener="#{lancarBalancoController.removerItemBanlanco(despesa)}" 

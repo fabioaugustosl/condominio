@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -158,6 +159,11 @@ public class ItemBalanco extends Entidade implements Serializable {
 			return true;
 		}
 		return false;
+	}
+	
+	public String getValorFormatado(){
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		return formatter.format(this.valor);
 	}
 	
 

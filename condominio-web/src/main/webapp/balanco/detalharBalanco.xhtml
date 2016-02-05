@@ -28,8 +28,19 @@
    		vertical-align: middle;
    	}
  
+ 	.tituloCategoria{
+ 		text-transform: uppercase;
+ 	}
    </style>
-   
+   <script>
+	$( document ).ready(function() {
+		$('.ui-datatable-tablewrapper thead').remove();
+		$('.ui-datatable-subtable-header').attr("colspan","");
+		$('.ui-datatable-subtable-header').css("width","60%");
+		$('.ui-datatable-subtable-header').parent().append("<td></td><td></td>");
+	});
+	
+   </script>
    	<h:form id="form" style="width:100%" styleClass="formPad10">
    	
    		<h1>Detalhamento da prestação de contas mensal</h1>
@@ -43,22 +54,22 @@
 		 	
 	 		<p:dataTable var="receita" value="#{detalharBalancoController.demonstrativo.categoriasComItensReceita}">
 		        <f:facet name="header">
-		            Receitas
+		            <label style="font-size: 1.4em;">Receitas</label>
 		        </f:facet>
 		        
 		        <f:facet name="footer" >
-		        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="color:blue" value="#{detalharBalancoController.demonstrativo.totalReceitas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+		        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="color:blue; margin-left:3px;" value="#{detalharBalancoController.demonstrativo.totalReceitas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
 		        </f:facet>
 		        
 		        <p:subTable var="item" value="#{receita.itens}">
 		            <f:facet name="header">
-		                <h:outputText value="#{receita.nome}" />
+		                <h:outputText styleClass="tituloCategoria" value="#{receita.nome}" />
 		            </f:facet>
-		            <p:column>
+		            <p:column  style="">
 		                <h:outputText value="#{item.descricao}" />
 		            </p:column>
-		            <p:column>
-		                <p:outputLabel value="R$ " /> <p:outputLabel value="#{item.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+		            <p:column style="text-align:right;">
+		                <p:outputLabel value="R$ " /> <p:outputLabel style="margin-left:3px;" value="#{item.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
 		            </p:column>
 		            <p:column styleClass="colunaLargura100">
 		                <p:commandLink ajax="false" 
@@ -70,10 +81,10 @@
 			         	</p:commandLink>
 		            </p:column>
 		            
-		            <p:columnGroup type="footer">
+		            <p:columnGroup type="footer" >
 		                <p:row>
-		                    <p:column footerText="Subtotal: " style="text-align:right"/>
-		                    <p:column footerText="#{receita.totalCategoriaFormatado}" ></p:column>
+		                    <p:column footerText="Subtotal: " style="text-align:right; color:blue;"/>
+		                    <p:column footerText="#{receita.totalCategoriaFormatado}" style="text-align:right; color:blue;"  ></p:column>
 		                </p:row>
 		            </p:columnGroup>
 		        </p:subTable>
@@ -82,24 +93,24 @@
       		<br />
       		<p:dataTable var="despesa" value="#{detalharBalancoController.demonstrativo.categoriasComItensDespesa}">
 			        <f:facet name="header">
-			            Despesas 
+			        	<label style="font-size: 1.4em;">Despesas</label>
 			        </f:facet>
 			        
 			        <f:facet name="footer" >
-			        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="color:red" value="#{detalharBalancoController.demonstrativo.totalDespesas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="margin-left:3px; color:red;" value="R$ #{detalharBalancoController.demonstrativo.totalDespesas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
 			        </f:facet>
 			        
 			        <p:subTable var="item" value="#{despesa.itens}">
 			            <f:facet name="header">
-			                <h:outputText value="#{despesa.nome}" />
+			                <h:outputText styleClass="tituloCategoria" value="#{despesa.nome}" />
 			            </f:facet>
 			            <p:column style="width:60% !important" >
 			                <h:outputText value="#{item.descricao}" />
 			            </p:column>
-			            <p:column style="width:30% !important">
-			                <p:outputLabel value="R$ " /> <p:outputLabel value="#{item.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			            <p:column style="width:30% !important; text-align:right;">
+			                <p:outputLabel value="R$ " /> <p:outputLabel style="margin-left:3px;" value="#{item.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
 			            </p:column>
-			            <p:column style="width:10% !important" styleClass="colunaLargura100"> 
+			            <p:column style="width:10% !important; text-align:center;" styleClass="colunaLargura100"> 
 			                <p:commandLink ajax="false" 
 				        		rendered="#{item.arquivo != null}"
 					     		id="downloadDocSelecionada" immediate="true" >
@@ -111,8 +122,8 @@
 			            
 			            <p:columnGroup type="footer">
 			                <p:row>
-			                    <p:column footerText="Subtotal: " style="text-align:right"/>
-			                    <p:column footerText="#{despesa.totalCategoriaFormatado}" ></p:column>
+			                    <p:column footerText="Subtotal: " style="text-align:right; color:red;"/>
+			                    <p:column footerText="#{despesa.totalCategoriaFormatado}" style="text-align:right; color:red;" ></p:column>
 			                </p:row>
 			            </p:columnGroup>
 			        </p:subTable>

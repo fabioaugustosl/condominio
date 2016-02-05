@@ -112,14 +112,16 @@ public class ListagemDocumentoController {
 	 
 	 
 	 public boolean podeEditar(){
-		 if(EnumTipoUsuario.SINDICO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
+		 if(EnumTipoUsuario.SINDICO.equals(sessao.getUsuarioLogado().getTipoUsuario())
+				 || EnumTipoUsuario.ADMINISTRATIVO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
 			 return Boolean.TRUE;
 		 }
 		 return Boolean.FALSE;
 	 }
 	 
 	 public boolean podeExcluir(){
-		 if(EnumTipoUsuario.SINDICO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
+		 if(EnumTipoUsuario.SINDICO.equals(sessao.getUsuarioLogado().getTipoUsuario())
+				 ||EnumTipoUsuario.ADMINISTRATIVO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
 			 return Boolean.TRUE;
 		 }
 		 return Boolean.FALSE;

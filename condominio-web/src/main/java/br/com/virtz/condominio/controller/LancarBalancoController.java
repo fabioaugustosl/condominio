@@ -214,12 +214,11 @@ public class LancarBalancoController {
 			if(itemEditar != null){
 				balancoService.salvarItem(itemEditar);
 			}else {
-				
 				if(EnumTipoBalanco.DESPESA.equals(tipo)){
-					ItemBalanco i = balancoService.salvarDespesa(balanco.getId(), valor, descricao, arqBalanco, usuario);
+					ItemBalanco i = balancoService.salvarDespesa(balanco.getId(), valor, descricao, arqBalanco, usuario, categoriaItemBalancoSelecionada);
 					despesas.add(i);
 				}else{
-					ItemBalanco i = balancoService.salvarReceita(balanco.getId(), valor, descricao, arqBalanco, usuario);
+					ItemBalanco i = balancoService.salvarReceita(balanco.getId(), valor, descricao, arqBalanco, usuario, categoriaItemBalancoSelecionada);
 					receitas.add(i);
 				}
 			}

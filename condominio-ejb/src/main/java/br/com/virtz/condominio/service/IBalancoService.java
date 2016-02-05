@@ -36,8 +36,8 @@ public interface IBalancoService {
 
 	
 	// Despesas / Receitas
-	public ItemBalanco salvarReceita(Long idBalanco, Double valor, String descricao, ArquivoBalanco arquivo, Usuario usuario)  throws AppException;
-	public ItemBalanco salvarDespesa(Long idBalanco, Double valor, String descricao, ArquivoBalanco arquivo, Usuario usuario)  throws AppException;
+	public ItemBalanco salvarReceita(Long idBalanco, Double valor, String descricao, ArquivoBalanco arquivo, Usuario usuario, CategoriaItemBalanco categoria)  throws AppException;
+	public ItemBalanco salvarDespesa(Long idBalanco, Double valor, String descricao, ArquivoBalanco arquivo, Usuario usuario, CategoriaItemBalanco categoria)  throws AppException;
 	public ItemBalanco salvarItem(ItemBalanco item) throws AppException;
 	public void removerItemBalanco(Long idItemBalanco) throws AppException;
 	public Double somarItens(List<ItemBalanco> itens) throws AppException;

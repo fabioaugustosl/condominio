@@ -26,6 +26,7 @@ public interface IVotacaoService {
 	public List<Votacao> recuperarTodasAtivas(Condominio condominio);
 	public void ativarVotacao(Votacao votacao) throws AppException;
 	public void desativarVotacao(Votacao votacao) throws AppException;
+	public void encerrarVotacao(Long idVotacao) throws AppException;
 	public void removerVotacao(Votacao votacao) throws AppException;
 	public Integer totalVotos(Votacao votacao);
 	public Voto recuperarVotoPorUsuario(Votacao votacao, Usuario usuario) throws ParametroObrigatorioNuloException;

@@ -262,4 +262,23 @@ public class VotacaoService implements IVotacaoService {
 		return votoDAO.recuperarTodosVotos(idVotacao);
 	}
 
+
+	@Override
+	public void encerrarVotacao(Long idVotacao) throws AppException {
+		if(idVotacao == null){
+			throw new AppException("Id da votação inválido.");
+		}
+		Votacao votacao = votacaoDAO.recuperarPorId(idVotacao); 
+		if(votacao == null){
+			throw new AppException("Erro na identificação da desativação.");
+		}
+		votacao.setEncerrada(Boolean.TRUE);
+		try{
+			this.salvarVotacao(votacao);
+		} catch(Exception e){
+			e.printStackTrace();
+			throw new AppException("Erro encerrar votação");
+		}
+	}
+
 }

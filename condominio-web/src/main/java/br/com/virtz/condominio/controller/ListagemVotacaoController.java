@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,14 +12,23 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import br.com.virtz.boleto.util.DataUtil;
+import br.com.virtz.condominio.bean.Email;
+import br.com.virtz.condominio.constantes.EnumTemplates;
+import br.com.virtz.condominio.controller.beanview.VotacaoView;
+import br.com.virtz.condominio.email.EnviarEmail;
+import br.com.virtz.condominio.email.template.LeitorTemplate;
+import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.entidades.Voto;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
+import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.service.IVotacaoService;
 import br.com.virtz.condominio.session.SessaoUsuario;
+import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
 
@@ -28,6 +38,9 @@ public class ListagemVotacaoController {
 	
 	@EJB
 	private IVotacaoService votacaoService;
+
+	@EJB
+	private IUsuarioService usuarioService;
 	
 	@Inject
 	private SessaoUsuario sessao;
@@ -40,6 +53,16 @@ public class ListagemVotacaoController {
 	
 	@Inject
 	private NavigationPage navigation;
+	
+	@Inject
+	private IArquivosUtil arquivoUtil;
+
+	@Inject
+	private LeitorTemplate leitor;
+	
+	@EJB
+	private EnviarEmail enviarEmail;
+	
 	
 	
 	private List<Votacao> votacoes;
@@ -157,7 +180,72 @@ public class ListagemVotacaoController {
 		}
 	}
 	
+	public void encerrarVotacao(Votacao votacaoSelecionada) {
+		try {
+			votacaoService.encerrarVotacao(votacaoSelecionada.getId());
+			votacoes = votacaoService.recuperarTodas(sessao.getUsuarioLogado().getCondominio());
+			message.addInfo("A votação foi encerrada com sucesso. Uma boa ideia seria enviar email avisando os moradores. Para isso clique no icone de Email na votação.");
+		} catch (AppException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			message.addError("Ocorreu um erro ao encerrar a votação");
+		}
+	}
 	
+	
+	
+	public void enviarEmailResultadoVotacao(Votacao votacao) {
+		
+		VotacaoView vv = null;
+		
+		// recupera os resultados
+		if(votacao != null){
+			vv = new VotacaoView(votacao);
+			vv.getUtil().tratarTipoVotacaoExibicao(votacao.getTipoVotacao());
+			
+			try {
+				vv.setResultadoVotacaoSelecionada(votacaoService.recuperarResultado(votacao.getId()));
+			} catch (AppException e) {
+				e.printStackTrace();
+				return;
+			}
+		} else{
+			return;
+		}
+		
+		// monta resultado para envio
+		List<String> resultados = new ArrayList<String>();
+		for(String chave : vv.getResultadoVotacaoSelecionada().keySet()){
+			StringBuilder sb = new StringBuilder("[");
+			sb.append(vv.getResultadoVotacaoSelecionada().get(chave)).append(" voto(s) - ").append(vv.getResultadoPercentagemVotacaoSelecionada().get(chave)).append("% ]   ");
+			sb.append(chave).append("<br />");
+			resultados.add(sb.toString());
+		}
+		
+		
+		// enviar emails
+		Condominio c = sessao.getUsuarioLogado().getCondominio();
+		List<Usuario> usuarios  = usuarioService.recuperarTodos(c);
+		
+		if(usuarios != null){
+			for(Usuario u : usuarios){
+				
+				DataUtil dataUtil = new DataUtil();
+				
+				Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
+				mapParametrosEmail.put("nome_usuario", u.getNomeExibicao());
+				mapParametrosEmail.put("assunto_votacao", votacao.getAssuntoVotacao());
+				mapParametrosEmail.put("resultados", resultados);
+				
+				String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.RESULTADO_FINAL_VOTACAO.getNomeArquivo(), mapParametrosEmail);
+				
+				Email email = new Email(EnumTemplates.RESULTADO_FINAL_VOTACAO.getDe(), u.getEmail(), EnumTemplates.RESULTADO_FINAL_VOTACAO.getAssunto(), msg);
+				enviarEmail.enviar(email);
+			}
+		}
+		
+		message.addInfo("Resultado enviado para todos os moradores do condomínio.");
+	}
 	
 	
 	/* GETTERS E SETTERS*/

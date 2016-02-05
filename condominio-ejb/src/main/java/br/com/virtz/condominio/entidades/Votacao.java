@@ -64,6 +64,12 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 	@Column(name = "ativa")
 	private boolean ativa;
 	
+	@Column(name = "encerrada")
+	private boolean encerrada;
+	
+	@Column(name = "emailEnviado")
+	private boolean emailEnviado;
+	
 	@Column(name = "resultadoParcial")
 	private boolean resultadoParcial;
 	
@@ -165,6 +171,14 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 	public void setVotacaoOficial(Boolean votacaoOficial) {
 		this.votacaoOficial = votacaoOficial;
 	}
+	
+	public boolean isEncerrada() {
+		return encerrada;
+	}
+
+	public void setEncerrada(boolean encerrada) {
+		this.encerrada = encerrada;
+	}
 
 	public OpcaoVotacao adicionarNovaOpcao(String descricao){
 		OpcaoVotacao opcao = new OpcaoVotacao();
@@ -199,11 +213,24 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 	}
 	
 	public boolean estaEncerrada(){
+		
+		if(this.encerrada){
+			return Boolean.TRUE;
+		}
+		
 		Date hoje = new Date();
 		if(this.getDataLimite() != null && hoje.after(this.getDataLimite())){
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
+	}
+	
+	public boolean isEmailEnviado() {
+		return emailEnviado;
+	}
+
+	public void setEmailEnviado(boolean emailEnviado) {
+		this.emailEnviado = emailEnviado;
 	}
 
 	@Override

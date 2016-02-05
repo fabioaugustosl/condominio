@@ -138,7 +138,9 @@ public class AtualizarUsuarioController implements Serializable{
         try {
         	
         	if(!arquivoUtil.tamanhoImagemEhValido(event.getFile().getInputstream(), 300, 375)){
-        		throw new CondominioException("Erro. A imagem deve ter largura mínima de 300 e altura mínima de 375 pixels.");
+        		//throw new CondominioException("Erro. A imagem deve ter largura mínima de 300 e altura mínima de 375 pixels.");
+        		message.addError("A imagem é muito pequena! Ela deve ter largura mínima de 300 e altura mínima de 375 pixels.");
+        		return;
         	}
             
         	ArquivoUsuario arquivo = createArquivo(event.getFile().getSize());

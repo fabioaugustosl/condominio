@@ -166,6 +166,18 @@ h1{
 	width: 120px;
 }
 
+.colunaLargura240{
+	width: 240px;
+}
+
+.colunaLargura220{
+	width: 220px;
+}
+
+.colunaLargura200{
+	width: 200px;
+}
+
 .colunaLargura160{
 	width: 160px;
 }

@@ -33,7 +33,7 @@ import br.com.virtz.condominio.constantes.EnumTipoBalanco;
 		@NamedQuery(name = "CategoriaItemBalanco.recuperarCategoriaPorTipo", 
 			query = "Select a FROM CategoriaItemBalanco a WHERE a.condominio.id = :idCondominio AND a.tipoBalanco = :tipo " )
 })
-public class CategoriaItemBalanco extends Entidade implements Serializable {
+public class CategoriaItemBalanco extends Entidade implements Serializable, Comparable<CategoriaItemBalanco> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -135,6 +135,20 @@ public class CategoriaItemBalanco extends Entidade implements Serializable {
 
 	public void setTotalCategoria(Double totalCategoria) {
 		this.totalCategoria = totalCategoria;
+	}
+
+	@Override
+	public int compareTo(CategoriaItemBalanco o) {
+		if(o == null || o.getNome() == null){
+			return -1;
+		}
+		if("OUTROS".equals(o.getNome().toUpperCase())){
+			return -1;
+		}
+		if(this.getNome() == null && o.getNome() !=null){
+			return 1;
+		}
+		return this.getNome().compareTo(o.getNome());
 	}
 	
 	
