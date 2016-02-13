@@ -43,6 +43,7 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 	public static final String TIPO_ARQUIVO_ATA = "ATA";
 	public static final String TIPO_ARQUIVO_DOCUMENTO = "DOC";
 	public static final String TIPO_ARQUIVO_BALANCO = "BAL";
+	public static final String TIPO_PORTARIA = "POR";
 	public static final String TIPO_IMAGEM = "IMG";
 	public static final String DIRETORIO_PADRAO_TEMPLATES = "WEB-INF\\templates\\email";
 	public static final String THUMB_POS_FIXO = "_THUMB";
@@ -313,6 +314,17 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 		String ext = "."+pegarExtensao(nomeArq);
 		String novoNome = nomeArq.replace(ext, "");
 		return novoNome+ArquivosUtil.THUMB_POS_FIXO+ext;
+	}
+
+
+	@Override
+	public String gerarNomeAleatorio(String prefixo) {
+		int i = (int) (Math.random() * 10000000);
+        if(StringUtils.isNotBlank(prefixo)){
+        	return prefixo+"_"+String.valueOf(i);
+        }
+        	
+        return String.valueOf(i);
 	}
 	
 }

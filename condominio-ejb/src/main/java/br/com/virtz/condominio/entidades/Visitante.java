@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 								+ " WHERE v.condominio.id = :idCondominio  "
 								+ " ORDER BY v.id DESC"),
 				@NamedQuery(name = "Visitante.totalVisitantes", 
-					query = "SELECT count(v) FROM visitante v ")
+					query = "SELECT count(v) FROM visitante v WHERE v.condominio.id = :idCondominio   ")
 				
 })
 public class Visitante extends Entidade implements Serializable {
@@ -62,6 +62,9 @@ public class Visitante extends Entidade implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dataSaida")
 	private Date dataSaida;
+	
+	@Column(name = "foto", length = 100)
+	private String foto;
 	
 	
 	public Long getId() {
@@ -136,4 +139,12 @@ public class Visitante extends Entidade implements Serializable {
 		this.condominio = condominio;
 	}
 
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+	
 }

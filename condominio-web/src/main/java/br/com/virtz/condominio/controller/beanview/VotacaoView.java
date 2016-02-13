@@ -72,7 +72,12 @@ public class VotacaoView {
 		for(String chave : resultadoVotacaoSelecionada.keySet()){
 			BigDecimal t = new BigDecimal(resultadoVotacaoSelecionada.get(chave));
 			
-			BigDecimal p = t.multiply(new BigDecimal(100)).divide(totalVotosBig,2, RoundingMode.HALF_UP);// new BigDecimal(((t.*100)/totalVotos));
+			BigDecimal p = null;
+			if(totalVotosBig.doubleValue() > 0d){
+				p = t.multiply(new BigDecimal(100)).divide(totalVotosBig,2, RoundingMode.HALF_UP);// new BigDecimal(((t.*100)/totalVotos));
+			} else {
+				p = totalVotosBig;
+			}
 					
 			resultadoPercentagemVotacaoSelecionada.put(chave, p.setScale(2, RoundingMode.HALF_EVEN).doubleValue());
 		}

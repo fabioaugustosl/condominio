@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.com.virtz.condominio.dao.IVisitanteDAO;
+import br.com.virtz.condominio.entidades.Recebido;
 import br.com.virtz.condominio.entidades.Visitante;
 import br.com.virtz.condominio.exception.AppException;
 
@@ -61,6 +62,19 @@ public class VisitanteService implements IVisitanteService {
 	@Override
 	public List<Visitante> recuperarPorCondominioPaginado(Long idCondominio, int inicio, int qtdRegistros) {
 		return visitanteDAO.recuperarPaginado(idCondominio, inicio, qtdRegistros);
+	}
+
+
+	
+	// NÂO UTILIZADO NESSE SERVICE
+	@Override
+	public List<Recebido> recuperarPorApartamentoPaginado(Long idApartamento, int inicio, int qtdRegistros) {
+		return null;
+	}
+
+	@Override
+	public int totalVisitantesApto(Long idApartamento) {
+		return 0;
 	}
 	
 

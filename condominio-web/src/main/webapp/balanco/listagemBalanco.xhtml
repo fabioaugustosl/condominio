@@ -25,18 +25,15 @@
 		    </p:column>
 		    
 		    <p:column headerText="Total Receita" style="text-align:center; color:blue;">
-		         
-		        <p:outputLabel  style="color:blue"  value="R$ " /> 
-		         	<p:outputLabel style="color:blue"  value="#{balanco.totalReceitas}">
-		         		<f:convertNumber pattern="#0.00" />
-		         	</p:outputLabel>
+	         	<p:outputLabel style="color:blue"  value="#{balanco.totalReceitas}">
+	         		<f:convertNumber currencySymbol="R$" type="currency" />
+	         	</p:outputLabel>
 		    </p:column>
 		    
 		    <p:column headerText="Total Despesa" style="text-align:center; color: red;">
-		        <p:outputLabel style="color:red" value="R$ " /> 
-		        	<p:outputLabel style="color:red"  value="#{balanco.totalDespesas}" >
-		        		<f:convertNumber pattern="#0.00" />
-		        	</p:outputLabel>
+	        	<p:outputLabel style="color:red"  value="#{balanco.totalDespesas}" >
+	        		<f:convertNumber currencySymbol="R$" type="currency" />
+	        	</p:outputLabel>
 		    </p:column>
 		    
 		    <p:column headerText="Detalhar" style="text-align:center" styleClass="colunaLargura160">

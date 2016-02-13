@@ -8,13 +8,15 @@ import br.com.virtz.condominio.entidades.Recebido;
 import br.com.virtz.condominio.exception.AppException;
 
 @Local
-public interface IRecebidoService {
+public interface IRecebidoService extends PaginacaoService<Recebido> {
 	public List<Recebido> recuperarPorApartamento(Long idApartamento);
 	public List<Recebido> recuperarPorCondominio(Long idCondominio);
 	
-	public void salvarNovaEncomenda(Long idApartamento, String comentario) throws AppException ;
-	public void salvarNovaCorrespondencia(Long idApartamento, String comentario) throws AppException ;
+	public void salvarNovaEncomenda(Long idCondominio, Long idApartamento, String comentario) throws AppException ;
+	public void salvarNovaCorrespondencia(Long idCondominio, Long idApartamento, String comentario) throws AppException ;
 	public void salvarRecebido(Recebido recebido) throws AppException ;
 	public void remover(Long idRecebido) throws AppException;
+	public void salvarRetirada(Long idRecebido, String nomePessoa) throws AppException ;
+	
 }
 

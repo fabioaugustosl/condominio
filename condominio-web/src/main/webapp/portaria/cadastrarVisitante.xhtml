@@ -12,71 +12,103 @@
    
    <ui:define name="content">
 	
-	<h:form id="form" >   
+	<script> 
+
+	function atualizarFotoT(){
+		console.log("vai");
+		setTimeout(
+				function (){console.log("foi"); atualizarFoto();},
+				700);
+		
+	}
+	 
+	</script>
+	
+	<h:form id="form" styleClass="formPad10">   
+	   
+	   <p:remoteCommand id="atualizarFoto" name="atualizarFoto" update="photo" immediate="true" ></p:remoteCommand>
 	   
 	   	<h1>Cadastrar visitante</h1>
-	   		
+	   	<p:outputLabel styleClass="textoInformativo" 
+	   		value="Cadastre o visitante que vai acessar o condominio." />
+	 	<br />	
    		<p:outputPanel id="cadastroVisitantePanel" >
    		
-   			<p:outputPanel id="containerComboBloco" rendered="#{empty cadastroVisitanteController.blocoSelecionado}" >
-				<p:outputLabel value="Selecione o bloco:" styleClass="labelPadrao" ></p:outputLabel>
-				<br />
-			 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
-			 			value="#{cadastroVisitanteController.blocoSelecionado}" 
-						converter="converterEntityById"  >
-			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
-			 		<f:selectItems value="#{cadastroVisitanteController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
-			 		<p:ajax event="change" update="containerComboApartamentos"  />
-			 	</p:selectOneMenu>
-			 </p:outputPanel>
-			 	
-		 	<p:outputPanel id="containerComboApartamentos" >
-			 	<p:outputPanel id="containerComboApartamentosInterno" rendered="#{not empty cadastroVisitanteController.blocoSelecionado}" >
-			 		<p:outputLabel value="Selecione o apartamento:" styleClass="labelPadrao"></p:outputLabel>
-			 		<br />
-				 	<p:selectOneMenu id="comboApartamentos"  style="width:400px;"
-				 			value="#{cadastroVisitanteController.apartamentoSelecionado}" 
-							converter="converterEntityById" required="true"
-							requiredMessage="Favor selecionar o apartamento." >
-				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
-				 		<f:selectItems value="#{cadastroVisitanteController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
-				 	</p:selectOneMenu>
-				 </p:outputPanel>
-			</p:outputPanel>
-			
-			<br />
-			<p:outputLabel value="Nome: "  /> <br />
-		      			<p:inputText value="#{cadastroVisitanteController.visitante.nome}"  
-		      					maxlength="100" styleClass="inputPadrao" 
-		      					required="true" requiredMessage="O nome do visitante é obrigatório." />
-		    <br />  
-		    
-		    <p:outputLabel value="Documento (CPF ou RG): "  /> <br />
-		      			<p:inputText value="#{cadastroVisitanteController.visitante.documento}"  
-		      					maxlength="100" styleClass="inputPadrao" />
-		    <br />  
-		    
-		    <p:outputLabel value="Empresa: "  /> <br />
-		      			<p:inputText value="#{cadastroVisitanteController.visitante.empresa}"  
-		      					maxlength="100" styleClass="inputPadrao" />
-		    <br />  					
-
- 			<p:outputLabel value="Comentário" styleClass="labelPadrao" /><br />
-			<p:inputTextarea rows="10" cols="50" id="txtAreaComentario" 
-					styleClass="textAreaPadrao"
-					value="#{cadastroVisitanteController.visitante.comentario}"   />
-			<br/>
-			
-			<p:outputLabel value="Data entrada:" styleClass="labelPadrao" /><br/>
-			<p:calendar id="dataEntrada" locale="pt"
-					alt="Insira a data que o visitante entrou no condominio."  
-					value="#{cadastroVisitanteController.visitante.dataEntrada}" showOn="button" 
-					required="true" requiredMessage="Favor preencher a data da entrada."  />
-			<br/>				
+   		<table style="width:100%">
+   			<tr>
+   				<td style="width:60%;">
+   					<p:outputPanel id="containerComboBloco" rendered="#{empty cadastroVisitanteController.blocoSelecionado}" >
+					<p:outputLabel value="Qual o bloco que o visitante vai:" styleClass="labelPadrao" ></p:outputLabel>
+						<br />
+					 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
+					 			value="#{cadastroVisitanteController.blocoSelecionado}" 
+									converter="converterEntityById"  >
+						 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+						 		<f:selectItems value="#{cadastroVisitanteController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
+						 		<p:ajax event="change" update="containerComboApartamentos"  />
+						 </p:selectOneMenu>
+					 </p:outputPanel>
+					 	
+				 	<p:outputPanel id="containerComboApartamentos" >
+					 	<p:outputPanel id="containerComboApartamentosInterno" rendered="#{not empty cadastroVisitanteController.blocoSelecionado}" >
+					 		<p:outputLabel value="Qual o apartamento? " styleClass="labelPadrao"></p:outputLabel>
+					 		<br />
+						 	<p:selectOneMenu id="comboApartamentos"  style="width:400px;"
+						 			value="#{cadastroVisitanteController.apartamentoSelecionado}" 
+									converter="converterEntityById" required="true"
+									requiredMessage="Favor selecionar o apartamento." >
+						 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+						 		<f:selectItems value="#{cadastroVisitanteController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
+						 	</p:selectOneMenu>
+						 </p:outputPanel>
+					</p:outputPanel>
+					
+					<br />
+					<p:outputLabel value="Nome: "  /> <br />
+				      			<p:inputText value="#{cadastroVisitanteController.visitante.nome}"  
+				      					maxlength="100" styleClass="inputPadrao" 
+				      					required="true" requiredMessage="O nome do visitante é obrigatório." />
+				    <br />  
+				    
+				    <p:outputLabel value="Documento (CPF ou RG): "  /> <br />
+				      			<p:inputText value="#{cadastroVisitanteController.visitante.documento}"  
+				      					maxlength="100" styleClass="inputPadrao" />
+				    <br />  
+				    
+				    <p:outputLabel value="Empresa: "  /> <br />
+				      			<p:inputText value="#{cadastroVisitanteController.visitante.empresa}"  
+				      					maxlength="100" styleClass="inputPadrao" />
+				    <br />  					
+		
+		 			<p:outputLabel value="Comentário" styleClass="labelPadrao" /><br />
+					<p:inputTextarea rows="10" cols="50" id="txtAreaComentario" 
+							styleClass="textAreaPadrao"
+							value="#{cadastroVisitanteController.visitante.comentario}"   />
+   				</td>
+   				
+   				<td style="width:40%; text-align: center; vertical-align: top;">
+   					<p:outputLabel value="Capture a foto do visitante" styleClass="labelPadrao" /><br />
+   					<p:photoCam widgetVar="pc" listener="#{cadastroVisitanteController.oncapture}" immediate="true" />
+			        <p:commandButton type="button" value="Capturar" onclick="PF('pc').capture(); atualizarFotoT();" immediate="true" />
+			        <p:outputPanel id="photo" style="padding:5px;">
+			            <p:graphicImage     
+					 			url="/imagem?arquivo=#{cadastroVisitanteController.fileNameCompleto}" style="max-width:260px;" 
+					 			rendered="#{not empty cadastroVisitanteController.fileNameCompleto}" />
+					 			
+			        </p:outputPanel>
+   				</td>
+   			</tr>
+   		</table>
+   		
 			
 			<p:commandButton id="btnSalvarRecebido" value="Salvar"  update="cadastroVisitantePanel"
 				styleClass="botao botao-grande"
 		   		actionListener="#{cadastroVisitanteController.salvar}" >
+		   	</p:commandButton>
+		   	
+		   	<p:commandButton id="btnListarVisitantes" value="Ver Visitantes" immediate="true"
+				styleClass="botao botao-grande"
+		   		actionListener="#{cadastroVisitanteController.irParaListagem}" >
 		   	</p:commandButton>
 		
 			<p:commandButton id="btnVoltarGerenciarPortaria" value="Voltar" immediate="true"
@@ -84,6 +116,7 @@
 		   		actionListener="#{cadastroVisitanteController.voltar}" >
 		   	</p:commandButton>
 		</p:outputPanel>
+		
 		
 				
 		</h:form>

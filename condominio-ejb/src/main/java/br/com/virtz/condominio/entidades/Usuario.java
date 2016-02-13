@@ -286,7 +286,7 @@ public class Usuario extends Entidade implements Serializable {
 	}
 	
 	public String getNomeExibicao(){
-		if(this.nome == null || this.nome.length() < 20){
+		if(this.nome == null || this.nome.length() < 12){
 			return this.nome;
 		}
 		String[] nomeQuebrado = this.nome.split(" ");

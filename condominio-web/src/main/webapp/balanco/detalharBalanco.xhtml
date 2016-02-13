@@ -58,7 +58,7 @@
 		        </f:facet>
 		        
 		        <f:facet name="footer" >
-		        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="color:blue; margin-left:3px;" value="#{detalharBalancoController.demonstrativo.totalReceitas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+		        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="color:blue; margin-left:3px;" value="#{detalharBalancoController.demonstrativo.totalReceitas}"><f:convertNumber type="currency" locale="pt" currencySymbol="R$" /></p:outputLabel>
 		        </f:facet>
 		        
 		        <p:subTable var="item" value="#{receita.itens}">
@@ -69,7 +69,7 @@
 		                <h:outputText value="#{item.descricao}" />
 		            </p:column>
 		            <p:column style="text-align:right;">
-		                <p:outputLabel value="R$ " /> <p:outputLabel style="margin-left:3px;" value="#{item.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+		                <p:outputLabel style="margin-left:3px;" value="#{item.valor}"><f:convertNumber type="currency" locale="pt" currencySymbol="R$" /></p:outputLabel>
 		            </p:column>
 		            <p:column styleClass="colunaLargura100">
 		                <p:commandLink ajax="false" 
@@ -97,7 +97,7 @@
 			        </f:facet>
 			        
 			        <f:facet name="footer" >
-			        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="margin-left:3px; color:red;" value="R$ #{detalharBalancoController.demonstrativo.totalDespesas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="margin-left:3px; color:red;" value="#{detalharBalancoController.demonstrativo.totalDespesas}"><f:convertNumber type="currency" locale="pt" currencySymbol="R$" /></p:outputLabel>
 			        </f:facet>
 			        
 			        <p:subTable var="item" value="#{despesa.itens}">
@@ -108,7 +108,7 @@
 			                <h:outputText value="#{item.descricao}" />
 			            </p:column>
 			            <p:column style="width:30% !important; text-align:right;">
-			                <p:outputLabel value="R$ " /> <p:outputLabel style="margin-left:3px;" value="#{item.valor}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			                 <p:outputLabel style="margin-left:3px;" value="#{item.valor}"><f:convertNumber type="currency" locale="pt" currencySymbol="R$"/></p:outputLabel>
 			            </p:column>
 			            <p:column style="width:10% !important; text-align:center;" styleClass="colunaLargura100"> 
 			                <p:commandLink ajax="false" 

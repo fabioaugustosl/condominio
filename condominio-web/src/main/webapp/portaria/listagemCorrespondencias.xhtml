@@ -13,23 +13,70 @@
 	 	
 		<p:dataTable id="dtListagemCorrespondencias" var="carta" 
 				value="#{listagemCorrespondenciaController.recebidos}"
-				emptyMessage="Ainda não foi cadastrada nenhuma correspondência para você." >
-			
+				emptyMessage="Ainda não foi cadastrada nenhuma correspondência para você." 
+				rows="50" paginator="true" lazy="true"
+				paginatorPosition="bottom"
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="20,50,100" >
+		
 	        <p:column headerText="Data" styleClass="colunaLargura160" style="text-align:center">
 		        <h:outputText value="#{carta.data}" >
-		        	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00" />
+		        	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 		        </h:outputText>
-		    </p:column>
-		    
-		    <p:column headerText="Comentário">
-		        <h:outputText value="#{carta.comentario}" />
 		    </p:column>
 		    
 		    <p:column headerText="Tipo" styleClass="colunaLargura160">
 		        <h:outputText value="#{carta.tipoRecebido.descricao}" />
 		    </p:column>
+
+		    <p:column headerText="Comentário">
+		        <h:outputText value="#{carta.comentario}" />
+		    </p:column>
 		    
-		</p:dataTable> 
+		    <p:column headerText="Data Retirada" styleClass="colunaLargura160" style="text-align:center" >
+		        <h:outputText value="#{carta.dataRetirada}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="Quem Retirou" styleClass="colunaLargura160" style="text-align:center"
+		    		rendered="#{listagemCorrespondenciaController.superUsuario() }">
+		       <h:outputText value="#{carta.pessoaRetirada}" />
+		    </p:column>
+		    
+		    <p:column headerText="Notificar Retirada" styleClass="colunaLargura160" style="text-align:center"
+		    		rendered="#{listagemCorrespondenciaController.superUsuario()}">
+			      <p:commandLink actionListener="#{listagemCorrespondenciaController.setRecebidoRetirada(carta)}"
+			      		rendered="#{empty carta.dataRetirada}"
+				         	styleClass="linkBotao"
+				        	id="resultadoVotacaoSelecionada" update=":form:dialogRetirada" onsuccess="PF('dialogRetirada').show()" >
+		        	<p:graphicImage id="imgEntregarCo" url="/img/icones/ico_entregar.png" title="Clique para notificar a retirada." />
+		         </p:commandLink>
+		    </p:column>
+		    
+		</p:dataTable>
+		
+		<p:commandButton id="btnListagemRecebido" value="Cadastrar"  immediate="true"
+				rendered="#{listagemCorrespondenciaController.superUsuario()}"
+				styleClass="botao botao-grande"
+		   		actionListener="#{listagemCorrespondenciaController.irParaCadastro}" >
+		 </p:commandButton> 
+		
+		 <p:dialog id="dialogRetirada" modal="true" widgetVar="dialogRetirada"
+					draggable="true" closable="true" resizable="false"  closeOnEscape="true"
+					dynamic="true" width="500"  header="Notificar retirada de correspondência/encomenda"  >
+			
+			<p:outputLabel value="Quem está retirando? "  /> <br />
+   			<p:inputText value="#{listagemCorrespondenciaController.nomeRetirada}"  
+   					id="inputNomeRetirada" style="width:95%!important"
+   					maxlength="100" styleClass="inputPadrao" />
+   			<br />
+			<p:commandButton id="btnRetirada" value="Confirmar"
+				styleClass="botao botao-grande" update="inputNomeRetirada, dtListagemCorrespondencias"
+		   		actionListener="#{listagemCorrespondenciaController.retirada()}" oncomplete="PF('dialogRetirada').hide()" >
+		   	</p:commandButton>
+			
+		</p:dialog>
 			 	
 	 </h:form>
   </ui:define>

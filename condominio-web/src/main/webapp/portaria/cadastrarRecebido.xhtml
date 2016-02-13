@@ -23,6 +23,8 @@
 				<p:outputLabel value="Selecione o bloco:" styleClass="labelPadrao" ></p:outputLabel>
 				<br />
 			 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
+			 		styleClass="selectPadrao"
+			 		requiredMessage="Favor selecionar o bloco." required="true"
 			 			value="#{cadastroRecebidoController.blocoSelecionado}" 
 						converter="converterEntityById"  >
 			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
@@ -36,7 +38,8 @@
 			 		<p:outputLabel value="Selecione o apartamento:" styleClass="labelPadrao"></p:outputLabel>
 			 		<br />
 				 	<p:selectOneMenu id="comboApartamentos"  style="width:400px;"
-				 			value="#{cadastroRecebidoController.apartamentoSelecionado}" 
+				 			value="#{cadastroRecebidoController.apartamentoSelecionado}"
+				 			styleClass="selectPadrao" 
 							converter="converterEntityById" required="true"
 							requiredMessage="Favor selecionar o apartamento." >
 				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
@@ -69,6 +72,11 @@
 			<p:commandButton id="btnSalvarRecebido" value="Salvar"  update="cadastroRecebidoPanel"
 				styleClass="botao botao-grande"
 		   		actionListener="#{cadastroRecebidoController.salvar}" >
+		   	</p:commandButton>
+		   	
+		   	<p:commandButton id="btnListagemRecebido" value="Ver listagem"  immediate="true"
+				styleClass="botao botao-grande"
+		   		actionListener="#{cadastroRecebidoController.irParaListagem}" >
 		   	</p:commandButton>
 		
 			<p:commandButton id="btnVoltarGerenciarPortaria" value="Voltar" immediate="true"

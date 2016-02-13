@@ -32,18 +32,23 @@ public class ListagemVisitanteController {
 	@Inject
 	private NavigationPage navigation;
 	
+	
+	
 	private LazyDataModel<Visitante> visitantes = null;
 	
+	private Usuario usuario = null;
+	
+
 		
 	@PostConstruct
 	public void init(){
-		Usuario usuario = sessao.getUsuarioLogado();
-		
+		usuario = sessao.getUsuarioLogado();
+		//visitantes = new  VisitantesLazyModel(visitanteService.recuperarPorCondominioPaginado(usuario.getCondominio().getId(), 0, 50), usuario.getCondominio().getId(), visitanteService);
 	}
 	
 	public LazyDataModel<Visitante> getVisitantes(){
 		if(visitantes == null){
-			visitantes = new VisitantesLazyModel();
+			visitantes = new VisitantesLazyModel(visitanteService.recuperarPorCondominioPaginado(usuario.getCondominio().getId(), 0, 50), usuario.getCondominio().getId(), visitanteService);
 		}
 		return visitantes;
 	}
@@ -53,9 +58,11 @@ public class ListagemVisitanteController {
 		navigation.redirectToPage("/portaria/cadastrarVisitante.faces");
 	}
 	
-
+	
+	
 	
 	/* GETTERS E SETTERS*/
+
 
 
 }

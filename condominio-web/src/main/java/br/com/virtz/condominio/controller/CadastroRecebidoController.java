@@ -82,10 +82,10 @@ public class CadastroRecebidoController {
 		try{
 			EnumTipoRecebido tipoRecebido = EnumTipoRecebido.recuperarPorDescricao(tipo);
 			if(tipoRecebido.equals(EnumTipoRecebido.CORRESPONDENCIA)){
-				recebidoService.salvarNovaCorrespondencia(apartamentoSelecionado.getId(), descricao);
+				recebidoService.salvarNovaCorrespondencia(usuario.getCondominio().getId(), apartamentoSelecionado.getId(), descricao);
 				notificacaoService.salvarNovaNotificacao(usuario.getCondominio(), usuario, EnumTipoNotificacao.CORRESPONDENCIA, null);
 			} else {
-				recebidoService.salvarNovaEncomenda(apartamentoSelecionado.getId(), descricao);
+				recebidoService.salvarNovaEncomenda(usuario.getCondominio().getId(), apartamentoSelecionado.getId(), descricao);
 				notificacaoService.salvarNovaNotificacao(usuario.getCondominio(), usuario, EnumTipoNotificacao.ENCOMENDA, null);
 			}
 			
@@ -100,8 +100,14 @@ public class CadastroRecebidoController {
 		}
 	}
 	
+	
 	public void voltar(){
 		navegacao.redirectToPage("/portaria/gerenciarPortaria.faces");
+	}
+	
+	
+	public void irParaListagem(){
+		navegacao.redirectToPage("/portaria/listagemCorrespondencias.faces");
 	}
 	
 	

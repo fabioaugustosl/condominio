@@ -52,7 +52,7 @@
 			        </p:selectOneRadio>
 		    	</p:outputPanel>
 		    	<p:outputPanel id="tipoData" rendered="#{vv.util.isData()}" styleClass="divInputVotacao" style="width: 70% !important"> 
-		    		<p:calendar id="button" value="#{vv.util.valorData}" showOn="button" />
+		    		<p:calendar id="button" value="#{vv.util.valorData}" showOn="button" locale="pt" />
 		    	</p:outputPanel>	
 		    	<p:outputPanel id="tipoMoeda" rendered="#{vv.util.isMoeda()}" styleClass="divInputVotacao"> 
 		    		<p:inputText id="valorTipoMoeda" value="#{vv.util.valorMoeda}" style="width:100px" styleClass="inputNumerico" >

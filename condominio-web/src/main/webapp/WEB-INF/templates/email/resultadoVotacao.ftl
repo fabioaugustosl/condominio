@@ -9,11 +9,10 @@
 	
 		<h1>Olá ${nome_usuario}.</h1>
 		
-		<p>Terminou a votação: ${assunto_votacao}</p>
+		<p>Terminou a votação: </p>
+		<p> <strong> ${assunto_votacao} </strong></p>
 		<br/>
 		<p>Confira o resultado final:</p>
-		 
-		<br/>
 		<#list resultados as resultado>
 		  <p>${resultado}</p>
 		</#list>

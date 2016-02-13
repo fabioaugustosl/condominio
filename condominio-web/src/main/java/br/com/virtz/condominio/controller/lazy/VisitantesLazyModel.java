@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import br.com.virtz.condominio.entidades.Visitante;
-import br.com.virtz.condominio.service.IVisitanteService;
-import br.com.virtz.condominio.session.SessaoUsuario;
+import br.com.virtz.condominio.service.PaginacaoService;
 
 public class VisitantesLazyModel extends LazyDataModel<Visitante> {
 
@@ -19,19 +16,22 @@ public class VisitantesLazyModel extends LazyDataModel<Visitante> {
  
     private List<Visitante> visitantes;
  
-    @Inject
-    private IVisitanteService visitanteService;
+    private PaginacaoService service;
     
-	@Inject
-	private SessaoUsuario sessao;
-    
+    private Long idCondominio = null;
+	
+	public VisitantesLazyModel(List<Visitante> visitantes, Long idCondominio, PaginacaoService service) {
+		this.visitantes = visitantes;
+		this.idCondominio = idCondominio;
+		this.service = service;
+	}
 	
 	
 	@Override
 	public List<Visitante> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-		Long idCondominio = sessao.getUsuarioLogado().getCondominio().getId();
+
     	try {
-                visitantes = visitanteService.recuperarPorCondominioPaginado(idCondominio, first, pageSize); 
+                visitantes = service.recuperarPorCondominioPaginado(idCondominio, first, pageSize); 
  
                 // If there is no player created yet, we will create 100!!
                 if (visitantes == null || visitantes.isEmpty()) {
@@ -44,7 +44,7 @@ public class VisitantesLazyModel extends LazyDataModel<Visitante> {
  
         // set the total of players
         if(getRowCount() <= 0){
-            setRowCount(visitanteService.totalVisitantes(idCondominio));
+            setRowCount(service.totalVisitantes(idCondominio));
         }
  
         // set the page dize

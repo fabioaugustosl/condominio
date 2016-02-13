@@ -3,8 +3,6 @@ package br.com.virtz.condominio.util;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.faces.context.FacesContext;
-
 import org.primefaces.model.StreamedContent;
 
 import br.com.virtz.condominio.exceptions.CondominioException;
@@ -29,4 +27,6 @@ public interface IArquivosUtil {
 	public String getCaminhoBaseArquivosTemporario();
 	public void gravarThumb(String nomeArquivo);
 	public String getCaminhoCompletoThumb(String nomeArq);
+	public String gerarNomeAleatorio(String prefixo);
+     
 }

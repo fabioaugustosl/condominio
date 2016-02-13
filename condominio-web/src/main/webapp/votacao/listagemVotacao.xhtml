@@ -34,26 +34,23 @@
 		    
 		    <p:column headerText="Status"  styleClass="colunaLargura120" style="text-align:center">
 		        <p:outputLabel value="#{votacao.qualStatus()}" rendered="#{listagemVotacaoController.estaEncerrada(votacao)}"></p:outputLabel>
-		         
-			    <p:commandButton actionListener="#{listagemVotacaoController.ativarVotacao(votacao)}"
-			    		icon="btnInativo"
-			        	rendered="#{listagemVotacaoController.estaInativa(votacao)}" update="dtListagemVotacao"
-			        	title="Clique para ativar a votação."
-			         	id="ativarVotacaoSelecionada" styleClass="iconOnlyButton">
-			         <p:confirm header="Confirmação" message="Tem certeza que deseja ativar essa votação?" icon="ui-icon-alert" />
-			    </p:commandButton>
-
-			    <p:commandButton actionListener="#{listagemVotacaoController.desativarVotacao(votacao)}"
-			    		icon="btnAtivo"
-			        	rendered="#{listagemVotacaoController.estaAtiva(votacao)}" update="dtListagemVotacao"
-			        	title="Clique para desativar a votação."
-			         	id="desativarVotacaoSelecionada" styleClass="iconOnlyButton" >
-			    	<p:confirm header="Confirmação" message="Tem certeza que deseja desativar essa votação?" icon="ui-icon-alert" />
-			 	</p:commandButton>
+					    
+			    <p:commandLink actionListener="#{listagemVotacaoController.ativarVotacao(votacao)}" id="ativarVotacaoSelecionada" 
+		        		immediate="true" 
+						rendered="#{listagemVotacaoController.estaInativa(votacao)}" update="dtListagemVotacao" >
+						 <p:confirm header="Confirmação" message="Tem certeza que deseja ativar essa votação?" icon="ui-icon-alert" />
+		        	<p:graphicImage id="imgInativarVot" url="/img/icones/icone_bola_inativo.png" title="Clique para ativar a votação." />
+		        </p:commandLink>
+		       
+			 	<p:commandLink actionListener="#{listagemVotacaoController.desativarVotacao(votacao)}" id="desativarVotacaoSelecionada" 
+		        		immediate="true"  rendered="#{listagemVotacaoController.estaAtiva(votacao)}" update="dtListagemVotacao"  >
+		        	<p:confirm header="Confirmação" message="Tem certeza que deseja desativar essa votação?" icon="ui-icon-alert" />
+		        	<p:graphicImage id="imgAdmN" url="/img/icones/icone_bola_ativo.png" title="Clique para desativar a votação."/>
+		        </p:commandLink>
 
 		    </p:column>
 		    
-		    <p:column headerText="Ações" styleClass="colunaLargura220" style="text-align:right">
+		    <p:column headerText="Ações" styleClass="colunaLargura220" style="text-align:center">
 			        
 			         <p:commandLink actionListener="#{listagemVotacaoController.excluirVotacao(votacao)}"
 			         	styleClass="linkBotao"
@@ -87,13 +84,14 @@
 			         <p:commandLink actionListener="#{listagemVotacaoController.enviarEmailResultadoVotacao(votacao)}"
 			         		rendered="#{listagemVotacaoController.estaEncerrada(votacao)}"
 				         	styleClass="linkBotao" id="resultadoPorEmail" >
+				         	<p:confirm header="Confirmação" message="Tem certeza que deseja enviar o resultado dessa votação para todos os moradores?" icon="ui-icon-alert" />
 			        	<p:graphicImage id="imgResultadoVotEmail" url="/img/icones/email.png" title="Clique para enviar o resultado dessa votação por email." />
 			         </p:commandLink>
 			         
 			         <p:commandLink actionListener="#{listagemVotacaoController.encerrarVotacao(votacao)}"
 			         		rendered="#{not listagemVotacaoController.estaEncerrada(votacao)}"
 			         		styleClass="linkBotao" id="encerrarVotacaoSelecionada" update="dtListagemVotacao,@form" >
-			        	<p:confirm header="Confirmação" message="Tem certeza que deseja encerrar essar votação? Após encerrada não é possível reabrí-la novamente." icon="ui-icon-alert" />
+			        	<p:confirm header="Confirmação" message="Tem certeza que deseja encerrar essar votação? Após encerrada não é possível reabri-la." icon="ui-icon-alert" />
 			        	<p:graphicImage id="imgEncerrar" url="/img/icones/ico_encerrar.png" title="Clique para encerrar essa votação." />
 			         </p:commandLink>
 			         

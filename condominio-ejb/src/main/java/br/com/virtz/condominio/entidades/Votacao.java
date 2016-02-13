@@ -27,12 +27,12 @@ import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name="Votacao.recuperarPorCondominio",
-				query="Select v FROM votacao v WHERE v.condominio.id = :idCondominio ORDER BY v.dataLimite DESC "),
+				query="Select v FROM votacao v WHERE v.condominio.id = :idCondominio ORDER BY v.dataLimite DESC, v.encerrada ASC "),
 	@NamedQuery(name="Votacao.recuperarAtivasPorCondominio",
-				query="Select v FROM votacao v WHERE v.condominio.id = :idCondominio AND v.ativa = 1 ORDER BY v.dataLimite DESC"),
+				query="Select v FROM votacao v WHERE v.condominio.id = :idCondominio AND v.ativa = 1 AND v.encerrada = 0 ORDER BY v.dataLimite DESC"),
 	@NamedQuery(name="Votacao.recuperarAtivasValidasPorCondominio",
 				query="Select v FROM votacao v "
-						+ " WHERE v.condominio.id = :idCondominio AND v.ativa = 1 AND (v.dataLimite = NULL OR v.dataLimite >= :dataLimite)"
+						+ " WHERE v.condominio.id = :idCondominio AND v.ativa = 1 AND v.encerrada = 0 AND (v.dataLimite = NULL OR v.dataLimite >= :dataLimite)"
 						+ " ORDER BY v.dataLimite DESC")
 })
 public class Votacao extends Entidade implements Serializable,Comparable<Votacao>  {
@@ -238,12 +238,8 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 		if(o == null){
 			return 1;
 		}
-		if(this.isAtiva() && !o.isAtiva()){
-			return 1;
-		} else if(!this.isAtiva() && o.isAtiva()){
-			return -1;
-		}
 		
+						
 		if(this.dataLimite != null && o.getDataLimite() == null){
 			return 1;
 		} else if(this.dataLimite == null && o.getDataLimite() != null){

@@ -80,6 +80,13 @@ public class ListagemVotacaoController {
 	public void ativarVotacao(Votacao votacao) throws CondominioException{
 		try {
 			votacaoService.ativarVotacao(votacao);
+			if(votacoes != null){
+				for(Votacao v: votacoes){
+					if(v.equals(votacao)){
+						v.setAtiva(Boolean.TRUE);
+					}
+				}
+			}
 		} catch (AppException e) {
 			throw new CondominioException(e.getMessage());
 		}
@@ -89,6 +96,13 @@ public class ListagemVotacaoController {
 	public void desativarVotacao(Votacao votacao) throws CondominioException{
 		try {
 			votacaoService.desativarVotacao(votacao);
+			if(votacoes != null){
+				for(Votacao v: votacoes){
+					if(v.equals(votacao)){
+						v.setAtiva(Boolean.FALSE);
+					}
+				}
+			}
 		} catch (AppException e) {
 			throw new CondominioException(e.getMessage());
 		}
@@ -140,7 +154,7 @@ public class ListagemVotacaoController {
 	
 	public boolean possoRemover(Votacao votacao){
 		if(votacao != null){
-			if(!votacao.isAtiva()  && !estaEncerrada(votacao)) {
+			if(!votacao.isAtiva()  && !estaEncerrada(votacao) && votacaoService.totalVotos(votacao) == 0) {
 				return Boolean.TRUE;
 			}
 		}
@@ -174,7 +188,6 @@ public class ListagemVotacaoController {
 		try {
 			votos = votacaoService.recuperarTodosVotos(votacaoSelecionada.getId());
 		} catch (AppException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			votos = null;
 		}
@@ -184,7 +197,8 @@ public class ListagemVotacaoController {
 		try {
 			votacaoService.encerrarVotacao(votacaoSelecionada.getId());
 			votacoes = votacaoService.recuperarTodas(sessao.getUsuarioLogado().getCondominio());
-			message.addInfo("A votação foi encerrada com sucesso. Uma boa ideia seria enviar email avisando os moradores. Para isso clique no icone de Email na votação.");
+			message.addInfo("A votação foi encerrada com sucesso! ");
+			message.addInfo("Uma boa ideia seria enviar email avisando aos moradores. Para isso clique no icone 'Email' na coluna ações da votação.");
 		} catch (AppException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -270,8 +284,6 @@ public class ListagemVotacaoController {
 	public List<Voto> getVotos() {
 		return votos;
 	}
-	
-	
 
 
 }
