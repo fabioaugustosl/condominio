@@ -166,7 +166,7 @@
 		   		</p:commandButton>
 		   		
 		   		<p:commandButton id="btnLimpar" value="Limpar"  update="panelInfoItem"
-		   			styleClass="botao"
+		   			styleClass="botao" immediate="true"
 			   		actionListener="#{lancarBalancoController.limparDadosItem()}"  >
 		   		</p:commandButton>
 	   		</div>
@@ -185,7 +185,7 @@
 			        </f:facet>
 			        
 			        <f:facet name="footer" >
-			        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="margin-left:5px;color:blue" value="R$ #{lancarBalancoController.balanco.totalReceitas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			        	<p:outputLabel style="color:blue" value="Total: " /> <p:outputLabel style="margin-left:5px;color:blue" value="#{lancarBalancoController.balanco.totalReceitas}"><f:convertNumber type="currency" locale="pt" currencySymbol="R$" /></p:outputLabel>
 			        </f:facet>
 			        
 			        <div style="width: 62%; float: left;">
@@ -214,7 +214,7 @@
 			        </f:facet>
 			        
 			        <f:facet name="footer">
-			        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="margin-left:5px; color:red;" value="R$ #{lancarBalancoController.balanco.totalDespesas}"><f:convertNumber pattern="#0.00" /></p:outputLabel>
+			        	<p:outputLabel style="color:red" value="Total: " /> <p:outputLabel style="margin-left:5px; color:red;" value="#{lancarBalancoController.balanco.totalDespesas}"><f:convertNumber type="currency" locale="pt" currencySymbol="R$" /></p:outputLabel>
 			        </f:facet>
 			        
 			        <div style="width: 62%; float: left;">

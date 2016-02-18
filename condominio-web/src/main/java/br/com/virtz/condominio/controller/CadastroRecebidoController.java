@@ -16,10 +16,12 @@ import br.com.virtz.condominio.constantes.EnumTipoRecebido;
 import br.com.virtz.condominio.entidades.Apartamento;
 import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.entidades.Usuario;
+import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.service.INotificacaoService;
 import br.com.virtz.condominio.service.IRecebidoService;
+import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
@@ -33,6 +35,9 @@ public class CadastroRecebidoController {
 	
 	@EJB
 	private IRecebidoService recebidoService;
+	
+	@EJB
+	private IUsuarioService usuarioService;
 	
 	@EJB
 	private INotificacaoService notificacaoService;
@@ -50,7 +55,7 @@ public class CadastroRecebidoController {
 
 	private List<Bloco> blocos = null;
 	private Bloco blocoSelecionado;
-	private Apartamento apartamentoSelecionado;
+	private Apartamento apartamento;
 	
 	private Usuario usuario = null;
 	
@@ -70,7 +75,7 @@ public class CadastroRecebidoController {
 				blocos.size() == 1){
 			blocoSelecionado = blocos.get(0);
 		}
-		apartamentoSelecionado = null;
+		apartamento = null;
 		
 		tipos.put(EnumTipoRecebido.CORRESPONDENCIA.toString(), EnumTipoRecebido.CORRESPONDENCIA.getDescricao());
 		tipos.put(EnumTipoRecebido.ENCOMENDA.toString(), EnumTipoRecebido.ENCOMENDA.getDescricao());
@@ -79,24 +84,47 @@ public class CadastroRecebidoController {
 	
 	
 	public void salvar(ActionEvent event) throws CondominioException {
+		if(apartamento == null){
+			return;
+		}
+		
 		try{
 			EnumTipoRecebido tipoRecebido = EnumTipoRecebido.recuperarPorDescricao(tipo);
 			if(tipoRecebido.equals(EnumTipoRecebido.CORRESPONDENCIA)){
-				recebidoService.salvarNovaCorrespondencia(usuario.getCondominio().getId(), apartamentoSelecionado.getId(), descricao);
-				notificacaoService.salvarNovaNotificacao(usuario.getCondominio(), usuario, EnumTipoNotificacao.CORRESPONDENCIA, null);
+				recebidoService.salvarNovaCorrespondencia(usuario.getCondominio().getId(), apartamento.getId(), descricao);
 			} else {
-				recebidoService.salvarNovaEncomenda(usuario.getCondominio().getId(), apartamentoSelecionado.getId(), descricao);
-				notificacaoService.salvarNovaNotificacao(usuario.getCondominio(), usuario, EnumTipoNotificacao.ENCOMENDA, null);
+				recebidoService.salvarNovaEncomenda(usuario.getCondominio().getId(), apartamento.getId(), descricao);
 			}
+			
+			enviarNotificacaoParaMoradores(tipoRecebido, apartamento);
 			
 			message.addInfo("A correspondência/encomenda foi salva com sucesso.");
 			descricao = null;
-			apartamentoSelecionado = null;
+			apartamento = null;
 			tipo = null;
 			blocoSelecionado = null;
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new CondominioException("Ocorreu um erro inesperado ao salvar a correspondência/encomenda.");
+		}
+	}
+
+	/**
+	 * Enviar notificação e email para os moradores avisando que chegou a correspondencia.
+	 * 
+	 * @param tipoRecebido
+	 * @throws AppException
+	 */
+	private void enviarNotificacaoParaMoradores(EnumTipoRecebido tipoRecebido, Apartamento apartamento) throws AppException {
+		if(apartamento == null){
+			return;
+		}
+		
+		List<Usuario> usuariosRecebimento = usuarioService.recuperarUsuariosPorApartamento(apartamento.getId());
+		
+		for(Usuario u : usuariosRecebimento){
+			notificacaoService.salvarNovaNotificacao(usuario.getCondominio(), usuario, (tipoRecebido.equals(EnumTipoRecebido.CORRESPONDENCIA) ? EnumTipoNotificacao.CORRESPONDENCIA : EnumTipoNotificacao.ENCOMENDA), null);
+			// TODO : enviar email avisando da correspondencia também!!!
 		}
 	}
 	
@@ -131,11 +159,11 @@ public class CadastroRecebidoController {
 	}
 
 	public Apartamento getApartamentoSelecionado() {
-		return apartamentoSelecionado;
+		return apartamento;
 	}
 
 	public void setApartamentoSelecionado(Apartamento apartamentoSelecionado) {
-		this.apartamentoSelecionado = apartamentoSelecionado;
+		this.apartamento = apartamentoSelecionado;
 	}
 
 	public String getTipo() {

@@ -27,6 +27,7 @@ public interface IUsuarioService {
 	public String criptografarSenhaUsuario(String senha)throws AppException;
 	public Usuario recuperarUsuario(String email);
 	public List<Usuario> recuperarUsuariosPorEmail(String email);
+	public List<Usuario> recuperarUsuariosPorApartamento(Long idApartamento);
 	public boolean emailJaEstaAtivo(String email);
 	
 }

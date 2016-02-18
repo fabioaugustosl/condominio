@@ -1,7 +1,12 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -169,15 +174,21 @@ public class Voto extends Entidade implements Serializable {
 		if(tipoVotacao.equals(EnumTipoVotacao.SIM_NAO)){
 			return (isSim()) ? "Sim" : "Não" ;
 		} else if(tipoVotacao.equals(EnumTipoVotacao.DATA)) {
-			return getData().toString();
+			SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
+			return dataFormatada.format(getData());
 		} else if(tipoVotacao.equals(EnumTipoVotacao.MOEDA)) {
-			return getMoeda().toString();
+			NumberFormat nf = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale ("pt", "BR")));  
+			Double valor = (Double) getMoeda(); 
+			return "R$ "+nf.format(valor);
 		} else if(tipoVotacao.equals(EnumTipoVotacao.NUMERICA)) {
-			return getNumero().toString();
+			NumberFormat nf = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale ("pt", "BR")));  
+			Double valor = (Double) getNumero();  
+			return nf.format(valor);  
 		} else if(tipoVotacao.equals(EnumTipoVotacao.OPCOES)) {
 			return getOpcao().getDescricao();
 		}
 		return null;
 	}
+	
 	
 }

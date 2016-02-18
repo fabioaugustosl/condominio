@@ -185,5 +185,11 @@ public class UsuarioService implements IUsuarioService {
 		}
 		return false;
 	}
+	
+
+	@Override
+	public List<Usuario> recuperarUsuariosPorApartamento(Long idApartamento) {
+		return usuarioDAO.recuperarUsuariosPorApartamento(idApartamento);
+	}
 
 }

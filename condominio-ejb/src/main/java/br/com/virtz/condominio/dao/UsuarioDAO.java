@@ -113,5 +113,13 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		}
 		return null;
 	}
+
+
+	@Override
+	public List<Usuario> recuperarUsuariosPorApartamento(Long idApartamento) {
+		Query qry = getEntityManager().createNamedQuery("Usuario.recuperarUsuariosPorApto");
+		qry.setParameter("idApartamento", idApartamento);
+		return qry.getResultList();
+	}
 	
 }

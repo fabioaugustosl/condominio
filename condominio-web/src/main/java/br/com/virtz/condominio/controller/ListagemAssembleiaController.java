@@ -103,12 +103,12 @@ public class ListagemAssembleiaController {
 		 if(arquivo != null){
 			InputStream stream;
 			try {
-				stream = new FileInputStream(new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arquivo.getNome()));
+				stream = new FileInputStream(new File(arquivoUtil.getCaminhoArquivosUpload()+arquivo.getNome()));
 				StreamedContent file = new DefaultStreamedContent(stream, arquivoUtil.getMimetypeArquivo(arquivo.getExtensao()), arquivo.getNomeOriginal());
 				return file;
 			} catch (FileNotFoundException e) {
 				messageHelper.addError("O arquivo para download não foi encontrado.");
-//				throw new CondominioException("O arquivo para download não foi encontrado.");
+				e.printStackTrace();
 			}
 		 }
 		 return null;
