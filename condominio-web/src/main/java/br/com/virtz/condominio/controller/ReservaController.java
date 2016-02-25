@@ -27,12 +27,15 @@ import br.com.virtz.condominio.constantes.EnumParametroSistema;
 import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
+import br.com.virtz.condominio.entidades.Apartamento;
 import br.com.virtz.condominio.entidades.AreaComum;
+import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.entidades.ParametroSistema;
 import br.com.virtz.condominio.entidades.Reserva;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
+import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.service.IReservaService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -42,6 +45,9 @@ import br.com.virtz.condominio.util.MessageHelper;
 @ManagedBean
 @ViewScoped
 public class ReservaController {
+	
+	@EJB
+	private ICondominioService condominioService;
 	
 	@EJB
 	private IReservaService reservaService;
@@ -75,7 +81,6 @@ public class ReservaController {
 	
 	private Set<AreaComum> areas;
 	private List<Usuario> usuarios;
-	private Usuario usuario = null;
 	private Usuario usuarioLogado = null;
 	private AreaComum areaSelecionada = null;
 	private String mensagemConfirmacaoReserva = null ;
@@ -84,6 +89,10 @@ public class ReservaController {
 	
 	private boolean podeRemoverReserva;
 	private String mensagemExclusaoReserva = null;
+	
+	private List<Bloco> blocos = null;
+	private Bloco blocoSelecionado;
+	private Apartamento apartamentoSelecionado;
 	
 	
 	@PostConstruct
@@ -100,10 +109,32 @@ public class ReservaController {
 		
 		// se for sindico pode agendar para outros moradores
 		if(principalController.ehSindico() || principalController.ehAdministrativo()){
-			usuarios = usuarioService.recuperarTodos(usuarioLogado.getCondominio());
+			carragarDadosSeForSindico();
 		} else {
+			blocoSelecionado = null;
+			apartamentoSelecionado = null;
 			usuarios = null;
 		}
+		if(areas != null && areas.size() == 1){
+			areaSelecionada = areas.iterator().next();
+			recuperarEventos();
+		}
+	}
+
+
+	/**
+	 * Carrega algumas variáveis necessárias se quem estiver agendando for um sindico. 
+	 * Permitindo agendar para outras pessoas.
+	 */
+	private void carragarDadosSeForSindico() {
+		usuarios = usuarioService.recuperarTodos(usuarioLogado.getCondominio());
+
+		blocoSelecionado = null;
+		blocos = condominioService.recuperarTodosBlocosComApartamentos(usuarioLogado.getCondominio().getId());
+		if(blocos != null && blocos.size() == 1){
+			blocoSelecionado = blocos.get(0);
+		}
+		apartamentoSelecionado = null;
 	}
 
 
@@ -119,14 +150,14 @@ public class ReservaController {
 
 	public void recuperarEventos() {
 		reservas.clear();
-		Usuario usu = usuario == null ? usuarioLogado : usuario;
+		
 		if(getAreaSelecionada() != null){
-			List<Reserva> reservasPersistidas = reservaService.recuperar(getAreaSelecionada());
+			List<Reserva> reservasPersistidas = reservaService.recuperarRecentes(getAreaSelecionada());
 			for(Reserva r : reservasPersistidas){
 				Calendar hora = r.getData();
 				hora.add(Calendar.HOUR_OF_DAY, 12);
 				//hora.add(Calendar.DATE, 1); // gambiarra pra burlar o pau do componente q sempre exibe a data -1 dia.
-				reservas.addEvent(new DefaultScheduleEvent(montarNomeEvento(r.getUsuario()), hora.getTime(), hora.getTime()));
+				reservas.addEvent(new DefaultScheduleEvent(montarNomeEvento(r.getUsuario(), r.getApartamento()), hora.getTime(), hora.getTime()));
 			}
 		}
 	}
@@ -147,12 +178,13 @@ public class ReservaController {
     		return;
     		//throw new AppException("Favor selecionar uma área para efetuar a reserva.");
     	}
+    	DataUtil dataUtil = new DataUtil();
     	    	
     	Date dataSelecionada = (Date) selectEvent.getObject();
     	
     	// validar se existe uma reserva para área nessa data.
     	for(ScheduleEvent event : reservas.getEvents()){
-    		if(event.getStartDate().equals(dataSelecionada)){
+    		if(dataUtil.mesmoDiaMesAno(event.getStartDate(), dataSelecionada)){
     			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     			mensagemErroReserva = "Já existe uma reserva cadastrada para o(a) "+getAreaSelecionada().getNome()+" no dia "+sdf.format(dataSelecionada)+".";
     			mensagemConfirmacaoReserva =null;
@@ -160,9 +192,14 @@ public class ReservaController {
     		}
     	}
     	
-    	Usuario usu = (usuario == null) ? usuarioLogado : usuario;
+    	Usuario usu = null;
+    	Apartamento aptoAgendamento = apartamentoSelecionado; 
+    	if(aptoAgendamento == null){
+    		usu = usuarioLogado;
+    		aptoAgendamento = usu.getApartamento();
+    	}
     	
-        evento = new DefaultScheduleEvent(montarNomeEvento(usu), dataSelecionada, dataSelecionada);
+        evento = new DefaultScheduleEvent(montarNomeEvento(usu, aptoAgendamento), dataSelecionada, dataSelecionada);
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String txtArea = " para o(a) "+getAreaSelecionada().getNome();
@@ -171,8 +208,16 @@ public class ReservaController {
     }
 
 
-	private String montarNomeEvento(Usuario usuario) {
-		return usuario.getNomeExibicao()+" ["+usuario.getEmail()+"]";
+	private String montarNomeEvento(Usuario usuario, Apartamento apartamento) {
+		StringBuilder sb = new StringBuilder();
+		if(apartamento != null){
+			sb.append("Apto: ").append(apartamento.getNumero());
+			sb.append(" Bloco: ").append(apartamento.getBloco().getNome()).append("");
+		}
+		if(usuario != null){
+			sb.append(" [").append(usuario.getNomeExibicao()).append("]");
+		}
+		return sb.toString();
 	}
      
 
@@ -189,7 +234,8 @@ public class ReservaController {
         this.mensagemConfirmacaoReserva = null;
         mensagemErroReserva = null;
         
-        usuario = null;
+        blocoSelecionado = null;
+        apartamentoSelecionado = null;
         
         message.addInfo("Sua reserva foi confirmada com sucesso!");
     }
@@ -232,12 +278,18 @@ public class ReservaController {
 			throw new AppException("A reserva não foi realizada. A data limite para agendamentos é "+sdf.format(dataMaxima)+". ");
 		}
 		
-		Usuario usu = (usuario == null) ? usuarioLogado : usuario;
+		Usuario usu = null; 
+		Apartamento aptoAgendamento = apartamentoSelecionado; 
+		if(aptoAgendamento == null){
+			usu = usuarioLogado;
+			aptoAgendamento = usu.getApartamento();
+		} 
 		
 		Reserva reserva = new Reserva();
         reserva.setAreaComum(getAreaSelecionada());
         reserva.setData(data);
         reserva.setUsuario(usu);
+        reserva.setApartamento(aptoAgendamento);
         
         try {
 			reservaService.salvar(reserva);
@@ -245,7 +297,9 @@ public class ReservaController {
 			throw new AppException("Ocorreu um erro ao salvar a reserva.");
 		}
         try {
-        	  enviarEmailConfirmacaoReserva(usu, reserva);
+        	if(usu != null){
+        		enviarEmailConfirmacaoReserva(usu, reserva);
+        	}
 		} catch (Exception e) {
 			
 		}
@@ -254,10 +308,15 @@ public class ReservaController {
 	
 	public void removerReserva() throws AppException {
         if(evento != null) {
-        	String email = recuperarEmailDaReserva();
-        	reservaService.remover(getAreaSelecionada(), email, evento.getStartDate());
-        	reservas.deleteEvent(evento);
-        	message.addInfo("A reserva foi removida com sucesso!");
+        	try{
+	        	String apto = recuperarAptoDaReserva();
+	        	String bloco = recuperarBlocoDaReserva();
+	        	reservaService.removerProAptoEData(getAreaSelecionada(), apto, bloco, evento.getStartDate());
+	        	reservas.deleteEvent(evento);
+	        	message.addInfo("A reserva foi removida com sucesso!");
+        	}catch(AppException e){
+        		message.addError(e.getMessage());
+        	}
         }
     }
 	
@@ -281,9 +340,10 @@ public class ReservaController {
 			return Boolean.TRUE;
 		}
 		
-		Usuario usu = (usuario == null) ? usuarioLogado : usuario;
-		String email = recuperarEmailDaReserva();
-		if(usu.getEmail().equals(email)){
+		String apto = recuperarAptoDaReserva();
+		String bloco = recuperarBlocoDaReserva();
+		if(usuarioLogado.getApartamento().getNumero().equals(apto)
+				&& usuarioLogado.getApartamento().getBloco().getNome().equals(bloco)){
 			return Boolean.TRUE;
 		}
 				
@@ -295,6 +355,28 @@ public class ReservaController {
 		String  emailReserva = evento.getTitle().substring(evento.getTitle().indexOf("["));
 		emailReserva = emailReserva.substring(1, emailReserva.indexOf("]"));
 		return emailReserva;
+	}
+	
+	private String recuperarAptoDaReserva() {
+		String[] arrayTitulo = evento.getTitle().split(" "); 
+		if(arrayTitulo == null && arrayTitulo.length <= 1){
+			return null;
+		}
+		String  apto = arrayTitulo[1].trim();
+		return apto;
+	}
+
+	private String recuperarBlocoDaReserva() {
+		String[] arrayTitulo = evento.getTitle().split("Bloco:"); 
+		if(arrayTitulo == null && arrayTitulo.length <= 1){
+			return null;
+		}
+		String  padrao = arrayTitulo[1].trim();
+		String  bloco = padrao;
+		if(bloco.contains("[")){
+			bloco = padrao.substring(0,padrao.indexOf("["));
+		}
+		return bloco.trim();
 	}
 	
 	/*  GETTERS e SETTERs	 */
@@ -353,17 +435,29 @@ public class ReservaController {
 		this.usuarios = usuarios;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
 	public String getMensagemErroReserva() {
 		return mensagemErroReserva;
 	}
-	
+
+	public Bloco getBlocoSelecionado() {
+		return blocoSelecionado;
+	}
+
+	public void setBlocoSelecionado(Bloco blocoSelecionado) {
+		this.blocoSelecionado = blocoSelecionado;
+	}
+
+	public Apartamento getApartamentoSelecionado() {
+		return apartamentoSelecionado;
+	}
+
+	public void setApartamentoSelecionado(Apartamento apartamentoSelecionado) {
+		this.apartamentoSelecionado = apartamentoSelecionado;
+	}
+
+	public List<Bloco> getBlocos() {
+		return blocos;
+	}
+		
 	
 }

@@ -3,6 +3,7 @@ package br.com.virtz.condominio.entidades;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -52,7 +53,7 @@ public class ItemBalanco extends Entidade implements Serializable {
 	@Column(name = "descricao", nullable = false)
 	private String descricao;
 
-	@Column(name = "valor", nullable = false)
+	@Column(name = "valor", nullable = false, precision=10, scale=2)
 	private Double valor;
 	
 	@Enumerated(EnumType.STRING)
@@ -146,6 +147,7 @@ public class ItemBalanco extends Entidade implements Serializable {
 		this.categoria = categoria;
 	}
 	
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(!(obj instanceof ItemBalanco)){
@@ -162,9 +164,9 @@ public class ItemBalanco extends Entidade implements Serializable {
 	}
 	
 	public String getValorFormatado(){
-		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 		return formatter.format(this.valor);
 	}
-	
+
 
 }

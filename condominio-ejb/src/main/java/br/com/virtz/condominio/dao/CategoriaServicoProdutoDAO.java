@@ -22,5 +22,17 @@ public class CategoriaServicoProdutoDAO extends DAO<CategoriaServicoProduto> imp
 		return qry.getResultList();
 	}
 
+	@Override
+	public List<CategoriaServicoProduto> recuperarComQuantidade(Long idCondominio) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" SELECT new ").append("categoriaservicoproduto").append("( ");
+		sb.append("c.id, c.nome, (select count(i) from categoriaservicoproduto  c1 JOIN c1.indicacoes i WHERE c1.id = c.id AND i.condominio.id = :idCondominio) ) ");
+		sb.append(" FROM ").append(" categoriaservicoproduto ").append(" c");
+		
+		Query qry = getEntityManager().createQuery(sb.toString());
+		qry.setParameter("idCondominio", idCondominio);
+		
+		return qry.getResultList();
+	}
 	
 }

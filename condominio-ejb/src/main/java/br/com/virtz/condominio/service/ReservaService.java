@@ -8,7 +8,9 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.com.virtz.boleto.util.DataUtil;
+import br.com.virtz.condominio.dao.IApartamentoDAO;
 import br.com.virtz.condominio.dao.IReservaDAO;
+import br.com.virtz.condominio.entidades.Apartamento;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Reserva;
 import br.com.virtz.condominio.exception.AppException;
@@ -18,6 +20,9 @@ public class ReservaService implements IReservaService {
 
 	@EJB
 	private IReservaDAO reservaDAO;
+	
+	@EJB
+	private IApartamentoDAO aptoDAO;
 
 	@Override
 	public Reserva salvar(Reserva reserva) throws Exception {
@@ -54,8 +59,7 @@ public class ReservaService implements IReservaService {
 			List<Reserva> reservasUsuario = reservaDAO.recuperarPorAreaEEmail(areaReservada, emailUsuarioReserva);
 			if(reservasUsuario!=null && !reservasUsuario.isEmpty()){
 				for(Reserva res : reservasUsuario){
-					int diasEntre = util.diasEntreDatas(dataInicioReserva, res.getData().getTime());
-					if(diasEntre == 0){
+					if(util.mesmoDiaMesAno(dataInicioReserva, res.getData().getTime())){
 						r = res;
 						break;
 					}
@@ -67,6 +71,46 @@ public class ReservaService implements IReservaService {
 			}
 		}
 		reservaDAO.remover(r.getId());
+	}
+
+	@Override
+	public void removerProAptoEData(AreaComum areaReservada, String apto, String bloco, Date dataInicioReserva) throws AppException {
+		if(apto == null || areaReservada == null || bloco == null || dataInicioReserva == null){
+			throw new AppException("Todos os campos são obrigatórios");
+		}
+		
+		Apartamento ap = aptoDAO.recuperarPorNumero(areaReservada.getCondominio().getId(), apto, bloco);
+		if(ap == null){
+			throw new AppException("Não foi possível recuperar o apartamento da reserva para remoção. Favor entrar em contato com o suporte técnico.");
+		}
+		
+		DataUtil util = new DataUtil();
+		
+		Reserva r = reservaDAO.recuperarPorAreaAptoEData(areaReservada, ap.getId(), dataInicioReserva);
+		if (r == null){
+			
+			List<Reserva> reservasUsuario = reservaDAO.recuperarPorAreaEApto(areaReservada,  ap.getId());
+			if(reservasUsuario!=null && !reservasUsuario.isEmpty()){
+				for(Reserva res : reservasUsuario){
+					if(util.mesmoDiaMesAno(dataInicioReserva, res.getData().getTime())){
+						r = res;
+						break;
+					}
+				}
+			}
+			
+			if (r == null){
+				throw new AppException("Ocorreu um erro ao recuperar a reserva para excluí-la.");
+			}
+		}
+		reservaDAO.remover(r.getId());
+	}
+
+	@Override
+	public List<Reserva> recuperarRecentes(AreaComum area) {
+		Integer ano = Calendar.getInstance().get(Calendar.YEAR);
+		Integer mes = Calendar.getInstance().get(Calendar.MONTH);
+		return reservaDAO.recuperarReservarAPartir(area, ano, mes);
 	}
 	
 }

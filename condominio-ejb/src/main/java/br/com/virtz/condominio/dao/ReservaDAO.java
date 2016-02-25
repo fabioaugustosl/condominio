@@ -74,5 +74,43 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 		
 		return qry.getResultList();
 	}
+
+	@Override
+	public Reserva recuperarPorAreaAptoEData(AreaComum area, Long idApto,
+			Date dataInicioReserva) {
+		DataUtil util = new DataUtil();
+		
+		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorAreaAptoEData");
+		qry.setParameter("idAreaComum", area.getId());
+		qry.setParameter("idApartamento", idApto);
+		Calendar dt = Calendar.getInstance();
+		dt.setTime(dataInicioReserva);
+		qry.setParameter("data", dt);
+		try {
+			return (Reserva) qry.getSingleResult();
+		}catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public List<Reserva> recuperarPorAreaEApto(AreaComum area, Long idApartamento) {
+		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorAreaEApto");
+		qry.setParameter("idAreaComum", area.getId());
+		qry.setParameter("idApartamento", idApartamento);
+		
+		return qry.getResultList();
+	}
+
+	@Override
+	public List<Reserva> recuperarReservarAPartir(AreaComum area, Integer ano, Integer mes) {
+		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorAreaAPartirMesAno");
+		qry.setParameter("idAreaComum", area.getId());
+		qry.setParameter("ano", ano);
+		qry.setParameter("mes", mes);
+		
+		return qry.getResultList();
+	}
+	
 	
 }

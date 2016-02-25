@@ -5,6 +5,7 @@
 
 .container img{
 	top:5px;
+	margin-top:8px;
     max-height: 80px;
     width: 70px;
 }

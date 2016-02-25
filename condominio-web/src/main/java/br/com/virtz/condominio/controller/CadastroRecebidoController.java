@@ -123,7 +123,7 @@ public class CadastroRecebidoController {
 		List<Usuario> usuariosRecebimento = usuarioService.recuperarUsuariosPorApartamento(apartamento.getId());
 		
 		for(Usuario u : usuariosRecebimento){
-			notificacaoService.salvarNovaNotificacao(usuario.getCondominio(), usuario, (tipoRecebido.equals(EnumTipoRecebido.CORRESPONDENCIA) ? EnumTipoNotificacao.CORRESPONDENCIA : EnumTipoNotificacao.ENCOMENDA), null);
+			notificacaoService.salvarNovaNotificacao(usuario.getCondominio(), u, (tipoRecebido.equals(EnumTipoRecebido.CORRESPONDENCIA) ? EnumTipoNotificacao.CORRESPONDENCIA : EnumTipoNotificacao.ENCOMENDA), null);
 			// TODO : enviar email avisando da correspondencia também!!!
 		}
 	}

@@ -6,5 +6,5 @@ import br.com.virtz.condominio.bean.Email;
 
 @Local
 public interface EnviarEmail {
-	public boolean enviar(Email email);
+	public void enviar(Email email);
 }

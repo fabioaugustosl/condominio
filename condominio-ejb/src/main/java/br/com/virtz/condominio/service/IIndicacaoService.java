@@ -25,6 +25,7 @@ public interface IIndicacaoService {
 	// categorias
 	public List<CategoriaServicoProduto> recuperarTodasCategorias();
 	public List<CategoriaServicoProduto> recuperarTodasCategoriasComQuantidade();
+	public List<CategoriaServicoProduto> recuperarTodasCategoriasComQuantidade(Long idCondominio);
 	
 }
 

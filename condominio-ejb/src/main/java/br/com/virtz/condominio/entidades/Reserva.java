@@ -29,9 +29,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 	@NamedQuery(name = "Reserva.recuperarPorAreaEmailEData", 
 			query = "Select r FROM reserva r "
 					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.email = :emailUsuario AND r.data = :data "),
+	@NamedQuery(name = "Reserva.recuperarPorAreaAptoEData", 
+			query = "Select r FROM reserva r "
+					+ "	WHERE r.areaComum.id = :idAreaComum AND r.apartamento.id = :idApartamento AND r.data = :data "),
 	@NamedQuery(name = "Reserva.recuperarPorAreaEEmail", 
 			query = "Select r FROM reserva r "
-					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.email = :emailUsuario ")
+					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.email = :emailUsuario "),
+	@NamedQuery(name = "Reserva.recuperarPorAreaEApto", 
+			query = "Select r FROM reserva r "
+						+ "	WHERE r.areaComum.id = :idAreaComum AND r.apartamento.id = :idApartamento "),
+	@NamedQuery(name = "Reserva.recuperarPorAreaAPartirMesAno", 
+			query = "Select r FROM reserva r "
+						+ "	WHERE r.areaComum.id = :idAreaComum "
+						+ " AND YEAR(r.data) >= :ano AND MONTH(r.data) >= :mes ")
 })
 public class Reserva extends Entidade implements Serializable {
 
@@ -61,6 +71,12 @@ public class Reserva extends Entidade implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idUsuario")
 	private Usuario usuario;
+	
+	@ManyToOne
+	@JoinColumn(name = "idApartamento")
+	private Apartamento apartamento;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -108,6 +124,14 @@ public class Reserva extends Entidade implements Serializable {
 
 	public void setHoraFim(Calendar horaFim) {
 		this.horaFim = horaFim;
+	}
+
+	public Apartamento getApartamento() {
+		return apartamento;
+	}
+
+	public void setApartamento(Apartamento apartamento) {
+		this.apartamento = apartamento;
 	}
 
 }

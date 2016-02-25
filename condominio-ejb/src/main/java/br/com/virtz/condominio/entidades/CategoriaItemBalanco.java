@@ -3,6 +3,7 @@ package br.com.virtz.condominio.entidades;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -129,7 +130,7 @@ public class CategoriaItemBalanco extends Entidade implements Serializable, Comp
 	}
 	
 	public String getTotalCategoriaFormatado() {
-		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 		return formatter.format(this.totalCategoria);
 	}
 

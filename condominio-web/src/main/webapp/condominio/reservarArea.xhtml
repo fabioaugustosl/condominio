@@ -38,14 +38,33 @@
 	 	</p:outputPanel>
 	 	
 	 	<p:outputPanel id="containerSelecionarUsuario" rendered="#{principalController.ehSindico() || principalController.ehAdministrativo()}" style="margin-left:10%">
-		 	<div>
-			 	<p:outputLabel value="Qual usuário está realizando a reserva? " styleClass="labelPadrao" />
-		 	</div>
-		 	<p:selectOneMenu id="comboUsuario" value="#{reservaController.usuario}" immediate="true"
-		 		styleClass="selectPadrao" converter="converterEntityById" style="width:40%" >
-		 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
-		 		<f:selectItems value="#{reservaController.usuarios}" var="usu" itemLabel="#{usu.nome} [#{usu.email}]" itemValue="#{usu}" />
-		 	</p:selectOneMenu>
+		 	<p:outputPanel id="containerComboBloco" rendered="#{empty reservaController.blocoSelecionado}" >
+				<p:outputLabel value="Selecione o bloco da pessoa que está fazendo a reserva:" styleClass="labelPadrao" ></p:outputLabel>
+				<br />
+			 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
+			 		styleClass="selectPadrao"
+			 			value="#{reservaController.blocoSelecionado}" 
+						converter="converterEntityById"  >
+			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+			 		<f:selectItems value="#{reservaController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
+			 		<p:ajax event="change" update="containerComboApartamentos"  />
+			 	</p:selectOneMenu>
+			 </p:outputPanel>
+			 	
+		 	<p:outputPanel id="containerComboApartamentos" >
+			 	<p:outputPanel id="containerComboApartamentosInterno" rendered="#{not empty reservaController.blocoSelecionado}" >
+			 		<p:outputLabel value="Selecione o apartamento:" styleClass="labelPadrao"></p:outputLabel>
+			 		<br />
+				 	<p:selectOneMenu id="comboApartamentos"  style="width:400px;"
+				 			value="#{reservaController.apartamentoSelecionado}"
+				 			styleClass="selectPadrao" 
+							converter="converterEntityById" required="true"
+							requiredMessage="Favor selecionar o apartamento." >
+				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+				 		<f:selectItems value="#{reservaController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
+				 	</p:selectOneMenu>
+				 </p:outputPanel>
+			</p:outputPanel>
 	 	</p:outputPanel>
 	 	
 	 	<p:outputPanel id="containerAgenda" style="margin-top:30px;margin-left:10%; width:80%;">

@@ -48,6 +48,15 @@
  	
    </style>
    
+   
+   <script>
+	$(document).ready(
+			function() {
+				$("#form\\:valorItem").maskMoney({decimal:",", thousands:"."});
+			}
+	);
+   </script>
+   
    	<h:form id="form" style="width:100%" styleClass="formPad5">
    	
    		<p:remoteCommand id="atualizarConf" name="atualizarConf" 
@@ -111,7 +120,7 @@
 				<p:inputText id="valorItem" styleClass="inputPadrao"  style="width:100px; margin-left:10px;" 
 						required="true" requiredMessage="O campo valor é obrigatório."
 						value="#{lancarBalancoController.valor}" maxlength="10"  >
-							<f:convertNumber pattern="#0.00"/>
+							<f:convertNumber pattern="#0.00" locale="pt_BR"  />
 				</p:inputText> 
 	 		<br />
 			 	<p:outputLabel for="descItem" value="Descrição:" styleClass="labelPadrao" /><br />

@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
+import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.mail.Address;
 import javax.mail.Message;
@@ -28,8 +29,8 @@ import br.com.virtz.condominio.bean.Email;
 @Stateless
 public class EnviarEmailPadrao implements EnviarEmail {
 
-	
-	public boolean enviar(Email email) {
+	@Asynchronous
+	public void enviar(Email email) {
         try {
         	Session sessaoEmail = null;
         	try {
@@ -84,10 +85,10 @@ public class EnviarEmailPadrao implements EnviarEmail {
             m.setContent(multiparteEmail,"text/html");
                         
             Transport.send(m);
-            return Boolean.TRUE;
+//            return Boolean.TRUE;
         } catch (javax.mail.MessagingException e) {
             e.printStackTrace();
-            return Boolean.FALSE;
+//            return Boolean.FALSE;
         }
      
     }

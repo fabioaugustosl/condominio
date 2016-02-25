@@ -9,11 +9,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity(name="apartamento")
 @XmlRootElement
-public class Apartamento extends Entidade implements Serializable {
+@NamedQueries({ @NamedQuery(name = "Apartamento.recuperarPorCondominioENumeroBloco", 
+						query = "Select a FROM apartamento a "
+							+ " LEFT JOIN a.bloco b "
+							+ " WHERE b.condominio.id = :idCondominio AND a.numero = :numero AND b.nome = :nomeBloco ")
+})
+public class Apartamento extends Entidade implements Serializable, Comparable<Apartamento> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -101,5 +108,13 @@ public class Apartamento extends Entidade implements Serializable {
 		}
 		
 	    return hash;
+	}
+
+	@Override
+	public int compareTo(Apartamento o) {
+		if(o == null){
+			return 1;
+		}
+		return this.getNumero().compareTo(o.getNumero());
 	}
 }

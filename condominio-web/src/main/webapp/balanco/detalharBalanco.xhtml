@@ -52,7 +52,8 @@
 	 	<p:outputPanel id="containerItens" style="margin-top:20px;">
 	 	
 		 	
-	 		<p:dataTable var="receita" value="#{detalharBalancoController.demonstrativo.categoriasComItensReceita}">
+	 		<p:dataTable var="receita" value="#{detalharBalancoController.demonstrativo.categoriasComItensReceita}"
+	 			emptyMessage="Ainda não foi lançada nenhuma receita." >
 		        <f:facet name="header">
 		            <label style="font-size: 1.4em;">Receitas</label>
 		        </f:facet>
@@ -91,7 +92,8 @@
      		</p:dataTable>
       			 
       		<br />
-      		<p:dataTable var="despesa" value="#{detalharBalancoController.demonstrativo.categoriasComItensDespesa}">
+      		<p:dataTable var="despesa" value="#{detalharBalancoController.demonstrativo.categoriasComItensDespesa}"
+      			emptyMessage="Ainda não foi lançada nenhuma despesa.">
 			        <f:facet name="header">
 			        	<label style="font-size: 1.4em;">Despesas</label>
 			        </f:facet>

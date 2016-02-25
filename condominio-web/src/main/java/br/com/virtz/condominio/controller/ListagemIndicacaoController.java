@@ -68,7 +68,7 @@ public class ListagemIndicacaoController {
 		usuario = sessao.getUsuarioLogado();
 		indicacoesTodas = listarTodas(); 
 		indicacoes = indicacoesTodas;
-		categorias = indicacaoService.recuperarTodasCategoriasComQuantidade();
+		categorias = indicacaoService.recuperarTodasCategoriasComQuantidade(usuario.getCondominio().getId());
 		arquivos = null;
 		
 		model = new DefaultTagCloudModel();

@@ -85,6 +85,12 @@ public class IndicacaoService implements IIndicacaoService {
 	public List<CategoriaServicoProduto> recuperarTodasCategoriasComQuantidade() {
 		return categoriaDAO.recuperarComQuantidade();
 	}
+	
+	
+	@Override
+	public List<CategoriaServicoProduto> recuperarTodasCategoriasComQuantidade(Long idCondominio) {
+		return categoriaDAO.recuperarComQuantidade(idCondominio);
+	}
 
 
 	@Override

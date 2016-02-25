@@ -98,13 +98,37 @@ public class DataUtil {
 		return meses;
 	}
 	
+	public boolean mesmoDiaMesAno(Date data1, Date data2) {
+		if(data1 == null || data2 == null){
+			return false;
+		}
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		c1.setTime(data1);
+		c2.setTime(data2);
+		
+		if(c1.get(Calendar.YEAR) != c2.get(Calendar.YEAR)){
+			return false;
+		}
+		
+		if(c1.get(Calendar.MONTH) != c2.get(Calendar.MONTH)){
+			return false;
+		}
+		
+		if(c1.get(Calendar.DAY_OF_MONTH) != c2.get(Calendar.DAY_OF_MONTH)){
+			return false;
+		}
+				
+		return true;
+	}
+	
 	
 	public int diasEntreDatas(Date data1, Date data2) {
 		if(data1 == null || data2 == null){
 			return 0;
 		}
 		
-		return Math.abs(diasEntreTimestemp(data1.getTime(), data2.getTime()));
+		return Math.abs(diasEntreTimestemp(this.limparHora(data1).getTime(), this.limparHora(data2).getTime()));
 	}
 	
 	private int diasEntreTimestemp(long t1, long t2) {

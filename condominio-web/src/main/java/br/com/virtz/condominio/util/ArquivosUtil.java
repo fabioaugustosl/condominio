@@ -184,20 +184,23 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
             imgProporcao = (novaImgAltura / novaImgLargura);  
             larguraTmp = novaImgLargura - (novaImgLargura * imgProporcao); 
             alturaTmp = novaImgAltura - (novaImgAltura * imgProporcao); 
-            if(alturaMinima == 0d && larguraMinima == 0d // eh pq o cara nao passou o minimo 
-            		|| (alturaTmp > (double)alturaMinima && larguraTmp > (double)larguraMinima) && alturaTmp > 0 && larguraTmp > 0){
+            if((alturaTmp > 0 && larguraTmp > 0) && 
+            		(alturaMinima == 0d && larguraMinima == 0d // eh pq o cara nao passou o minimo 
+            		|| (alturaTmp > (double)alturaMinima && larguraTmp > (double)larguraMinima))){
             	novaImgAltura = alturaTmp;
             	novaImgLargura = larguraTmp;
             } else {
             	break;
             }
         } 
+
         while (novaImgAltura > (double)alturaMaxima) {  
             imgProporcao = (novaImgLargura / novaImgAltura);  
             larguraTmp = novaImgLargura - (novaImgLargura * imgProporcao); 
             alturaTmp = novaImgAltura - (novaImgAltura * imgProporcao); 
-            if(alturaMinima == 0d && larguraMinima == 0d 
-            		|| (alturaTmp > (double)alturaMinima && larguraTmp > (double)larguraMinima) && alturaTmp > 0 && larguraTmp > 0){
+            if((alturaTmp > 0 && larguraTmp > 0) &&  
+            		(alturaMinima == 0d && larguraMinima == 0d 
+            			|| (alturaTmp > (double)alturaMinima && larguraTmp > (double)larguraMinima) )){
             	novaImgAltura = alturaTmp;
             	novaImgLargura = larguraTmp;
             } else {
