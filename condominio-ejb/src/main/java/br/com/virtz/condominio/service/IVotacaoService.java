@@ -35,6 +35,8 @@ public interface IVotacaoService {
 	public Map<String, Integer> recuperarResultado(Long idVotacao) throws AppException;
 	public Voto recuperarVotoPorApto(Votacao votacao, Usuario usuario) throws ParametroObrigatorioNuloException;
 	public List<Voto> recuperarTodosVotos(Long idVotacao) throws AppException;
+	public void marcarEmailJaEnviado(Long idVotacao) throws AppException;
+	public List<Votacao> recuperarVotacoesEncerradasSemEnvioDeEmail(Long idCondominio);
 	
 }
 

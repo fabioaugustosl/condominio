@@ -2,7 +2,8 @@ package br.com.virtz.condominio.constantes;
 
 public enum EnumParametroSistema {
 	AVISAR_POR_EMAIL_QUANDO_AGENDAR_AREA_COMUM(1l),
-	QUANTIDADE_DIAS_MAXIMO_PARA_AGENDAR_AREA_COMUM(2l);
+	QUANTIDADE_DIAS_MAXIMO_PARA_AGENDAR_AREA_COMUM(2l),
+	AVISAR_POR_EMAIL_QUANDO_AXEXAR_ATA(3l);
 	
 	private Long id;
 	

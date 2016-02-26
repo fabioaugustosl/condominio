@@ -11,5 +11,6 @@ import br.com.virtz.condominio.entidades.Votacao;
 public interface IVotacaoDAO extends CrudDAO<Votacao> {
 	public List<Votacao> recuperar(Condominio condominio);
 	public List<Votacao> recuperarVotacoesAtivas(Condominio condominio);
+	public List<Votacao> recuperarVotacoesEncerradasSemEnvioDeEmail(Long idCondominio);
 	public void removerOpcaoVotacao(Long idOpcaoVotacao);
 }

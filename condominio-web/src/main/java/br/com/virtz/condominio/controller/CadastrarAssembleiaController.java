@@ -3,8 +3,12 @@ package br.com.virtz.condominio.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -18,14 +22,26 @@ import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
+import br.com.virtz.boleto.util.DataUtil;
+import br.com.virtz.condominio.bean.Email;
+import br.com.virtz.condominio.constantes.EnumParametroSistema;
+import br.com.virtz.condominio.constantes.EnumTemplates;
+import br.com.virtz.condominio.controller.beanview.VotacaoView;
+import br.com.virtz.condominio.email.EnviarEmail;
+import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.ArquivoAtaAssembleia;
 import br.com.virtz.condominio.entidades.Assembleia;
+import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.ParametroSistema;
 import br.com.virtz.condominio.entidades.PautaAssembleia;
 import br.com.virtz.condominio.entidades.Usuario;
+import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exception.ErroAoSalvar;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.IAssembleiaService;
+import br.com.virtz.condominio.service.IParametroSistemaService;
+import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
 import br.com.virtz.condominio.util.IArquivosUtil;
@@ -39,6 +55,12 @@ public class CadastrarAssembleiaController {
 	@EJB
 	private IAssembleiaService assembleiaService;
 	
+	@EJB
+	private IUsuarioService usuarioService;
+	
+	@EJB
+	private IParametroSistemaService parametroService;
+
 	@Inject
 	private SessaoUsuario sessao;
 	
@@ -51,6 +73,12 @@ public class CadastrarAssembleiaController {
 	@Inject
 	private IArquivosUtil arquivoUtil;
 	
+	@Inject
+	private LeitorTemplate leitor;
+	
+	@EJB
+	private EnviarEmail enviarEmail;
+	
 	
 	private Assembleia assembleia;
 	private UploadedFile arquivo;
@@ -59,6 +87,8 @@ public class CadastrarAssembleiaController {
 	private boolean possoCadastrarAta;
 	private String novaPauta = null;
 	private Usuario usuario = null;
+	private ParametroSistema parametroEnviarEmailAta = null;
+	
 	
 	@PostConstruct
 	public void init(){
@@ -77,6 +107,8 @@ public class CadastrarAssembleiaController {
 			possoCadastrarPauta = true;
 			possoCadastrarAta = true;
 		}
+		
+		parametroEnviarEmailAta = parametroService.recuperar(EnumParametroSistema.AVISAR_POR_EMAIL_QUANDO_AXEXAR_ATA, usuario.getCondominio());
 	}
 
 
@@ -227,16 +259,43 @@ public class CadastrarAssembleiaController {
 			
 			try {
 				assembleia = assembleiaService.salvar(assembleia);
+				
+				if("1".equals(parametroEnviarEmailAta.getValor())){
+					enviarEmailAta();
+				}
+				
+				message.addInfo("Ata '"+nomeAntigo+"' foi anexada com sucesso.");
 			} catch (ErroAoSalvar e) {
 				throw new AppException("Ocorreu um erro ao salvar a ata.");
 			}
 			
-			message.addInfo("Ata '"+nomeAntigo+"' foi anexada com sucesso.");
         } catch (IOException e) {
             e.printStackTrace();
             throw new AppException("Ocorreu inespedado ao salvar o arquivo da ata.");
         }
     }
+	
+	private void enviarEmailAta() {
+		
+		Condominio c = sessao.getUsuarioLogado().getCondominio();
+		List<Usuario> usuarios  = usuarioService.recuperarTodos(c);
+		
+		if(usuarios != null){
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			
+			for(Usuario u : usuarios){
+				Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
+				mapParametrosEmail.put("nome_usuario", u.getNomeExibicao());
+				mapParametrosEmail.put("data_assembleia", sdf.format(assembleia.getData()));
+				
+				String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.ATA_ANEXADA.getNomeArquivo(), mapParametrosEmail);
+				
+				Email email = new Email(EnumTemplates.ATA_ANEXADA.getDe(), u.getEmail(), EnumTemplates.ATA_ANEXADA.getAssunto(), msg);
+				enviarEmail.enviar(email);
+			}
+		}
+		
+	}
 	
 	
 	public void irParaListagem(){

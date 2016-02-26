@@ -189,9 +189,9 @@ public class ListagemAssembleiaController {
 	 private void envioEmail(List<Usuario> moradores, String msg,  Assembleia assembleia) {
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm");
 		for(Usuario morador : moradores){
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm");
 			
 			Map<Object, Object> map = new HashMap<Object, Object>();
 			map.put("nome_usuario", morador.getNome());

@@ -21,7 +21,15 @@
 	 	
 	 	<!-- p:outputLabel value="Deve enviar email avisando sobre reserva de área comum?" /> <br / -->
 	 	
-	 	<p:commandButton id="salvarConfiguracao" value="Salvar" 
+	 	<br />
+	   	<br />
+	    
+   	 	<p:outputLabel value="Deseja avisar automaticamento os moradores quando uma nova ata for anexada a uma assembleia?" styleClass="labelPadrao" /> <br />
+	 	<p:selectBooleanCheckbox value="#{parametroController.parametroEnviarEmailAtaBool}" />
+	 	
+	 	
+	 	<br /><br />
+	 	<p:commandButton id="salvarConfiguracao1" value="Salvar" 
 	 		styleClass="botao botao-grande"
 	   		actionListener="#{parametroController.salvar}" >
 	   	</p:commandButton>

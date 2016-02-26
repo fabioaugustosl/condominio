@@ -39,5 +39,14 @@ public class VotacaoDAO extends DAO<Votacao> implements IVotacaoDAO {
 		qry.setParameter("dataLimite", new Date());
 		return qry.getResultList();
 	}
+
+
+	@Override
+	public List<Votacao> recuperarVotacoesEncerradasSemEnvioDeEmail(Long idCondominio) {
+		Query qry = getEntityManager().createNamedQuery("Votacao.recuperarEncerradasSemEnvioEmail");
+		qry.setParameter("idCondominio", idCondominio);
+		qry.setParameter("dataLimite", new Date());
+		return qry.getResultList();
+	}
 	
 }

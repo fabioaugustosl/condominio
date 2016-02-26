@@ -33,6 +33,11 @@ import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 	@NamedQuery(name="Votacao.recuperarAtivasValidasPorCondominio",
 				query="Select v FROM votacao v "
 						+ " WHERE v.condominio.id = :idCondominio AND v.ativa = 1 AND v.encerrada = 0 AND (v.dataLimite = NULL OR v.dataLimite >= :dataLimite)"
+						+ " ORDER BY v.dataLimite DESC"),
+	@NamedQuery(name="Votacao.recuperarEncerradasSemEnvioEmail",
+				query="Select v FROM votacao v "
+						+ " WHERE v.condominio.id = :idCondominio AND v.ativa = 1 "
+						+ " AND v.emailEnviado = 0 AND (v.encerrada = 1 OR v.dataLimite < :dataLimite)"
 						+ " ORDER BY v.dataLimite DESC")
 })
 public class Votacao extends Entidade implements Serializable,Comparable<Votacao>  {

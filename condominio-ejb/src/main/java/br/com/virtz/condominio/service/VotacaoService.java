@@ -128,6 +128,24 @@ public class VotacaoService implements IVotacaoService {
 		}
 	}
 
+	@Override
+	public void marcarEmailJaEnviado(Long idVotacao) throws AppException{
+		if(idVotacao == null ){
+			throw new AppException("Erro na identificação da votação.");
+		}
+		Votacao votacao = votacaoDAO.recuperarPorId(idVotacao);
+		if(votacao == null ){
+			throw new AppException("Erro na identificação da votação.");
+		}
+		
+		votacao.setEmailEnviado(Boolean.TRUE);
+		try{
+			this.salvarVotacao(votacao);
+		} catch(Exception e){
+			e.printStackTrace();
+			throw new AppException("Erro ao setar que email já foi enviado.");
+		}
+	}
 
 	@Override
 	public void desativarVotacao(Votacao votacao) throws AppException{
@@ -279,6 +297,12 @@ public class VotacaoService implements IVotacaoService {
 			e.printStackTrace();
 			throw new AppException("Erro encerrar votação");
 		}
+	}
+
+
+	@Override
+	public List<Votacao> recuperarVotacoesEncerradasSemEnvioDeEmail(Long idCondominio) {
+		return votacaoDAO.recuperarVotacoesEncerradasSemEnvioDeEmail(idCondominio);
 	}
 
 }

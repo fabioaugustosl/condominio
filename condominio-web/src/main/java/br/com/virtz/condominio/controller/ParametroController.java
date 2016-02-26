@@ -28,12 +28,16 @@ public class ParametroController {
 	private MessageHelper mensagem;
 	
 	private ParametroSistema parametroMaximoDias = null;
+	private ParametroSistema parametroEnviarEmailAta = null;
+	private Boolean parametroEnviarEmailAtaBool = null;
 	
 	
 	@PostConstruct
 	public void init(){
 		Usuario usuario = sessao.getUsuarioLogado();
 		parametroMaximoDias = parametroService.recuperar(EnumParametroSistema.QUANTIDADE_DIAS_MAXIMO_PARA_AGENDAR_AREA_COMUM, usuario.getCondominio());
+		parametroEnviarEmailAta = parametroService.recuperar(EnumParametroSistema.AVISAR_POR_EMAIL_QUANDO_AXEXAR_ATA, usuario.getCondominio());
+		parametroEnviarEmailAtaBool = ("1".equals(parametroEnviarEmailAta.getValor()) ? Boolean.TRUE: Boolean.FALSE);
 	}
 	
 	
@@ -41,6 +45,10 @@ public class ParametroController {
 		
 		try {
 			parametroService.salvar(parametroMaximoDias);
+			
+			parametroEnviarEmailAta.setValor(parametroEnviarEmailAtaBool ? "1" : "0");
+			parametroService.salvar(parametroEnviarEmailAta);
+			
 			mensagem.addInfo("Configurações atualizadas com sucesso.");
 		} catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar o(s) bloco(s). Favor acesse o menu novamente e repita o processo.");
@@ -58,6 +66,14 @@ public class ParametroController {
 
 	public void setParametroMaximoDias(ParametroSistema parametroMaximoDias) {
 		this.parametroMaximoDias = parametroMaximoDias;
+	}
+
+	public Boolean getParametroEnviarEmailAtaBool() {
+		return parametroEnviarEmailAtaBool;
+	}
+
+	public void setParametroEnviarEmailAtaBool(Boolean parametroEnviarEmailAtaBool) {
+		this.parametroEnviarEmailAtaBool = parametroEnviarEmailAtaBool;
 	}
 	
 		    

@@ -63,16 +63,19 @@ public class ListagemVotacaoController {
 	@EJB
 	private EnviarEmail enviarEmail;
 	
+	@Inject
+	private EnviarEmailSuporteController emailSuporte;
+	
 	
 	
 	private List<Votacao> votacoes;
 	private List<Voto> votos = null;
 	private Map<String, Integer> resultadoVotacaoSelecionada;
-	
+	private Usuario usuario = null;
 	
 	@PostConstruct
 	public void init(){
-		Usuario usuario = sessao.getUsuarioLogado();
+		usuario = sessao.getUsuarioLogado();
 		votacoes = votacaoService.recuperarTodas(usuario.getCondominio());
 		resultadoVotacaoSelecionada = new HashMap<String, Integer>();
 	}
@@ -88,6 +91,10 @@ public class ListagemVotacaoController {
 				}
 			}
 		} catch (AppException e) {
+			try{
+				emailSuporte.enviarEmail("Ocorreu um erro ao ativar votação.", e.getMessage(), usuario.getCondominio().getId());
+			}catch(Exception e1){
+			}
 			throw new CondominioException(e.getMessage());
 		}
 		message.addInfo("A votação foi ativada!");
@@ -104,6 +111,10 @@ public class ListagemVotacaoController {
 				}
 			}
 		} catch (AppException e) {
+			try{
+				emailSuporte.enviarEmail("Ocorreu um erro ao desativar votação.", e.getMessage(), usuario.getCondominio().getId());
+			}catch(Exception e1){
+			}
 			throw new CondominioException(e.getMessage());
 		}
 		message.addInfo("A votação foi desativada!");
@@ -113,6 +124,10 @@ public class ListagemVotacaoController {
 		try {
 			votacaoService.removerVotacao(votacao);
 		} catch (AppException e) {
+			try{
+				emailSuporte.enviarEmail("Ocorreu um erro ao excluir votação.", e.getMessage(), usuario.getCondominio().getId());
+			}catch(Exception e1){
+			}
 			throw new CondominioException(e.getMessage());
 		}
 		message.addInfo("A votação foi excluída!");
@@ -200,6 +215,10 @@ public class ListagemVotacaoController {
 			message.addInfo("A votação foi encerrada com sucesso! ");
 			message.addInfo("Uma boa ideia seria enviar email avisando aos moradores. Para isso clique no icone 'Email' na coluna ações da votação.");
 		} catch (AppException e) {
+			try{
+				emailSuporte.enviarEmail("Ocorreu um erro ao encerrar votação.", e.getMessage(), usuario.getCondominio().getId());
+			}catch(Exception e1){
+			}
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.addError("Ocorreu um erro ao encerrar a votação");
@@ -220,6 +239,10 @@ public class ListagemVotacaoController {
 			try {
 				vv.setResultadoVotacaoSelecionada(votacaoService.recuperarResultado(votacao.getId()));
 			} catch (AppException e) {
+				try{
+					emailSuporte.enviarEmail("Ocorreu um erro ao contar votos para envio de resultado.", e.getMessage(), usuario.getCondominio().getId());
+				}catch(Exception e1){
+				}
 				e.printStackTrace();
 				return;
 			}
@@ -243,7 +266,6 @@ public class ListagemVotacaoController {
 		
 		if(usuarios != null){
 			for(Usuario u : usuarios){
-				
 				DataUtil dataUtil = new DataUtil();
 				
 				Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
@@ -256,6 +278,12 @@ public class ListagemVotacaoController {
 				Email email = new Email(EnumTemplates.RESULTADO_FINAL_VOTACAO.getDe(), u.getEmail(), EnumTemplates.RESULTADO_FINAL_VOTACAO.getAssunto(), msg);
 				enviarEmail.enviar(email);
 			}
+		}
+		
+		try {
+			votacaoService.marcarEmailJaEnviado(votacao.getId());
+		} catch (AppException e) {
+			e.printStackTrace();
 		}
 		
 		message.addInfo("Resultado enviado para todos os moradores do condomínio.");
