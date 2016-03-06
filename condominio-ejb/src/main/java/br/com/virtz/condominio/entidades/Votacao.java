@@ -3,7 +3,9 @@ package br.com.virtz.condominio.entidades;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -82,7 +84,7 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 	private List<OpcaoVotacao> opcoes;
 	
 	@OneToMany(mappedBy="votacao", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	private List<OpcaoVotacaoComImagem> opcoesComImagem;
+	private Set<OpcaoVotacaoComImagem> opcoesComImagem;
 	
 	@OneToMany(mappedBy="votacao", cascade=CascadeType.REMOVE)
 	private List<Voto> votos;
@@ -188,11 +190,11 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 		this.encerrada = encerrada;
 	}
 	
-	public List<OpcaoVotacaoComImagem> getOpcoesComImagem() {
+	public Set<OpcaoVotacaoComImagem> getOpcoesComImagem() {
 		return opcoesComImagem;
 	}
 
-	public void setOpcoesComImagem(List<OpcaoVotacaoComImagem> opcoesComImagem) {
+	public void setOpcoesComImagem(Set<OpcaoVotacaoComImagem> opcoesComImagem) {
 		this.opcoesComImagem = opcoesComImagem;
 	}
 
@@ -224,7 +226,7 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 		opcao.setImagemThumb(arquivoThumb);
 		
 		if(getOpcoesComImagem() == null){
-			setOpcoesComImagem(new ArrayList<OpcaoVotacaoComImagem>());
+			setOpcoesComImagem(new HashSet<OpcaoVotacaoComImagem>());
 		}
 		
 		getOpcoesComImagem().add(opcao);

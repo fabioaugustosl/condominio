@@ -6,17 +6,26 @@
    xmlns:p="http://primefaces.org/ui">
    
    <style>
-   .widgetCFTV{background: url('img/cftv.png') no-repeat; background-position: right top; padding-right: 80px; }
+   .widgetCFTV{background: url('img/cftv.png') no-repeat; background-position: right top; padding-right: 80px; min-height:80px; }
+   .painelLinkCFTV{background:  #ACB4C5  !important;}
    </style>
    
+   <h:form id="formCFTV">
 	   <p:outputPanel id="containerWidgetCFTV" styleClass="painelWidgetInterno widgetCFTV" >
 	  			<p:outputLabel styleClass="textoInformativo" value="#{visualizarCFTVController.cftv.instrucoes}" />
 	  			
   				
 	   </p:outputPanel>
-	   <p:outputPanel id="containerWidgetCFTVLink" styleClass="painelWidgetInterno" style="text-align:center;">
+	   <p:outputPanel id="containerWidgetCFTVLink" styleClass="painelLinkCFTV" style="text-align:center;">
 		   <p:link href="#{visualizarCFTVController.cftv.url}" value="Clique aqui para acessar o sistema de monitoramento" target="_blank" />
 	   </p:outputPanel>
-	
+	   
+	   <p:commandLink ajax="false" id="containerWidgetCFTVTutorial" onclick="PrimeFaces.monitorDownload(start, stop);" 
+		     		immediate="true"
+		     		rendered="#{visualizarCFTVController.cftv.arquivo != null}" >
+        	<p:fileDownload value="#{visualizarCFTVController.download(visualizarCFTVController.cftv.arquivo)}" />
+    		Baixar tutorial de acesso
+       </p:commandLink>
+	</h:form>
 </ui:composition>
 

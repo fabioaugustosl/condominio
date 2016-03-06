@@ -43,7 +43,7 @@
 		 	
 		   	<br />
 		   	
-		   	<p:outputLabel value="Exite instruções de acesso?" styleClass="labelPadrao" /> <br />
+		   	<p:outputLabel value="Existe instruções de acesso?" styleClass="labelPadrao" /> <br />
 		 	<p:inputText  id="urlCamerasInstrucoes" value="#{parametroController.cftv.instrucoes}" styleClass="inputPadrao" maxlength="500"/>
 		 	
 		   	<br />
@@ -56,6 +56,34 @@
 		   	<p:outputLabel value="Qual a senha de acesso?" styleClass="labelPadrao" /> <br />
 		 	<p:inputText  id="urlCamerasSenha" value="#{parametroController.cftv.senha}" styleClass="inputPadrao"/>
 		 	
+		 	<br />
+		 	<p:outputLabel value="Deseja anexar um tutorial de acesso?" styleClass="labelPadrao" /> <br />
+		 	<p:outputPanel id="painelArquivo" style="position:relative; diplay:block; margin-top:10px; " layout="block" >
+			       
+				      <p:fileUpload mode="advanced" update="painelArquivo" label="Selecionar arquivo"
+				        fileUploadListener="#{parametroController.uploadArquivo}"
+				        rendered="#{empty parametroController.tutorialCftv}"
+				        styleClass="dataArquivosMenorEsquerda" 
+				        allowTypes="/(\.|\/)(JPG|jpg|jpeg|JPEG|png|PNG|PDF|pdf)$/" 
+				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. "
+				        invalidFileMessage="Tipo do arquivo inválido. É aceito apenas arquivos no formato."
+						invalidSizeMessage="Tamanho do arquivo inválido"
+				        auto="true" dragDropSupport="false" />
+		        
+					<br />
+					<p:outputPanel rendered="#{parametroController.tutorialCftv != null}" 
+								styleClass="dataArquivosMenorEsquerda containerArquivoSimples">
+						<p:outputLabel value="Arquivo anexado: "/> <p:outputLabel value="#{parametroController.tutorialCftv.nome}"></p:outputLabel>
+						
+						<p:commandLink actionListener="#{parametroController.removerTutorial()}" 
+								style="float:right; "  
+			         			id="removerArq" immediate="true" update="painelArquivo"   >
+			         		<p:graphicImage id="imgDeletarNot" url="/img/icones/deletar.png" title="Clique para deletar esse arquivo." />
+			         	</p:commandLink>
+			         
+					</p:outputPanel>
+				</p:outputPanel>
+				
 		   	<br /><br />
 	        
 	        <p:commandButton id="salvarConfiguracaoCFTV" value="Salvar" 
