@@ -17,6 +17,11 @@
 		  <p>${resultado}</p>
 		</#list>
 		<br/>
+		<#if anexos??>
+		  	<#list anexos as anexo>
+		 	${anexo}
+		 	</#list>
+		</#if>
 		<br/>
 		
 		<a href="http://www.condominiosobcontrole.com.br">

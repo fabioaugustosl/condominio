@@ -8,9 +8,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 
 import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 import br.com.virtz.condominio.entidades.OpcaoVotacao;
+import br.com.virtz.condominio.entidades.OpcaoVotacaoComImagem;
 import br.com.virtz.condominio.entidades.Votacao;
 
 public class ResultadoVotacao {
@@ -20,7 +22,7 @@ public class ResultadoVotacao {
 
 	public ResultadoVotacao(EnumTipoVotacao tipoVotacao) {
 		super();
-		resultado = new HashMap<String, Integer>();
+		resultado = new TreeMap<String, Integer>();
 		
 		this.tipoVotacao = tipoVotacao;
 		if(EnumTipoVotacao.SIM_NAO.equals(tipoVotacao)){
@@ -35,6 +37,12 @@ public class ResultadoVotacao {
 		}
 		if(EnumTipoVotacao.OPCOES.equals(votacao.getTipoVotacao())){
 			for(OpcaoVotacao opc : votacao.getOpcoes()){
+				resultado.put(opc.getDescricao(), 0);
+			}
+		}
+		
+		if(EnumTipoVotacao.OPCOES_IMAGEM.equals(votacao.getTipoVotacao())){
+			for(OpcaoVotacaoComImagem opc : votacao.getOpcoesComImagem()){
 				resultado.put(opc.getDescricao(), 0);
 			}
 		}
@@ -60,6 +68,9 @@ public class ResultadoVotacao {
 		} else if(EnumTipoVotacao.OPCOES.equals(tipoVotacao)){
 			OpcaoVotacao opc = (OpcaoVotacao) opcao;
 			return opc.getDescricao();
+		} else if(EnumTipoVotacao.OPCOES_IMAGEM.equals(tipoVotacao)){
+				OpcaoVotacaoComImagem opc = (OpcaoVotacaoComImagem) opcao;
+				return opc.getDescricao();
 		} else if(EnumTipoVotacao.DATA.equals(tipoVotacao)){
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			Date opc = (Date) opcao;

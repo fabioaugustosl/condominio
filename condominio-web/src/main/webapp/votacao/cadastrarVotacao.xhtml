@@ -7,7 +7,35 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	<h:form id="form" style="width:100%" styleClass="formPad5">
+   
+   <style>
+   
+   			.imgThumbDiv{
+	   			height: 80px !important;
+	   			width: 80px !important;
+	   			max-height: 80px !important;
+	   			max-width: 80px !important;
+	   			border: 2px solid #B6C1C5;
+	   			text-align:center;
+	   			vertical-align:middle;
+	   			overflow: hidden;
+	   			margin:2px;
+	   			padding: 1px;
+	   		}
+	   		
+	   		.imgThumbDivImg{
+	   			max-height: 75px !important;
+	   			max-width: 75px !important;
+	   		}
+	   		
+	   		
+	   		.imgThumb{
+	   			max-height: 75px !important;
+	   			max-width: 75px !important;
+	   		}
+   </style>
+   
+   	<h:form id="form" style="width:100%" styleClass="formPad5" enctype="multipart/form-data">
 	   	<h1>Crie uma nova votação online</h1>
 	   	<p:outputLabel styleClass="textoInformativo" 
    		value="Crie votações para facilitar decisões em seu condomínio. " />
@@ -21,7 +49,7 @@
 		    			value="#{cadastroVotacaoController.tipoVotacaoSelecionado}"  >
 		   		<f:selectItem itemLabel="Selecione..." itemValue="" />
 		    	<f:selectItems value="#{cadastroVotacaoController.tiposVotacao}" />	
-		    	<p:ajax event="change" update=":form:opcoesTipoVotacao" listener="#{cadastroVotacaoController.montarOpcaoTipoVotacao}" />
+		    	<p:ajax event="change" update=":form:opcoesTipoVotacao, :form:opcoesTipoVotacaoImagem" listener="#{cadastroVotacaoController.montarOpcaoTipoVotacao}" />
 		    </p:selectOneMenu><br/>
 		    
 			<p:outputLabel value="Qual é a pergunta a ser respondida?" styleClass="labelPadrao" />
@@ -59,6 +87,7 @@
 				   	<p:outputLabel value="Digite uma nova opção: " styleClass="labelPadrao" />
 					<p:inputText id="inputNome" value="#{cadastroVotacaoController.descricaoNovaOpcao}" 
 						alt="Digite uma nova opção a ser votada"  maxlength="2000" 
+						style="height:30px;"
 						requiredMessage="Favor preencher a opção para a pergunta."
 						styleClass="textAreaPadrao"></p:inputText>
 				
@@ -84,11 +113,80 @@
 				</p:dataTable> 
 	    	</p:outputPanel>
 	    </p:outputPanel>
+	    
+	    <p:outputPanel id="opcoesTipoVotacaoImagem">
+	    	<p:outputPanel id="tipoOpcaoImagem" rendered="#{cadastroVotacaoController.isOpcoesComImagem()}"> 
+    			<p:panel id="cadastroOpcaoPerguntaImagem">
+	
+				   	<p:outputLabel value="Digite uma nova opção: " styleClass="labelPadrao" />
+					<p:inputText id="inputNomeImagem" value="#{cadastroVotacaoController.descricaoNovaOpcao}" 
+						alt="Digite uma nova opção a ser votada"  maxlength="2000" style="height:30px;"
+						requiredMessage="Favor preencher a opção para a pergunta."
+						styleClass="textAreaPadrao"></p:inputText>
+						
+					<p:outputPanel id="painelArquivo" style="position:relative; diplay:block; margin-top:10px; " layout="block" >
+			       
+					      <p:fileUpload mode="advanced" update="painelArquivo" label="Selecionar arquivo"
+					        fileUploadListener="#{cadastroVotacaoController.uploadArquivo}"
+					        styleClass="dataArquivosMenor"
+					        rendered="#{cadastroVotacaoController.arqOpcao == null}"
+					        allowTypes="/(\.|\/)(JPG|jpg|jpeg|JPEG|png|PNG)$/" 
+					        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. "
+					        invalidFileMessage="Tipo do arquivo inválido. É aceito apenas arquivos no formato .PNG e .JPG."
+							invalidSizeMessage="Tamanho do arquivo inválido"
+					        auto="true" dragDropSupport="false" />
+			        
+				        
+						<br />
+						<p:outputPanel rendered="#{cadastroVotacaoController.arqOpcao != null}" 
+									styleClass="dataArquivosMenorEsquerda containerArquivoSimples">
+							<p:outputLabel value="Imagem anexada: "/> <p:outputLabel value="#{cadastroVotacaoController.arqOpcao.nomeOriginal}"></p:outputLabel>
+							
+							<p:commandLink actionListener="#{cadastroVotacaoController.removerArquivo(cadastroVotacaoController.arqOpcao)}" 
+									style="float:right; "  
+				         			id="removerArq" immediate="true" update="painelArquivo"   >
+				         		<p:graphicImage id="imgDeletarNot" url="/img/icones/deletar.png" title="Clique para deletar esse arquivo." />
+				         	</p:commandLink>
+				         
+						</p:outputPanel>
+					</p:outputPanel>
+				
+					
+					<p:commandButton id="btnSalvarOpcaoVotacaoImagem" value="Adicionar"
+						styleClass="botao" process="opcoesTipoVotacaoImagem"
+						actionListener="#{cadastroVotacaoController.adicionarOpcaoImagem}" 
+						update="dtOpcoesVotacaoImagem, cadastroOpcaoPerguntaImagem"></p:commandButton>
+				
+				</p:panel>
+				<p:dataTable id="dtOpcoesVotacaoImagem" var="opc" 
+						emptyMessage="Nenhuma opção cadastrada ainda."
+						value="#{cadastroVotacaoController.votacao.opcoesComImagem}"
+						rowKey="#{opc.id}"  >
+					
+			        <p:column headerText="Opção">
+				        <h:outputText value="#{opc.descricao}" />
+				    </p:column>
+				    
+				     <p:column headerText="Imagem"  style="width:300px; text-align:center;" >
+				         <p:graphicImage  id="imgIndicacaoTHUMB1Destaque"  
+				         rendered="#{opc.imagemThumb != null}"
+			                     	styleClass="imgThumbDivImg"
+				 						url="/imagem?arquivo=/arquivos/#{opc.imagemThumb.nome}" />
+				    </p:column>
+				    
+				    <p:column style="width:200px; text-align:center;">
+				        <p:commandLink actionListener="#{cadastroVotacaoController.removerOpcaoImagem(opc)}" 
+				        	id="removerOpcaoSelecionadaImagem" update="dtOpcoesVotacaoImagem" immediate="true" >Remover</p:commandLink>
+				    </p:column>
+				</p:dataTable> 
+	    	</p:outputPanel>
+	    </p:outputPanel>
+	    
 	   	
 	   	<p:commandButton id="salvarNovaVotacao" value="Salvar" 
 	   		styleClass="botao botao-grande"
 	   		actionListener="#{cadastroVotacaoController.salvarVotacao}" 
-	   		update="containerNovaVotacao, opcoesTipoVotacao">
+	   		update="containerNovaVotacao, opcoesTipoVotacao, opcoesTipoVotacaoImagem">
 	   	</p:commandButton>
 	   	
 	   	<p:commandButton id="listagemVotacao" value="Ver Votações" immediate="true"

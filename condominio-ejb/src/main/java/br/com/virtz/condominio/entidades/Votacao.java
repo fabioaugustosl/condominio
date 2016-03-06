@@ -36,7 +36,7 @@ import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 						+ " ORDER BY v.dataLimite DESC"),
 	@NamedQuery(name="Votacao.recuperarEncerradasSemEnvioEmail",
 				query="Select v FROM votacao v "
-						+ " WHERE v.condominio.id = :idCondominio AND v.ativa = 1 "
+						+ " WHERE v.ativa = 1 "
 						+ " AND v.emailEnviado = 0 AND (v.encerrada = 1 OR v.dataLimite < :dataLimite)"
 						+ " ORDER BY v.dataLimite DESC")
 })
@@ -80,6 +80,9 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 	
 	@OneToMany(mappedBy="votacao", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<OpcaoVotacao> opcoes;
+	
+	@OneToMany(mappedBy="votacao", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private List<OpcaoVotacaoComImagem> opcoesComImagem;
 	
 	@OneToMany(mappedBy="votacao", cascade=CascadeType.REMOVE)
 	private List<Voto> votos;
@@ -184,6 +187,14 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 	public void setEncerrada(boolean encerrada) {
 		this.encerrada = encerrada;
 	}
+	
+	public List<OpcaoVotacaoComImagem> getOpcoesComImagem() {
+		return opcoesComImagem;
+	}
+
+	public void setOpcoesComImagem(List<OpcaoVotacaoComImagem> opcoesComImagem) {
+		this.opcoesComImagem = opcoesComImagem;
+	}
 
 	public OpcaoVotacao adicionarNovaOpcao(String descricao){
 		OpcaoVotacao opcao = new OpcaoVotacao();
@@ -193,9 +204,7 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 		if(getOpcoes() == null){
 			setOpcoes(new ArrayList<OpcaoVotacao>());
 		}
-		
 		getOpcoes().add(opcao);
-		
 		return opcao;
 	}
 	
@@ -203,6 +212,30 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 		
 		if(getOpcoes() != null && !getOpcoes().isEmpty()){
 			getOpcoes().remove(opcao);
+		}
+		
+	}
+	
+	public OpcaoVotacaoComImagem adicionarNovaOpcaoComImagem(String descricao, ArquivoOpcaoVotacao arquivo, ArquivoOpcaoVotacao arquivoThumb){
+		OpcaoVotacaoComImagem opcao = new OpcaoVotacaoComImagem();
+		opcao.setDescricao(descricao);
+		opcao.setVotacao(this);
+		opcao.setImagem(arquivo);
+		opcao.setImagemThumb(arquivoThumb);
+		
+		if(getOpcoesComImagem() == null){
+			setOpcoesComImagem(new ArrayList<OpcaoVotacaoComImagem>());
+		}
+		
+		getOpcoesComImagem().add(opcao);
+		
+		return opcao;
+	}
+	
+	public void removerOpcaoComImagem(OpcaoVotacaoComImagem opcao){
+		
+		if(getOpcoesComImagem() != null && !getOpcoesComImagem().isEmpty()){
+			getOpcoesComImagem().remove(opcao);
 		}
 		
 	}
@@ -253,6 +286,13 @@ public class Votacao extends Entidade implements Serializable,Comparable<Votacao
 			return o.getDataLimite().compareTo(this.dataLimite);
 		} 
 		return 0;
+	}
+	
+	public boolean isVotacaoPorOpcaoImagem(){
+		if(tipoVotacao != null && EnumTipoVotacao.OPCOES_IMAGEM.equals(tipoVotacao)){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
 	}
 	
 }

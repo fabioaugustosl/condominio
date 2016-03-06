@@ -1,5 +1,8 @@
 package br.com.virtz.condominio.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,16 +16,21 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.primefaces.event.FileUploadEvent;
 
 import br.com.virtz.condominio.constantes.EnumTipoVotacao;
-import br.com.virtz.condominio.controller.util.UtilTipoVotacao;
+import br.com.virtz.condominio.entidades.ArquivoOpcaoVotacao;
 import br.com.virtz.condominio.entidades.OpcaoVotacao;
+import br.com.virtz.condominio.entidades.OpcaoVotacaoComImagem;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
+import br.com.virtz.condominio.geral.UtilTipoVotacao;
 import br.com.virtz.condominio.service.IVotacaoService;
 import br.com.virtz.condominio.session.SessaoUsuario;
+import br.com.virtz.condominio.util.ArquivosUtil;
+import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
 
@@ -45,12 +53,21 @@ public class CadastroVotacaoController {
 	@Inject
 	private NavigationPage navigation;
 	
+	@Inject
+	private IArquivosUtil arquivoUtil;
+	
+	@Inject
+	private UploadArquivoController uploadController;
+	
+	
 		
 	private Votacao votacao;
 	private List<String> tiposVotacao;
 	private String tipoVotacaoSelecionado;
 	private UtilTipoVotacao utilTipoVotacao;
 	private String descricaoNovaOpcao;
+	private ArquivoOpcaoVotacao arqOpcao;
+	private ArquivoOpcaoVotacao arqOpcaoThumb;
 	
 	
 	@PostConstruct
@@ -61,11 +78,14 @@ public class CadastroVotacaoController {
 		Object votacaoEditar = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idVotacao");
 		if(votacaoEditar == null){
 			votacao = votacaoService.criarNovaVotacao(usuario, usuario.getCondominio(), null, null);
+			tipoVotacaoSelecionado = null;
 		} else {
 			votacao = votacaoService.buscar(Long.parseLong(votacaoEditar.toString()));
 			tipoVotacaoSelecionado = votacao.getTipoVotacao().getDescricao();
 			utilTipoVotacao.tratarTipoVotacaoExibicao(votacao.getTipoVotacao());
 		}
+		arqOpcao = null;
+		arqOpcaoThumb = null;
 	}
 
 	
@@ -99,6 +119,40 @@ public class CadastroVotacaoController {
 	}
 	
 	
+	public void adicionarOpcaoImagem(ActionEvent event){
+		
+		if(votacao.getOpcoesComImagem()!= null && votacao.getOpcoesComImagem().size() >= 9){
+			message.addError("É permitido no máximo 9 opções por votação.");
+			return;
+		}
+		
+		if(arqOpcao == null){
+			message.addError("Quando você seleciona opções cadastrar com imagem a mesma é obrigatória.");
+			return;
+		}
+		
+		if(StringUtils.isNotBlank(descricaoNovaOpcao)){
+			OpcaoVotacaoComImagem opcao = votacao.adicionarNovaOpcaoComImagem(descricaoNovaOpcao, arqOpcao, arqOpcaoThumb);
+		}
+		descricaoNovaOpcao = null;
+		arqOpcao = null;
+		arqOpcaoThumb = null;
+	}
+
+	
+	public void removerOpcaoImagem(OpcaoVotacaoComImagem opcaoRemover){
+
+		votacaoService.removerOpcaoImagem(opcaoRemover);
+		votacao.removerOpcaoComImagem(opcaoRemover);
+		
+		try {
+			removerArquivo(opcaoRemover.getImagem());
+		} catch (CondominioException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public void salvarVotacao(ActionEvent event) throws CondominioException {
 		if(votacao == null){
 			throw new CondominioException("Nenhuma votação encontrada para ser salva.");
@@ -110,8 +164,13 @@ public class CadastroVotacaoController {
 			throw new CondominioException("Você selecionou o tipo de votação por opções, porém devem ser cadastradas no mínimo duas (2) opções.");
 		}
 		
+		if(this.isOpcoesComImagem() && (votacao.getOpcoesComImagem()== null || votacao.getOpcoesComImagem().isEmpty()) && votacao.getOpcoesComImagem().size() < 2){
+			throw new CondominioException("Você selecionou o tipo de votação por opções, porém devem ser cadastradas no mínimo duas (2) opções.");
+		}
+		
 		if(votacao.getDataLimite() != null && votacao.getDataLimite().before(new Date())){
-			throw new CondominioException("A data limite da votação deve ser maior que a data atual.");
+			message.addError("A data limite da votação deve ser maior que a data atual.");
+			return;
 		}
 		
 		try{
@@ -120,9 +179,76 @@ public class CadastroVotacaoController {
 			
 			votacao = votacaoService.criarNovaVotacao(sessao.getUsuarioLogado(), sessao.getUsuarioLogado().getCondominio(), null, null);
 			utilTipoVotacao.passarTodosParaFalso();
+			tipoVotacaoSelecionado = null;
 		}catch(Exception e){
 			e.printStackTrace();
-			throw new CondominioException("Ocorreu um erro inesperado ao salvar a nova votação. Favor tente novamente.");
+			message.addError("Ocorreu um erro inesperado ao salvar a nova votação. Favor tente novamente.");
+		}
+	}
+	
+	
+	public void uploadArquivo(FileUploadEvent evento) throws CondominioException {
+        try {
+        	InputStream inputStream = evento.getFile().getInputstream();
+			
+			if(!arquivoUtil.tamanhoImagemEhValido(inputStream, 100, 100)){
+        		message.addError("A imagem é muito pequena! Ela deve ter largura mínima de 100 e altura mínima de 100 pixels.");
+        		return;
+        	}
+
+			String nomeNovo = uploadController.uploadArquivo(evento, ArquivosUtil.TIPO_IMAGEM);
+			
+			String caminho = arquivoUtil.getCaminhoArquivosUpload();
+			String nomeAntigo = evento.getFile().getFileName();
+			String extensao = arquivoUtil.pegarExtensao(nomeAntigo);
+			
+			arqOpcao = new ArquivoOpcaoVotacao();
+			arqOpcao.setCaminho(caminho);
+			arqOpcao.setExtensao(extensao);
+			arqOpcao.setNomeOriginal(nomeAntigo);
+			arqOpcao.setTamanho(evento.getFile().getSize());
+			arqOpcao.setNome(nomeNovo);
+			
+			gerarThumbImagemOpcao(evento, caminho, nomeAntigo, extensao, nomeNovo);
+			
+			message.addInfo("Arquivo "+nomeAntigo+" foi anexado com sucesso.");
+        } catch (IOException e) {
+            message.addError("Ocorreu um erro ao fazer upload do arquivo. Favor acessar novamente na tela.");
+        }
+    }
+
+
+	private void gerarThumbImagemOpcao(FileUploadEvent event, String caminho,
+			String nomeAntigo, String extensao, String nomeNovo) {
+		try{
+			// cria um thumb
+			arquivoUtil.gravarThumb(nomeNovo);
+			
+			arqOpcaoThumb = new ArquivoOpcaoVotacao();
+			arqOpcaoThumb.setCaminho(caminho);
+			arqOpcaoThumb.setExtensao(extensao);
+			arqOpcaoThumb.setNomeOriginal(nomeAntigo);
+			arqOpcaoThumb.setTamanho(event.getFile().getSize());
+			arqOpcaoThumb.setNome(arquivoUtil.getCaminhoCompletoThumb(nomeNovo));
+		}catch(Exception e1){
+			e1.printStackTrace();
+		}
+	}
+	
+	
+	public void removerArquivo(ArquivoOpcaoVotacao arquivo) throws CondominioException {
+		if(arquivo != null){
+			File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arquivo.getNome());
+			arquivoDeletar.delete();
+			
+			try{
+				File arquivoDeletarThumb = new File(arquivoUtil.getCaminhoCompletoThumb(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arquivo.getNome()));
+				arquivoDeletarThumb.delete();
+			}catch(Exception e1){
+			}
+			arqOpcaoThumb = null;
+			arqOpcao = null;
+			message.addInfo("Arquivo removido com sucesso!");
 		}
 	}
 	
@@ -171,6 +297,10 @@ public class CadastroVotacaoController {
 	public boolean isOpcoes() {
 		return utilTipoVotacao.isOpcoes();
 	}
+	
+	public boolean isOpcoesComImagem() {
+		return utilTipoVotacao.isOpcoesImagem();
+	}
 
 	public UtilTipoVotacao getUtilTipoVotacao() {
 		return utilTipoVotacao;
@@ -183,6 +313,15 @@ public class CadastroVotacaoController {
 	public void setDescricaoNovaOpcao(String descricaoNovaOpcao) {
 		this.descricaoNovaOpcao = descricaoNovaOpcao;
 	}
+
+	public ArquivoOpcaoVotacao getArqOpcao() {
+		return arqOpcao;
+	}
+
+	public void setArqOpcao(ArquivoOpcaoVotacao arqOpcao) {
+		this.arqOpcao = arqOpcao;
+	}
+	
 	
 }
 

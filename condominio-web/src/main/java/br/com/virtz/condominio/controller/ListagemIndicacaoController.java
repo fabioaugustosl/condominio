@@ -56,6 +56,7 @@ public class ListagemIndicacaoController {
 	private List<Indicacao> indicacoes = null;
 	private List<CategoriaServicoProduto> categorias = null;
 	private Usuario usuario = null;
+	private Indicacao indicacaoDestaque = null;
 	
     private TagCloudModel model = null;
     private CategoriaServicoProduto categoriaSelecionada = null;
@@ -66,8 +67,23 @@ public class ListagemIndicacaoController {
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
-		indicacoesTodas = listarTodas(); 
-		indicacoes = indicacoesTodas;
+		
+		Object paramIndDestaque = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idIndicacaoDestaque");
+		
+		indicacoesTodas = listarTodas();
+		if(paramIndDestaque != null){
+			indicacaoDestaque  = indicacaoService.recuperarIndicacao(Long.valueOf(paramIndDestaque.toString()));
+			if(indicacaoDestaque.getCategorias() != null && !indicacaoDestaque.getCategorias().isEmpty()){
+				CategoriaServicoProduto cat =  indicacaoDestaque.getCategorias().iterator().next();
+				indicacoes = indicacaoService.recuperarIndicacoesPorCategoria(usuario.getCondominio().getId(), cat.getId());
+			} else {
+				indicacoes = indicacoesTodas;
+			}
+		} else {
+			indicacaoDestaque = null;
+			indicacoes = indicacoesTodas;
+		}
+		
 		categorias = indicacaoService.recuperarTodasCategoriasComQuantidade(usuario.getCondominio().getId());
 		arquivos = null;
 		
@@ -92,10 +108,10 @@ public class ListagemIndicacaoController {
 	}
 	
 	
-	public void editar(Noticia noticia){
+	/*public void editar(Noticia noticia){
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idIndicacao", noticia.getId());
 		irParaCadastro();
-	}	
+	}	*/
 	 
 	
 	public void removerIndicacao(Indicacao indicacao) throws CondominioException {
@@ -150,6 +166,7 @@ public class ListagemIndicacaoController {
         } else {
         	indicacoes =indicacoesTodas;
         }
+        indicacaoDestaque  = null;
 	}
 
 	public void selecionarCategoriaCombo() {
@@ -231,5 +248,9 @@ public class ListagemIndicacaoController {
 		this.arquivos = arquivos;
 	}
 
-		 
+	public Indicacao getIndicacaoDestaque() {
+		return indicacaoDestaque;
+	}
+	
+			 
 }

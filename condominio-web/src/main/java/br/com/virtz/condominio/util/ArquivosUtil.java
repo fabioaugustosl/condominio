@@ -268,6 +268,12 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 	}
 	
 	
+	public byte[] converter(String arquivo){
+		
+		File f = new File(this.getCaminhoArquivosUpload()+arquivo);
+		return converter(f);
+	}
+	
 	public byte[] converter(File arquivo){
 		FileInputStream fileInputStream;
 		try {

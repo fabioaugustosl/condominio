@@ -8,14 +8,13 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.com.virtz.boleto.bean.EnumBanco;
-import br.com.virtz.boleto.formatador.FabricaFormatadorDadosBancarios;
-import br.com.virtz.boleto.validador.FabricaValidadorDadosBancarios;
-import br.com.virtz.boleto.validador.ValidadorDadosBancarios;
+import br.com.virtz.condominio.dao.IAcessoCFTVDAO;
 import br.com.virtz.condominio.dao.IAreaComumDAO;
 import br.com.virtz.condominio.dao.IBlocoDAO;
 import br.com.virtz.condominio.dao.ICidadeDAO;
 import br.com.virtz.condominio.dao.ICondominioDAO;
 import br.com.virtz.condominio.dao.IContaBancariaDAO;
+import br.com.virtz.condominio.entidades.AcessoCFTV;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.entidades.Cidade;
@@ -41,6 +40,11 @@ public class CondominioService implements ICondominioService {
 	
 	@EJB
 	private IAreaComumDAO areaComumDAO;
+	
+	@EJB
+	private IAcessoCFTVDAO cftvDAO;
+	
+	
 
 	@Override
 	public List<Condominio> recuperarTodos() {
@@ -142,6 +146,7 @@ public class CondominioService implements ICondominioService {
 		}
 		return contas.get(0);
 	}
+	
 
 	@Override
 	public void salvarContaBancariaCondominioPrincipal(
@@ -164,6 +169,7 @@ public class CondominioService implements ICondominioService {
 		}
 	}
 	
+	
 	@Override
 	public ContaBancariaCondominio salvarContaBancariaCondominioPrincipal(ContaBancariaCondominio conta) throws AppException {
 		if(conta == null){
@@ -175,6 +181,18 @@ public class CondominioService implements ICondominioService {
 		} catch (Exception e) {
 			throw new AppException("Erro ao salvar");
 		}
+	}
+	
+
+	@Override
+	public AcessoCFTV recuperarCFTV(Long idCondominio) {
+		return cftvDAO.recuperar(idCondominio);
+	}
+	
+
+	@Override
+	public AcessoCFTV salvarAcessoCFTV(AcessoCFTV cftv) throws Exception {
+		return cftvDAO.salvar(cftv);
 	}
 
 

@@ -1,11 +1,11 @@
-package br.com.virtz.condominio.controller.beanview;
+package br.com.virtz.condominio.geral;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
-import br.com.virtz.condominio.controller.util.UtilTipoVotacao;
 import br.com.virtz.condominio.entidades.Votacao;
 
 public class VotacaoView {
@@ -59,7 +59,7 @@ public class VotacaoView {
 	}
 	
 	private void montarVotacaoPercentagem(){
-		resultadoPercentagemVotacaoSelecionada = new HashMap<String, Double>();
+		resultadoPercentagemVotacaoSelecionada = new TreeMap<String, Double>();
 		// descobre o total de votos da votação
 		int totalVotos = 0;
 		for(Integer votos : resultadoVotacaoSelecionada.values()){

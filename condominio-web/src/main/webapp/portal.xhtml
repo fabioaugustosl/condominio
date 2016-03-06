@@ -31,8 +31,14 @@
 						</p:panel>
 						
 						<p:panel id="panelWidgetMsgSindico" styleClass="painelWidget" 
-						header="Fale com o síndico" style="height:100%;"  >
+							header="Fale com o síndico" style="height:100%;"  >
 					    	<ui:include src="widget/mensagemSindico.xhtml" />
+					    </p:panel>
+					    
+					    <p:panel id="panelWidgetCFTV" styleClass="painelWidget" 
+							header="Acesso as câmeras" style="height:100%;" 
+							rendered="#{principalController.possuiCFTB()}"  >
+					    	<ui:include src="widget/cftv.xhtml" />
 					    </p:panel>
 			        </td>
 			        
@@ -41,7 +47,13 @@
 			    			style="height:100%;" styleClass="painelWidget"  
 		       				rendered="#{assembleiaController.possuiAssembleiaAgendada()}"> 
 			                <ui:include src="widget/assembleia.xhtml" />
-			            </p:panel>      
+			            </p:panel>
+			            
+			            <p:panel id="panelWidgetVotacaoImagem" header="Votação em destaque" 
+			    			style="height:100%;" styleClass="painelWidget"  
+		       				rendered="#{votacaoController.possuiVotacaoPorImagemEmAndamento()}"> 
+			                <ui:include src="widget/votacaoImagem.xhtml" />
+			            </p:panel>       
 			            
 			            <p:panel id="panelWidgetNoticia" header="Notícias" style="height:100%;"
 			            	styleClass="painelWidget"

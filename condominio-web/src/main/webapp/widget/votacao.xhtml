@@ -28,7 +28,6 @@
 		margin-left: 3px;
 	}
 	
-	
    </style>
   
   
@@ -66,9 +65,11 @@
 		    		</p:inputText>
 		    	</p:outputPanel>
 		    	<p:outputPanel id="tipoOpcao" rendered="#{vv.util.isOpcoes()}"  styleClass="divInputVotacao"> 
-		    		<p:selectOneRadio id="opc" value="#{vv.util.idValorOpcao}" layout="grid" columns="1">
+		    		
+		    		<p:selectOneRadio id="opc" value="#{vv.util.idValorOpcao}" layout="grid" columns="1" >
 			            <f:selectItems value="#{vv.votacao.opcoes}" var="o" itemLabel="#{o.descricao}" itemValue="#{o.id}"/>
-			        </p:selectOneRadio>
+			        </p:selectOneRadio>   
+			             
 		    	</p:outputPanel>
 		    		<!-- <p:captcha label="Captcha" /> -->
 		    		<p:commandButton value="Votar" actionListener="#{votacaoController.votar(vv)}" 

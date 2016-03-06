@@ -15,8 +15,8 @@
 	   }
 	   
 	   .imgIndicacaoDestaque{ 
-	   		max-width: 200px; 
-	   		max-height: 250px;
+	   		max-width: 180px; 
+	   		max-height: 180px;
 	   		width: auto;
     		height: auto; 
 	   	}
@@ -27,6 +27,19 @@
 	   		min-width:100px;
 	   		min-height:100px; 
 	   		margin:3px;
+	   		text-align: center;
+	   		height: 250px !important;
+	   	}
+	   	
+	   	.indItem div{
+	   		text-align: center;
+	   		height: 280px !important; 
+	   		
+	   	}
+	   	
+	   	.indicacaoDescricao{
+	   		font-weight: normal !important;
+	   		font-style: italic;
 	   	}
 	   	
 	   	.corouselImg{
@@ -55,15 +68,18 @@
 		   			numVisible="3" >
 		   
 		   		<p:outputPanel id="containerIndicacaoDestaque" >
+		   			<p:commandLink actionListener="#{indicacaoController.ver(ind)}" style="cursor:pointer;" title="Clique para ver mais detalhes">
+		   				<p:outputLabel id="labelTituloIndicacaro" value="#{ind.nome}" style="display:block; cursor:pointer;"></p:outputLabel>
+			   			<p:outputLabel id="labelTelIndicacaro" rendered="#{not empty ind.telefone}" value="#{ind.telefone}" style="display:block; cursor:pointer; font-weight: normal !important;"></p:outputLabel>
+			   			<p:outputLabel id="labelCategoriaIndicacaro" rendered="#{not empty ind.nomesCategoriasPorExtenso}" value="#{ind.nomesCategoriasPorExtenso}" style="display:block; cursor:pointer;; font-weight: normal !important;"></p:outputLabel>
 		   			
-		   			<p:outputLabel id="labelTituloIndicacaro" value="#{ind.nome}"></p:outputLabel>
-		   			
-		   			<p:graphicImage rendered="#{not empty ind.arquivoDestaque}" styleClass="imgIndicacaoDestaque" 
-		   				id="imgDestaque" url="/imagem?arquivo=#{ind.arquivoDestaque.caminhoCompleto}" />
-		   			 
-		   			<p:outputLabel id="labelDescricaoIndicacaro" rendered="#{empty ind.arquivoDestaque}"  
-		   						value="#{ind.comentario}"></p:outputLabel>
+			   			<p:graphicImage rendered="#{not empty ind.arquivoDestaque}" styleClass="imgIndicacaoDestaque" 
+			   				id="imgDestaque" url="/imagem?arquivo=#{ind.arquivoDestaque.caminhoCompleto}" style="cursor:pointer;" />
+			   			 
+			   			<p:outputLabel id="labelDescricaoIndicacaro" rendered="#{empty ind.arquivoDestaque}"  style="cursor:pointer;"
+			   						value="#{ind.comentario}" styleClass="indicacaoDescricao"></p:outputLabel>
 		        	
+		   			</p:commandLink>
 		        
 		        </p:outputPanel>
 		 

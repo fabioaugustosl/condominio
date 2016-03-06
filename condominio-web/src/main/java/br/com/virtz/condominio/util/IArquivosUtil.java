@@ -28,5 +28,6 @@ public interface IArquivosUtil {
 	public void gravarThumb(String nomeArquivo);
 	public String getCaminhoCompletoThumb(String nomeArq);
 	public String gerarNomeAleatorio(String prefixo);
+	public byte[] converter(String arquivo);
      
 }

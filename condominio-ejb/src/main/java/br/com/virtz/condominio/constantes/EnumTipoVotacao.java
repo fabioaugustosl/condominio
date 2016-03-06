@@ -5,7 +5,8 @@ public enum EnumTipoVotacao {
 	DATA("Data"),
 	MOEDA("Monetário"),
 	NUMERICA("Numérica"),
-	OPCOES("Opções cadastradas");
+	OPCOES("Opções cadastradas"),
+	OPCOES_IMAGEM("Opções cadastradas com imagem");
 	
 	private String descricao;
 

@@ -11,9 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
-import br.com.virtz.condominio.entidades.ArquivoDocumento;
 import br.com.virtz.condominio.entidades.ArquivoNoticia;
-import br.com.virtz.condominio.entidades.Documento;
 import br.com.virtz.condominio.entidades.Noticia;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;

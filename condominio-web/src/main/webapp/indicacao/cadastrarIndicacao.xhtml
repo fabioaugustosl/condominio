@@ -28,6 +28,8 @@
 	   		
    </style>
    
+   
+   
    <p:outputLabel styleClass="formPad5">
 	   	<h1>Indicar um produto/serviço aos seus vizinhos</h1>
 	   	<p:outputLabel styleClass="textoInformativo" 
@@ -43,6 +45,18 @@
 				<p:inputText id="nome" alt="Insira nome da pessoa/empresa que forneceu o serviço ou o nome do produto que você deseja indicar" styleClass="inputPadrao"
 					value="#{cadastrarIndicacaoController.indicacao.nome}" maxlength="100" 
 					required="true" requiredMessage="Favor preencher o nome da pessoa/empresa ou produto." />
+				<br />
+				
+				<p:outputLabel value="Qual o telefone para contato?" styleClass="labelPadrao"  /> <br />
+				<p:inputText id="telefoneIndiccao" alt="Insira seu telefone ou celular para contato."
+					value="#{cadastrarIndicacaoController.indicacao.telefone}" maxlength="15" 
+					style="width:180px;"
+					styleClass="inputPadrao" />
+				<br />
+				
+				<p:outputLabel value="Possui email ou site para contato?" styleClass="labelPadrao"  /> <br />
+				<p:inputText id="emailIndicacao" alt="Insira um email ou site para contato." styleClass="inputPadrao"
+					value="#{cadastrarIndicacaoController.indicacao.email}" maxlength="100" />
 				<br />
 				
 				<p:outputLabel value="Classifique o serviço/produto: (ex.: pintor, armários, marceneiro, etc)" 

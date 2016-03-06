@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   
+   <style>
+   .widgetCFTV{background: url('img/cftv.png') no-repeat; background-position: right top; padding-right: 80px; }
+   </style>
+   
+	   <p:outputPanel id="containerWidgetCFTV" styleClass="painelWidgetInterno widgetCFTV" >
+	  			<p:outputLabel styleClass="textoInformativo" value="#{visualizarCFTVController.cftv.instrucoes}" />
+	  			
+  				
+	   </p:outputPanel>
+	   <p:outputPanel id="containerWidgetCFTVLink" styleClass="painelWidgetInterno" style="text-align:center;">
+		   <p:link href="#{visualizarCFTVController.cftv.url}" value="Clique aqui para acessar o sistema de monitoramento" target="_blank" />
+	   </p:outputPanel>
+	
+</ui:composition>
+

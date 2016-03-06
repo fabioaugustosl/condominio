@@ -49,6 +49,13 @@ public class PrincipalController implements Serializable {
 	}
 
 	
+	public boolean possuiCFTB(){
+		if(getCondominio().getCftv() != null && getCondominio().getCftv().getUrl() != null){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+	
 	
 	public Condominio getCondominio() {
 		return condominio;

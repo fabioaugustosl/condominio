@@ -55,6 +55,12 @@ public class Indicacao extends Entidade implements Serializable {
 	@Column(name = "nome", length=100)
 	private String nome;
 	
+	@Column(name = "telefone", length=15)
+	private String telefone;
+	
+	@Column(name = "email", length=100)
+	private String email;
+	
 	@Column(name = "comentario", length=10000)
 	private String comentario;
 	
@@ -150,6 +156,22 @@ public class Indicacao extends Entidade implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public ArquivoIndicacao getArquivoDestaque(){

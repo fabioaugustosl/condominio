@@ -62,6 +62,10 @@ public class Voto extends Entidade implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idOpcao")
 	private OpcaoVotacao opcao;
+	
+	@ManyToOne
+	@JoinColumn(name = "idOpcaoComImagem")
+	private OpcaoVotacaoComImagem opcaoComImagem;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dataVotacao")
@@ -147,6 +151,14 @@ public class Voto extends Entidade implements Serializable {
 		this.votacao = votacao;
 	}
 	
+	public OpcaoVotacaoComImagem getOpcaoComImagem() {
+		return opcaoComImagem;
+	}
+
+	public void setOpcaoComImagem(OpcaoVotacaoComImagem opcaoComImagem) {
+		this.opcaoComImagem = opcaoComImagem;
+	}
+
 	/**
 	 * De acordo com o tipo de votacao retorna um object. Quem receber deve fazer o cast.
 	 * @return
@@ -162,6 +174,8 @@ public class Voto extends Entidade implements Serializable {
 			return getNumero();
 		} else if(tipoVotacao.equals(EnumTipoVotacao.OPCOES)) {
 			return getOpcao();
+		} else if(tipoVotacao.equals(EnumTipoVotacao.OPCOES_IMAGEM)) {
+			return getOpcaoComImagem();
 		}
 		return null;
 	}
@@ -186,6 +200,8 @@ public class Voto extends Entidade implements Serializable {
 			return nf.format(valor);  
 		} else if(tipoVotacao.equals(EnumTipoVotacao.OPCOES)) {
 			return getOpcao().getDescricao();
+		} else if(tipoVotacao.equals(EnumTipoVotacao.OPCOES_IMAGEM)) {
+			return getOpcaoComImagem().getDescricao();
 		}
 		return null;
 	}

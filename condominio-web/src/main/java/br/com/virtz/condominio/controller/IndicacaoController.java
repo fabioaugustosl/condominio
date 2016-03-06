@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import br.com.virtz.condominio.entidades.Indicacao;
@@ -58,6 +59,11 @@ public class IndicacaoController {
 	
 	
 	public void irParaListagem(){
+		navegacao.redirectToPage("/indicacao/listagemIndicacao.faces");
+	}
+	
+	public void ver(Indicacao indicacao){
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idIndicacaoDestaque", indicacao.getId());
 		navegacao.redirectToPage("/indicacao/listagemIndicacao.faces");
 	}
 

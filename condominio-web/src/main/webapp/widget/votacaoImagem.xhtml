@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   
+   <style>
+   		
+   		.fonteDescVotacao{font-size: 1em; font-weight: normal!important; }
+   		
+   		.imgThumbVotacao{max-height: 80px; max-width: 80px;}
+   		
+   		.gridVotacaoImagem{}
+   		
+   		.gridVotacaoImagem td{text-align:center; width: 33%; border-bottom: 1px solid #F3F3F3; border-right: 1px solid #F3F3F3; }
+   		
+   		.divVotacaoPanel{text-align:center; height: 130px; }
+   		
+   		</style>
+   		
+   <h:form id="formVotacaoImagem" style="width:100%">
+   
+   	<p:growl id="msgsGrowlVotacaoImagem" showDetail="false" autoUpdate="false" />
+   
+	   <p:outputPanel id="containerVotacaoImagem">
+		
+			<p:dataGrid paginator="false"  
+		   		id="dtVotacaoImagem" var="vi" value="#{votacaoController.votacoesViewImagem}" style="border:0px !important;" columns="1" >
+					<p:outputPanel id="perguntinhaImagem" style="margin-top:5px; padding:3px;" >
+						<p:outputLabel value="#{vi.votacao.assuntoVotacao}"></p:outputLabel> 
+			    	</p:outputPanel>
+			    	
+			    	<p:outputPanel id="jaVotouVotacaoImagem" rendered="#{vi.votou}" >
+						<p:outputLabel styleClass="panelJaVotou" value="Parabéns! O voto do seu APTO foi registrado."></p:outputLabel> 
+				    </p:outputPanel>
+				    
+			    	<p:dataGrid paginator="false"  
+		   						id="dtVotacaoImagemPai" value="#{vi.votacao.opcoesComImagem}" var="oi"
+		   						 style="border:0px !important;" columns="3" styleClass="gridVotacaoImagem"  >
+		   				<p:outputPanel id="opcoesTipoVotacaoImagem" styleClass="divVotacaoPanel" >
+		   				
+		   					<p:outputLabel value="#{oi.descricao}" styleClass="fonteDescVotacao"></p:outputLabel> <br />
+		   				
+			   				<p:graphicImage  id="imgVotacaoTHUMB1Destaque"  
+					         	rendered="#{oi.imagemThumb != null}" styleClass="imgThumbVotacao"
+				 				url="/imagem?arquivo=/arquivos/#{oi.imagemThumb.nome}" /> <br />
+				 			
+				 			<p:overlayPanel id="imagePanelVotacao" for="imgVotacaoTHUMB1Destaque" hideEffect="fade">
+								        <p:graphicImage  id="imgVotacaoDestaque" styleClass="imgThumbDivImgGrande" 
+				 							url="/imagem?arquivo=/arquivos/#{oi.imagem.nome}" />
+								    </p:overlayPanel>
+								    
+		   				</p:outputPanel>
+			
+			 			<p:commandButton value="Votar" actionListener="#{votacaoController.votar(vi, oi)}" 
+			 					rendered="#{not vi.votou}" 
+			    				update="@form" styleClass="botao" style="height: 30px !important; padding:2px !important; width:80px !important">
+			    			<p:confirm header="Confirmação" message="Tem certeza que deseja confirmar o voto?" icon="ui-icon-alert" />
+			    		</p:commandButton>	
+		   			</p:dataGrid>
+		   		
+				    <p:outputPanel id="verResultadoParcialImagem" styleClass="botaoResultadoParcial" rendered="#{vi.votacao.isResultadoParcial()}"> 
+						<p:commandButton id="btnResultadoParcialImagem" value="Resultado Parcial"
+							actionListener="#{votacaoController.setVotacaoViewImagemResultado(vi)}"
+							update=":formVotacaoImagem:gridResultadoParcialImagem"
+						 	onsuccess="PF('dialogResultadoParcialImagem').show()"  ></p:commandButton>
+					</p:outputPanel>
+				
+				</p:dataGrid>
+			
+	   </p:outputPanel>
+	   
+	   
+	   <p:dialog widgetVar="dialogResultadoParcialImagem" id="dialogResultadoParcialImagem" modal="true" 
+					hideEffect="fade" dynamic="true" closable="true" closeOnEscape="true" 
+					header="Resultado parcial"
+					width="600" >
+		        	
+		    <p:outputLabel value="#{votacaoController.votacaoViewImagemResultado.votacao.assuntoVotacao}"></p:outputLabel>    	
+        	<p:dataTable id="gridResultadoParcialImagem" value="#{votacaoController.votacaoViewImagemResultado.resultadoVotacaoSelecionada.keySet()}"
+					emptyMessage="Nenhum voto foi computado para essa votação." var="res"  >
+				
+				<p:column headerText="Opção">
+			        <p:outputLabel value="#{res}"></p:outputLabel>
+			    </p:column>
+			    
+			    <p:column headerText="Votos">
+			        <p:outputLabel value="#{votacaoController.votacaoViewImagemResultado.resultadoVotacaoSelecionada[res]}"></p:outputLabel>
+			        <p:outputLabel style="margin-left:10px;" value=" (#{votacaoController.votacaoViewImagemResultado.resultadoPercentagemVotacaoSelecionada[res]}%)"></p:outputLabel>
+			    </p:column>
+				
+			</p:dataTable>
+        	
+    	</p:dialog>
+    	
+    	<p:confirmDialog global="true" showEffect="fade"  >
+	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
+	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+    	
+	</h:form>
+	
+</ui:composition>
+

@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -74,6 +75,9 @@ public class Condominio extends Entidade implements Serializable {
 	
 	@Column(name = "email", length = 100)
 	private String email;
+	
+	@OneToOne(mappedBy = "condominio")
+	private AcessoCFTV cftv;
 	
 	
 	// parte financeira
@@ -241,5 +245,13 @@ public class Condominio extends Entidade implements Serializable {
 	public void setEhTeste(Boolean ehTeste) {
 		this.ehTeste = ehTeste;
 	}
-		
+
+	public AcessoCFTV getCftv() {
+		return cftv;
+	}
+
+	public void setCftv(AcessoCFTV cftv) {
+		this.cftv = cftv;
+	}
+	
 }

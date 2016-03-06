@@ -30,7 +30,7 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 			query = "Select u FROM usuario u "
 					+ "	LEFT JOIN u.apartamento ap "
 					+ "	LEFT JOIN u.arquivo arq "
-					+ " WHERE u.condominio.id = :idCondominio AND u.deletado = 0 "),
+					+ " WHERE u.condominio.id = :idCondominio AND u.deletado = 0 ORDER BY u.nome ASC "),
 	@NamedQuery(name = "Usuario.recuperarSindicosPorCondominio", 
 			query = "Select u FROM usuario u WHERE u.condominio.id = :idCondominio AND u.tipoUsuario = 'SINDICO' AND u.deletado = 0"),
 	@NamedQuery(name = "Usuario.recuperarPorEmail", 

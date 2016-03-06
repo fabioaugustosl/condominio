@@ -1,4 +1,4 @@
-package br.com.virtz.condominio.controller.util;
+package br.com.virtz.condominio.geral;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,12 +13,14 @@ public class UtilTipoVotacao {
 	private boolean moeda;
 	private boolean numerico;
 	private boolean opcoes;
+	private boolean opcoesImagem;
 	
 	private boolean valorSimNao;
 	private Date valorData;
 	private Double valorMoeda;
 	private Double valorNumerico;
 	private Long idValorOpcao;
+	private Long idValorOpcaoImagem;
 	
 	private Map<Integer, String> opcoesSimNao = null;
 
@@ -38,6 +40,7 @@ public class UtilTipoVotacao {
 		moeda = Boolean.FALSE;
 		numerico = Boolean.FALSE;
 		opcoes = Boolean.FALSE;
+		opcoesImagem = Boolean.FALSE;
 	}
 	
 	public void tratarTipoVotacaoExibicao(EnumTipoVotacao tipoVotacao){
@@ -52,6 +55,8 @@ public class UtilTipoVotacao {
 			numerico = Boolean.TRUE;
 		} else if(tipoVotacao.equals(EnumTipoVotacao.OPCOES)) {
 			opcoes = Boolean.TRUE;
+		} else if(tipoVotacao.equals(EnumTipoVotacao.OPCOES_IMAGEM)) {
+			opcoesImagem = Boolean.TRUE;
 		}
 	}
 	
@@ -71,6 +76,11 @@ public class UtilTipoVotacao {
 	public boolean isNumerico() {
 		return numerico;
 	}
+	
+	public boolean isOpcoesImagem() {
+		return opcoesImagem;
+	}
+
 
 	public boolean isOpcoes() {
 		return opcoes;
@@ -118,6 +128,14 @@ public class UtilTipoVotacao {
 
 	public Map<Integer, String> getOpcoesSimNao() {
 		return opcoesSimNao;
+	}
+
+	public Long getIdValorOpcaoImagem() {
+		return idValorOpcaoImagem;
+	}
+
+	public void setIdValorOpcaoImagem(Long idValorOpcaoImagem) {
+		this.idValorOpcaoImagem = idValorOpcaoImagem;
 	}
 	
 

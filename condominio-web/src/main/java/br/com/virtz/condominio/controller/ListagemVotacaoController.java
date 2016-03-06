@@ -11,20 +11,23 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
-import br.com.virtz.condominio.controller.beanview.VotacaoView;
+import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.Condominio;
+import br.com.virtz.condominio.entidades.OpcaoVotacaoComImagem;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.entidades.Voto;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
+import br.com.virtz.condominio.geral.VotacaoView;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.service.IVotacaoService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -259,6 +262,23 @@ public class ListagemVotacaoController {
 			resultados.add(sb.toString());
 		}
 		
+		List<String> anexos = null;
+		/*if(EnumTipoVotacao.OPCOES_IMAGEM.equals(votacao.getTipoVotacao())){
+			anexos = new ArrayList<String>();
+			HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+			String url = origRequest.getRequestURL().substring(0, origRequest.getRequestURL().toString().indexOf("/votacao"));
+			for(OpcaoVotacaoComImagem opc : votacao.getOpcoesComImagem()){
+				StringBuilder sb = new StringBuilder("<div style='width:300px; text-align:center; height:300px; float:right;'>");
+				
+				sb.append("<label>").append(opc.getDescricao()).append("</label>");
+				byte[] imgBytes = arquivoUtil.converter(opc.getImagemThumb().getNome());
+				sb.append("<img src='data:image/jpg;base64,").append(imgBytes).append("' />");
+				
+				sb.append("</div");
+				anexos.add(sb.toString());
+			}
+		}*/
+		
 		
 		// enviar emails
 		Condominio c = sessao.getUsuarioLogado().getCondominio();
@@ -272,6 +292,7 @@ public class ListagemVotacaoController {
 				mapParametrosEmail.put("nome_usuario", u.getNomeExibicao());
 				mapParametrosEmail.put("assunto_votacao", votacao.getAssuntoVotacao());
 				mapParametrosEmail.put("resultados", resultados);
+				mapParametrosEmail.put("anexos", anexos);
 				
 				String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.RESULTADO_FINAL_VOTACAO.getNomeArquivo(), mapParametrosEmail);
 				

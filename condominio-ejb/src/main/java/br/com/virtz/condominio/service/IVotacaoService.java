@@ -8,6 +8,7 @@ import javax.ejb.Local;
 import br.com.virtz.condominio.constantes.EnumTipoVotacao;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.OpcaoVotacao;
+import br.com.virtz.condominio.entidades.OpcaoVotacaoComImagem;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.entidades.Voto;
@@ -36,7 +37,8 @@ public interface IVotacaoService {
 	public Voto recuperarVotoPorApto(Votacao votacao, Usuario usuario) throws ParametroObrigatorioNuloException;
 	public List<Voto> recuperarTodosVotos(Long idVotacao) throws AppException;
 	public void marcarEmailJaEnviado(Long idVotacao) throws AppException;
-	public List<Votacao> recuperarVotacoesEncerradasSemEnvioDeEmail(Long idCondominio);
+	public List<Votacao> recuperarVotacoesEncerradasSemEnvioDeEmail();
+	public void removerOpcaoImagem(OpcaoVotacaoComImagem opcao);
 	
 }
 

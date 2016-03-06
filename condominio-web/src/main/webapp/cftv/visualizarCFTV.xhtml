@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+ 	
+ 	<h:form id="form" styleClass="formPad10">
+	   	<h1>Acesso as cameras do condomínio. (CFTV)</h1>
+	 
+	 	<br />
+		<p:outputLabel styleClass="textoInformativo" value="#{visualizarCFTVController.cftv.instrucoes}" />
+	   		
+	   		<p:link href="http://pontoimperial.dyndns.org:90" value="Caso tenha problemas acesse a aplicação diretamente clicando aqui." target="_blank" />
+	 	
+	 	    <p:outputPanel id="panelIframeCFTV">
+	    	
+	    	<object width="400" height="400" data="#{visualizarCFTVController.cftv.url}" ></object>
+            	    
+	    </p:outputPanel>
+	    
+	  
+	</h:form>
+   </ui:define>
+</ui:composition>

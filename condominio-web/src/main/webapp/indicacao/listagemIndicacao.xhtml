@@ -71,6 +71,24 @@
 	   			max-height: 75px !important;
 	   			max-width: 75px !important;
 	   		}
+	   		
+	   		.painelDestaque{
+	   			background: #ACB4C5 none repeat scroll 0 0;
+			    border: 2px solid #acb4c5;
+			    color: #fff;
+			    margin-bottom: 15px;
+			    margin-left: 10%;
+			    margin-right: 10%;
+			    padding: 10px;
+	   		}
+	   		.txtInformacaoIndicacao{margin-left: 3px;}
+	   		
+	   		.gridIndicacaoListagem{
+	   			
+	   		}
+	   		.gridIndicacaoListagem li{
+	   			padding: 5px;
+	   		}
 	   	</style>
 	   
    	
@@ -83,11 +101,55 @@
 	   </p:outputPanel>
 	 	<br />
 	 	
+	 	
+	 	
 	 	<h:form id="form" style="width:100%" styleClass="formPad15">
+	 	
+		 	<p:outputPanel id="panelIndicacaoDestaque" rendered="#{ not empty listagemIndicacaoController.indicacaoDestaque}" styleClass="painelDestaque" >
+			 	<p:outputLabel  value="Indicação em destaque!" />
+	 			<h:panelGrid columns="2" style="width:100%;"  columnClasses="logo,detail" id="gridDestaqueInd" >
+		        
+		            <p:outputPanel>
+		                <h:panelGrid columns="2" cellpadding="5">
+		                    <h:outputText value="O quê ou quem: " style="font-weight: bold" />
+		                    <h:outputText styleClass="txtInformacaoIndicacao" value=" #{listagemIndicacaoController.indicacaoDestaque.nome}" />
+		                    
+		                    <h:outputText value="Classificação: " style="font-weight: bold" />
+		                    <h:outputText styleClass="txtInformacaoIndicacao" value=" #{listagemIndicacaoController.indicacaoDestaque.nomesCategoriasPorExtenso}" />
+		                    
+		                    <h:outputText value="Contatos: " style="font-weight: bold" />
+			                <h:outputText styleClass="txtInformacaoIndicacao" value=" #{listagemIndicacaoController.indicacaoDestaque.telefone}  #{indicacao.email}"  />
+		                    
+		                    <h:outputText value="Comentário: " style="font-weight: bold" />
+		                    <h:outputText styleClass="txtInformacaoIndicacao" value=" #{listagemIndicacaoController.indicacaoDestaque.comentario}" />
+		                </h:panelGrid>
+		            </p:outputPanel>
+	
+					<p:outputLabel rendered="#{not empty listagemIndicacaoController.indicacaoDestaque.arquivos}" style="float:right; margin-right:5px;" >	
+						<p:dataGrid var="thumbGrid"  value="#{listagemIndicacaoController.indicacaoDestaque.arquivos}" 
+		                     	columns="3" layout="grid" id="thumbGrids">
+		                     	
+		                     	<div class="imgThumbDiv">
+			                     	<p:graphicImage  id="imgIndicacaoTHUMB1Destaque"  
+			                     	styleClass="imgThumbDivImg"
+				 						url="/imagem?arquivo=#{listagemIndicacaoController.getCaminhoCompletoThumb(thumbGrid.caminhoCompleto)}" 
+				 						style="cursor:pointer" />
+				 				
+			                     	<p:overlayPanel id="imagePanelDestaque" for="imgIndicacaoTHUMB1Destaque" hideEffect="fade">
+								        <p:graphicImage  id="imgIndicacao1Destaque" styleClass="imgThumbDivImgGrande" 
+				 							url="/imagem?arquivo=#{thumbGrid.caminhoCompleto}" />
+								    </p:overlayPanel>
+							    </div>
+						 </p:dataGrid>
+						    
+		 			</p:outputLabel>
+		        </h:panelGrid>
+		 	</p:outputPanel>
+		 	
 		    
 		    <div id="divCloud">
 			 	<p:tagCloud model="#{listagemIndicacaoController.model}" id="tagCloudCategoria"  styleClass="tagCloud">
-			        <p:ajax event="select" update="listaIndicacoes" listener="#{listagemIndicacaoController.selecionarCategoria}" />
+			        <p:ajax event="select" update="@form" listener="#{listagemIndicacaoController.selecionarCategoria}" />
 			    </p:tagCloud>
 		    </div>
 		    
@@ -101,21 +163,24 @@
 		            <p:commandButton type="button" value="Mais" icon="ui-icon-circle-triangle-s"/>
 		        </f:facet>
 		 
-		        <h:panelGrid columns="2" style="width:100%; border-bottom:1px solid #C3C3C3;"  columnClasses="logo,detail" >
+		        <h:panelGrid columns="2" style="width:100%; border-bottom:1px solid #C3C3C3;"  styleClass="gridIndicacaoListagem" columnClasses="logo,detail" >
 		        
 		            <p:outputPanel>
 		                <h:panelGrid columns="2" cellpadding="5">
 		                    <h:outputText value="O quê ou quem: " style="font-weight: bold" />
-		                    <h:outputText value=" #{indicacao.nome}" />
+		                    <h:outputText styleClass="txtInformacaoIndicacao" value=" #{indicacao.nome}" />
 		                    
 		                    <h:outputText value="Classificação: " style="font-weight: bold" />
-		                    <h:outputText value=" #{indicacao.nomesCategoriasPorExtenso}" />
+		                    <h:outputText styleClass="txtInformacaoIndicacao" value=" #{indicacao.nomesCategoriasPorExtenso}" />
+		                    
+		                    <h:outputText value="Contatos: " style="font-weight: bold" />
+		                    <h:outputText styleClass="txtInformacaoIndicacao" value=" #{indicacao.telefone}  #{indicacao.email}"  />
 		                    
 		                    <h:outputText value="Comentário: " style="font-weight: bold" />
-		                    <h:outputText value=" #{indicacao.comentario}" />
+		                    <h:outputText styleClass="txtInformacaoIndicacao" value=" #{indicacao.comentario}" />
 	
 		                    <h:outputText value="Quem indicou: "  style="font-weight: bold" />
-		                    <h:outputText value=" #{indicacao.usuario.nome}" />
+		                    <h:outputText styleClass="txtInformacaoIndicacao" value=" #{indicacao.usuario.nome}" />
 		                    
 		                    <p:commandLink value="Excluir" actionListener="#{listagemIndicacaoController.removerIndicacao(indicacao)}" rendered="#{listagemIndicacaoController.podeExcluir(indicacao)}" update="listaIndicacoes" ></p:commandLink>
 		                    
