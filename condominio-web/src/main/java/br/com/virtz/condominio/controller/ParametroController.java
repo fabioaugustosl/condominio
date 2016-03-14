@@ -14,8 +14,9 @@ import org.primefaces.event.FileUploadEvent;
 
 import br.com.virtz.condominio.constantes.EnumParametroSistema;
 import br.com.virtz.condominio.entidades.AcessoCFTV;
-import br.com.virtz.condominio.entidades.ArquivoOpcaoVotacao;
+import br.com.virtz.condominio.entidades.ArquivoBoletoExterno;
 import br.com.virtz.condominio.entidades.ArquivoTutorialCFTV;
+import br.com.virtz.condominio.entidades.BoletoExterno;
 import br.com.virtz.condominio.entidades.ParametroSistema;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
@@ -51,6 +52,7 @@ public class ParametroController {
 	
 	
 	private ArquivoTutorialCFTV tutorialCftv;
+	private ArquivoBoletoExterno arquivoBoleto;
 	private Usuario usuario = null;
 	
 	private ParametroSistema parametroMaximoDias = null;
@@ -58,6 +60,7 @@ public class ParametroController {
 	private Boolean parametroEnviarEmailAtaBool = null;
 	
 	private AcessoCFTV cftv = null;
+	private BoletoExterno boletoExterno = null;
 	
 	
 	@PostConstruct
@@ -71,6 +74,16 @@ public class ParametroController {
 		cftv = condominioService.recuperarCFTV(usuario.getCondominio().getId());
 		if(cftv == null){
 			cftv = new AcessoCFTV();
+		} else {
+			tutorialCftv = cftv.getArquivo();
+		}
+		
+		// boleto externo
+		boletoExterno = condominioService.recuperarBoletoExterno(usuario.getCondominio().getId());
+		if(boletoExterno == null){
+			boletoExterno = new BoletoExterno();
+		} else {
+			arquivoBoleto = boletoExterno.getLogomarca();
 		}
 		
 	}
@@ -151,6 +164,72 @@ public class ParametroController {
 		}
 	}
 	
+	
+	
+
+	public void salvarBoletoExterno() throws AppException{
+		
+		try {
+			
+			if(boletoExterno.getId()!=null && boletoExterno.getDescricaoLink() == null && boletoExterno.getUrl() == null){
+				condominioService.removerBoletoExterno(boletoExterno.getId());
+				return;
+			}
+			
+			if(boletoExterno.getCondominio() == null){
+				boletoExterno.setCondominio(usuario.getCondominio());
+			}
+			
+			if(arquivoBoleto != null){
+				boletoExterno.setLogomarca(arquivoBoleto);
+			}
+			
+			boletoExterno = condominioService.salvarBoletoExterno(boletoExterno);
+			
+			mensagem.addInfo("Configurações de acesso ao link do boleto externo foram atualizadas com sucesso.");
+		} catch (Exception e) {
+			throw new AppException("Ocorreu um erro ao salvar dados de acesso ao boleto externo.");
+		}
+
+	}
+	
+	
+	public void uploadArquivoBoleto(FileUploadEvent evento) throws CondominioException {
+        try {
+        	InputStream inputStream = evento.getFile().getInputstream();
+		
+			String caminho = arquivoUtil.getCaminhoArquivosUpload();
+			String nomeAntigo = evento.getFile().getFileName();
+			String extensao = arquivoUtil.pegarExtensao(nomeAntigo);
+			String nomeNovo = arquivoUtil.gerarNomeArquivo(extensao, ArquivosUtil.TIPO_IMAGEM);
+			
+			arquivoBoleto = new ArquivoBoletoExterno();
+			arquivoBoleto.setCaminho(caminho);
+			arquivoBoleto.setExtensao(extensao);
+			arquivoBoleto.setNomeOriginal(nomeAntigo);
+			arquivoBoleto.setTamanho(evento.getFile().getSize());
+			arquivoBoleto.setNome(nomeNovo);
+			
+			arquivoUtil.redimensionarImagem(inputStream, caminho, nomeNovo, extensao, 230, 200);
+					
+			mensagem.addInfo("Arquivo "+nomeAntigo+" foi anexado com sucesso.");
+        } catch (IOException e) {
+        	mensagem.addError("Ocorreu um erro ao fazer upload do arquivo. Favor acessar novamente na tela.");
+        }
+    }
+	
+	public void removerLogomarca() throws CondominioException {
+		if(arquivoBoleto != null){
+			File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arquivoBoleto.getNome());
+			arquivoDeletar.delete();
+			
+			arquivoBoleto = null;
+			
+			mensagem.addInfo("Arquivo removido com sucesso!");
+		}
+	}
+	
+	
 
 	// GETTERS E SETTERS
 	public ParametroSistema getParametroMaximoDias() {
@@ -183,6 +262,22 @@ public class ParametroController {
 
 	public void setTutorialCftv(ArquivoTutorialCFTV tutorialCftv) {
 		this.tutorialCftv = tutorialCftv;
+	}
+
+	public ArquivoBoletoExterno getArquivoBoleto() {
+		return arquivoBoleto;
+	}
+
+	public void setArquivoBoleto(ArquivoBoletoExterno arquivoBoleto) {
+		this.arquivoBoleto = arquivoBoleto;
+	}
+
+	public BoletoExterno getBoletoExterno() {
+		return boletoExterno;
+	}
+
+	public void setBoletoExterno(BoletoExterno boletoExterno) {
+		this.boletoExterno = boletoExterno;
 	}
 	
 		    

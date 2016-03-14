@@ -13,6 +13,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.primefaces.util.Base64;
+
 import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
@@ -263,7 +265,7 @@ public class ListagemVotacaoController {
 		}
 		
 		List<String> anexos = null;
-		/*if(EnumTipoVotacao.OPCOES_IMAGEM.equals(votacao.getTipoVotacao())){
+		if(EnumTipoVotacao.OPCOES_IMAGEM.equals(votacao.getTipoVotacao())){
 			anexos = new ArrayList<String>();
 			HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 			String url = origRequest.getRequestURL().substring(0, origRequest.getRequestURL().toString().indexOf("/votacao"));
@@ -272,12 +274,13 @@ public class ListagemVotacaoController {
 				
 				sb.append("<label>").append(opc.getDescricao()).append("</label>");
 				byte[] imgBytes = arquivoUtil.converter(opc.getImagemThumb().getNome());
-				sb.append("<img src='data:image/jpg;base64,").append(imgBytes).append("' />");
+				sb.append("<img src='data:image/png;base64,").append(Base64.encodeToString(imgBytes, false)).append("' />");
+			
 				
 				sb.append("</div");
 				anexos.add(sb.toString());
 			}
-		}*/
+		}
 		
 		
 		// enviar emails

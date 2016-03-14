@@ -7,7 +7,7 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <ui:define name="content">
-   	
+  
  	
  	<h:form id="form" enctype="multipart/form-data" styleClass="formPad5">
  	
@@ -48,7 +48,7 @@
 		        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX|JPg|jpg|jpeg|JPEG|png|PNG)$/" 
 		        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. "
 		        invalidFileMessage="Arquivo não válido." 
-		        auto="true" dragDropSupport="false" />
+		        auto="true" dragDropSupport="false" oncomplete="atualizarClip();" />
 	 	
 		 	<p:dataTable id="dtArquivosNoticia" var="arqNoticia" styleClass="dataArquivosMenor"
 		 		value="#{cadastroNoticiaController.noticia.arquivos}"
@@ -60,7 +60,14 @@
 			    </p:column>
 			    
 			    <p:column headerText="Link">
-			        <h:outputText value="#{cadastroNoticiaController.getCaminhoApp(arqNoticia)}" />
+			     	<p:outputPanel rendered="#{cadastroNoticiaController.ehImagem(arqNoticia)}">
+					   	
+						<div id="linkImgCopiar" data-clipboard-text="#{cadastroNoticiaController.getCaminhoApp(arqNoticia)}" style="cursor:pointer">
+					        <span>Copiar o link da imagem</span>
+					    </div>
+					    
+			     	</p:outputPanel>  
+    			   	
 			    </p:column>
 			    
 			    <p:column >
@@ -88,7 +95,17 @@
 	   		actionListener="#{cadastroNoticiaController.irParaListagem}"  >
 	   	</p:commandButton>
 	 	
-	 	
 	</h:form>
+	
+	  <script>
+	  var clipboard = null;
+	  function atualizarClip(){
+			setTimeout(function (){
+		 	 clipboard =  new Clipboard('#linkImgCopiar');
+			}, 800
+			);
+	  }
+	   </script>
+    
    </ui:define>
 </ui:composition>

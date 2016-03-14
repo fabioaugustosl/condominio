@@ -11,7 +11,8 @@ public enum EnumTemplates {
 	ESQUECI_MINHA_SENHA("esqueciMinhaSenha.ftl", "Esqueci minha senha", "contato@condominiosobcontrole.com.br"),
 	CONFIRMACAO_RESERVA_AREA("confirmacaoReservaArea.ftl", "Confirmação de reserva de área comum", "contato@condominiosobcontrole.com.br"),
 	RESULTADO_FINAL_VOTACAO("resultadoVotacao.ftl", "Resultado final de votação", "contato@condominiosobcontrole.com.br"),
-	ATA_ANEXADA("emailAta.ftl", "Ata disponibilizada no site", "contato@condominiosobcontrole.com.br");
+	ATA_ANEXADA("emailAta.ftl", "Ata disponibilizada no site", "contato@condominiosobcontrole.com.br"),
+	NOVA_NOTICIA("notificacaoNoticia.ftl", "Nova notícia!", "contato@condominiosobcontrole.com.br");
 
 	private String nomeArquivo;
 	private String assunto;

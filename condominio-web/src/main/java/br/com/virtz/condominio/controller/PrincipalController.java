@@ -3,13 +3,16 @@ package br.com.virtz.condominio.controller;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
+import br.com.virtz.condominio.entidades.BoletoExterno;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Usuario;
+import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 
 @ManagedBean
@@ -18,6 +21,8 @@ public class PrincipalController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@EJB
+	private ICondominioService condominioService;
 
 	@Inject
 	private SessaoUsuario sessao;
@@ -26,10 +31,12 @@ public class PrincipalController implements Serializable {
 	private Usuario usuario = null;
 	
 	
+	
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
 		condominio = usuario.getCondominio();
+		
 	}
 		 
 	 
@@ -55,6 +62,7 @@ public class PrincipalController implements Serializable {
 		}
 		return Boolean.FALSE;
 	}
+	
 	
 	
 	public Condominio getCondominio() {

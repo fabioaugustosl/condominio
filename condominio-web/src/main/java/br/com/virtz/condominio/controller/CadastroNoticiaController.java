@@ -3,7 +3,11 @@ package br.com.virtz.condominio.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -12,17 +16,22 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
+import br.com.virtz.condominio.bean.Email;
+import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.ArquivoNoticia;
+import br.com.virtz.condominio.entidades.CobrancaUsuario;
 import br.com.virtz.condominio.entidades.Noticia;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.INoticiaService;
+import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
 import br.com.virtz.condominio.util.IArquivosUtil;
@@ -36,6 +45,9 @@ public class CadastroNoticiaController {
 	@EJB
 	private INoticiaService noticiaService;
 	
+	@EJB
+	private IUsuarioService usuarioService;
+	
 	@Inject
 	private SessaoUsuario sessao;
 	
@@ -47,6 +59,12 @@ public class CadastroNoticiaController {
 	
 	@Inject
 	private IArquivosUtil arquivoUtil;
+	
+	@EJB
+	private EnviarEmail enviarEmail;
+	
+	@Inject
+	private LeitorTemplate leitor;
 	
 	@Inject
 	private EnviarEmailSuporteController emailSuporte;
@@ -86,8 +104,13 @@ public class CadastroNoticiaController {
 		
 		try{
 			noticiaService.salvarNoticia(noticia);
+			
+			List<Usuario> moradores = usuarioService.recuperarTodos(usuario.getCondominio());
+			enviarEmail(noticia, moradores);
+
 			criarNovaNoticia(usuario);
 			message.addInfo("A Notícia foi salva com sucesso.");
+			
 		}catch(Exception e){
 			e.printStackTrace();
 			try{
@@ -154,15 +177,49 @@ public class CadastroNoticiaController {
         }
     }
 	
+	
+	public boolean ehImagem(ArquivoNoticia arq){
+		return arquivoUtil.ehImagem(arq.getExtensao());
+	}
+	
 
 	public void irParaListagem(){
 		navegacao.redirectToPage("/noticia/listagemNoticia.faces");
 	}
 	
 	public String getCaminhoApp(ArquivoNoticia arquivo){
-		return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()+"/"+arquivo.getNome();
+		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		String url = origRequest.getRequestURL().substring(0, origRequest.getRequestURL().toString().indexOf("/noticia"));
+		
+		return url+"/imagem?arquivo=/arquivos/"+arquivo.getNome();
 	}
+	
+	
 
+	
+	private void enviarEmail(Noticia noticia, List<Usuario> moradores) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("titulo", noticia.getTitulo());
+		map.put("data_noticia", sdf.format(noticia.getData()));
+		map.put("texto", noticia.getConteudo());
+		
+		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
+		String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.NOVA_NOTICIA.getNomeArquivo(), map);
+		String assunto = usuario.getCondominio().getNome()+": "+ EnumTemplates.NOVA_NOTICIA.getAssunto();
+		//email.setAnexo(arquivosUtil.converter(arquivoBoleto));
+		//email.setNomeAnexo("Boleto_condominio_"+cobranca.getAnoMes()+".pdf");
+		
+		for(Usuario morador : moradores){
+			Email email = new Email(EnumTemplates.NOVA_NOTICIA.getDe(), morador.getEmail(), assunto, msgEnviar);
+			enviarEmail.enviar(email);
+		}
+		
+	}
+	
+	
+	
 
 	
 	/* GETTERS E SETTERS*/

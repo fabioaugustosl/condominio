@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,11 +24,14 @@ import javax.imageio.ImageIO;
 import javax.inject.Named;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
+
+import com.sun.mail.util.BASE64EncoderStream;
 
 import br.com.virtz.condominio.exceptions.CondominioException;
 
@@ -279,6 +281,19 @@ public class ArquivosUtil implements IArquivosUtil, Serializable {
 		try {
 			fileInputStream = new FileInputStream(arquivo);
 			return IOUtils.toByteArray(fileInputStream);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public byte[] converterParaBase64(File arquivo){
+		FileInputStream fileInputStream;
+		try {
+			fileInputStream = new FileInputStream(arquivo);
+			return Base64.encodeBase64(IOUtils.toByteArray(fileInputStream));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

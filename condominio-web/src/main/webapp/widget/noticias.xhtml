@@ -50,7 +50,7 @@
 				</p:outputPanel>
 				
 				<p:commandLink id="linkVisualizarNoticia" actionListener="#{noticiaController.preencherNoticiaDestaque(noticiaController.noticiaDestaque)}"
-				  	action="#{noticiaController.visualizar}" ajax="false" value="Ver mais"></p:commandLink>
+				  	action="#{noticiaController.visualizar}" ajax="false" value="Ver mais" style="cursor:pointer"></p:commandLink>
 			</p:outputPanel>
 
 			<p:outputPanel id="panelNoticiasoutras" styleClass="containerNoticiasDestaque" rendered="#{noticiaController.noticias.size() > 0}">

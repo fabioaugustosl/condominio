@@ -11,12 +11,14 @@ import br.com.virtz.boleto.bean.EnumBanco;
 import br.com.virtz.condominio.dao.IAcessoCFTVDAO;
 import br.com.virtz.condominio.dao.IAreaComumDAO;
 import br.com.virtz.condominio.dao.IBlocoDAO;
+import br.com.virtz.condominio.dao.IBoletoExternoDAO;
 import br.com.virtz.condominio.dao.ICidadeDAO;
 import br.com.virtz.condominio.dao.ICondominioDAO;
 import br.com.virtz.condominio.dao.IContaBancariaDAO;
 import br.com.virtz.condominio.entidades.AcessoCFTV;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
+import br.com.virtz.condominio.entidades.BoletoExterno;
 import br.com.virtz.condominio.entidades.Cidade;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.ContaBancariaCondominio;
@@ -44,6 +46,8 @@ public class CondominioService implements ICondominioService {
 	@EJB
 	private IAcessoCFTVDAO cftvDAO;
 	
+	@EJB
+	private IBoletoExternoDAO boletoExternoDAO;
 	
 
 	@Override
@@ -195,5 +199,20 @@ public class CondominioService implements ICondominioService {
 		return cftvDAO.salvar(cftv);
 	}
 
+	@Override
+	public BoletoExterno recuperarBoletoExterno(Long idCondominio) {
+		return boletoExternoDAO.recuperar(idCondominio);
+	}
 
+	@Override
+	public BoletoExterno salvarBoletoExterno(BoletoExterno boleto) throws Exception {
+		return boletoExternoDAO.salvar(boleto);
+	}
+
+	@Override
+	public void removerBoletoExterno(Long idBoletoExterno) throws Exception {
+		boletoExternoDAO.remover(idBoletoExterno);
+	}
+	
+	
 }

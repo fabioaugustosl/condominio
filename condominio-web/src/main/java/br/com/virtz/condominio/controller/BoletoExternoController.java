@@ -17,14 +17,16 @@ import org.primefaces.model.StreamedContent;
 import br.com.virtz.condominio.entidades.AcessoCFTV;
 import br.com.virtz.condominio.entidades.ArquivoDocumento;
 import br.com.virtz.condominio.entidades.ArquivoTutorialCFTV;
+import br.com.virtz.condominio.entidades.BoletoExterno;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
+import br.com.virtz.condominio.util.ArquivosUtil;
 import br.com.virtz.condominio.util.IArquivosUtil;
 
 @ManagedBean
 @ViewScoped
-public class VisualizarCFTVController {
+public class BoletoExternoController {
 	
 	@EJB
 	private ICondominioService condominioService;
@@ -36,51 +38,39 @@ public class VisualizarCFTVController {
 	private IArquivosUtil arquivoUtil;
 	
 	
-	private Usuario usuario = null;
-	
-	private AcessoCFTV cftv = null;
+	private BoletoExterno boleto = null;
 	
 	
 	@PostConstruct
 	public void init(){
-		usuario = sessao.getUsuarioLogado();
-		
-		// cftv
-		cftv = condominioService.recuperarCFTV(usuario.getCondominio().getId());
-		
-		if(cftv == null){
-			cftv = new AcessoCFTV();
-		}
-		
+		boleto = condominioService.recuperarBoletoExterno(sessao.getUsuarioLogado().getCondominio().getId());
 	}
 	
-	public String getURL(){
-		if(cftv != null){
-			return cftv.getUrl();
+	
+	public boolean possuiBoletoExterno(){
+		if(boleto != null && boleto.getUrl() != null){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+	
+	public String getImagem(){
+		if(boleto.getLogomarca() != null){
+			return "/arquivos/"+boleto.getLogomarca().getNome();
 		}
 		return null;
 	}
-
-	public StreamedContent download(ArquivoTutorialCFTV arquivo) {        
-		 if(arquivo != null){
-			InputStream stream;
-			try {
-				stream = new FileInputStream(new File(arquivoUtil.getCaminhoArquivosUpload()+arquivo.getNome()));
-				StreamedContent file = new DefaultStreamedContent(stream, arquivoUtil.getMimetypeArquivo(arquivo.getExtensao()), arquivo.getNomeOriginal());
-				return file;
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		 }
-		 return null;
-    }
 	
 	
 	
 	// GETTERS E SETTERS
 
-	public AcessoCFTV getCftv() {
-		return cftv;
+	public BoletoExterno getBoleto() {
+		return boleto;
+	}
+
+	public void setBoleto(BoletoExterno boleto) {
+		this.boleto = boleto;
 	}
 
 }

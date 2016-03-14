@@ -12,6 +12,7 @@ import br.com.virtz.boleto.bean.EnumBanco;
 import br.com.virtz.condominio.entidades.AcessoCFTV;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
+import br.com.virtz.condominio.entidades.BoletoExterno;
 import br.com.virtz.condominio.entidades.Cidade;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.ContaBancariaCondominio;
@@ -48,4 +49,9 @@ public interface ICondominioService {
 	// Cftv
 	public AcessoCFTV recuperarCFTV(Long idCondominio);
 	public AcessoCFTV salvarAcessoCFTV(AcessoCFTV cftv) throws Exception;
+	
+	// BoletoExterno
+	public BoletoExterno recuperarBoletoExterno(Long idCondominio);
+	public BoletoExterno salvarBoletoExterno(BoletoExterno boleto) throws Exception;
+	public void removerBoletoExterno(Long idBoletoExterno) throws Exception;
 }

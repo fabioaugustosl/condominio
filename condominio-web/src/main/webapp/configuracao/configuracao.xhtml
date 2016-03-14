@@ -94,6 +94,54 @@
 	    </p:fieldset>
 	
     
+    	<p:fieldset legend="Acesso a boleto em sistema externo" style="margin-bottom:20px">
+	        
+	        <p:outputLabel value="Qual a URL para emissão dos boletos?" styleClass="labelPadrao" /> <br />
+		 	<p:inputText  id="urlBoletos" value="#{parametroController.boletoExterno.url}" 
+		 			styleClass="inputPadrao" maxlength="100"/>
+		 	
+		   	<br />
+		   	
+		   	<p:outputLabel value="Qual a descrição do link a ser exibido na página principal?" styleClass="labelPadrao" /> <br />
+		 	<p:inputText  id="urlDescricaoLink" value="#{parametroController.boletoExterno.descricaoLink}" styleClass="inputPadrao" maxlength="100"/>
+		 	
+		   	<br />
+		   	
+		 	<p:outputLabel value="Deseja anexar uma logomarca a ser exibida na página principal?" styleClass="labelPadrao" /> <br />
+		 	<p:outputPanel id="painelArquivoLogomarca" style="position:relative; diplay:block; margin-top:10px; " layout="block" >
+			       
+				      <p:fileUpload mode="advanced" update="painelArquivoLogomarca" label="Selecionar a imagem"
+				        fileUploadListener="#{parametroController.uploadArquivoBoleto}"
+				        rendered="#{empty parametroController.arquivoBoleto}"
+				        styleClass="dataArquivosMenorEsquerda" 
+				        allowTypes="/(\.|\/)(JPG|jpg|jpeg|JPEG|png|PNG)$/" 
+				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. "
+				        invalidFileMessage="Tipo do arquivo inválido. É aceito apenas arquivos no formato JPG ou PNG."
+						invalidSizeMessage="Tamanho do arquivo inválido"
+				        auto="true" dragDropSupport="false" />
+		        
+					<br />
+					<p:outputPanel rendered="#{parametroController.arquivoBoleto != null}" 
+								styleClass="dataArquivosMenorEsquerda containerArquivoSimples">
+						<p:outputLabel value="Arquivo anexado: "/> <p:outputLabel value="#{parametroController.arquivoBoleto.nome}"></p:outputLabel>
+						
+						<p:commandLink actionListener="#{parametroController.removerLogomarca()}" 
+								style="float:right; "  
+			         			id="removerArqLogomarca" immediate="true" update="painelArquivoLogomarca"   >
+			         		<p:graphicImage id="imgDeletarNotLogomarca" url="/img/icones/deletar.png" title="Clique para deletar esse arquivo." />
+			         	</p:commandLink>
+			         
+					</p:outputPanel>
+				</p:outputPanel>
+				
+		   	<br /><br />
+	        
+	        <p:commandButton id="salvarConfiguracaoBoletoExterno" value="Salvar" 
+		 		styleClass="botao botao-grande"
+		   		actionListener="#{parametroController.salvarBoletoExterno()}" >
+		   	</p:commandButton>
+	   	
+	    </p:fieldset>
 	</h:form>
    </ui:define>
 </ui:composition>

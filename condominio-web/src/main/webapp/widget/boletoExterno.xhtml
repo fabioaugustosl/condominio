@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   
+   <style>
+   </style>
+   
+   <h:form id="formBoletoExterno">
+	   <p:outputPanel id="containerWidgetBoletoExterno" style="width:100%; text-align:center;" >
+	  		<p:graphicImage  id="imgBoletoExterno"  
+	  		rendered="#{not empty boletoExternoController.boleto.logomarca}"
+				 	url="/imagem?arquivo=#{boletoExternoController.imagem}" />
+  			<br />
+  			<p:link href="#{boletoExternoController.boleto.url}" value="#{boletoExternoController.boleto.descricaoLink}" target="_blank" />	
+	   </p:outputPanel>
+	   			    
+	</h:form>
+</ui:composition>
+
