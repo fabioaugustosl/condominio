@@ -22,10 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumParametroSistema;
 import br.com.virtz.condominio.constantes.EnumTemplates;
+import br.com.virtz.condominio.constantes.EnumTipoAssembleia;
 import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.ArquivoAtaAssembleia;
@@ -34,11 +34,9 @@ import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.ParametroSistema;
 import br.com.virtz.condominio.entidades.PautaAssembleia;
 import br.com.virtz.condominio.entidades.Usuario;
-import br.com.virtz.condominio.entidades.Votacao;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exception.ErroAoSalvar;
 import br.com.virtz.condominio.exceptions.CondominioException;
-import br.com.virtz.condominio.geral.VotacaoView;
 import br.com.virtz.condominio.service.IAssembleiaService;
 import br.com.virtz.condominio.service.IParametroSistemaService;
 import br.com.virtz.condominio.service.IUsuarioService;
@@ -89,11 +87,17 @@ public class CadastrarAssembleiaController {
 	private Usuario usuario = null;
 	private ParametroSistema parametroEnviarEmailAta = null;
 	
+	private List<EnumTipoAssembleia> tipos = null;
+	
 	
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
 		Object assembleiaEditar = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idAssembleia");
+		
+		tipos = new ArrayList<EnumTipoAssembleia>();
+		tipos.add(EnumTipoAssembleia.ORDINARIA);
+		tipos.add(EnumTipoAssembleia.EXTRAORDINARIA);
 		
 		if(assembleiaEditar == null){
 			criarNovaAssembleia(usuario);
@@ -345,6 +349,14 @@ public class CadastrarAssembleiaController {
 
 	public void setPossoCadastrarAta(boolean possoCadastrarAta) {
 		this.possoCadastrarAta = possoCadastrarAta;
+	}
+
+	public List<EnumTipoAssembleia> getTipos() {
+		return tipos;
+	}
+
+	public void setTipos(List<EnumTipoAssembleia> tipos) {
+		this.tipos = tipos;
 	}
 	
 	

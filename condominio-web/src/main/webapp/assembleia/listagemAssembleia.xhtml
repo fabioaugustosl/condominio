@@ -55,10 +55,19 @@
 		    
 		    <p:column rendered="#{listagemAssembleiaController.ehSindico()}" 
 		    		headerText="Lembrete aos moradores" style="text-align:center;">
-		     	<p:commandButton value="Enviar Email" update=":form:textLembrete"
+		     	<p:commandButton value="Enviar" update=":form:textLembrete"
 		     			rendered="#{listagemAssembleiaController.naoAconteceu(assemb)}" 
 		     			oncomplete="PF('dlgLembrete').show();">
 		    		<f:setPropertyActionListener value="#{assemb}" target="#{listagemAssembleiaController.assembleiaSelecionada}" />
+			    </p:commandButton>
+		    </p:column>
+		    
+		    <p:column rendered="#{listagemAssembleiaController.ehSindico()}" 
+		    		headerText="Enviar convocação" style="text-align:center;">
+		     	<p:commandButton value="Enviar" update="@this"
+		     			rendered="#{listagemAssembleiaController.naoAconteceu(assemb) &amp;&amp; not assemb.convocacaoFoiEnviada}" 
+		     			oncomplete="PF('dlgConvocacao').show();">
+		     		<f:setPropertyActionListener value="#{assemb}" target="#{listagemAssembleiaController.assembleiaSelecionada}" />
 			    </p:commandButton>
 		    </p:column>
 		    
@@ -91,6 +100,7 @@
 	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 	    </p:confirmDialog>
     
+    
 	   	<p:dialog modal="true" id="dlgPauta" widgetVar="dlgPauta" header="Pautas" 
 						draggable="true" closable="true" resizable="false" 
 						dynamic="true" width="600" >
@@ -121,6 +131,35 @@
 		</p:dialog> 
 	    
 	    
+	    <p:dialog modal="true" id="dlgConvocacao" widgetVar="dlgConvocacao" header="Envio de convocação de assembleia por email" 
+						draggable="true" closable="true" resizable="false" 
+						dynamic="true" width="410" >
+			<p:outputLabel value="Confira os dados abaixo. Após o envio da convocação não será mais permitido que os moradores enviem pautas."></p:outputLabel>
+			<br /> 
+			<p:outputLabel value="Data da assembleia: " styleClass="labelPadrao" /> <p:outputLabel style="margin-left:5px;" value="${listagemAssembleiaController.assembleiaSelecionada.data}" styleClass="labelPadrao" ><f:convertDateTime pattern="dd/MM/yyyy" /></p:outputLabel>
+			<br />
+			<p:outputLabel value="1ª chamada: " styleClass="labelPadrao" /> <p:outputLabel style="margin-left:5px;" value="${listagemAssembleiaController.assembleiaSelecionada.horario1}" styleClass="labelPadrao" ><f:convertDateTime pattern="HH:mm" /></p:outputLabel>
+			<br />
+			<p:outputLabel value="2ª chamada: " styleClass="labelPadrao" /> <p:outputLabel style="margin-left:5px;" value="${listagemAssembleiaController.assembleiaSelecionada.horario2}" styleClass="labelPadrao" ><f:convertDateTime pattern="HH:mm" /> </p:outputLabel>
+			<br /><br />
+			<p:outputLabel value="Local que a assembleia será realizada: " styleClass="labelPadrao" />
+			<br />
+			<p:inputText id="localAssembleia" styleClass="inputPadrao" style="width:100%"
+			 				placeholder="Ex.: Salão de Festas do Condomínio"
+			 				value="#{listagemAssembleiaController.localAssembleia}" maxlength="100"></p:inputText>
+			<br />
+			<p:outputLabel value="Síndico(s) responsáveis: " styleClass="labelPadrao" /><br />
+			<p:inputText id="sindicoAssembleia" styleClass="inputPadrao" style="width:100%"
+			 				value="#{listagemAssembleiaController.nomeSindico}" maxlength="100" ></p:inputText>
+			 				
+	    	<p:commandButton id="btnEnviaMsgConvocacao" 
+	    			value="Enviar Convocação Por Email" styleClass="botao btn btn-primary btn-block btn-lg"
+	    			actionListener="#{listagemAssembleiaController.enviarConvocacao()}"
+	    			oncomplete="PF('dlgConvocacao').hide();" style="width:95%" />		
+    
+		</p:dialog> 
+		
+		
 	     <script type="text/javascript">
 			function start() {
 			    PF('statusDialog').show();

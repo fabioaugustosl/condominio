@@ -9,6 +9,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +23,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import br.com.virtz.condominio.constantes.EnumTipoAssembleia;
 
 @Entity(name="assembleia")
 @XmlRootElement
@@ -67,6 +71,9 @@ public class Assembleia extends Entidade implements Serializable{
 	@Column(name = "conteudo", length=10000)
 	private String conteudo;
 	
+	@Column(name = "local", length=100)
+	private String local;
+	
 	@OneToMany(mappedBy="assembleia", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<PautaAssembleia> pautas;
 
@@ -79,6 +86,13 @@ public class Assembleia extends Entidade implements Serializable{
 	
 	@Column(name = "permitirPautas")
 	private boolean permitirPautas;
+	
+	@Column(name = "convocacaoFoiEnviada")
+	private boolean convocacaoFoiEnviada;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "tipoAssembleia")
+	private EnumTipoAssembleia tipoAssembleia;
 	
 	
 	
@@ -168,7 +182,6 @@ public class Assembleia extends Entidade implements Serializable{
 		this.dataCadastro = dataCadastro;
 	}
 	
-
 	public boolean getPermitirPautas() {
 		return permitirPautas;
 	}
@@ -176,6 +189,31 @@ public class Assembleia extends Entidade implements Serializable{
 	public void setPermitirPautas(boolean permitirPautas) {
 		this.permitirPautas = permitirPautas;
 	}
+	
+	public boolean isConvocacaoFoiEnviada() {
+		return convocacaoFoiEnviada;
+	}
+
+	public void setConvocacaoFoiEnviada(boolean convocacaoFoiEnviada) {
+		this.convocacaoFoiEnviada = convocacaoFoiEnviada;
+	}
+	
+	public String getLocal() {
+		return local;
+	}
+
+	public void setLocal(String local) {
+		this.local = local;
+	}
+	
+	public EnumTipoAssembleia getTipoAssembleia() {
+		return tipoAssembleia;
+	}
+
+	public void setTipoAssembleia(EnumTipoAssembleia tipoAssembleia) {
+		this.tipoAssembleia = tipoAssembleia;
+	}
+
 
 
 	/**

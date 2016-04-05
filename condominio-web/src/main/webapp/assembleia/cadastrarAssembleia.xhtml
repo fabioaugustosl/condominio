@@ -45,7 +45,18 @@
 							alt="Insira o horário da 2ª chamada em  que a assembleia será realizada" 
 							value="#{cadastrarAssembleiaController.assembleia.horario2}"  
 							pattern="HH:mm a" timeOnly="true"   />
+							
+					<p:outputLabel value="Onde a assembleia será realizada?" styleClass="labelPadrao" />
+			 		<p:inputText id="localAssembleia" styleClass="inputPadrao" 
+			 				placeholder="Ex.: Salão de Festas do Condomínio"
+			 				value="#{cadastrarAssembleiaController.assembleia.local}" maxlength="100"></p:inputText>
 					
+					<p:outputLabel value="A taxa é valor fixo ou porcentagem?" styleClass="labelPadrao"></p:outputLabel>
+		 			<p:selectOneMenu id="tipo" value="#{cadastrarAssembleiaController.assembleia.tipoAssembleia}" 
+				 	  	required="true" style="width:400px;" converter="converterEnumTipoAssembleia" >
+			        <f:selectItems value="#{cadastrarAssembleiaController.tipos}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}" />
+		         	</p:selectOneMenu>
+		         	
 					<p:selectBooleanCheckbox id="permitirPautas"
 								value="#{cadastrarAssembleiaController.assembleia.permitirPautas}" 
 								itemLabel="Permitir que os moradores enviem pautas para assembleia " 

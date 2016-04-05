@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,14 +29,12 @@ import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.ArquivoAtaAssembleia;
 import br.com.virtz.condominio.entidades.Assembleia;
-import br.com.virtz.condominio.entidades.MensagemSindico;
 import br.com.virtz.condominio.entidades.PautaAssembleia;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.IAssembleiaService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
-import br.com.virtz.condominio.util.ArquivosUtil;
 import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
@@ -67,7 +66,6 @@ public class ListagemAssembleiaController {
 	
 	@EJB
 	private IUsuarioService usuarioService;
-
 	private DataUtil dataUtil;
 	
 	
@@ -75,12 +73,18 @@ public class ListagemAssembleiaController {
 	private Assembleia assembleiaSelecionada;
 	private String mensagemLembrete;
 	
+	//convocação
+	private String nomeSindico = null;
+	private String localAssembleia = null;
+	private String localRealizacao = null;
+	private List<Usuario> sindicos =  null; 
 	
 	@PostConstruct
 	public void init(){
 		mensagemLembrete = null;
 		assembleias = listarTodos(); 
 		dataUtil = new DataUtil();
+		sindicos = usuarioService.recuperarSindicos(sessao.getUsuarioLogado().getCondominio().getId());
 	}
 	
 	
@@ -207,7 +211,6 @@ public class ListagemAssembleiaController {
 			Email email = new Email(EnumTemplates.LEMBRETE_ASSEMBLEIA.getDe(), morador.getEmail(), EnumTemplates.LEMBRETE_ASSEMBLEIA.getAssunto(), msgEnviar);
 			enviarEmail.enviar(email);
 		}
-		
 	 }
 
 	 
@@ -230,6 +233,61 @@ public class ListagemAssembleiaController {
 		 }
 	 }
 	
+	 
+	 public void enviarConvocacao() throws CondominioException {
+
+		 if(assembleiaSelecionada == null){
+			 messageHelper.addError("Ocorreu um erro ao identificar dados da Assembleia. ");
+		 } else {
+		 
+			 List<Usuario> usuarios = usuarioService.recuperarTodos(sessao.getUsuarioLogado().getCondominio());
+			 envioEmailConvocacao(usuarios, assembleiaSelecionada);
+		 
+			 //TODO : salvar que já enviou convocação para essa assembleia. Setar o permitirPautas para falso. 
+			 
+			 assembleiaSelecionada = null;
+		 	 messageHelper.addInfo("Convocação enviada com sucesso!");
+		 }
+	 }
+	 
+	 
+	 private void envioEmailConvocacao(List<Usuario> moradores, Assembleia assembleia) {
+			String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
+			
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm");
+				
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("nome_condominio", assembleia.getCondominio().getNome());
+		map.put("nome_sindico", nomeSindico);
+		map.put("endereco",  assembleia.getCondominio().getEndereco() != null ?  assembleia.getCondominio().getEndereco(): "");
+		map.put("numero", assembleia.getCondominio().getNumero() != null ? assembleia.getCondominio().getNumero().toString(): "");
+		map.put("bairro", assembleia.getCondominio().getBairro() != null ?  assembleia.getCondominio().getBairro(): "");
+		map.put("tipo_assembleia", assembleia.getTipoAssembleia());
+		map.put("local", localAssembleia);
+		
+		List<String> pautas = new ArrayList<String>();
+		for(PautaAssembleia p : assembleia.getPautasAprovadas()){
+			pautas.add(p.getMensagem());
+		}
+		map.put("pautas", pautas);
+		
+		map.put("data", sdf.format(assembleia.getData()));
+		map.put("chamada_1", sdfHora.format(assembleia.getHorario1()));
+		if(assembleia.getHorario2() != null){
+			map.put("chamada_2", sdfHora.format(assembleia.getHorario2()));
+		} else {
+			map.put("chamada_2", "-");
+		}
+		
+		String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.CONVOCACAO_ASSEMBLEIA.getNomeArquivo(), map);
+		/*
+		for(Usuario morador : moradores){
+			Email email = new Email(EnumTemplates.CONVOCACAO_ASSEMBLEIA.getDe(), morador.getEmail(), EnumTemplates.CONVOCACAO_ASSEMBLEIA.getAssunto(), msgEnviar);
+			enviarEmail.enviar(email);
+		}*/
+		
+	 }
 	
 	 
 	 // GETTERS E SETTERS
@@ -247,6 +305,21 @@ public class ListagemAssembleiaController {
 
 	 public void setAssembleiaSelecionada(Assembleia assembleiaSelecionada) {
 		this.assembleiaSelecionada = assembleiaSelecionada;
+		
+		localAssembleia = assembleiaSelecionada.getLocal();
+		
+		if(sindicos != null && !sindicos.isEmpty()){
+			StringBuilder sb = new StringBuilder();
+			int c = 1;
+			for(Usuario u : sindicos){
+				sb.append(u.getNome());
+				if(c++ < sindicos.size()){
+					sb.append(", ");
+				}
+			}
+			nomeSindico = sb.toString();
+		}
+		
 	 }
 
 	 public String getMensagemLembrete() {
@@ -256,6 +329,34 @@ public class ListagemAssembleiaController {
 	 public void setMensagemLembrete(String mensagemLembrete) {
 		this.mensagemLembrete = mensagemLembrete;
 	 }
-	 	 
+
+	public String getNomeSindico() {
+		return nomeSindico;
+	}
+
+	public void setNomeSindico(String nomeSindico) {
+		this.nomeSindico = nomeSindico;
+	}
+
+	public String getLocalAssembleia() {
+		return localAssembleia;
+	}
+
+	public void setLocalAssembleia(String localAssembleia) {
+		this.localAssembleia = localAssembleia;
+	}
+
+
+	public String getLocalRealizacao() {
+		return localRealizacao;
+	}
+
+
+	public void setLocalRealizacao(String localRealizacao) {
+		this.localRealizacao = localRealizacao;
+	}
+	
+	
+	 
 		
 }

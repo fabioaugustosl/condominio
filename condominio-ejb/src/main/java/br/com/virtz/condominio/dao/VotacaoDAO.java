@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
+import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.OpcaoVotacao;
 import br.com.virtz.condominio.entidades.Votacao;
@@ -44,7 +45,8 @@ public class VotacaoDAO extends DAO<Votacao> implements IVotacaoDAO {
 	@Override
 	public List<Votacao> recuperarVotacoesEncerradasSemEnvioDeEmail() {
 		Query qry = getEntityManager().createNamedQuery("Votacao.recuperarEncerradasSemEnvioEmail");
-		qry.setParameter("dataLimite", new Date());
+		DataUtil util = new DataUtil();
+		qry.setParameter("dataLimite", util.limparHora(new Date()));
 		return qry.getResultList();
 	}
 	
