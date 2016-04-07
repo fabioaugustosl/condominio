@@ -10,12 +10,12 @@
 	</style>
 	<body>
 	
-		<h2>${nome_condominio}</h2>
-		<h1>Convocação Assembleia Geral ${tipo_assembleia} </h1>
+		<h2 style="width:100%; text-align:center;">${nome_condominio}</h2>
+		<h1 style="width:100%; text-align:center;">Convocação Assembleia Geral ${tipo_assembleia} </h1>
 		
 		<p>Ficam convocados os Srs. Proprietários do Edifício ${nome_condominio} situado na ${endereco}, ${numero}, ${bairro}, 
 		para a Assembleia Geral ${tipo_assembleia} a realizar-se no dia ${data} às ${chamada_1} horas em primeira chamada 
-		e ${chamada_2} horas em segunda chamada , com qualquer número de presentes, para deliberar sobre os seguintes assuntos:</p>
+		e ${chamada_2} horas em segunda chamada, com qualquer número de presentes, para deliberar sobre os seguintes assuntos:</p>
 		<br/>
 		
 		<#list pautas as pauta>

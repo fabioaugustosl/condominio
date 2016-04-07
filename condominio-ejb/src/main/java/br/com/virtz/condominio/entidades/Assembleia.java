@@ -35,6 +35,10 @@ import br.com.virtz.condominio.constantes.EnumTipoAssembleia;
 				query = "Select n FROM assembleia n "
 						+ "	WHERE n.condominio.id = :idCondominio AND n.data >= CURRENT_DATE "
 						+ " ORDER BY n.data ASC "),
+		@NamedQuery(name = "Assembleia.recuperarRealizadasSemAta", 
+				query = "Select n FROM assembleia n "
+						+ "	WHERE n.data < CURRENT_DATE AND n.arquivoAta = null AND n.avisoDeAta = 0 "
+						+ " ORDER BY n.data ASC "),
 		@NamedQuery(name = "Assembleia.recuperarIdUltimaAssembleiaDoCondominio", 
 						query = "Select max(n.id) FROM assembleia n "
 								+ "	WHERE n.condominio.id = :idCondominio AND n.data < CURRENT_DATE "
@@ -89,6 +93,9 @@ public class Assembleia extends Entidade implements Serializable{
 	
 	@Column(name = "convocacaoFoiEnviada")
 	private boolean convocacaoFoiEnviada;
+	
+	@Column(name = "avisoDeAta")
+	private boolean avisoDeAta;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipoAssembleia")
@@ -198,6 +205,14 @@ public class Assembleia extends Entidade implements Serializable{
 		this.convocacaoFoiEnviada = convocacaoFoiEnviada;
 	}
 	
+	public boolean isAvisoDeAta() {
+		return avisoDeAta;
+	}
+
+	public void setAvisoDeAta(boolean avisoDeAta) {
+		this.avisoDeAta = avisoDeAta;
+	}
+
 	public String getLocal() {
 		return local;
 	}

@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -8,6 +9,7 @@ import javax.ejb.Stateless;
 
 import org.apache.commons.lang.StringUtils;
 
+import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.dao.IAssembleiaDAO;
 import br.com.virtz.condominio.dao.IPautaDAO;
 import br.com.virtz.condominio.entidades.Assembleia;
@@ -103,6 +105,28 @@ public class AssembleiaService implements IAssembleiaService {
 		} catch (Exception e) {
 			throw new ErroAoSalvar("Ocorreu um erro ao salvar a pauta.", pauta);
 		}
+	}
+
+	
+	/**
+	 * Recupera assembleias sem ata a mais de 48 horas.
+	 */
+	@Override
+	public List<Assembleia> recuperarAssembleiasRealizadasSemAta() {
+		List<Assembleia> assembleias = assembleiaDAO.recuperarRealizadasSemAta();
+		List<Assembleia> assembleiasRetorno = new ArrayList<Assembleia>();
+		
+		if(assembleias != null && !assembleias.isEmpty()){
+			DataUtil util = new DataUtil();
+			for(Assembleia a : assembleias){
+				int dias = util.diasEntreDatas(a.getData(), new Date());
+				if(dias > 2){
+					assembleiasRetorno.add(a);
+				}
+			}
+			
+		}
+		return assembleias;
 	}
 	
 

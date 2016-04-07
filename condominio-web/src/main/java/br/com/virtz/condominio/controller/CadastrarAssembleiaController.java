@@ -262,6 +262,7 @@ public class CadastrarAssembleiaController {
 			assembleia.setArquivoAta(arqDocumento);
 			
 			try {
+				assembleia.setAvisoDeAta(Boolean.TRUE);
 				assembleia = assembleiaService.salvar(assembleia);
 				
 				if("1".equals(parametroEnviarEmailAta.getValor())){

@@ -18,6 +18,7 @@ public interface IAssembleiaService {
 	public PautaAssembleia novaPauta(Long idAssembleia,String textoPauta, Usuario usuario) throws ErroAoSalvar;
 	public Assembleia recuperar(Long idAssembleia);
 	public List<Assembleia> recuperarAssembleiasNaoRealizadas(Long idCondominio);
+	public List<Assembleia> recuperarAssembleiasRealizadasSemAta();
 	public Assembleia recuperarUltimaAssembleiasRealizadas(Long idCondominio);
 	public PautaAssembleia recuperarPautaPorId(Long idPauta);
 	public PautaAssembleia salvarPauta(PautaAssembleia pauta) throws ErroAoSalvar;

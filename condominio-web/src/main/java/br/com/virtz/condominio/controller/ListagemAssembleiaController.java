@@ -243,7 +243,17 @@ public class ListagemAssembleiaController {
 			 List<Usuario> usuarios = usuarioService.recuperarTodos(sessao.getUsuarioLogado().getCondominio());
 			 envioEmailConvocacao(usuarios, assembleiaSelecionada);
 		 
-			 //TODO : salvar que já enviou convocação para essa assembleia. Setar o permitirPautas para falso. 
+			 //salvar que já enviou convocação para essa assembleia. Setar o permitirPautas para falso. 
+			 try{
+				Assembleia a = assembleiaService.recuperar(assembleiaSelecionada.getId());
+				a.setConvocacaoFoiEnviada(Boolean.TRUE);
+				assembleiaService.salvar(a);
+			 }catch(Exception e){
+				 e.printStackTrace();
+			 }
+			 
+			 localAssembleia = null;
+			 nomeSindico = null;
 			 
 			 assembleiaSelecionada = null;
 		 	 messageHelper.addInfo("Convocação enviada com sucesso!");
@@ -260,9 +270,9 @@ public class ListagemAssembleiaController {
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("nome_condominio", assembleia.getCondominio().getNome());
 		map.put("nome_sindico", nomeSindico);
-		map.put("endereco",  assembleia.getCondominio().getEndereco() != null ?  assembleia.getCondominio().getEndereco(): "");
-		map.put("numero", assembleia.getCondominio().getNumero() != null ? assembleia.getCondominio().getNumero().toString(): "");
-		map.put("bairro", assembleia.getCondominio().getBairro() != null ?  assembleia.getCondominio().getBairro(): "");
+		map.put("endereco",  assembleia.getCondominio().getEndereco() != null ?  assembleia.getCondominio().getEndereco(): "-");
+		map.put("numero", assembleia.getCondominio().getNumero() != null ? assembleia.getCondominio().getNumero().toString(): "-");
+		map.put("bairro", assembleia.getCondominio().getBairro() != null ?  assembleia.getCondominio().getBairro(): "-");
 		map.put("tipo_assembleia", assembleia.getTipoAssembleia());
 		map.put("local", localAssembleia);
 		
@@ -281,11 +291,11 @@ public class ListagemAssembleiaController {
 		}
 		
 		String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.CONVOCACAO_ASSEMBLEIA.getNomeArquivo(), map);
-		/*
+		
 		for(Usuario morador : moradores){
 			Email email = new Email(EnumTemplates.CONVOCACAO_ASSEMBLEIA.getDe(), morador.getEmail(), EnumTemplates.CONVOCACAO_ASSEMBLEIA.getAssunto(), msgEnviar);
 			enviarEmail.enviar(email);
-		}*/
+		}
 		
 	 }
 	

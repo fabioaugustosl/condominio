@@ -35,7 +35,9 @@ public class EnviarEmailPadrao implements EnviarEmail {
         	Session sessaoEmail = null;
         	try {
 				String host = InetAddress.getLocalHost().getHostAddress();
-				if("127.0.0.1".equals(host) || "192.168.1.3".equals(host)){
+				if("127.0.0.1".equals(host) 
+						|| "192.168.1.3".equals(host) 
+						|| "192.168.1.6".equals(host)){
 					sessaoEmail = getSessao();
 				} else {
 					sessaoEmail = getSessaoAWS();
