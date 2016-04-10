@@ -51,6 +51,13 @@ public class AssembleiaDAO extends DAO<Assembleia> implements IAssembleiaDAO {
 		Query qry = getEntityManager().createNamedQuery("Assembleia.recuperarRealizadasSemAta");
 		return qry.getResultList();
 	}
+
+
+	@Override
+	public List<Assembleia> recuperarNaoRealizadas() {
+		Query qry = getEntityManager().createNamedQuery("Assembleia.recuperarNaoRealizadas");
+		return qry.getResultList();
+	}
 	
 	
 }

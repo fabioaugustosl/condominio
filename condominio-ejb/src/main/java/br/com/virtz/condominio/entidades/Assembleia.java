@@ -35,6 +35,10 @@ import br.com.virtz.condominio.constantes.EnumTipoAssembleia;
 				query = "Select n FROM assembleia n "
 						+ "	WHERE n.condominio.id = :idCondominio AND n.data >= CURRENT_DATE "
 						+ " ORDER BY n.data ASC "),
+		@NamedQuery(name = "Assembleia.recuperarNaoRealizadas", 
+				query = "Select n FROM assembleia n "
+						+ "	WHERE n.data >= CURRENT_DATE "
+						+ " ORDER BY n.data ASC "),
 		@NamedQuery(name = "Assembleia.recuperarRealizadasSemAta", 
 				query = "Select n FROM assembleia n "
 						+ "	WHERE n.data < CURRENT_DATE AND n.arquivoAta = null AND n.avisoDeAta = 0 "
@@ -96,6 +100,9 @@ public class Assembleia extends Entidade implements Serializable{
 	
 	@Column(name = "avisoDeAta")
 	private boolean avisoDeAta;
+	
+	@Column(name = "avisoDeAssembleiaAutomatico")
+	private boolean avisoDeAssembleiaAutomatico;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipoAssembleia")
@@ -228,7 +235,14 @@ public class Assembleia extends Entidade implements Serializable{
 	public void setTipoAssembleia(EnumTipoAssembleia tipoAssembleia) {
 		this.tipoAssembleia = tipoAssembleia;
 	}
+	
+	public boolean isAvisoDeAssembleiaAutomatico() {
+		return avisoDeAssembleiaAutomatico;
+	}
 
+	public void setAvisoDeAssembleiaAutomatico(boolean avisoDeAssembleiaAutomatico) {
+		this.avisoDeAssembleiaAutomatico = avisoDeAssembleiaAutomatico;
+	}
 
 
 	/**

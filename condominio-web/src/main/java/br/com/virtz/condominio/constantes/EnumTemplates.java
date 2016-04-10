@@ -13,7 +13,8 @@ public enum EnumTemplates {
 	RESULTADO_FINAL_VOTACAO("resultadoVotacao.ftl", "Resultado final de votação", "contato@condominiosobcontrole.com.br"),
 	ATA_ANEXADA("emailAta.ftl", "Ata disponibilizada no site", "contato@condominiosobcontrole.com.br"),
 	NOVA_NOTICIA("notificacaoNoticia.ftl", "Nova notícia!", "contato@condominiosobcontrole.com.br"),
-	CONVOCACAO_ASSEMBLEIA("convocacaoAssembleia.ftl", "Convocação para assembleia", "contato@condominiosobcontrole.com.br");
+	CONVOCACAO_ASSEMBLEIA("convocacaoAssembleia.ftl", "Convocação para assembleia", "contato@condominiosobcontrole.com.br"),
+	NOVA_ASSEMBLEIA("avisoCriacaoAssembleia.ftl", "Aviso de nova assembleia", "contato@condominiosobcontrole.com.br");
 
 	private String nomeArquivo;
 	private String assunto;

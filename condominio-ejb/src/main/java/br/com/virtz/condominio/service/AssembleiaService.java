@@ -120,13 +120,32 @@ public class AssembleiaService implements IAssembleiaService {
 			DataUtil util = new DataUtil();
 			for(Assembleia a : assembleias){
 				int dias = util.diasEntreDatas(a.getData(), new Date());
-				if(dias > 2){
+				if(Math.abs(dias) > 2){
 					assembleiasRetorno.add(a);
 				}
 			}
 			
 		}
-		return assembleias;
+		return assembleiasRetorno;
+	}
+
+	
+	@Override
+	public List<Assembleia> recuperarAssembleiasQueSeraoRealizadasDaqui3dias() {
+		List<Assembleia> assembleias = assembleiaDAO.recuperarNaoRealizadas();
+		List<Assembleia> assembleiasRetorno = new ArrayList<Assembleia>();
+		
+		if(assembleias != null && !assembleias.isEmpty()){
+			DataUtil util = new DataUtil();
+			for(Assembleia a : assembleias){
+				int dias = util.diasEntreDatas( new Date(), a.getData());
+				if(Math.abs(dias) <= 3){
+					assembleiasRetorno.add(a);
+				}
+			}
+			
+		}
+		return assembleiasRetorno;
 	}
 	
 

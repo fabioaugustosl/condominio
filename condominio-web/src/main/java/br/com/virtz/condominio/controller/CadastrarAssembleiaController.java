@@ -128,12 +128,23 @@ public class CadastrarAssembleiaController {
 		if(assembleia == null){
 			throw new CondominioException("Nenhuma assembleia encontrada para ser salva.");
 		}
-				
+		boolean avisarSobreCriacao = Boolean.FALSE;
+		if(assembleia.getId() == null){
+			avisarSobreCriacao = Boolean.TRUE;
+		}
 		try{
-			assembleiaService.salvar(assembleia);
+			assembleia = assembleiaService.salvar(assembleia);
 			message.addInfo("A assembleia foi salva com sucesso.");
 			possoCadastrarPauta = true;
 			possoCadastrarAta = true;
+			if(avisarSobreCriacao){
+				try{
+					enviarEmailAvisoCriacao(assembleia);
+				}catch(Exception e ){
+					// foda-se
+					e.printStackTrace();
+				}
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new CondominioException("Ocorreu um erro inesperado ao salvar a nova assembleia. Favor tente novamente.");
@@ -280,6 +291,36 @@ public class CadastrarAssembleiaController {
         }
     }
 	
+	
+	private void enviarEmailAvisoCriacao(Assembleia a) {
+			
+		Condominio c = sessao.getUsuarioLogado().getCondominio();
+		List<Usuario> usuarios  = usuarioService.recuperarTodos(c);
+		
+		if(usuarios != null){
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm");
+			String data = sdf.format(a.getData());
+			String h1 = sdfHora.format(a.getHorario1());
+			String h2 = a.getHorario2() != null ? sdfHora.format(a.getHorario2()): "-";
+			
+			for(Usuario u : usuarios){
+				Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
+				mapParametrosEmail.put("nome_usuario", u.getNomeExibicao());
+				mapParametrosEmail.put("data", data);
+				mapParametrosEmail.put("chamada_1", h1);
+				mapParametrosEmail.put("chamada_2", h2);
+				
+				String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.NOVA_ASSEMBLEIA.getNomeArquivo(), mapParametrosEmail);
+				
+				Email email = new Email(EnumTemplates.NOVA_ASSEMBLEIA.getDe(), u.getEmail(), EnumTemplates.NOVA_ASSEMBLEIA.getAssunto(), msg);
+				enviarEmail.enviar(email);
+			}
+		}
+		
+	}
+	
+		
 	private void enviarEmailAta() {
 		
 		Condominio c = sessao.getUsuarioLogado().getCondominio();

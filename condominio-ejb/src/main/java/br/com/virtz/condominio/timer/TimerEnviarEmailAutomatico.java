@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -37,6 +38,14 @@ public class TimerEnviarEmailAutomatico {
 	
 	@EJB
 	private IUsuarioService usuarioService;
+	
+	private ConstrutorEmailsTimer construtorEmail = null;
+	
+	
+	@PostConstruct
+	public void init(){
+		construtorEmail = new ConstrutorEmailsTimer();
+	}
 	
 
 	@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="6", minute="00", persistent=false)
@@ -88,7 +97,7 @@ public class TimerEnviarEmailAutomatico {
 			
 			if(usuarios != null){
 				for(Usuario u : usuarios){
-					String msg = montarTextoEmail(u, votacao.getAssuntoVotacao(), resultados);
+					String msg = construtorEmail.montarTextoEmail(u, votacao.getAssuntoVotacao(), resultados);
 					Email email = new Email("contato@condominiosobcontrole.com.br", u.getEmail(), "Resultado final de votação", msg);
 					enviarEmail.enviar(email);
 				}
@@ -103,48 +112,13 @@ public class TimerEnviarEmailAutomatico {
 			e.printStackTrace();
 			return;
 		}
-		
-	}
-	
-	
-	/**
-	 * Monta o template do email a ser enviado. 
-	 * Copiei e colei o resultadoVotacao.ftl.. tentar manter compatibilidade.
-	 * @param u
-	 * @return
-	 */
-	private String montarTextoEmail(Usuario u, String tituloVotacao, List<String> resultado){
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append("<html>");
-		sb.append("<head>");
-		sb.append("<head>");
-		sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\" />");
-		sb.append("<meta charset=\"ISO-8859-1\">");
-		sb.append("</head>");
-
-		sb.append("<body>");
-		sb.append("<h1>Olá ").append(u.getNomeExibicao()).append(".</h1>");
-		sb.append("<p>Terminou a votação: </p>");
-		sb.append("<p> <strong>").append(tituloVotacao).append("</strong></p> <br />");
-		sb.append("<p>Confira o resultado final:</p>");
-		for(String r : resultado){
-			sb.append("<p> ").append(r).append("</p>");
-		}
-		sb.append("<br /><br />");
-		sb.append("<a href=\"http://www.condominiosobcontrole.com.br\">");
-		sb.append("<img src=\"http://www.condominiosobcontrole.com.br/condominio/img/logo_pequena_azul.png?pfdrid_c=true\" title=\"Condominio SOBControle\"/><br/>www.condominiosobcontrole.com.br</a>");
-			
-			
-		sb.append("</body>");
-		sb.append("</html>");
-		return sb.toString();
 	}
 	
 	
 	
-	@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="10", minute="30", persistent=false)
-	//@Schedule(minute = "*/10",  hour="*", persistent=false)
+	
+	//@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="10", minute="30", persistent=false)
+	@Schedule(minute = "*/10",  hour="*", persistent=false)
 	public void  enviarEmailLembreteAtaAssembleia(){
 		List<Assembleia> assembleias = assembleiaService.recuperarAssembleiasRealizadasSemAta();
 		if(assembleias != null && !assembleias.isEmpty()){
@@ -164,7 +138,7 @@ public class TimerEnviarEmailAutomatico {
 			String dataAssembleia = dataUtil.formatarData(assembleia.getData(), "dd/MM/yyyy");
 			if(usuarios != null){
 				for(Usuario u : usuarios){
-					String msg = montarTextoEmailLembreAta(u, dataAssembleia);
+					String msg = construtorEmail.montarTextoEmailLembreAta(u, dataAssembleia);
 					Email email = new Email("contato@condominiosobcontrole.com.br", u.getEmail(), "Lembrete para disponibilização de ata", msg);
 					enviarEmail.enviar(email);
 				}
@@ -183,33 +157,47 @@ public class TimerEnviarEmailAutomatico {
 	}
 	
 	
-	/**
-	 * Monta o template do email a ser enviado para lembrar o sindico de anexar a ata da assembleia realizada.
-	 * @param u
-	 * @return
-	 */
-	private String montarTextoEmailLembreAta(Usuario u, String data){
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append("<html>");
-		sb.append("<head>");
-		sb.append("<head>");
-		sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\" />");
-		sb.append("<meta charset=\"ISO-8859-1\">");
-		sb.append("</head>");
-
-		sb.append("<body>");
-		sb.append("<h1>Olá ").append(u.getNomeExibicao()).append(".</h1>");
-		sb.append("<p>Gostaríamos de lembrá-lo que ainda não foi anexada nenhuma ata referente a assembleia realizada dia ").append(data).append(".");
-		sb.append("<br /><br />");
-		sb.append("<br /><br />");
-		sb.append("<a href=\"http://www.condominiosobcontrole.com.br\">");
-		sb.append("<img src=\"http://www.condominiosobcontrole.com.br/condominio/img/logo_pequena_azul.png?pfdrid_c=true\" title=\"Condominio SOBControle\"/><br/>www.condominiosobcontrole.com.br</a>");
-			
-			
-		sb.append("</body>");
-		sb.append("</html>");
-		return sb.toString();
+	//@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="11", minute="30", persistent=false)
+	@Schedule(minute = "*/5",  hour="*", persistent=false)
+	public void  enviarEmailLembreteAssembleia(){
+		List<Assembleia> assembleias = assembleiaService.recuperarAssembleiasQueSeraoRealizadasDaqui3dias();
+		if(assembleias != null && !assembleias.isEmpty()){
+			for(Assembleia v : assembleias){
+				enviarEmailAvisandoLembreteAssembleiaProxima(v);
+			}
+		}
 	}
+	
+	
+	private void enviarEmailAvisandoLembreteAssembleiaProxima(Assembleia assembleia) {
+		try {
+			// enviar emails
+			List<Usuario> usuarios  = usuarioService.recuperarTodos(assembleia.getCondominio());
+			
+			DataUtil dataUtil = new DataUtil();
+			
+			if(usuarios != null){
+				String dataAssembleia = dataUtil.formatarData(assembleia.getData(), "dd/MM/yyyy");
+				String horario1 = dataUtil.formatarData(assembleia.getHorario1(), "HH:mm");
+				String horario2 = assembleia.getHorario2() != null ? dataUtil.formatarData(assembleia.getHorario2(), "HH:mm") : "-";
+				for(Usuario u : usuarios){
+					String msg = construtorEmail.montarTextoEmailLembreteAssembleia(u, dataAssembleia, horario1, horario2);
+					Email email = new Email("contato@condominiosobcontrole.com.br", u.getEmail(), "Lembrete para assembleia", msg);
+					enviarEmail.enviar(email);
+				}
+			}
+
+			try {
+				assembleia.setAvisoDeAssembleiaAutomatico(Boolean.TRUE);
+				assembleiaService.salvar(assembleia);
+			} catch (AppException e) {
+				e.printStackTrace();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return;
+		}
+	}
+	
 	
 }
