@@ -117,8 +117,8 @@ public class TimerEnviarEmailAutomatico {
 	
 	
 	
-	//@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="10", minute="30", persistent=false)
-	@Schedule(minute = "*/10",  hour="*", persistent=false)
+	@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="10", minute="30", persistent=false)
+	//@Schedule(minute = "*/10",  hour="*", persistent=false)
 	public void  enviarEmailLembreteAtaAssembleia(){
 		List<Assembleia> assembleias = assembleiaService.recuperarAssembleiasRealizadasSemAta();
 		if(assembleias != null && !assembleias.isEmpty()){
@@ -157,8 +157,8 @@ public class TimerEnviarEmailAutomatico {
 	}
 	
 	
-	//@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="11", minute="30", persistent=false)
-	@Schedule(minute = "*/5",  hour="*", persistent=false)
+	@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="11", minute="00", persistent=false)
+	//@Schedule(minute = "*/5",  hour="*", persistent=false)
 	public void  enviarEmailLembreteAssembleia(){
 		List<Assembleia> assembleias = assembleiaService.recuperarAssembleiasQueSeraoRealizadasDaqui3dias();
 		if(assembleias != null && !assembleias.isEmpty()){

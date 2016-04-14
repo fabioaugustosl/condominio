@@ -139,7 +139,7 @@ public class AssembleiaService implements IAssembleiaService {
 			DataUtil util = new DataUtil();
 			for(Assembleia a : assembleias){
 				int dias = util.diasEntreDatas( new Date(), a.getData());
-				if(Math.abs(dias) <= 3){
+				if(Math.abs(dias) <= 3 && !a.isAvisoDeAssembleiaAutomatico()){
 					assembleiasRetorno.add(a);
 				}
 			}

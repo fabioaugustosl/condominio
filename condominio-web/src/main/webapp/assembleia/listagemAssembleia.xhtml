@@ -64,7 +64,7 @@
 		    
 		    <p:column rendered="#{listagemAssembleiaController.ehSindico()}" 
 		    		headerText="Enviar convocação" style="text-align:center;">
-		     	<p:commandButton value="Enviar" update="@this"
+		     	<p:commandButton value="Enviar" update="@this, :form:dlgConvocacao"
 		     			rendered="#{listagemAssembleiaController.naoAconteceu(assemb) &amp;&amp; not assemb.convocacaoFoiEnviada}" 
 		     			oncomplete="PF('dlgConvocacao').show();">
 		     		<f:setPropertyActionListener value="#{assemb}" target="#{listagemAssembleiaController.assembleiaSelecionada}" />
@@ -134,7 +134,7 @@
 	    <p:dialog modal="true" id="dlgConvocacao" widgetVar="dlgConvocacao" header="Envio de convocação de assembleia por email" 
 						draggable="true" closable="true" resizable="false" 
 						dynamic="true" width="410" >
-			<p:outputLabel value="Confira os dados abaixo. Após o envio da convocação não será mais permitido que os moradores enviem pautas."></p:outputLabel>
+			<p:outputLabel value="Confira os dados abaixo e a pautas aprovadas. Todas essas informações constarão na convocação que será enviada para os moradores."></p:outputLabel>
 			<br /> 
 			<p:outputLabel value="Data da assembleia: " styleClass="labelPadrao" /> <p:outputLabel style="margin-left:5px;" value="${listagemAssembleiaController.assembleiaSelecionada.data}" styleClass="labelPadrao" ><f:convertDateTime pattern="dd/MM/yyyy" /></p:outputLabel>
 			<br />
