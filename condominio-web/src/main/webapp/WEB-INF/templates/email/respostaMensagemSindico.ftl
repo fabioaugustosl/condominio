@@ -7,20 +7,10 @@
 
 	<body>
 
-		<h1>Olá ${nome_usuario}.</h1>
-		<br />
-		<p>${msg}</p>
+		${msg}
+
 		<br/>
-		<p>Dados da assembleia:</p>
-		------------------------------------------------------------
-		<div>
-			Data:<b> ${data} </b><br />
-			Horário 1ª chamada: <b> ${chamada_1} </b><br />
-			Horário 2ª chamada: <b> ${chamada_2} </b><br />
-			Contamos com sua presença.
-		</div>
-		<br />
-		<br />
+		<br/>
 		<a href="http://www.condominiosobcontrole.com.br">
 			<img src="http://www.condominiosobcontrole.com.br/condominio/img/logo_pequena_azul.png?pfdrid_c=true" title="Condominio SOBControle"/><br/>
 			www.condominiosobcontrole.com.br

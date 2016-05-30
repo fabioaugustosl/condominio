@@ -9,15 +9,15 @@
 		h2{width:100%; text-align:center; color: #525A6E; }
 	</style>
 	<body>
-	
+
 		<h2 style="width:100%; text-align:center;">${nome_condominio}</h2>
 		<h1 style="width:100%; text-align:center;">Convocação Assembleia Geral ${tipo_assembleia} </h1>
-		
-		<p>Ficam convocados os Srs. Proprietários do Edifício ${nome_condominio} situado na ${endereco}, ${numero}, ${bairro}, 
-		para a Assembleia Geral ${tipo_assembleia} a realizar-se no dia ${data} às ${chamada_1} horas em primeira chamada 
+
+		<p>Ficam convocados os Srs. Proprietários do Edifício ${nome_condominio} situado na ${endereco}, ${numero}, ${bairro},
+		para a Assembleia Geral ${tipo_assembleia} a realizar-se no dia ${data} às ${chamada_1} horas em primeira chamada
 		e ${chamada_2} horas em segunda chamada, com qualquer número de presentes, para deliberar sobre os seguintes assuntos:</p>
 		<br/>
-		
+
 		<#list pautas as pauta>
 		  <p>* ${pauta}</p>
 		</#list>
@@ -31,11 +31,12 @@
 		<p>${nome_sindico}</p>
 		<br/>
 		<br/>
-		
+
 		<a href="http://www.condominiosobcontrole.com.br">
 			<img src="http://www.condominiosobcontrole.com.br/condominio/img/logo_pequena_azul.png?pfdrid_c=true" title="Condominio SOBControle"/><br/>
 			www.condominiosobcontrole.com.br
 		</a>
+		<p style="width:100%; text-align:center; font-size:10px;">Email enviado pelo site www.condominiosobcontrole.com.br. Favor não responder.</p>
 	</body>
 
 </html>

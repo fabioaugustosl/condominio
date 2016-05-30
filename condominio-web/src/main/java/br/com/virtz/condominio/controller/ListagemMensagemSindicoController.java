@@ -1,9 +1,5 @@
 package br.com.virtz.condominio.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,22 +9,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import org.apache.commons.lang.StringUtils;
-import org.primefaces.component.menu.AbstractMenu;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-
-import br.com.virtz.condominio.constantes.EnumTipoUsuario;
-import br.com.virtz.condominio.entidades.ArquivoAtaAssembleia;
-import br.com.virtz.condominio.entidades.Assembleia;
 import br.com.virtz.condominio.entidades.MensagemSindico;
-import br.com.virtz.condominio.entidades.PautaAssembleia;
+import br.com.virtz.condominio.entidades.Noticia;
+import br.com.virtz.condominio.entidades.RespostaMensagemSindico;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
-import br.com.virtz.condominio.service.IAssembleiaService;
 import br.com.virtz.condominio.service.IMensagemSindicoService;
 import br.com.virtz.condominio.session.SessaoUsuario;
-import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
 
@@ -38,31 +25,35 @@ public class ListagemMensagemSindicoController {
 
 	@EJB
 	private IMensagemSindicoService mensagemSindicoService;
-	
+
 	@Inject
 	private MessageHelper messageHelper;
-	
+
 	@Inject
 	private SessaoUsuario sessao;
-	
-	
+
+	@Inject
+	private NavigationPage navegacao;
+
 	private List<MensagemSindico> mensagens;
-	Usuario usuario = null;
-	
-	
+	private MensagemSindico mensagemSelecionada = null;
+	private Usuario usuario = null;
+	private String resposta = null;
+
+
 	@PostConstruct
 	public void init(){
 		usuario =  sessao.getUsuarioLogado();
-		mensagens = listarTodos(); 
+		mensagens = listarTodos();
 	}
-	
-	
+
+
 	public List<MensagemSindico> listarTodos(){
 		List<MensagemSindico> lista = mensagemSindicoService.recuperarTodos(usuario.getCondominio().getId());
 		return lista;
 	}
-	
-	
+
+
 	public void removerMensagem(MensagemSindico msg) throws CondominioException {
 		if(msg != null){
 			mensagemSindicoService.remover(msg.getId());
@@ -71,8 +62,22 @@ public class ListagemMensagemSindicoController {
 		}
 	}
 
-	
-	
+
+	public void enviarResposta(Long idMensagem) throws CondominioException {
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idMensagem", idMensagem);
+		navegacao.redirectToPage("/sindico/responderMensagemSindico.faces");
+	}
+
+
+	public void verResposta(MensagemSindico mensagem) throws CondominioException {
+		if(mensagem.getRespostas() != null && !mensagem.getRespostas().isEmpty()){
+			resposta = mensagem.getRespostas().get(0).getMensagem();
+		}
+		resposta = null;
+	}
+
+
+
 	// GETTERS E SETTERS
 	public List<MensagemSindico> getMensagens() {
 		return mensagens;
@@ -81,6 +86,18 @@ public class ListagemMensagemSindicoController {
 	public void setMensagens(List<MensagemSindico> mensagens) {
 		this.mensagens = mensagens;
 	}
-	 	 
-	 		
+
+	public String getResposta() {
+		return resposta;
+	}
+
+	public MensagemSindico getMensagemSelecionada() {
+		return mensagemSelecionada;
+	}
+
+	public void setMensagemSelecionada(MensagemSindico mensagemSelecionada) {
+		this.mensagemSelecionada = mensagemSelecionada;
+	}
+
+
 }

@@ -36,6 +36,29 @@
 		        <h:outputText value="#{msg.mensagem}"></h:outputText>
 		    </p:column>
 		    
+	        <p:column headerText="Respostas" style="text-align:center;" styleClass="colunaLargura100">
+		    	<p:commandButton value="Ver" update=":formMensagemSindico:dtResposta" oncomplete="PF('dlgRespostas').show();">
+		    		<f:setPropertyActionListener value="#{msg}" target="#{listagemMensagemSindicoController.mensagemSelecionada}" />
+			    </p:commandButton>
+		    </p:column> 
+
+		    <p:column style="text-align:center" styleClass="colunaLargura100">
+			    <p:commandLink  
+		     		id="icoEnviarResposta" immediate="true" 
+		     		actionListener="#{listagemMensagemSindicoController.enviarResposta(msg.id)}">
+		     		<p:graphicImage id="imgRespostaEmail" url="/img/icones/ico_responder_email.png" 
+		     				title="Clique para envair uma resposta para essa mensagem." />
+	         	</p:commandLink>
+		    	<!-- <p:commandButton value="Enviar Resposta" actionListener="#{listagemMensagemSindicoController.enviarResposta(msg.id)}" 
+		    	 	 rendered="#{empty msg.resposta}" styleClass="botao" >
+			    </p:commandButton>
+			    
+			    <p:commandButton value="Ver Resposta" actionListener="#{listagemMensagemSindicoController.verResposta(msg)}" 
+			    	rendered="#{not empty msg.resposta}" styleClass="botao" >
+			    </p:commandButton>	 -->	
+	        </p:column>
+	        
+		    
 		    <p:column style="text-align:center" styleClass="colunaLargura100">
 		    	<p:commandLink actionListener="#{listagemMensagemSindicoController.removerMensagem(msg)}" ajax="false"
 	         		id="excluirMsgSelecionada" immediate="true" >
@@ -51,6 +74,26 @@
 	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 	    </p:confirmDialog>
     
+     	<p:dialog modal="true" id="dlgRespostas" widgetVar="dlgRespostas" header="Respostas" 
+						draggable="true" closable="true" resizable="false" 
+						dynamic="true" width="600" >
+						
+		    <p:dataTable id="dtResposta" style="width:100%"
+		    		var="resp" emptyMessage="Não foi enviada nenhuma resposta ao morador."
+		    		value="#{listagemMensagemSindicoController.mensagemSelecionada.respostas}">
+
+			    <p:column headerText="Resposta">
+			    	<h:outputText value="#{resp.data}" >
+			    		<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+			    	</h:outputText>
+			    	<br />
+			        <h:outputText value="#{resp.mensagem}" escape="false"   />
+			        <hr />
+			    </p:column>
+ 
+		    </p:dataTable>
+		</p:dialog>
+		
 	 </h:form>
 	 
   </ui:define>

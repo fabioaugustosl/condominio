@@ -5,6 +5,7 @@ public enum EnumTemplates {
 	CONFIRMACAO_USUARIO("confirmacaoUsuario.ftl", "Confirmação de usuário", "contato@condominiosobcontrole.com.br"),
 	LEMBRETE_ASSEMBLEIA("lembreteAssembleia.ftl", "Lembrete de assembleia", "contato@condominiosobcontrole.com.br"),
 	MENSAGEM_SINDICO("mensagemSindico.ftl", "Fale com o Síndico - Contato enviado através do site", "contato@condominiosobcontrole.com.br"),
+	RESPOSTA_MENSAGEM_SINDICO("respostaMensagemSindico.ftl", "Resposta do S\u00edndico - reposta registrada no site", "contato@condominiosobcontrole.com.br"),
 	BOLETO("boletoPorEmail.ftl", "Boleto", "contato@condominiosobcontrole.com.br"),
 	NOVO_MORADOR("novoMorador.ftl", "Novo Morador Cadastrado no Site", "contato@condominiosobcontrole.com.br"),
 	PAUTA_ENVIADA("pautaEnviada.ftl", "Pauta para assembleia enviada pelo site.", "contato@condominiosobcontrole.com.br"),
@@ -20,7 +21,7 @@ public enum EnumTemplates {
 	private String assunto;
 	private String de;
 
-	
+
 
 	private EnumTemplates(String nomeArquivo, String assunto, String de) {
 		this.nomeArquivo = nomeArquivo;
@@ -42,5 +43,5 @@ public enum EnumTemplates {
 		return de;
 	}
 
-	
+
 }

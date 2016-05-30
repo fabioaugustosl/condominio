@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%" styleClass="formPad10">
+	   	<h1>Responder mensagem Fale com o Síndico</h1>
+	 	<br />
+	 	<p:outputLabel styleClass="textoInformativo" 
+	    	value="Prezado síndico, utilize esse espaço para responder uma mensagem enviada através do site. Você pode responder apenas para o morador que enviou ou, caso julgue necessário, para todos." />
+	    	<br /><br />
+	    	
+	        <p:outputLabel>
+	            <p:outputLabel value="Mensagem: " styleClass="labelPadrao"/><br />
+	            <p:editor id="editorCorpoEmail" widgetVar="editorWidget" value="#{responderMensagemSindicoController.mensagem}" 
+		        	maxlength="10000" style="width:900px!important"
+		        	controls="bold italic underline font size color style numbering alignleft center alignright justify undo redo image link cut copy paste indent" />
+	        	<br />
+
+				<p:selectBooleanCheckbox id="enviarParaTodosCheck"
+								value="#{responderMensagemSindicoController.enviarParaTodos}" 
+								itemLabel="Enviar resposta para todos os moradores " 
+								label="Enviar resposta para todos os moradores" />
+									        	
+	        	<br />
+	        	<br />
+	        	<p:commandButton id="enviarEmailResposta" value="Enviar"
+	        		styleClass="botao"  
+			   		actionListener="#{responderMensagemSindicoController.enviarEmail}" update="@form">
+			   	</p:commandButton>
+			   	<p:commandButton id="voltarMensagensSindicos" value="Voltar"
+	        		styleClass="botao"  
+			   		actionListener="#{responderMensagemSindicoController.irParaListagem}" update="@form">
+			   	</p:commandButton>
+	        </p:outputLabel>
+
+	 </h:form>
+
+  </ui:define>
+</ui:composition>

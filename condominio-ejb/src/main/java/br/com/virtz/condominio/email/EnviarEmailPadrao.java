@@ -35,9 +35,10 @@ public class EnviarEmailPadrao implements EnviarEmail {
         	Session sessaoEmail = null;
         	try {
 				String host = InetAddress.getLocalHost().getHostAddress();
-				if("127.0.0.1".equals(host) 
-						|| "192.168.1.3".equals(host) 
-						|| "192.168.1.6".equals(host)){
+				if("127.0.0.1".equals(host)
+						|| "192.168.1.3".equals(host)
+						|| "192.168.1.6".equals(host)
+						|| "192.168.1.8".equals(host)){
 					sessaoEmail = getSessao();
 				} else {
 					sessaoEmail = getSessaoAWS();
@@ -48,13 +49,13 @@ public class EnviarEmailPadrao implements EnviarEmail {
         	getSessaoAWS();
             MimeMessage m = new MimeMessage(sessaoEmail);
             Address de = new InternetAddress(email.getDe());
-            Address[] para = InternetAddress.parse(email.getParaToString());  
+            Address[] para = InternetAddress.parse(email.getParaToString());
             m.setFrom(de);
             m.setRecipients(Message.RecipientType.TO, para);
             m.setSubject(email.getAssunto());
-            
+
             Multipart multiparteEmail = new MimeMultipart();
-            
+
             // creates body part for the message
             MimeBodyPart msgEmail = new MimeBodyPart();
             String msgEnviar= null;
@@ -64,73 +65,73 @@ public class EnviarEmailPadrao implements EnviarEmail {
 				msgEnviar = email.getMensagem();
 //			}
             msgEmail.setContent(msgEnviar, "text/html;");
-             
+
             // adds parts to the multipart
             multiparteEmail.addBodyPart(msgEmail);
-            
+
             // se tiver anexo
             try {
 	            if(email.getAnexo() != null && email.getAnexo().length > 0){
 	            	// creates body part for the attachment
 	            	MimeBodyPart anexoEmail = new MimeBodyPart();
 	            	DataSource source = new ByteArrayDataSource(email.getAnexo(), "application/octet-stream");
-	            	anexoEmail.setDataHandler(new DataHandler(source)); 
-	            	anexoEmail.setFileName(email.getNomeAnexo()); 
+	            	anexoEmail.setDataHandler(new DataHandler(source));
+	            	anexoEmail.setFileName(email.getNomeAnexo());
 	            	multiparteEmail.addBodyPart(anexoEmail);
-	
+
 	            	// sets the multipart as message's content
 	            }
             } catch(Exception e ){
             	e.printStackTrace();
             }
-            
+
             m.setContent(multiparteEmail,"text/html");
-                        
+
             Transport.send(m);
 //            return Boolean.TRUE;
         } catch (javax.mail.MessagingException e) {
             e.printStackTrace();
 //            return Boolean.FALSE;
         }
-     
+
     }
-	
+
 
 	private Session getSessao() {
 	    Properties props = new Properties();
 	    //Parâmetros de conexão com servidor Gmail
-	    
+
 	    props.put ("mail.smtp.host", "in-v3.mailjet.com"); //in-v3.mailjet.com
 		props.put ("mail.smtp.socketFactory.port", "587");
 		props.put ("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put ("mail.smtp.auth", "true");
 		props.put ("mail.smtp.port", "587");
-		
+
 	    Session session = Session.getDefaultInstance(props,
 	                new javax.mail.Authenticator() {
 	                     protected PasswordAuthentication getPasswordAuthentication()   {
 	                           return new PasswordAuthentication("75126758f304eb7c71d30c3810ec3a49", "f15bafbffae7d3fe106e51f2c9a56bf9");
 	                     }
 	                });
-	
+
 	    // Ativa Debug para sessão
 	    session.setDebug(true);
 	    return session;
 	}
-	
-	
+
+
 	// Usando o SES da AWS - email da amazon
 	private Session getSessaoAWS() {
         Properties props = new Properties();
-        
-        props.put("mail.smtp.host", "email-smtp.us-west-2.amazonaws.com"); 
+
+        props.put("mail.smtp.host", "email-smtp.us-west-2.amazonaws.com");
         props.put("mail.smtp.auth", "true");
 		props.put("mail.transport.protocol", "smtp");
-		props.put("mail.smtp.port", "587"); 
+		props.put("mail.smtp.port", "587");
 		props.put ("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.starttls.required", "true");
-		
+
         Session session = Session.getDefaultInstance(props,
                     new javax.mail.Authenticator() {
                          protected PasswordAuthentication getPasswordAuthentication()   {
@@ -138,11 +139,11 @@ public class EnviarEmailPadrao implements EnviarEmail {
                          }
                     });
 
-        // Ativa Debug para sessão 
+        // Ativa Debug para sessão
         session.setDebug(true);
         return session;
 	}
-	
+
 }
 
 

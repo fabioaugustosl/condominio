@@ -2,12 +2,9 @@ package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,19 +12,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity(name="mensagemsindico")
+@Entity
+@Table(name="respostamensagemsindico")
 @XmlRootElement
 @NamedQueries({
-		@NamedQuery(name = "MensagemSindico.recuperarPorCondominio",
-				query = "Select n FROM mensagemsindico n WHERE n.condominio.id = :idCondominio ORDER BY n.id DESC ")
+		@NamedQuery(name = "RespostaMensagemSindico.recuperarPorMensagem",
+				query = "Select n FROM RespostaMensagemSindico n "
+						+ " WHERE n.mensagemSindico.id = :idMensagem ")
 })
-public class MensagemSindico extends Entidade implements Serializable {
+public class RespostaMensagemSindico extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,18 +38,18 @@ public class MensagemSindico extends Entidade implements Serializable {
 	private Date data;
 
 	@ManyToOne
-	@JoinColumn(name = "idCondominio")
-	private Condominio condominio;
-
-	@OneToOne
-	@JoinColumn(name = "idUusario")
+	@JoinColumn(name = "idUsuario")
 	private Usuario usuario;
 
-	@Column(name = "mensagem", length=100000)
+	@ManyToOne
+	@JoinColumn(name = "idMensagem")
+	private MensagemSindico mensagemSindico;
+
+	@Column(name = "mensagem", length=10000)
 	private String mensagem;
 
-	@OneToMany(mappedBy="mensagemSindico", fetch= FetchType.EAGER, cascade= CascadeType.ALL)
-	private List<RespostaMensagemSindico> respostas;
+	@Column(name = "paraTodos")
+	private Boolean respostaParaTodos;
 
 
 
@@ -71,12 +69,12 @@ public class MensagemSindico extends Entidade implements Serializable {
 		this.data = data;
 	}
 
-	public Condominio getCondominio() {
-		return condominio;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setCondominio(Condominio condominio) {
-		this.condominio = condominio;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getMensagem() {
@@ -87,20 +85,20 @@ public class MensagemSindico extends Entidade implements Serializable {
 		this.mensagem = mensagem;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Boolean getRespostaParaTodos() {
+		return respostaParaTodos;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setRespostaParaTodos(Boolean respostaParaTodos) {
+		this.respostaParaTodos = respostaParaTodos;
 	}
 
-	public List<RespostaMensagemSindico> getRespostas() {
-		return respostas;
+	public MensagemSindico getMensagemSindico() {
+		return mensagemSindico;
 	}
 
-	public void setRespostas(List<RespostaMensagemSindico> respostas) {
-		this.respostas = respostas;
+	public void setMensagemSindico(MensagemSindico mensagemSindico) {
+		this.mensagemSindico = mensagemSindico;
 	}
 
 
