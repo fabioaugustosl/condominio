@@ -85,15 +85,28 @@
 	    	
 	    </p:outputPanel>
 	    
-	    <p:dialog id="novoEvento" widgetVar="novoEvento" header="Agendar" showEffect="fade" hideEffect="fade" dynamic="false" appendTo="@(body)" >
+	    <p:dialog id="novoEvento" widgetVar="novoEvento" header="Agendar" showEffect="fade" hideEffect="fade" dynamic="false" appendTo="@(body)" width="500" position="top" style="margin-top:10%;"  >
 		    <p:outputPanel id="novoEventoPanelContainer" >
 		        <p:outputPanel id="novoEventoPanel" rendered="#{reservaController.areaSelecionada != null &amp;&amp; reservaController.mensagemConfirmacaoReserva != null}" >
+		            
+		            <p:outputPanel id="panelTextoConcordo" rendered="#{not empty reservaController.areaSelecionada.instrucoesReserva}" style="width:100%; padding-bottom:10px; " >
+		            	 <div style="width:100%; max-height:250px; overflow-y:auto; font-weight:normal; border:1px solid #C3C3C3; padding:5px; margin:5px; background:#F6F6F6;">
+		            	 	<p:outputLabel value="#{reservaController.areaSelecionada.instrucoesReserva}"
+		            	 		escape="false"
+		            	 	 id="txtMsgConcordo" style=" font-weight:normal; font-size:1em;" />
+		 				 </div>
+		 				 <p:selectBooleanCheckbox id="checkLiEConcordo" 
+		 				 		value="${reservaController.checkLiEConcordo}" label="Li e concordo" itemLabel="Li e concordo"
+		 				 		immediate="true"  >
+		 				 	<p:ajax process="@this" update="@this" listener="#{reservaController.changeValueLiConcordo()}" ></p:ajax>
+		 				 </p:selectBooleanCheckbox>
+		            </p:outputPanel>
 		            
 		            <p:outputLabel value="#{reservaController.mensagemConfirmacaoReserva}" id="txtMsgConfirmacao"  />
 		 			
 		 			<p:outputPanel>
 		 			    <p:commandButton id="btnAgendar" value="Sim" actionListener="#{reservaController.salvarReserva()}"
-		 			    		process="@this" update="@form" oncomplete="PF('novoEvento').hide(); subirTela();"/>
+		 			    		process="checkLiEConcordo, @this" update="checkLiEConcordo, @form" oncomplete="PF('novoEvento').hide(); subirTela();"/>
 			            <p:commandButton id="btnAgendarNao" value="Não" onclick="PF('novoEvento').hide();" />
 		            </p:outputPanel>
 		        </p:outputPanel>

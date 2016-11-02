@@ -12,5 +12,6 @@ public interface IVotacaoDAO extends CrudDAO<Votacao> {
 	public List<Votacao> recuperar(Condominio condominio);
 	public List<Votacao> recuperarVotacoesAtivas(Condominio condominio);
 	public List<Votacao> recuperarVotacoesEncerradasSemEnvioDeEmail();
+	public List<Votacao> recuperarVotacoesNovasSemEnvioDeEmail();
 	public void removerOpcaoVotacao(Long idOpcaoVotacao);
 }

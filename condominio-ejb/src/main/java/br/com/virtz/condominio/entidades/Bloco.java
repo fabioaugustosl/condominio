@@ -20,11 +20,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity(name="bloco")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Bloco.recuperarPorCondominioComApts", 
+	@NamedQuery(name = "Bloco.recuperarPorCondominioComApts",
 			query = "Select distinct b FROM bloco b "
 					+ " LEFT JOIN FETCH b.apartamentos apts "
 					+ " WHERE b.condominio.id = :idCondominio ORDER BY b.id "),
-	@NamedQuery(name = "Bloco.recuperarBlocoCompleto", 
+	@NamedQuery(name = "Bloco.recuperarBlocoCompleto",
 			query = "Select distinct b FROM bloco b "
 					+ " LEFT JOIN FETCH b.apartamentos apts "
 					+ " WHERE b.id = :idBloco ")
@@ -36,24 +36,29 @@ public class Bloco extends Entidade implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "numero", nullable = true)
 	private Integer numero;
 
 	@NotNull
 	@Column(name = "nome", length = 50, nullable = false)
 	private String nome;
-	
+
 	@ManyToOne
 	@JoinColumn(name="idCondominio", nullable=false)
 	private Condominio condominio;
-	
+
+	@ManyToOne
+	@JoinColumn(name="idAgrupamentoUnidades", nullable=true)
+	private AgrupamentoUnidades agraupamentoUnidades;
+
 	@OneToMany(mappedBy="bloco", cascade = CascadeType.ALL)
 	private List<Apartamento> apartamentos;
-	
+
 	@Column(name="qtdAndares")
 	private Integer quantidadeAndares;
-	
+
+
 
 	public Long getId() {
 		return id;
@@ -102,14 +107,23 @@ public class Bloco extends Entidade implements Serializable {
 	public void setQuantidadeAndares(Integer quantidadeAndares) {
 		this.quantidadeAndares = quantidadeAndares;
 	}
-	
-	
+
+	public AgrupamentoUnidades getAgraupamentoUnidades() {
+		return agraupamentoUnidades;
+	}
+
+	public void setAgraupamentoUnidades(AgrupamentoUnidades agraupamentoUnidades) {
+		this.agraupamentoUnidades = agraupamentoUnidades;
+	}
+
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null){
 			return false;
 		}
-		
+
 		if (!(obj instanceof Entidade))
 			return false;
 
@@ -119,19 +133,19 @@ public class Bloco extends Entidade implements Serializable {
 		if(this.getId() != null){
 			return this.getId().equals(((Bloco)obj).getId());
 		}
-		
+
 		if(this.getNome() != null){
 			return this.getNome().equals(((Bloco)obj).getNome());
 		}
-		
+
 		if(this.getNumero() != null){
 			return this.getNumero().equals(((Bloco)obj).getNumero());
 		}
-		
+
 		return true;
 	}
-	
-	
+
+
 	@Override
 	public int hashCode() {
 	    int hash = 7;
@@ -144,6 +158,6 @@ public class Bloco extends Entidade implements Serializable {
 		}
 	    return hash;
 	}
-	
-			
+
+
 }

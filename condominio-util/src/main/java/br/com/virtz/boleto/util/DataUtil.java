@@ -13,7 +13,7 @@ public class DataUtil {
 	/**
 	 * Zera as horas, minutos e segundo de uma data.
 	 * Deixando apenas a data.
-	 * 
+	 *
 	 * @param data
 	 * @return
 	 */
@@ -26,8 +26,8 @@ public class DataUtil {
 		d.set(Calendar.HOUR, 0);
 		return d.getTime();
 	}
-	
-	
+
+
 	public Calendar agora() {
 		Calendar d = Calendar.getInstance();
 		d.setTime(new Date());
@@ -37,16 +37,16 @@ public class DataUtil {
 		d.set(Calendar.HOUR, 0);
 		return d;
 	}
-	
-	
+
+
 	public Date adicionarDias(Date data, Integer quantidadeDiasParaAdicionar){
 		Calendar c = Calendar.getInstance();
 		c.setTime(data);
 		c.add(Calendar.DATE, quantidadeDiasParaAdicionar);
 		return c.getTime();
 	}
-	
-	
+
+
 	public boolean dataEhMaiorQueHoje(Date data) {
 		Date dataHoje = limparHora(new Date());
 		if(dataHoje.after(limparHora(data))){
@@ -54,33 +54,38 @@ public class DataUtil {
 		}
 		return Boolean.FALSE;
 	}
-	
+
+	public boolean dataEhMenorQueHoje(Date data) {
+		Date dataHoje = limparHora(new Date());
+		return !limparHora(data).after(dataHoje);
+	}
+
 	/**
 	 * Lista os anos a partir no ano de inicio.
 	 * Vai até 5 anos após o atual;
-	 * 
+	 *
 	 * Se o inicio for null será considerado o ano atual.
-	 * 
+	 *
 	 * @param inicio
 	 * @return
 	 */
 	public List<Integer> listarAnosSelecao(Integer inicio){
 		List<Integer> anos = new ArrayList<Integer>();
-		
+
 		Calendar c = agora();
-		Integer anoMax = c.get(Calendar.YEAR)+5;  
+		Integer anoMax = c.get(Calendar.YEAR)+5;
 		if(inicio == null){
 			inicio = c.get(Calendar.YEAR);
 		}
-		
+
 		while(inicio <= anoMax){
 			anos.add(inicio);
 			inicio++;
 		}
-		
+
 		return anos;
 	}
-	
+
 	public Map<Integer, String> listarMesesSelecao(){
 		Map<Integer, String> meses = new HashMap<Integer, String>();
 		meses.put(1, "Janeiro");
@@ -97,7 +102,7 @@ public class DataUtil {
 		meses.put(12, "Dezembro");
 		return meses;
 	}
-	
+
 	public boolean mesmoDiaMesAno(Date data1, Date data2) {
 		if(data1 == null || data2 == null){
 			return false;
@@ -106,36 +111,36 @@ public class DataUtil {
 		Calendar c2 = Calendar.getInstance();
 		c1.setTime(data1);
 		c2.setTime(data2);
-		
+
 		if(c1.get(Calendar.YEAR) != c2.get(Calendar.YEAR)){
 			return false;
 		}
-		
+
 		if(c1.get(Calendar.MONTH) != c2.get(Calendar.MONTH)){
 			return false;
 		}
-		
+
 		if(c1.get(Calendar.DAY_OF_MONTH) != c2.get(Calendar.DAY_OF_MONTH)){
 			return false;
 		}
-				
+
 		return true;
 	}
-	
-	
+
+
 	public int diasEntreDatas(Date data1, Date data2) {
 		if(data1 == null || data2 == null){
 			return 0;
 		}
-		
+
 		return Math.abs(diasEntreTimestemp(this.limparHora(data1).getTime(), this.limparHora(data2).getTime()));
 	}
-	
+
 	private int diasEntreTimestemp(long t1, long t2) {
 	    return (int) ((t2 - t1) / (1000 * 60 * 60 * 24));
-	} 
-	
-	
+	}
+
+
 	public String formatarData(Date data, String formato){
 		SimpleDateFormat dt1 = new SimpleDateFormat(formato);
         return dt1.format(data);

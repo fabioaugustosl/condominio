@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity(name="apartamento")
 @XmlRootElement
-@NamedQueries({ @NamedQuery(name = "Apartamento.recuperarPorCondominioENumeroBloco", 
+@NamedQueries({ @NamedQuery(name = "Apartamento.recuperarPorCondominioENumeroBloco",
 						query = "Select a FROM apartamento a "
 							+ " LEFT JOIN a.bloco b "
 							+ " WHERE b.condominio.id = :idCondominio AND a.numero = :numero AND b.nome = :nomeBloco ")
@@ -27,16 +27,18 @@ public class Apartamento extends Entidade implements Serializable, Comparable<Ap
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
 	@JoinColumn(name="idBloco", nullable=false)
 	private Bloco bloco;
-	
+
 	@Column
 	private Integer andar;
-	
+
 	@Column
 	private String numero;
+
+
 
 	public Long getId() {
 		return id;
@@ -69,9 +71,13 @@ public class Apartamento extends Entidade implements Serializable, Comparable<Ap
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-	
+
 	public String getNomeExibicao(){
-		return this.numero+"  [Andar: "+this.andar+"]";
+		if(this.bloco.getCondominio().condominioEhVertical()){
+			return this.numero+"  [Andar: "+this.andar+"]";
+		} else {
+			return this.numero;
+		}
 	}
 
 	@Override
@@ -79,7 +85,7 @@ public class Apartamento extends Entidade implements Serializable, Comparable<Ap
 		if(obj == null){
 			return false;
 		}
-		
+
 		if (!(obj instanceof Entidade))
 			return false;
 
@@ -89,24 +95,24 @@ public class Apartamento extends Entidade implements Serializable, Comparable<Ap
 		if(this.getId() != null){
 			return this.getId().equals(((Apartamento)obj).getId());
 		}
-		
+
 		if(this.getNumero() != null){
 			return this.getNumero().equals(((Apartamento)obj).getNumero());
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public int hashCode() {
 	    int hash = 7;
-	    
+
 	    if(this.getId() != null){
 	    	 hash = 23 * hash + (this.getId()!= null ? this.getId().hashCode() : 0);
 		} else if(this.getNumero() != null){
 			 hash = 23 * hash + (this.getNumero()!= null ? this.getNumero().hashCode() : 0);
 		}
-		
+
 	    return hash;
 	}
 

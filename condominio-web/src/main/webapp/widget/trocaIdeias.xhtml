@@ -51,8 +51,10 @@
 				 							url="/imagem?arquivo=#{papo.usuario.arquivo.caminhoCompleto}" />
 									  <div class="mask"></div>
 									</div>
+								<p:tooltip id="toolFotoUsuario" for="trocaIdeiaContainerFoto" value="#{papo.usuario.nome}" trackMouse="true" />
 
 			 					</p:outputPanel>
+			                    
 			                    <p:outputPanel id="trocaIdeiaContainerMensagem">
 			                    	<h:outputText value="#{papo.mensagem}" style="font-weight: bold"/><br />
 			                    	<div class="trocaIdeiaHora">

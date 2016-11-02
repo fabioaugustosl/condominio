@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%" styleClass="formPad10">
+	   	<h1>Acompanhe todas as ocorrências registradas em seu condomínio</h1>
+	 	<br />
+	 	
+		<p:dataTable id="dtListagemOcorrencia" var="ocorrencia" 
+				value="#{listagemRegistroOcorrenciasController.ocorrencias}"
+				emptyMessage="Ainda não foi cadastrada nenhuma ocorrência." 
+				rows="50" paginator="true" lazy="true"
+				paginatorPosition="bottom"
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="20,50,100" >
+		
+	        <p:column headerText="Data ocorrido" styleClass="colunaLargura120" style="text-align:center">
+		        <h:outputText value="#{ocorrencia.dataOcorrencia}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="Data registro" styleClass="colunaLargura120" style="text-align:center">
+		        <h:outputText value="#{ocorrencia.dataRegistro}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="Relatado por" styleClass="colunaLargura160">
+		        <h:outputText value="#{ocorrencia.usuario.nomeExibicao}" />
+		    </p:column>
+
+		    <p:column headerText="Ocorrência">
+		        <h:outputText value="#{ocorrencia.mensagem}" />
+		    </p:column>
+		    
+		</p:dataTable>
+		
+		<p:commandButton id="btnCadastrarOcorrencia" value="Nova Ocorrência"  immediate="true"
+				styleClass="botao botao-grande"
+		   		actionListener="#{listagemRegistroOcorrenciasController.irParaCadastro()}" >
+		</p:commandButton> 
+					 	
+	 </h:form>
+  </ui:define>
+</ui:composition>

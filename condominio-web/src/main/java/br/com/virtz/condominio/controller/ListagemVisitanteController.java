@@ -19,48 +19,48 @@ import br.com.virtz.condominio.util.NavigationPage;
 @ManagedBean
 @ViewScoped
 public class ListagemVisitanteController {
-	
+
 	@EJB
 	private IVisitanteService visitanteService;
-	
+
 	@Inject
 	private SessaoUsuario sessao;
-	
+
 	@Inject
 	private MessageHelper message;
-	
+
 	@Inject
 	private NavigationPage navigation;
-	
-	
-	
-	private LazyDataModel<Visitante> visitantes = null;
-	
-	private Usuario usuario = null;
-	
 
-		
+
+
+	private LazyDataModel<Visitante> visitantes = null;
+
+	private Usuario usuario = null;
+
+
+
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
 		//visitantes = new  VisitantesLazyModel(visitanteService.recuperarPorCondominioPaginado(usuario.getCondominio().getId(), 0, 50), usuario.getCondominio().getId(), visitanteService);
 	}
-	
+
 	public LazyDataModel<Visitante> getVisitantes(){
 		if(visitantes == null){
 			visitantes = new VisitantesLazyModel(visitanteService.recuperarPorCondominioPaginado(usuario.getCondominio().getId(), 0, 50), usuario.getCondominio().getId(), visitanteService);
 		}
 		return visitantes;
 	}
-	
-		
+
+
 	public void irParaCadastro(){
 		navigation.redirectToPage("/portaria/cadastrarVisitante.faces");
 	}
-	
-	
-	
-	
+
+
+
+
 	/* GETTERS E SETTERS*/
 
 

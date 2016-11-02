@@ -25,28 +25,28 @@ import br.com.virtz.condominio.service.IVotacaoService;
 
 @Singleton @Startup
 public class TimerEnviarEmailAutomatico {
-	
-	
+
+
 	@EJB
 	private EnviarEmail enviarEmail;
-	
+
 	@EJB
 	private IVotacaoService votacaoService;
-	
+
 	@EJB
 	private IAssembleiaService assembleiaService;
-	
+
 	@EJB
 	private IUsuarioService usuarioService;
-	
+
 	private ConstrutorEmailsTimer construtorEmail = null;
-	
-	
+
+
 	@PostConstruct
 	public void init(){
 		construtorEmail = new ConstrutorEmailsTimer();
 	}
-	
+
 
 	@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="6", minute="00", persistent=false)
 	//@Schedule(minute = "*/10",  hour="*", persistent=false)
@@ -58,9 +58,9 @@ public class TimerEnviarEmailAutomatico {
 			}
 		}
 	}
-	
+
 	private void enviarEmailResultadoVotacao(Votacao votacao) {
-		
+
 		VotacaoView vv = null;
 		// recupera os resultados
 		if(votacao != null){
@@ -75,7 +75,7 @@ public class TimerEnviarEmailAutomatico {
 		} else{
 			return;
 		}
-		
+
 		List<String> resultados = new ArrayList<String>();
 		try {
 			// monta resultado para envio
@@ -89,16 +89,16 @@ public class TimerEnviarEmailAutomatico {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		try {
 			// enviar emails
 			Condominio c = votacao.getCondominio();
 			List<Usuario> usuarios  = usuarioService.recuperarTodos(c);
-			
+
 			if(usuarios != null){
 				for(Usuario u : usuarios){
 					String msg = construtorEmail.montarTextoEmail(u, votacao.getAssuntoVotacao(), resultados);
-					Email email = new Email("contato@condominiosobcontrole.com.br", u.getEmail(), "Resultado final de votação", msg);
+					Email email = new Email("contato@condominiosobcontrole.com.br", u.getEmail(), "Resultado final de vota&ccedil;&atilde;o", msg);
 					enviarEmail.enviar(email);
 				}
 			}
@@ -113,10 +113,10 @@ public class TimerEnviarEmailAutomatico {
 			return;
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="10", minute="30", persistent=false)
 	//@Schedule(minute = "*/10",  hour="*", persistent=false)
 	public void  enviarEmailLembreteAtaAssembleia(){
@@ -127,13 +127,13 @@ public class TimerEnviarEmailAutomatico {
 			}
 		}
 	}
-	
-	
+
+
 	private void enviarEmailAvisandoAta(Assembleia assembleia) {
 		try {
 			// enviar emails
 			List<Usuario> usuarios  = usuarioService.recuperarSindicos(assembleia.getCondominio().getId());
-			
+
 			DataUtil dataUtil = new DataUtil();
 			String dataAssembleia = dataUtil.formatarData(assembleia.getData(), "dd/MM/yyyy");
 			if(usuarios != null){
@@ -155,8 +155,8 @@ public class TimerEnviarEmailAutomatico {
 			return;
 		}
 	}
-	
-	
+
+
 	@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="11", minute="00", persistent=false)
 	//@Schedule(minute = "*/5",  hour="*", persistent=false)
 	public void  enviarEmailLembreteAssembleia(){
@@ -167,15 +167,15 @@ public class TimerEnviarEmailAutomatico {
 			}
 		}
 	}
-	
-	
+
+
 	private void enviarEmailAvisandoLembreteAssembleiaProxima(Assembleia assembleia) {
 		try {
 			// enviar emails
 			List<Usuario> usuarios  = usuarioService.recuperarTodos(assembleia.getCondominio());
-			
+
 			DataUtil dataUtil = new DataUtil();
-			
+
 			if(usuarios != null){
 				String dataAssembleia = dataUtil.formatarData(assembleia.getData(), "dd/MM/yyyy");
 				String horario1 = dataUtil.formatarData(assembleia.getHorario1(), "HH:mm");
@@ -198,6 +198,46 @@ public class TimerEnviarEmailAutomatico {
 			return;
 		}
 	}
-	
-	
+
+
+
+
+	@Schedule(dayOfWeek="Sun, Mon, Tue, Wed, Thu, Fri, Sat", hour="7", minute="00", persistent=false)
+	//@Schedule(minute = "*/5",  hour="*", persistent=false)
+	public void  enviarEmailVotacaoCriada(){
+		List<Votacao> votacoes = votacaoService.recuperarVotacoesNovasSemEnvioDeEmail();
+		if(votacoes != null && !votacoes.isEmpty()){
+			for(Votacao v : votacoes){
+				dispararEmailAvisoNovaVotacao(v);
+			}
+		}
+	}
+
+	private void dispararEmailAvisoNovaVotacao(Votacao votacao) {
+
+		try {
+			// enviar emails
+			Condominio c = votacao.getCondominio();
+			List<Usuario> usuarios  = usuarioService.recuperarTodos(c);
+
+			if(usuarios != null){
+				for(Usuario u : usuarios){
+					String msg = construtorEmail.montarTextoEmailNovaVotacao(u,  votacao.getAssuntoVotacao());
+					Email email = new Email("contato@condominiosobcontrole.com.br", u.getEmail(), "Nova vota&ccedil;&atilde;o disponibilizada no site!", msg);
+					enviarEmail.enviar(email);
+				}
+			}
+
+			try {
+				votacaoService.marcarEmailNovaVotacaoJaEnviado(votacao.getId());
+			} catch (AppException e) {
+				e.printStackTrace();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return;
+		}
+	}
+
+
 }

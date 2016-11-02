@@ -26,31 +26,31 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 @Entity(name="usuario")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Usuario.recuperarPorCondominio", 
+	@NamedQuery(name = "Usuario.recuperarPorCondominio",
 			query = "Select u FROM usuario u "
 					+ "	LEFT JOIN u.apartamento ap "
 					+ "	LEFT JOIN u.arquivo arq "
 					+ " WHERE u.condominio.id = :idCondominio AND u.deletado = 0 ORDER BY u.nome ASC "),
-	@NamedQuery(name = "Usuario.recuperarSindicosPorCondominio", 
+	@NamedQuery(name = "Usuario.recuperarSindicosPorCondominio",
 			query = "Select u FROM usuario u WHERE u.condominio.id = :idCondominio AND u.tipoUsuario = 'SINDICO' AND u.deletado = 0"),
-	@NamedQuery(name = "Usuario.recuperarPorEmail", 
+	@NamedQuery(name = "Usuario.recuperarPorEmail",
 			query = "Select u FROM usuario u "
 					+ " LEFT JOIN FETCH u.condominio c "
 					+ " LEFT JOIN FETCH c.areasComuns areas "
 					+ " WHERE u.email = :email and u.cadastroConfirmado = 1 AND u.deletado = 0"),
-	@NamedQuery(name = "Usuario.recuperarPorEmailAutenticacao", 
+	@NamedQuery(name = "Usuario.recuperarPorEmailAutenticacao",
 			query = "Select u FROM usuario u "
 							+ " LEFT JOIN FETCH u.condominio c "
 							+ " LEFT JOIN FETCH c.areasComuns areas "
 							+ " WHERE u.email = :email AND u.deletado = 0 ORDER BY c.id DESC"),
-	@NamedQuery(name = "Usuario.recuperarPorCondominioETipoUsuario", 
+	@NamedQuery(name = "Usuario.recuperarPorCondominioETipoUsuario",
 			query = "Select u FROM usuario u "
 					+ " JOIN u.condominio c "
 					+ " WHERE c.id = :idCondominio AND u.tipoUsuario = :tipoUsuario AND u.deletado = 0"),
-	@NamedQuery(name = "Usuario.recuperarUsuariosPorEmail", 
+	@NamedQuery(name = "Usuario.recuperarUsuariosPorEmail",
 				query = "Select u FROM usuario u "
 							+ " WHERE u.email = :email AND u.deletado = 0"),
-	@NamedQuery(name = "Usuario.recuperarUsuariosPorApto", 
+	@NamedQuery(name = "Usuario.recuperarUsuariosPorApto",
 				query = "Select u FROM usuario u "
 							+ " WHERE u.apartamento.id = :idApartamento AND u.deletado = 0")
 })
@@ -61,62 +61,62 @@ public class Usuario extends Entidade implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	@Column(name = "nome", length = 100, nullable = false)
 	private String nome;
-	
+
 	@NotNull
 	@Column(name = "email", length = 100, nullable = false)
 	private String email;
-	
+
 	@NotNull
 	@Column(name = "senha", length = 100, nullable = false)
 	private String senha;
-	
+
 	@Column(name = "cpf", length = 14)
 	private String cpf;
-	
+
 	@Column(name = "telefone", length = 20)
 	private String telefone;
-	
+
 	@Column(name = "celular", length = 20)
 	private String celular;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dataCadastro")
 	private Date dataCadastro;
-	
+
 	@Column(name = "cadastroConfirmado")
 	private Boolean cadastroConfirmado;
-	
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipoUsuario", nullable = false, length=30)
 	private EnumTipoUsuario tipoUsuario;
-	
+
 	@ManyToOne
 	@JoinColumn(name="idCondominio")
 	private Condominio condominio;
-	
+
 	@Deprecated
 	@Column(name = "fotoPerfil", length = 300)
 	private String fotoPerfil;
-	
+
 	@ManyToOne
 	@JoinColumn(name="idApartamento")
 	private Apartamento apartamento;
-	
+
 	@ManyToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="idImagem")
 	private ArquivoUsuario arquivo;
-	
+
 	@Column(name = "deletado")
 	private Boolean deletado;
-	
+
 	@Transient
 	private String senhaDigitada;
-	
+
 	@Transient
 	private String senhaDigitadaConfirmacao;
 
@@ -167,14 +167,14 @@ public class Usuario extends Entidade implements Serializable {
 	public void setFotoPerfil(String fotoPerfil) {
 		this.fotoPerfil = fotoPerfil;
 	}
-	
+
 	public ArquivoUsuario getArquivo() {
 		if(arquivo == null){
 			return new ArquivoUsuarioPadrao();
 		}
 		return arquivo;
 	}
-	
+
 
 	public boolean existeFotoParaUsuario() {
 		if(arquivo == null){
@@ -182,7 +182,7 @@ public class Usuario extends Entidade implements Serializable {
 		}
 		return Boolean.TRUE;
 	}
-	
+
 	public String getSenha() {
 		return senha;
 	}
@@ -202,7 +202,7 @@ public class Usuario extends Entidade implements Serializable {
 	public void setApartamento(Apartamento apartamento) {
 		this.apartamento = apartamento;
 	}
-	
+
 	public String getTelefone() {
 		return telefone;
 	}
@@ -218,7 +218,7 @@ public class Usuario extends Entidade implements Serializable {
 	public void setCelular(String celular) {
 		this.celular = celular;
 	}
-	
+
 	public String getSenhaDigitada() {
 		return senhaDigitada;
 	}
@@ -245,21 +245,21 @@ public class Usuario extends Entidade implements Serializable {
 
 	public boolean isSindico(){
 		if(EnumTipoUsuario.SINDICO.equals(this.tipoUsuario)){
-			return Boolean.TRUE;	
+			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
 	}
-	
+
 	public boolean isMorador(){
 		if(EnumTipoUsuario.MORADOR.equals(this.tipoUsuario)){
-			return Boolean.TRUE;	
+			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
 	}
-	
+
 	public boolean isAdministrativo(){
 		if(EnumTipoUsuario.ADMINISTRATIVO.equals(this.tipoUsuario)){
-			return Boolean.TRUE;	
+			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
 	}
@@ -287,7 +287,7 @@ public class Usuario extends Entidade implements Serializable {
 	public void setDeletado(Boolean deletado) {
 		this.deletado = deletado;
 	}
-	
+
 	public String getNomeExibicao(){
 		if(this.nome == null || this.nome.length() < 12){
 			return this.nome;
@@ -299,7 +299,31 @@ public class Usuario extends Entidade implements Serializable {
 		}
 		return this.nome;
 	}
-	
-	
-	
+
+	public String getNomeExibicaoComUnidade(){
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.getNomeExibicao());
+		sb.append(" ").append(this.getNomeUnidade());
+
+		return sb.toString();
+	}
+
+
+	public String getNomeUnidade(){
+		StringBuilder sb = new StringBuilder();
+		if(this.apartamento != null){
+			sb.append(this.getApartamento().getNomeExibicao());
+			if(this.getApartamento().getBloco() != null){
+				sb.append(" ").append(this.getApartamento().getBloco().getNome());
+
+				/*if(this.getApartamento().getBloco().getAgrupamento() != null){
+					sb.append(" ").append(this.getApartamento().getBloco().getNome());
+				}*/
+			}
+		}
+
+		return sb.toString();
+	}
+
+
 }

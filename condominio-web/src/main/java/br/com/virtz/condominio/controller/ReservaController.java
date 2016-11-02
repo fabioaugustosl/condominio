@@ -13,8 +13,10 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -45,40 +47,40 @@ import br.com.virtz.condominio.util.MessageHelper;
 @ManagedBean
 @ViewScoped
 public class ReservaController {
-	
+
 	@EJB
 	private ICondominioService condominioService;
-	
+
 	@EJB
 	private IReservaService reservaService;
-	
+
 	@EJB
 	private IUsuarioService usuarioService;
-	
+
 	@Inject
 	private SessaoUsuario sessao;
-	
+
 	@Inject
-	private ParametroSistemaLookup parametroLookup; 
-	
+	private ParametroSistemaLookup parametroLookup;
+
 	@Inject
 	private MessageHelper message;
-	
+
 	@Inject
 	private IArquivosUtil arquivoUtil;
 
 	@Inject
 	private LeitorTemplate leitor;
-	
+
 	@EJB
 	private EnviarEmail enviarEmail;
-	
+
 	@Inject
 	private PrincipalController principalController;
-	
+
 	private ScheduleModel reservas;
 	private ScheduleEvent evento = new DefaultScheduleEvent();
-	
+
 	private Set<AreaComum> areas;
 	private List<Usuario> usuarios;
 	private Usuario usuarioLogado = null;
@@ -86,27 +88,29 @@ public class ReservaController {
 	private String mensagemConfirmacaoReserva = null ;
 	private String mensagemErroReserva = null ;
 	private ParametroSistema maximoDias = null;
-	
+
 	private boolean podeRemoverReserva;
+	private boolean checkLiEConcordo;
+	private Boolean check;
 	private String mensagemExclusaoReserva = null;
-	
+
 	private List<Bloco> blocos = null;
 	private Bloco blocoSelecionado;
 	private Apartamento apartamentoSelecionado;
-	
-	
+
+
 	@PostConstruct
 	public void init(){
 		reservas = new DefaultScheduleModel();
 		usuarioLogado = sessao.getUsuarioLogado();
 
 		montarListaAreasParaReserva();
-		
+
 		maximoDias = parametroLookup.buscar(EnumParametroSistema.QUANTIDADE_DIAS_MAXIMO_PARA_AGENDAR_AREA_COMUM);
 		areaSelecionada = null;
 		podeRemoverReserva = false;
 		mensagemExclusaoReserva = null;
-		
+
 		// se for sindico pode agendar para outros moradores
 		if(principalController.ehSindico() || principalController.ehAdministrativo()){
 			carragarDadosSeForSindico();
@@ -119,11 +123,12 @@ public class ReservaController {
 			areaSelecionada = areas.iterator().next();
 			recuperarEventos();
 		}
+		checkLiEConcordo = false;
 	}
 
 
 	/**
-	 * Carrega algumas variáveis necessárias se quem estiver agendando for um sindico. 
+	 * Carrega algumas variáveis necessárias se quem estiver agendando for um sindico.
 	 * Permitindo agendar para outras pessoas.
 	 */
 	private void carragarDadosSeForSindico() {
@@ -150,7 +155,7 @@ public class ReservaController {
 
 	public void recuperarEventos() {
 		reservas.clear();
-		
+
 		if(getAreaSelecionada() != null){
 			List<Reserva> reservasPersistidas = reservaService.recuperarRecentes(getAreaSelecionada());
 			for(Reserva r : reservasPersistidas){
@@ -162,26 +167,26 @@ public class ReservaController {
 		}
 	}
 
-	
+
 	public void onEventSelect(SelectEvent selectEvent) {
         evento = (ScheduleEvent) selectEvent.getObject();
         podeRemoverReserva = verificarSePodeRemoverReserva();
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         mensagemExclusaoReserva = "Tem certeza que você deseja remover a reserva do(a)"+getAreaSelecionada().getNome()+" para o dia "+sdf.format(evento.getStartDate())+"?";
     }
-    
-	
+
+
     public void onDateSelect(SelectEvent selectEvent) throws AppException {
-    	
+
     	if(getAreaSelecionada() == null){
     		return;
     		//throw new AppException("Favor selecionar uma área para efetuar a reserva.");
     	}
     	DataUtil dataUtil = new DataUtil();
-    	    	
+
     	Date dataSelecionada = (Date) selectEvent.getObject();
-    	
+
     	// validar se existe uma reserva para área nessa data.
     	for(ScheduleEvent event : reservas.getEvents()){
     		if(dataUtil.mesmoDiaMesAno(event.getStartDate(), dataSelecionada)){
@@ -191,16 +196,16 @@ public class ReservaController {
     			return;
     		}
     	}
-    	
+
     	Usuario usu = null;
-    	Apartamento aptoAgendamento = apartamentoSelecionado; 
+    	Apartamento aptoAgendamento = apartamentoSelecionado;
     	if(aptoAgendamento == null){
     		usu = usuarioLogado;
     		aptoAgendamento = usu.getApartamento();
     	}
-    	
+
         evento = new DefaultScheduleEvent(montarNomeEvento(usu, aptoAgendamento), dataSelecionada, dataSelecionada);
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String txtArea = " para o(a) "+getAreaSelecionada().getNome();
 		mensagemConfirmacaoReserva = "Você confirma a reserva"+txtArea+" para o dia "+sdf.format(evento.getStartDate())+"?";
@@ -219,7 +224,7 @@ public class ReservaController {
 		}
 		return sb.toString();
 	}
-     
+
 
 	public void salvarReserva() throws AppException {
 		salvar();
@@ -229,39 +234,39 @@ public class ReservaController {
 		} else {
 			reservas.updateEvent(evento);
 		}
-		
+
         evento = new DefaultScheduleEvent();
         this.mensagemConfirmacaoReserva = null;
         mensagemErroReserva = null;
-        
+
         blocoSelecionado = null;
         apartamentoSelecionado = null;
-        
+
         message.addInfo("Sua reserva foi confirmada com sucesso!");
     }
-	
-	
+
+
 	private void enviarEmailConfirmacaoReserva(Usuario usuario, Reserva reserva) {
 		DataUtil dataUtil = new DataUtil();
-		
+
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
 		mapParametrosEmail.put("nome_usuario", usuario.getNomeExibicao());
 		mapParametrosEmail.put("data_reserva", dataUtil.formatarData(reserva.getData().getTime(),"dd/MM/yyyy"));
 		mapParametrosEmail.put("nome_area", reserva.getAreaComum().getNome());
-		
+
 		String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.CONFIRMACAO_RESERVA_AREA.getNomeArquivo(), mapParametrosEmail);
-		
+
 		Email email = new Email(EnumTemplates.PAUTA_ENVIADA.getDe(), usuario.getEmail(), EnumTemplates.CONFIRMACAO_RESERVA_AREA.getAssunto(), msg);
 		enviarEmail.enviar(email);
 	}
-	
+
 	public void mensagemSucesso(){
 		message.addInfo("Sua reserva foi confirmada com sucesso!");
 	}
 
 
 	private void salvar() throws AppException {
-		
+
 		Calendar data = Calendar.getInstance();
 		data.setTime(evento.getStartDate());
 
@@ -270,27 +275,32 @@ public class ReservaController {
 		if(dt.dataEhMaiorQueHoje(data.getTime())){
 			throw new AppException("Não é permitido marcar eventos retroativos.");
 		}
-		
+
+		// caso tenha sido cadastrada alguma instrução para reserva o usuário tem q concordar com o termo.
+		if(StringUtils.isNotBlank(this.areaSelecionada.getInstrucoesReserva()) && !this.isCheckLiEConcordo()){
+			throw new AppException("Para efetuar a reservar você deve ler e concordar com o termo/instrução.");
+		}
+
 		// se data acima do limite deve rolar uma exceção
 		Date dataMaxima = getDataMaximaAgendamento();
 		if(dataMaxima != null && data.getTime().after(dataMaxima)){
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			throw new AppException("A reserva não foi realizada. A data limite para agendamentos é "+sdf.format(dataMaxima)+". ");
 		}
-		
-		Usuario usu = null; 
-		Apartamento aptoAgendamento = apartamentoSelecionado; 
+
+		Usuario usu = null;
+		Apartamento aptoAgendamento = apartamentoSelecionado;
 		if(aptoAgendamento == null){
 			usu = usuarioLogado;
 			aptoAgendamento = usu.getApartamento();
-		} 
-		
+		}
+
 		Reserva reserva = new Reserva();
         reserva.setAreaComum(getAreaSelecionada());
         reserva.setData(data);
         reserva.setUsuario(usu);
         reserva.setApartamento(aptoAgendamento);
-        
+
         try {
 			reservaService.salvar(reserva);
 		} catch (Exception e) {
@@ -301,11 +311,11 @@ public class ReservaController {
         		enviarEmailConfirmacaoReserva(usu, reserva);
         	}
 		} catch (Exception e) {
-			
+
 		}
-      
+
 	}
-	
+
 	public void removerReserva() throws AppException {
         if(evento != null) {
         	try{
@@ -319,8 +329,8 @@ public class ReservaController {
         	}
         }
     }
-	
-	
+
+
 	/**
 	 * Retorna a data máxima permitida para agendamento.
 	 * É considerado o parametro de sistemas id = 2;
@@ -333,20 +343,20 @@ public class ReservaController {
 		}
 		return null;
 	}
-	
-	
+
+
 	public boolean verificarSePodeRemoverReserva() {
 		if(usuarioLogado.isAdministrativo() || usuarioLogado.isSindico()){
 			return Boolean.TRUE;
 		}
-		
+
 		String apto = recuperarAptoDaReserva();
 		String bloco = recuperarBlocoDaReserva();
 		if(usuarioLogado.getApartamento().getNumero().equals(apto)
 				&& usuarioLogado.getApartamento().getBloco().getNome().equals(bloco)){
 			return Boolean.TRUE;
 		}
-				
+
 		return Boolean.FALSE;
 	}
 
@@ -356,9 +366,9 @@ public class ReservaController {
 		emailReserva = emailReserva.substring(1, emailReserva.indexOf("]"));
 		return emailReserva;
 	}
-	
+
 	private String recuperarAptoDaReserva() {
-		String[] arrayTitulo = evento.getTitle().split(" "); 
+		String[] arrayTitulo = evento.getTitle().split(" ");
 		if(arrayTitulo == null && arrayTitulo.length <= 1){
 			return null;
 		}
@@ -367,7 +377,7 @@ public class ReservaController {
 	}
 
 	private String recuperarBlocoDaReserva() {
-		String[] arrayTitulo = evento.getTitle().split("Bloco:"); 
+		String[] arrayTitulo = evento.getTitle().split("Bloco:");
 		if(arrayTitulo == null && arrayTitulo.length <= 1){
 			return null;
 		}
@@ -378,12 +388,12 @@ public class ReservaController {
 		}
 		return bloco.trim();
 	}
-	
+
 	/*  GETTERS e SETTERs	 */
 	public String getMensagemConfirmacaoReserva(){
 		return mensagemConfirmacaoReserva;
 	}
-	
+
 	public Set<AreaComum> getAreas() {
 		return areas;
 	}
@@ -403,7 +413,7 @@ public class ReservaController {
 	public void setAreaSelecionada(AreaComum areaSelecionada) {
 		this.areaSelecionada = areaSelecionada;
 	}
-	
+
 	public Integer getMaximoDiasFuturo(){
 		if(maximoDias != null){
 			return Integer.parseInt(maximoDias.getValor());
@@ -458,6 +468,18 @@ public class ReservaController {
 	public List<Bloco> getBlocos() {
 		return blocos;
 	}
-		
-	
+
+	public boolean isCheckLiEConcordo() {
+		return checkLiEConcordo;
+	}
+
+	public void setCheckLiEConcordo(boolean checkLiEConcordo) {
+		//this.checkLiEConcordo = checkLiEConcordo;
+	}
+
+
+	public void changeValueLiConcordo(){
+		this.checkLiEConcordo = !this.checkLiEConcordo;
+	}
+
 }

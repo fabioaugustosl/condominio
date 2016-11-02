@@ -37,6 +37,9 @@ public class EnviarEmailPadrao implements EnviarEmail {
 				String host = InetAddress.getLocalHost().getHostAddress();
 				if("127.0.0.1".equals(host)
 						|| "192.168.1.3".equals(host)
+						|| "192.168.1.4".equals(host)
+						|| "192.168.0.5".equals(host)
+						|| "192.168.1.5".equals(host)
 						|| "192.168.1.6".equals(host)
 						|| "192.168.1.8".equals(host)){
 					sessaoEmail = getSessao();
@@ -46,7 +49,7 @@ public class EnviarEmailPadrao implements EnviarEmail {
 			} catch (UnknownHostException e1) {
 				sessaoEmail = getSessaoAWS();
 			}
-        	getSessaoAWS();
+        	//getSessaoAWS();
             MimeMessage m = new MimeMessage(sessaoEmail);
             Address de = new InternetAddress(email.getDe());
             Address[] para = InternetAddress.parse(email.getParaToString());

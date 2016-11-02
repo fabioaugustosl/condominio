@@ -17,7 +17,7 @@ import br.com.virtz.condominio.exception.ParametroObrigatorioNuloException;
 
 @Local
 public interface IVotacaoService {
-	
+
 	public Votacao criarNovaVotacao(Usuario usuario, Condominio condominio, EnumTipoVotacao tipoVotacao, String assunto);
 	public boolean salvarVotacao(Votacao votacao);
 	public boolean votar(Voto voto) throws AppException;
@@ -38,7 +38,9 @@ public interface IVotacaoService {
 	public List<Voto> recuperarTodosVotos(Long idVotacao) throws AppException;
 	public void marcarEmailJaEnviado(Long idVotacao) throws AppException;
 	public List<Votacao> recuperarVotacoesEncerradasSemEnvioDeEmail();
+	public List<Votacao> recuperarVotacoesNovasSemEnvioDeEmail();
 	public void removerOpcaoImagem(OpcaoVotacaoComImagem opcao);
-	
+	public void marcarEmailNovaVotacaoJaEnviado(Long idVotacao) throws AppException;
+
 }
 

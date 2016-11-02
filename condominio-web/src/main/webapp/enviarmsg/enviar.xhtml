@@ -24,6 +24,34 @@
 		        	maxlength="10000"
 		        	controls="bold italic underline font size color style numbering alignleft center alignright justify undo redo image link cut copy paste indent" />
 	        	<br />
+	        	
+	        	<p:outputPanel id="painelArquivo" >
+	        
+		        <p:outputLabel value="Anexar arquivo:" styleClass="labelPadrao" /><br />
+		      
+		        <p:fileUpload rendered="#{enviarMensagemUsuarioController.nomeArqAnexo == null}"
+				        mode="advanced" update="painelArquivo" label="Selecionar arquivo" styleClass="dataArquivosMenorEsquerda"
+				        fileUploadListener="#{enviarMensagemUsuarioController.uploadArquivo}"
+				        allowTypes="/(\.|\/)(pdf|PDF|doc|DOC|docx|DOCX|xlsx|xls|XLSX|XLS|txt|JPG|PNG)$/" 
+				        invalidFileMessage="Tipo do arquivo inválido"
+				        invalidSizeMessage="Tamanho do arquivo inválido"
+				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. " 
+				        auto="true" dragDropSupport="false" />
+				<br />
+				<p:outputPanel rendered="#{enviarMensagemUsuarioController.nomeArqAnexo != null}"
+					styleClass="dataArquivosMenorEsquerda containerArquivoSimples" >
+					<p:outputLabel value="Arquivo: "></p:outputLabel>
+					<p:outputLabel value="#{enviarMensagemUsuarioController.nomeArqAnexo}" style="margin-left:10px;"></p:outputLabel>
+					
+					<p:commandLink actionListener="#{enviarMensagemUsuarioController.removerArquivo}"
+					style="float:right; "  
+		         			id="removerArq" immediate="true" update="painelArquivo"  >
+		         		<p:graphicImage id="imgDeletarNot" url="/img/icones/deletar.png" title="Clique para deletar esse arquivo." />
+		         	</p:commandLink>
+		         	
+				</p:outputPanel>
+			</p:outputPanel>
+			<br/>
 	        	<p:commandButton id="enviarEmail" value="Enviar"
 	        		styleClass="botao" 
 	        		process="campoAssunto, editorCorpoEmail :form:dtListagemUsuarios, @this" 

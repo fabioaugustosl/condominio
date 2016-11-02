@@ -14,7 +14,6 @@ import br.com.virtz.condominio.dao.IRecebidoDAO;
 import br.com.virtz.condominio.entidades.Apartamento;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Recebido;
-import br.com.virtz.condominio.entidades.Visitante;
 import br.com.virtz.condominio.exception.AppException;
 
 @Stateless
@@ -22,15 +21,15 @@ public class RecebidoService implements IRecebidoService {
 
 	@EJB
 	private IRecebidoDAO recebidoDAO;
-	
+
 	@EJB
 	private IApartamentoDAO apartamentoDAO;
-	
+
 	@EJB
 	private ICondominioDAO condominioDAO;
-	
-	
-	
+
+
+
 	@Override
 	public List<Recebido> recuperarPorApartamento(Long idApartamento) {
 		if(idApartamento == null){
@@ -55,11 +54,11 @@ public class RecebidoService implements IRecebidoService {
 			if(idApartamento == null){
 				throw new AppException("É necessário informar o apartamento que recebeu a encomenda.");
 			}
-			
+
 			if(idCondominio == null){
 				throw new AppException("É necessário informar o condomínio que recebeu a correspondência.");
 			}
-			
+
 			Apartamento apto = apartamentoDAO.recuperarPorId(idApartamento);
 			Condominio cond = condominioDAO.recuperarPorId(idCondominio);
 			Recebido recebido = new Recebido();
@@ -68,12 +67,12 @@ public class RecebidoService implements IRecebidoService {
 			recebido.setComentario(comentario);
 			recebido.setData(new Date());
 			recebido.setTipoRecebido(EnumTipoRecebido.ENCOMENDA);
-			
+
 			recebidoDAO.salvar(recebido);
 		} catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar a encomenda.");
 		}
-		
+
 	}
 
 
@@ -83,11 +82,11 @@ public class RecebidoService implements IRecebidoService {
 			if(idApartamento == null){
 				throw new AppException("É necessário informar o apartamento que recebeu a correspondência.");
 			}
-			
+
 			if(idCondominio == null){
 				throw new AppException("É necessário informar o condomínio que recebeu a correspondência.");
 			}
-			
+
 			Apartamento apto = apartamentoDAO.recuperarPorId(idApartamento);
 			Condominio cond = condominioDAO.recuperarPorId(idCondominio);
 			Recebido recebido = new Recebido();
@@ -96,7 +95,7 @@ public class RecebidoService implements IRecebidoService {
 			recebido.setComentario(comentario);
 			recebido.setData(new Date());
 			recebido.setTipoRecebido(EnumTipoRecebido.CORRESPONDENCIA);
-			
+
 			recebidoDAO.salvar(recebido);
 		} catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar a correspondência.");
@@ -131,19 +130,19 @@ public class RecebidoService implements IRecebidoService {
 		if(idRecebido == null){
 			throw new AppException("O recebido é obrigatório.");
 		}
-		
+
 		Recebido r = recebidoDAO.recuperarPorId(idRecebido);
-		
+
 		r.setDataRetirada(new Date());
 		r.setPessoaRetirada(nomePessoa);
-		
+
 		try {
 			recebidoDAO.salvar(r);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AppException("Ocorreu um erro ao salvar a retirado da encomenda/correspondência.");
 		}
-		
+
 	}
 
 
@@ -151,7 +150,7 @@ public class RecebidoService implements IRecebidoService {
 	public List<Recebido> recuperarPorCondominioPaginado(Long idCondominio, int inicio, int qtdRegistros) {
 		return recebidoDAO.recuperarPaginado(idCondominio, inicio, qtdRegistros);
 	}
-	
+
 	@Override
 	public List<Recebido> recuperarPorApartamentoPaginado(Long idApartamento, int inicio, int qtdRegistros) {
 		return recebidoDAO.recuperarPaginadoApto(idApartamento, inicio, qtdRegistros);
@@ -159,14 +158,14 @@ public class RecebidoService implements IRecebidoService {
 
 
 	@Override
-	public int totalVisitantes(Long idCondominio) {
+	public int total(Long idCondominio) {
 		return recebidoDAO.totalRecebidos(idCondominio);
 	}
-	
+
 	@Override
 	public int totalVisitantesApto(Long idApartamento) {
 		return recebidoDAO.totalRecebidosApto(idApartamento);
 	}
 
-	
+
 }

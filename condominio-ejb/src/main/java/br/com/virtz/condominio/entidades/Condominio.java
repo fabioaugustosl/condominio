@@ -18,15 +18,20 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang.StringUtils;
+
 @Entity(name="condominio")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Condominio.recuperarPorCidade", 
+	@NamedQuery(name = "Condominio.recuperarPorCidade",
 			query = "Select c FROM condominio c WHERE c.cidade.id = :idCidade AND ehTeste = 0 ")
 })
 public class Condominio extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final String TIPO_VERTICAL = "VERTICAL";
+	public static final String TIPO_HORIZONTAL = "HORIZONTAL";
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,34 +70,37 @@ public class Condominio extends Entidade implements Serializable {
 
 	@Column(name = "telefone", length = 20)
 	private String telefone;
-	
+
 	@Column(name = "cnpj", length = 20)
 	private String cnpj;
 
 	@ManyToOne
 	@JoinColumn(name = "idCidade")
 	private Cidade cidade;
-	
+
 	@Column(name = "email", length = 100)
 	private String email;
-	
+
 	@OneToOne(mappedBy = "condominio")
 	private AcessoCFTV cftv;
-	
-	
+
+	@Column(name = "tipoCondominio", length = 20)
+	private String tipoCondominio;
+
+
 	// parte financeira
 	@Column(name = "valorCondominioMes")
 	private Double valorCondominioMes;
-	
+
 	@Column(name = "multaAposVencimento")
 	private boolean multaAposVencimento;
-	
+
 	@Column(name = "jurosAposVencimento")
 	private boolean jurosAposVencimento;
-	
+
 	@Column(name = "indTeste")
 	private Boolean ehTeste;
-	
+
 
 	public Long getId() {
 		return id;
@@ -253,5 +261,26 @@ public class Condominio extends Entidade implements Serializable {
 	public void setCftv(AcessoCFTV cftv) {
 		this.cftv = cftv;
 	}
-	
+
+	public String getTipoCondominio() {
+		return tipoCondominio;
+	}
+
+	public void setTipoCondominio(String tipoCondominio) {
+		this.tipoCondominio = tipoCondominio;
+	}
+
+	public boolean condominioEhVertical(){
+		if(StringUtils.isBlank(this.tipoCondominio) || TIPO_VERTICAL.equals(this.tipoCondominio)){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+
+	public boolean condominioEhHorizontal(){
+		if(TIPO_HORIZONTAL.equals(this.tipoCondominio)){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
 }

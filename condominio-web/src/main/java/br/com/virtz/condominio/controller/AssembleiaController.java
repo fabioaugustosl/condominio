@@ -40,79 +40,79 @@ public class AssembleiaController {
 
 	@EJB
 	private IAssembleiaService assembleiaService;
-	
+
 	@EJB
 	private IUsuarioService usuarioService;
-	
+
 	@Inject
 	private MessageHelper messageHelper;
-	
+
 	@Inject
 	private SessaoUsuario sessao;
-	
+
 	@Inject
 	private IArquivosUtil arquivoUtil;
 
 	@Inject
 	private LeitorTemplate leitor;
-	
+
 	@EJB
 	private EnviarEmail enviarEmail;
-	
+
 	@EJB
 	private ITokenService tokenService;
-	
+
 	@Inject
 	private EnviarEmailSuporteController emailSuporte;
-	
+
 	private List<Assembleia> assembleias;
 	private Assembleia assembleiaSelecionada;
 	private String textoPauta = null;
-	
+
 	private Usuario usuario = null;
 
-	
-	
+
+
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
-		assembleias = listarTodos(); 
+		assembleias = listarTodos();
 	}
-	
-	
+
+
 	public List<Assembleia> listarTodos(){
 		List<Assembleia> lista =  assembleiaService.recuperarAssembleiasNaoRealizadas(usuario.getCondominio().getId());
 		return lista;
 	}
-	
-	
+
+
 	public void novaPauta() throws AppException{
 		if(StringUtils.isNotBlank(textoPauta)){
 			try {
 				PautaAssembleia pauta = assembleiaService.novaPauta(assembleiaSelecionada.getId(), textoPauta, usuario);
 				messageHelper.addInfo("Pauta enviada com sucesso! Aguarde até o sindico aprová-la.");
-				
+
 				try{
 					enviarEmailPautaParaSindico(usuario, textoPauta, assembleiaSelecionada, pauta);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
-				
+
 				textoPauta = null;
 				assembleiaSelecionada = null;
-				
+
 			} catch (ErroAoSalvar e) {
 				try{
 					emailSuporte.enviarEmail("Ocorreu um erro ao inserir nova pauta.", e.getMessage(), usuario.getCondominio().getId());
 				}catch(Exception e1){
 				}
 				throw new AppException(e.getMessage());
-				
+
 			}
 		}
 	}
-	
-	
+
+
 	private void enviarEmailPautaParaSindico(Usuario usuario, String txtPauta, Assembleia assembleia, PautaAssembleia pauta) {
 		Token token = null;
 		StringBuffer sb = null;
@@ -120,56 +120,56 @@ public class AssembleiaController {
 			token = tokenService.novoToken(pauta.getId().toString());
 			// recuperar url da aplicação
 			HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-			sb = origRequest.getRequestURL().delete(origRequest.getRequestURL().indexOf("portal.faces"), origRequest.getRequestURL().toString().length()); 
+			sb = origRequest.getRequestURL().delete(origRequest.getRequestURL().indexOf("portal.faces"), origRequest.getRequestURL().toString().length());
 			sb.append("assembleia/confirmarAprovacaoPauta.faces?token=").append(token.getToken());
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		DataUtil dataUtil = new DataUtil();
-		
+
 		List<Usuario> sindicos = usuarioService.recuperarSindicos(usuario.getCondominio().getId());
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
 		if(sindicos != null){
 			for(Usuario sindico : sindicos){
 				Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
-				mapParametrosEmail.put("nome_sindico", usuario.getNomeExibicao());
+				mapParametrosEmail.put("nome_sindico", sindico.getNomeExibicao());
 				mapParametrosEmail.put("data_assembleia", dataUtil.formatarData(assembleia.getData(),"dd/MM/yyyy"));
-				mapParametrosEmail.put("nome_usuario", usuario.getNome());
+				mapParametrosEmail.put("nome_usuario", usuario.getNomeExibicao());
 				mapParametrosEmail.put("msg", txtPauta);
 				if(sb != null){
 					mapParametrosEmail.put("link", sb.toString());
 				} else {
 					mapParametrosEmail.put("link", " - Nâo foi possível gerar o link - ");
 				}
-				
+
 				String msg = leitor.processarTemplate(caminho, EnumTemplates.PAUTA_ENVIADA.getNomeArquivo(), mapParametrosEmail);
-				
+
 				Email email = new Email(EnumTemplates.PAUTA_ENVIADA.getDe(), sindico.getEmail(), EnumTemplates.PAUTA_ENVIADA.getAssunto(), msg);
 				enviarEmail.enviar(email);
 			}
 		}
 	}
-	
-	
+
+
 	public void resetPauta(){
 		textoPauta = null;
 	}
-	
+
 	public boolean possuiAssembleiaAgendada(){
 		if(assembleias == null || assembleias.isEmpty()){
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;
 	}
-	
-	
+
+
 	public void verPautas() {
         RequestContext.getCurrentInstance().openDialog("dialogVerPautas");
     }
-	
-	 
+
+
 	// GETTERS E SETTERS
 	public List<Assembleia> getAssembleias() {
 		return assembleias;
@@ -194,6 +194,6 @@ public class AssembleiaController {
 	public void setTextoPauta(String textoPauta) {
 		this.textoPauta = textoPauta;
 	}
-	 
-		
+
+
 }

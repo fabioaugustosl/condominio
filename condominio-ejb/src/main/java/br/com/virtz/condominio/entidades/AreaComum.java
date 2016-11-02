@@ -36,11 +36,11 @@ public class AreaComum extends Entidade implements Serializable {
 
 	@Column(name = "podeSerReservado")
 	private boolean podeSerReservado;
-	
+
 	@Column(name = "taxaReserva")
 	private Double taxaReserva;
 
-	@Column(name = "instrucoesReserva")
+	@Column(name = "instrucoesReserva", length=4800)
 	private String instrucoesReserva;
 
 	@Column(name = "dataAbertura")
@@ -120,5 +120,5 @@ public class AreaComum extends Entidade implements Serializable {
 	public void setTaxaReserva(Double taxaReserva) {
 		this.taxaReserva = taxaReserva;
 	}
-	
+
 }

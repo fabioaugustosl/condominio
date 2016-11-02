@@ -12,7 +12,7 @@ import freemarker.template.TemplateException;
 
 public class GerarTemplate implements IGerarTemplate {
 	private Configuration cfg;
-	
+
 	public GerarTemplate() {
 		super();
 		cfg = new Configuration();
@@ -20,7 +20,7 @@ public class GerarTemplate implements IGerarTemplate {
 
 	public String gerar(Map<Object, Object> map, File directoryForTemplateLoading, String templateName) throws Exception  {
 		// diretório onde estão templates
-		
+
 		if(directoryForTemplateLoading == null || templateName == null){
 			throw new Exception("Todos os atributos são obrigatórios.");
 		}
