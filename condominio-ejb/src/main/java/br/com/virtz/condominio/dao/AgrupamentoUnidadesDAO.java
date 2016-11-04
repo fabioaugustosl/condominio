@@ -17,5 +17,12 @@ public class AgrupamentoUnidadesDAO extends DAO<AgrupamentoUnidades> implements 
 		return qry.getResultList();
 	}
 
+	@Override
+	public boolean condominioPossuiAgrupamento(Long idCondominio) {
+		Query qry = getEntityManager().createNamedQuery("AgrupamentoUnidades.condominioPossuiAgrupamento");
+		qry.setParameter("idCondominio", idCondominio);
+		return ((Long)qry.getSingleResult()) > 1 ? true : false;
+	}
+
 
 }

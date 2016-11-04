@@ -50,7 +50,7 @@ public class Bloco extends Entidade implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name="idAgrupamentoUnidades", nullable=true)
-	private AgrupamentoUnidades agraupamentoUnidades;
+	private AgrupamentoUnidades agrupamentoUnidades;
 
 	@OneToMany(mappedBy="bloco", cascade = CascadeType.ALL)
 	private List<Apartamento> apartamentos;
@@ -108,12 +108,12 @@ public class Bloco extends Entidade implements Serializable {
 		this.quantidadeAndares = quantidadeAndares;
 	}
 
-	public AgrupamentoUnidades getAgraupamentoUnidades() {
-		return agraupamentoUnidades;
+	public AgrupamentoUnidades getAgrupamentoUnidades() {
+		return agrupamentoUnidades;
 	}
 
-	public void setAgraupamentoUnidades(AgrupamentoUnidades agraupamentoUnidades) {
-		this.agraupamentoUnidades = agraupamentoUnidades;
+	public void setAgrupamentoUnidades(AgrupamentoUnidades agrupamentoUnidades) {
+		this.agrupamentoUnidades = agrupamentoUnidades;
 	}
 
 

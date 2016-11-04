@@ -38,8 +38,21 @@
 	 	</p:outputPanel>
 	 	
 	 	<p:outputPanel id="containerSelecionarUsuario" rendered="#{principalController.ehSindico() || principalController.ehAdministrativo()}" style="margin-left:10%">
+		 	<p:outputPanel id="containerComboAgrupamento" rendered="#{reservaController.condominoPossuiAgrupamento &amp;&amp; empty reservaController.agrupamentoSelecionado}" >
+				<p:outputLabel value="Selecione o #{principalController.condominio.nomeNivelAgrupamento2} da pessoa que está fazendo a reserva:" styleClass="labelPadrao" ></p:outputLabel>
+				<br />
+			 	<p:selectOneMenu id="comboAgrupamento"  style="width:400px;"
+			 		styleClass="selectPadrao"
+			 			value="#{reservaController.agrupamentoSelecionado}" 
+						converter="converterEntityById"  >
+			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+			 		<f:selectItems value="#{reservaController.agrupamentos}" var="agrupamento" itemLabel="#{agrupamento.nome}" itemValue="#{agrupamento}" />
+			 		<p:ajax event="change" update="containerComboBloco"  />
+			 	</p:selectOneMenu>
+			 </p:outputPanel>
+			 
 		 	<p:outputPanel id="containerComboBloco" rendered="#{empty reservaController.blocoSelecionado}" >
-				<p:outputLabel value="Selecione o bloco da pessoa que está fazendo a reserva:" styleClass="labelPadrao" ></p:outputLabel>
+				<p:outputLabel value="Selecione o #{principalController.condominio.nomeNivelAgrupamento1} da pessoa que está fazendo a reserva:" styleClass="labelPadrao" ></p:outputLabel>
 				<br />
 			 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
 			 		styleClass="selectPadrao"
@@ -53,13 +66,13 @@
 			 	
 		 	<p:outputPanel id="containerComboApartamentos" >
 			 	<p:outputPanel id="containerComboApartamentosInterno" rendered="#{not empty reservaController.blocoSelecionado}" >
-			 		<p:outputLabel value="Selecione o apartamento:" styleClass="labelPadrao"></p:outputLabel>
+			 		<p:outputLabel value="Selecione o #{principalController.condominio.nomeUnidade}:" styleClass="labelPadrao"></p:outputLabel>
 			 		<br />
 				 	<p:selectOneMenu id="comboApartamentos"  style="width:400px;"
 				 			value="#{reservaController.apartamentoSelecionado}"
 				 			styleClass="selectPadrao" 
 							converter="converterEntityById" required="true"
-							requiredMessage="Favor selecionar o apartamento." >
+							requiredMessage="Favor selecionar o #{principalController.condominio.nomeUnidade}." >
 				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 				 		<f:selectItems value="#{reservaController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
 				 	</p:selectOneMenu>

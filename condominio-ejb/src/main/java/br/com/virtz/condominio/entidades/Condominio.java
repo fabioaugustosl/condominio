@@ -84,8 +84,17 @@ public class Condominio extends Entidade implements Serializable {
 	@OneToOne(mappedBy = "condominio")
 	private AcessoCFTV cftv;
 
-	@Column(name = "tipoCondominio", length = 20)
+	@Column(name = "nomeUnidade", length = 20)
+	private String nomeUnidade;
+
+	@Column(name = "tipoCondominio", length = 50)
 	private String tipoCondominio;
+
+	@Column(name = "nomeNivelAgrupamento1", length = 50)
+	private String nomeNivelAgrupamento1;
+
+	@Column(name = "nomeNivelAgrupamento2", length = 50)
+	private String nomeNivelAgrupamento2;
 
 
 	// parte financeira
@@ -283,4 +292,29 @@ public class Condominio extends Entidade implements Serializable {
 		}
 		return Boolean.FALSE;
 	}
+
+	public String getNomeUnidade() {
+		return nomeUnidade;
+	}
+
+	public void setNomeUnidade(String nomeUnidade) {
+		this.nomeUnidade = nomeUnidade;
+	}
+
+	public String getNomeNivelAgrupamento1() {
+		return nomeNivelAgrupamento1;
+	}
+
+	public void setNomeNivelAgrupamento1(String nomeNivelAgrupamento1) {
+		this.nomeNivelAgrupamento1 = nomeNivelAgrupamento1;
+	}
+
+	public String getNomeNivelAgrupamento2() {
+		return nomeNivelAgrupamento2;
+	}
+
+	public void setNomeNivelAgrupamento2(String nomeNivelAgrupamento2) {
+		this.nomeNivelAgrupamento2 = nomeNivelAgrupamento2;
+	}
+
 }

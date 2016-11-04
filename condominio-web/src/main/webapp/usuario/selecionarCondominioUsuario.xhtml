@@ -50,12 +50,29 @@
 					 converter="converterEntityById"  >
 			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 			 		<f:selectItems value="#{selecionarCondominioUsuarioController.condominios}" var="cond" itemLabel="#{cond.nome}" itemValue="#{cond}" />
-			 		<p:ajax event="change" update="containerComboBloco" listener="#{selecionarCondominioUsuarioController.recuperarBlocos}" />
+			 		<p:ajax event="change" update="containerComboAgrupamento containerComboBloco" listener="#{selecionarCondominioUsuarioController.recuperarBlocos}" />
 			 	</p:selectOneMenu>
 			 	
+				<p:outputPanel id="containerComboAgrupamento" >
+					<p:outputPanel id="containerComboAgrupamentoInterno" rendered="#{selecionarCondominioUsuarioController.condominioPossuiAgrupamento}" >
+						<br />
+						<p:outputLabel rendered="#{not empty selecionarCondominioUsuarioController.condominioSelecionado}" value="Selecione seu #{selecionarCondominioUsuarioController.condominioSelecionado.nomeNivelAgrupamento2}:"></p:outputLabel>
+						<br />
+					 	<p:selectOneMenu id="comboAgrupamento" 
+					 			rendered="#{not empty selecionarCondominioUsuarioController.condominioSelecionado}" 
+					 			value="#{selecionarCondominioUsuarioController.blocoSelecionado}" 
+								converter="converterEntityById"  
+								styleClass="selectPadrao">
+					 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+					 		<f:selectItems value="#{selecionarCondominioUsuarioController.agrupamentos}" var="agrupamento" itemLabel="#{agrupamento.nome}" itemValue="#{agrupamento}" />
+					 		<p:ajax event="change" update="containerComboBloco" listener="#{selecionarCondominioUsuarioController.recuperarBlocos}" />
+					 	</p:selectOneMenu>
+					 </p:outputPanel>
+				 </p:outputPanel>
+				 
 				<br />
 				<p:outputPanel id="containerComboBloco" >
-					<p:outputLabel rendered="#{not empty selecionarCondominioUsuarioController.condominioSelecionado}" value="Selecione seu bloco:"></p:outputLabel>
+					<p:outputLabel rendered="#{not empty selecionarCondominioUsuarioController.condominioSelecionado}" value="Selecione seu #{selecionarCondominioUsuarioController.condominioSelecionado.nomeNivelAgrupamento1}:"></p:outputLabel>
 					<br />
 				 	<p:selectOneMenu id="comboBloco" 
 				 			rendered="#{not empty selecionarCondominioUsuarioController.condominioSelecionado}" 

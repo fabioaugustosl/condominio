@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 
 import br.com.virtz.boleto.bean.EnumBanco;
 import br.com.virtz.condominio.dao.IAcessoCFTVDAO;
+import br.com.virtz.condominio.dao.IAgrupamentoUnidadesDAO;
 import br.com.virtz.condominio.dao.IAreaComumDAO;
 import br.com.virtz.condominio.dao.IBlocoDAO;
 import br.com.virtz.condominio.dao.IBoletoExternoDAO;
@@ -16,6 +17,7 @@ import br.com.virtz.condominio.dao.ICidadeDAO;
 import br.com.virtz.condominio.dao.ICondominioDAO;
 import br.com.virtz.condominio.dao.IContaBancariaDAO;
 import br.com.virtz.condominio.entidades.AcessoCFTV;
+import br.com.virtz.condominio.entidades.AgrupamentoUnidades;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.entidades.BoletoExterno;
@@ -30,25 +32,28 @@ public class CondominioService implements ICondominioService {
 
 	@EJB
 	private ICondominioDAO condominioDAO;
-	
+
 	@EJB
 	private ICidadeDAO cidadeDAO;
-	
+
+	@EJB
+	private IAgrupamentoUnidadesDAO agrupamentoDAO;
+
 	@EJB
 	private IBlocoDAO blocoDAO;
-	
+
 	@EJB
 	private IContaBancariaDAO contaBancariaDAO;
-	
+
 	@EJB
 	private IAreaComumDAO areaComumDAO;
-	
+
 	@EJB
 	private IAcessoCFTVDAO cftvDAO;
-	
+
 	@EJB
 	private IBoletoExternoDAO boletoExternoDAO;
-	
+
 
 	@Override
 	public List<Condominio> recuperarTodos() {
@@ -96,7 +101,7 @@ public class CondominioService implements ICondominioService {
 	@Override
 	public void removerAreaComum(Long id) {
 		//TODO : validar se a area possui alguma reserva para ela.
-		
+
 		areaComumDAO.remover(id);
 	}
 
@@ -113,16 +118,16 @@ public class CondominioService implements ICondominioService {
 	@Override
 	public List<Bloco> recuperarTodosBlocosComApartamentos(Long idCondominio) {
 		List<Bloco> blocos = blocoDAO.recuperarComApartamentos(idCondominio);
-		
+
 		if(blocos != null){
 			for(Bloco b : blocos){
 				Collections.sort(b.getApartamentos());
 			}
 		}
-		
+
 		return blocos;
 	}
-	
+
 	@Override
 	public List<Bloco> sugerirBlocos(int quantidadeBlocos, Condominio condominio){
 		List<Bloco> blocos = new ArrayList<Bloco>();
@@ -140,8 +145,8 @@ public class CondominioService implements ICondominioService {
 	public Bloco recuperarBloco(Long idBloco) {
 		return blocoDAO.recuperarBlocoCompleto(idBloco);
 	}
-	
-	
+
+
 	@Override
 	public ContaBancariaCondominio recuperarContaBancariaCondominioPrincipal(Long idCondominio) {
 		List<ContaBancariaCondominio> contas =  contaBancariaDAO.recuperarPorCondominio(idCondominio);
@@ -150,7 +155,7 @@ public class CondominioService implements ICondominioService {
 		}
 		return contas.get(0);
 	}
-	
+
 
 	@Override
 	public void salvarContaBancariaCondominioPrincipal(
@@ -165,34 +170,34 @@ public class CondominioService implements ICondominioService {
 		conta.setBanco(banco);
 		conta.setDigitoAgencia(digitoAgencia);
 		conta.setCodigoCarteira(codigoCarteira);
-		
+
 		try {
 			contaBancariaDAO.salvar(conta);
 		} catch (Exception e) {
 			throw new AppException("Erro ao salvar");
 		}
 	}
-	
-	
+
+
 	@Override
 	public ContaBancariaCondominio salvarContaBancariaCondominioPrincipal(ContaBancariaCondominio conta) throws AppException {
 		if(conta == null){
 			return null;
 		}
-		
+
 		try {
 			return contaBancariaDAO.salvar(conta);
 		} catch (Exception e) {
 			throw new AppException("Erro ao salvar");
 		}
 	}
-	
+
 
 	@Override
 	public AcessoCFTV recuperarCFTV(Long idCondominio) {
 		return cftvDAO.recuperar(idCondominio);
 	}
-	
+
 
 	@Override
 	public AcessoCFTV salvarAcessoCFTV(AcessoCFTV cftv) throws Exception {
@@ -213,6 +218,20 @@ public class CondominioService implements ICondominioService {
 	public void removerBoletoExterno(Long idBoletoExterno) throws Exception {
 		boletoExternoDAO.remover(idBoletoExterno);
 	}
-	
-	
+
+	@Override
+	public List<AgrupamentoUnidades> recuperarTodosAgrupamentos(Long idCondominio) {
+		return agrupamentoDAO.recuperarComBlocos(idCondominio);
+	}
+
+	@Override
+	public AgrupamentoUnidades recuperarAgrupamento(Long idAgrupamento) {
+		return agrupamentoDAO.recuperarPorId(idAgrupamento);
+	}
+
+	@Override
+	public boolean condominioPossuiAgrupamento(Long idCondominio) {
+		return agrupamentoDAO.condominioPossuiAgrupamento(idCondominio);
+	}
+
 }

@@ -13,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,6 +28,7 @@ import br.com.virtz.condominio.constantes.EnumParametroSistema;
 import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
+import br.com.virtz.condominio.entidades.AgrupamentoUnidades;
 import br.com.virtz.condominio.entidades.Apartamento;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
@@ -95,8 +95,10 @@ public class ReservaController {
 	private String mensagemExclusaoReserva = null;
 
 	private List<Bloco> blocos = null;
+	private List<AgrupamentoUnidades> agrupamentos = null;
 	private Bloco blocoSelecionado;
 	private Apartamento apartamentoSelecionado;
+	private AgrupamentoUnidades agrupamentoSelecionado;
 
 
 	@PostConstruct
@@ -123,6 +125,11 @@ public class ReservaController {
 			areaSelecionada = areas.iterator().next();
 			recuperarEventos();
 		}
+
+		if(principalController.condominioPossuiAgrupamento()){
+			agrupamentos = condominioService.recuperarTodosAgrupamentos(usuarioLogado.getCondominio().getId());
+		}
+
 		checkLiEConcordo = false;
 	}
 
@@ -389,6 +396,11 @@ public class ReservaController {
 		return bloco.trim();
 	}
 
+	public boolean condominoPossuiAgrupamento(){
+		return principalController.condominioPossuiAgrupamento();
+	}
+
+
 	/*  GETTERS e SETTERs	 */
 	public String getMensagemConfirmacaoReserva(){
 		return mensagemConfirmacaoReserva;
@@ -477,7 +489,17 @@ public class ReservaController {
 		//this.checkLiEConcordo = checkLiEConcordo;
 	}
 
+	public AgrupamentoUnidades getAgrupamentoSelecionado() {
+		return agrupamentoSelecionado;
+	}
 
+	public void setAgrupamentoSelecionado(AgrupamentoUnidades agrupamentoSelecionado) {
+		this.agrupamentoSelecionado = agrupamentoSelecionado;
+	}
+
+	public List<AgrupamentoUnidades> getAgrupamentos() {
+		return agrupamentos;
+	}
 	public void changeValueLiConcordo(){
 		this.checkLiEConcordo = !this.checkLiEConcordo;
 	}

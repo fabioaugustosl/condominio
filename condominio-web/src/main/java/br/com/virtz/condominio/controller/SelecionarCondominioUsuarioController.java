@@ -16,11 +16,11 @@ import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
+import br.com.virtz.condominio.entidades.AgrupamentoUnidades;
 import br.com.virtz.condominio.entidades.Apartamento;
 import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.entidades.Cidade;
 import br.com.virtz.condominio.entidades.Condominio;
-import br.com.virtz.condominio.entidades.Token;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.ICondominioService;
@@ -31,86 +31,103 @@ import br.com.virtz.condominio.util.NavigationPage;
 @ManagedBean
 @ViewScoped
 public class SelecionarCondominioUsuarioController {
-	
+
 	@EJB
 	private IUsuarioService usuarioService;
-	
+
 	@EJB
 	private ICondominioService condominioService;
-	
+
 	@Inject
 	private NavigationPage navegacao;
-	
+
 	@Inject
 	private IArquivosUtil arquivoUtil;
 
 	@Inject
 	private LeitorTemplate leitor;
-	
+
 	@EJB
 	private EnviarEmail enviarEmail;
-	
+
 
 	private boolean condominioExistente = Boolean.FALSE;
 	private boolean sucesso = Boolean.FALSE;
-	
+
 	private List<Condominio> condominios = null;
 	private List<Bloco> blocos = null;
 	private Condominio condominioSelecionado;
 	private Bloco blocoSelecionado;
 	private Apartamento apartamentoSelecionado;
-	
+
+	private boolean condominioPossuiAgrupamento = false;
+	private AgrupamentoUnidades agrupamentoSelecionado;
+
+	private List<AgrupamentoUnidades> agrupamentos;
 	private List<Cidade> cidades;
 	private Cidade cidadeSelecionada;
-	
+
 	private Usuario usuario = null;
-	
-	
+
+
 	@PostConstruct
 	public void init(){
 		Object usuarioEditar = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idUsuario");
 		usuario = usuarioService.recuperarUsuarioCompleto(Long.parseLong(usuarioEditar.toString()));
-				
+
 		// se o usuário for o primeiro usuário do condominio
 		if(usuario.getCondominio() != null){
 			condominioExistente = Boolean.TRUE;
 		}
-		
+
 		cidades = condominioService.cidadesQuePossuemCondominioCadastrado();
 		Collections.sort(cidades);
+
 		cidadeSelecionada = null;
 		condominioSelecionado = null;
 		blocoSelecionado = null;
 		apartamentoSelecionado = null;
-				
+		agrupamentoSelecionado = null;
 	}
-	
-	
+
 	public void recuperarCondominios(){
 		if(this.cidadeSelecionada != null){
 			condominios = condominioService.recuperarPorCidade(this.cidadeSelecionada.getId());
 		}
 	}
-	
-	
+
+	public void recuperarProximoNivel(){
+		if(this.condominioSelecionado != null){
+			condominioPossuiAgrupamento = condominioService.condominioPossuiAgrupamento(this.condominioSelecionado.getId());
+			if(condominioPossuiAgrupamento){
+				recuperarAgrupamentos();
+			}else{
+				recuperarBlocos();
+			}
+		}
+	}
+
 	public void recuperarBlocos(){
 		if(this.condominioSelecionado != null){
 			blocos = condominioService.recuperarTodosBlocosComApartamentos(this.condominioSelecionado.getId());
 		}
 	}
-	
-	
+
+	public void recuperarAgrupamentos(){
+		if(this.condominioSelecionado != null){
+			agrupamentos = condominioService.recuperarTodosAgrupamentos(this.condominioSelecionado.getId());
+		}
+	}
+
 	public void cadastrarCondominio(){
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idUsuario", usuario.getId());
 		navegacao.redirectToPage("/condominio/cadastrarCondominio.faces");
 	}
-	
-	
+
 	public void login(){
 		navegacao.redirectToPage("/login.faces");
 	}
-	
-	
+
 	public void selecionarCondominio() throws CondominioException{
 		if(this.condominioSelecionado != null){
 			try {
@@ -130,15 +147,14 @@ public class SelecionarCondominioUsuarioController {
 		}
 	}
 
-	
 	private void enviarEmailNovoMoradorParaSindico(Usuario usuario, Condominio condominio) {
-		
+
 		// recuperar sindico
 		List<Usuario> sindicos = usuarioService.recuperarSindicos(condominio.getId());
 		if(sindicos == null){
 			return;
 		}
-		
+
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
 
 		for(Usuario sindico : sindicos){
@@ -148,17 +164,17 @@ public class SelecionarCondominioUsuarioController {
 			mapParametrosEmail.put("nomeNovoUsuario", usuario.getNome());
 			mapParametrosEmail.put("numeroApto", (usuario.getApartamento() != null) ? usuario.getApartamento().getNomeExibicao() : "-");
 			mapParametrosEmail.put("numeroBloco", (usuario.getApartamento() != null && usuario.getApartamento().getBloco() != null) ? usuario.getApartamento().getBloco().getNome() : "-");
-			
+
 			String msg = leitor.processarTemplate(caminho, EnumTemplates.NOVO_MORADOR.getNomeArquivo(), mapParametrosEmail);
-			
+
 			Email email = new Email(EnumTemplates.NOVO_MORADOR.getDe(), sindico.getEmail(), EnumTemplates.NOVO_MORADOR.getAssunto(), msg);
 			enviarEmail.enviar(email);
 		}
 	}
-	
-	
+
+
 	/* GETTERS e SETTERS*/
-	
+
 	public boolean isCondominioExistente() {
 		return condominioExistente;
 	}
@@ -230,6 +246,14 @@ public class SelecionarCondominioUsuarioController {
 	public void setApartamentoSelecionado(Apartamento apartamentoSelecionado) {
 		this.apartamentoSelecionado = apartamentoSelecionado;
 	}
-	
-	
+
+	public boolean isCondominioPossuiAgrupamento() {
+		return condominioPossuiAgrupamento;
+	}
+
+	public List<AgrupamentoUnidades> getAgrupamentos() {
+		return agrupamentos;
+	}
+
+
 }

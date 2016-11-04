@@ -24,7 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 	@NamedQuery(name = "AgrupamentoUnidades.recuperarPorCondominioComBlocos",
 			query = "Select distinct b FROM AgrupamentoUnidades b "
 					+ " LEFT JOIN FETCH b.blocos blocos "
-					+ " WHERE b.condominio.id = :idCondominio ORDER BY b.nome ")
+					+ " WHERE b.condominio.id = :idCondominio ORDER BY b.nome "),
+	@NamedQuery(name = "AgrupamentoUnidades.condominioPossuiAgrupamento",
+			query = "Select count(b) FROM AgrupamentoUnidades b "
+					+ " WHERE b.condominio.id = :idCondominio")
 })
 public class AgrupamentoUnidades extends Entidade implements Serializable {
 
@@ -42,7 +45,7 @@ public class AgrupamentoUnidades extends Entidade implements Serializable {
 	@JoinColumn(name="idCondominio", nullable=false)
 	private Condominio condominio;
 
-	@OneToMany(mappedBy="agraupamentoUnidades")
+	@OneToMany(mappedBy="agrupamentoUnidades")
 	private List<Bloco> blocos;
 
 

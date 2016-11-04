@@ -30,8 +30,8 @@
 		    
 		    <p:column headerText="Morador" styleClass="colunaLargura200">
 		        <strong><h:outputText value="#{usuario.nome}" /></strong><br />
-		        <h:outputText value="Apto #{usuario.apartamento.numero}" />
-		        <h:outputText value=" - Bloco #{usuario.apartamento.bloco.numero}" />
+		        <h:outputText value="#{principalController.condominio.nomeUnidade} #{usuario.apartamento.numero}" />
+		        <h:outputText value=" - #{usuario.apartamento.bloco.nome}" />
 		    </p:column>
 		    
 		    <p:column headerText="Contatos" styleClass="colunaLargura200">

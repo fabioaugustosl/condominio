@@ -37,21 +37,35 @@
    		<table style="width:100%">
    			<tr>
    				<td style="width:60%;">
-   					<p:outputPanel id="containerComboBloco" rendered="#{empty cadastroVisitanteController.blocoSelecionado}" >
-					<p:outputLabel value="Qual o bloco que o visitante vai:" styleClass="labelPadrao" ></p:outputLabel>
+   					<p:outputPanel id="containerComboAgrupamento" rendered="#{principalController.condominioPossuiAgrupamento() &amp;&amp; empty cadastroVisitanteController.agrupamentoSelecionado}" >
+						<p:outputLabel value="Qual o #{principalController.condominio.nomeNivelAgrupamento2} que o visitante vai:" styleClass="labelPadrao" ></p:outputLabel>
 						<br />
-					 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
-					 			value="#{cadastroVisitanteController.blocoSelecionado}" 
+					 	<p:selectOneMenu id="comboAgrupamento"  style="width:400px;"
+					 			value="#{cadastroVisitanteController.agrupamentoSelecionado}" 
 									converter="converterEntityById"  >
 						 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
-						 		<f:selectItems value="#{cadastroVisitanteController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
-						 		<p:ajax event="change" update="containerComboApartamentos"  />
+						 		<f:selectItems value="#{cadastroVisitanteController.agrupamentos}" var="agrupamento" itemLabel="#{agrupamento.nome}" itemValue="#{agrupamento}" />
+					 		<p:ajax event="change" update="containerComboBlocos" listener="#{cadastroVisitanteController.recuperarBlocos}" />
 						 </p:selectOneMenu>
+					</p:outputPanel>
+					
+					<p:outputPanel id="containerComboBloco"  > 
+	   					<p:outputPanel id="containerComboBlocoInterno" rendered="#{empty cadastroVisitanteController.blocoSelecionado}" >
+							<p:outputLabel value="Qual o #{principalController.condominio.nomeNivelAgrupamento1} que o visitante vai:" styleClass="labelPadrao" ></p:outputLabel>
+							<br />
+						 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
+						 			value="#{cadastroVisitanteController.blocoSelecionado}" 
+										converter="converterEntityById"  >
+							 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+							 		<f:selectItems value="#{cadastroVisitanteController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
+							 		<p:ajax event="change" update="containerComboApartamentos"  />
+							 </p:selectOneMenu>
+						 </p:outputPanel>
 					 </p:outputPanel>
 					 	
 				 	<p:outputPanel id="containerComboApartamentos" >
 					 	<p:outputPanel id="containerComboApartamentosInterno" rendered="#{not empty cadastroVisitanteController.blocoSelecionado}" >
-					 		<p:outputLabel value="Qual o apartamento? " styleClass="labelPadrao"></p:outputLabel>
+					 		<p:outputLabel value="Qual o #{principalController.condominio.nomeUnidade}? " styleClass="labelPadrao"></p:outputLabel>
 					 		<br />
 						 	<p:selectOneMenu id="comboApartamentos"  style="width:400px;"
 						 			value="#{cadastroVisitanteController.apartamentoSelecionado}" 

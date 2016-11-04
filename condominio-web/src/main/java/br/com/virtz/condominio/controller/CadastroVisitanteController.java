@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.FacesException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -35,55 +33,64 @@ import br.com.virtz.condominio.util.NavigationPage;
 @ManagedBean
 @ViewScoped
 public class CadastroVisitanteController {
-	
+
 	@EJB
 	private ICondominioService condominioService;
-	
+
 	@EJB
 	private IVisitanteService visitanteService;
-	
-	
+
+
 	@Inject
 	private NavigationPage navegacao;
-	
+
 	@Inject
 	private SessaoUsuario sessao;
-	
+
 	@Inject
 	private MessageHelper message;
-	
+
 	@Inject
 	private IArquivosUtil arquivoUtil;
-	
+
 
 	private List<Bloco> blocos = null;
+	private List<Bloco> agrupamentos = null;
 	private Bloco blocoSelecionado;
 	private Apartamento apartamentoSelecionado;
-	
+	private Apartamento agrupamentoSelecionado;
+
 	private Usuario usuario = null;
-	
-	private String descricao = null; 
-	
+
+	private String descricao = null;
+
 	private Visitante visitante = null;
-	
-	
-	
+
+
+
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
-				
+
 		blocoSelecionado = null;
+
+		recuperarBlocos();
+
+		apartamentoSelecionado = null;
+
+		visitante = new Visitante();
+
+	}
+
+
+	public void recuperarBlocos() {
 		blocos = condominioService.recuperarTodosBlocosComApartamentos(usuario.getCondominio().getId());
 		if(blocos != null && blocos.size() == 1){
 			blocoSelecionado = blocos.get(0);
 		}
-		apartamentoSelecionado = null;
-		
-		visitante = new Visitante();
-		 
 	}
-	
-	
+
+
 	public void salvar(ActionEvent event) throws CondominioException {
 		try{
 			visitante.setDataEntrada(new Date());
@@ -101,23 +108,23 @@ public class CadastroVisitanteController {
 			throw new CondominioException("Ocorreu um erro inesperado ao registrar o visitante.");
 		}
 	}
-	
+
 	public void voltar(){
 		navegacao.redirectToPage("/portaria/gerenciarPortaria.faces");
 	}
-	
+
 	public void irParaListagem(){
 		navegacao.redirectToPage("/portaria/listagemVisitantes.faces");
 	}
-	
-	
+
+
 	public void oncapture(CaptureEvent captureEvent) {
 		String filename = arquivoUtil.gerarNomeAleatorio(ArquivosUtil.TIPO_PORTARIA);
         byte[] data = captureEvent.getData();
-         
+
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         String newFileName = arquivoUtil.getCaminhoArquivosUpload() +  filename + ".jpg";
-         
+
         FileImageOutputStream imageOutput;
         try {
             imageOutput = new FileImageOutputStream(new File(newFileName));
@@ -131,8 +138,8 @@ public class CadastroVisitanteController {
         	 message.addError("Ocorreu um erro ao capturar imagem!");
         }
     }
-	
-	
+
+
 	/* GETTERS e SETTERS*/
 
 	public String getFileNameCompleto(){
@@ -177,5 +184,17 @@ public class CadastroVisitanteController {
 	public void setVisitante(Visitante visitante) {
 		this.visitante = visitante;
 	}
-	
+
+	public Apartamento getAgrupamentoSelecionado() {
+		return agrupamentoSelecionado;
+	}
+
+	public void setAgrupamentoSelecionado(Apartamento agrupamentoSelecionado) {
+		this.agrupamentoSelecionado = agrupamentoSelecionado;
+	}
+
+	public List<Bloco> getAgrupamentos() {
+		return agrupamentos;
+	}
+
 }
