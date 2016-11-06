@@ -13,8 +13,10 @@ import javax.inject.Inject;
 
 import br.com.virtz.condominio.constantes.EnumTipoNotificacao;
 import br.com.virtz.condominio.constantes.EnumTipoRecebido;
+import br.com.virtz.condominio.entidades.AgrupamentoUnidades;
 import br.com.virtz.condominio.entidades.Apartamento;
 import br.com.virtz.condominio.entidades.Bloco;
+import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
@@ -29,65 +31,75 @@ import br.com.virtz.condominio.util.NavigationPage;
 @ManagedBean
 @ViewScoped
 public class CadastroRecebidoController {
-	
+
 	@EJB
 	private ICondominioService condominioService;
-	
+
 	@EJB
 	private IRecebidoService recebidoService;
-	
+
 	@EJB
 	private IUsuarioService usuarioService;
-	
+
 	@EJB
 	private INotificacaoService notificacaoService;
-	
-	
+
+	@Inject
+	private PrincipalController principalController;
+
 	@Inject
 	private NavigationPage navegacao;
-	
+
 	@Inject
 	private SessaoUsuario sessao;
-	
+
 	@Inject
 	private MessageHelper message;
-	
+
 
 	private List<Bloco> blocos = null;
 	private Bloco blocoSelecionado;
 	private Apartamento apartamento;
-	
+	private List<AgrupamentoUnidades> agrupamentos = null;
+	private AgrupamentoUnidades agrupamentoSelecionado;
+
 	private Usuario usuario = null;
-	
-	private String tipo;  
+
+	private String tipo;
 	private Map<String,String> tipos = new HashMap<String, String>();
-	
-	private String descricao = null;  
-	
-	
+
+	private String descricao = null;
+
+
+
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
-				
+
 		blocoSelecionado = null;
-		blocos = condominioService.recuperarTodosBlocosComApartamentos(usuario.getCondominio().getId());
-		if(blocos != null &&
-				blocos.size() == 1){
-			blocoSelecionado = blocos.get(0);
+		if(principalController.condominioPossuiAgrupamento()){
+			agrupamentos = condominioService.recuperarTodosAgrupamentos(usuario.getCondominio().getId());
+			blocos = null;
+		} else {
+			blocos = condominioService.recuperarTodosBlocosComApartamentos(usuario.getCondominio().getId());
+			if(blocos != null &&
+					blocos.size() == 1){
+				blocoSelecionado = blocos.get(0);
+			}
 		}
 		apartamento = null;
-		
+
 		tipos.put(EnumTipoRecebido.CORRESPONDENCIA.toString(), EnumTipoRecebido.CORRESPONDENCIA.getDescricao());
 		tipos.put(EnumTipoRecebido.ENCOMENDA.toString(), EnumTipoRecebido.ENCOMENDA.getDescricao());
-		 
+
 	}
-	
-	
+
+
 	public void salvar(ActionEvent event) throws CondominioException {
 		if(apartamento == null){
 			return;
 		}
-		
+
 		try{
 			EnumTipoRecebido tipoRecebido = EnumTipoRecebido.recuperarPorDescricao(tipo);
 			if(tipoRecebido.equals(EnumTipoRecebido.CORRESPONDENCIA)){
@@ -95,9 +107,9 @@ public class CadastroRecebidoController {
 			} else {
 				recebidoService.salvarNovaEncomenda(usuario.getCondominio().getId(), apartamento.getId(), descricao);
 			}
-			
+
 			enviarNotificacaoParaMoradores(tipoRecebido, apartamento);
-			
+
 			message.addInfo("A correspondência/encomenda foi salva com sucesso.");
 			descricao = null;
 			apartamento = null;
@@ -111,7 +123,7 @@ public class CadastroRecebidoController {
 
 	/**
 	 * Enviar notificação e email para os moradores avisando que chegou a correspondencia.
-	 * 
+	 *
 	 * @param tipoRecebido
 	 * @throws AppException
 	 */
@@ -119,27 +131,27 @@ public class CadastroRecebidoController {
 		if(apartamento == null){
 			return;
 		}
-		
+
 		List<Usuario> usuariosRecebimento = usuarioService.recuperarUsuariosPorApartamento(apartamento.getId());
-		
+
 		for(Usuario u : usuariosRecebimento){
 			notificacaoService.salvarNovaNotificacao(usuario.getCondominio(), u, (tipoRecebido.equals(EnumTipoRecebido.CORRESPONDENCIA) ? EnumTipoNotificacao.CORRESPONDENCIA : EnumTipoNotificacao.ENCOMENDA), null);
 			// TODO : enviar email avisando da correspondencia também!!!
 		}
 	}
-	
-	
+
+
 	public void voltar(){
 		navegacao.redirectToPage("/portaria/gerenciarPortaria.faces");
 	}
-	
-	
+
+
 	public void irParaListagem(){
 		navegacao.redirectToPage("/portaria/listagemCorrespondencias.faces");
 	}
-	
-	
-	
+
+
+
 	/* GETTERS e SETTERS*/
 
 	public List<Bloco> getBlocos() {
@@ -189,6 +201,21 @@ public class CadastroRecebidoController {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	
+
+	public AgrupamentoUnidades getAgrupamentoSelecionado() {
+		return agrupamentoSelecionado;
+	}
+
+	public void setAgrupamentoSelecionado(AgrupamentoUnidades agrupamentoSelecionado) {
+		this.agrupamentoSelecionado = agrupamentoSelecionado;
+	}
+
+	public List<AgrupamentoUnidades> getAgrupamentos() {
+		return agrupamentos;
+	}
+
+	public Condominio getCondominio(){
+		return usuario.getCondominio();
+	}
+
 }

@@ -24,6 +24,7 @@ import org.primefaces.model.ScheduleModel;
 
 import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.bean.Email;
+import br.com.virtz.condominio.constantes.EnumFuncaoBloqueio;
 import br.com.virtz.condominio.constantes.EnumParametroSistema;
 import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.email.EnviarEmail;
@@ -32,6 +33,7 @@ import br.com.virtz.condominio.entidades.AgrupamentoUnidades;
 import br.com.virtz.condominio.entidades.Apartamento;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
+import br.com.virtz.condominio.entidades.BloqueioFuncaoUsuario;
 import br.com.virtz.condominio.entidades.ParametroSistema;
 import br.com.virtz.condominio.entidades.Reserva;
 import br.com.virtz.condominio.entidades.Usuario;
@@ -119,6 +121,7 @@ public class ReservaController {
 		} else {
 			blocoSelecionado = null;
 			apartamentoSelecionado = null;
+			agrupamentoSelecionado = null;
 			usuarios = null;
 		}
 		if(areas != null && areas.size() == 1){
@@ -302,6 +305,8 @@ public class ReservaController {
 			aptoAgendamento = usu.getApartamento();
 		}
 
+		verificarUsuarioBloqueado(usu);
+
 		Reserva reserva = new Reserva();
         reserva.setAreaComum(getAreaSelecionada());
         reserva.setData(data);
@@ -321,6 +326,18 @@ public class ReservaController {
 
 		}
 
+	}
+
+
+	public void verificarUsuarioBloqueado(Usuario usu) throws AppException {
+		List<BloqueioFuncaoUsuario> bloqueioUsuario = usuarioService.recuperarBloqueios(usu.getId(), EnumFuncaoBloqueio.RESERVA);
+		if(bloqueioUsuario != null && !bloqueioUsuario.isEmpty()){
+			String comentario = bloqueioUsuario.get(0).getComentario();
+			if(StringUtils.isBlank(comentario)){
+				comentario = EnumFuncaoBloqueio.RESERVA.getMsgParaUsuario();
+			}
+			throw new AppException(comentario);
+		}
 	}
 
 	public void removerReserva() throws AppException {

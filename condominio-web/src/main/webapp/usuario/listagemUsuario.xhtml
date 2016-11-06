@@ -78,12 +78,53 @@
 	         			<p:graphicImage id="imgDeletarUsu" url="/img/icones/deletar.png" title="Clique para deletar esse morador." />
 	         	</p:commandLink>
 	         </p:column>
+	        
+	         <p:column style="text-align:center" styleClass="colunaLargura100" headerText="Bloquear" 
+		    		rendered="#{principalController.ehSindico()}">
+		    	<p:commandLink rendered="#{not listagemUsuarioController.usuarioPossuiBloqueios(usuario)}" actionListener="#{listagemUsuarioController.montarInfoTelaBloqueio(usuario)}" 
+		    		update=":form:painelBloqueioUsuario"  id="usuarioUsuarioSelecionada" immediate="true" onsuccess="PF('dialogBloqueioFuncao').show();" >
+		    		<p:graphicImage id="imgBloquear" url="/img/icones/ico_cadeado_verde.png" title="Clique para bloquear funções do morador." />
+	         	</p:commandLink>
+	         	
+	         	<p:commandLink rendered="#{listagemUsuarioController.usuarioPossuiBloqueios(usuario)}" actionListener="#{listagemUsuarioController.montarInfoTelaBloqueio(usuario)}" 
+		    		update=":form:painelBloqueioUsuario"  id="usuarioUsuarioSelecionadaBloco" immediate="true" onsuccess="PF('dialogBloqueioFuncao').show();" >
+		    		<p:graphicImage id="imgBloquearBlock" url="/img/icones/ico_cadeado.png" title="Usuário já possui bloqueios. Clique para caso queira alterar." />
+	         	</p:commandLink>
+	         	
+	         </p:column>
 		</p:dataTable> 
 	    
 	   	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
 	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 	    </p:confirmDialog>
+	    
+	    
+	    <p:dialog id="dialogBloqueioFuncao" modal="true" widgetVar="dialogBloqueioFuncao"
+					draggable="true" closable="true" resizable="false" closeOnEscape="true" 
+					dynamic="true" width="600"  header="Boquear funções de um morador" appendTo="@(body)" >
+			
+			<p:outputPanel id="painelBloqueioUsuario" >
+		         
+	            <p:selectBooleanCheckbox id="checkBloquearReservas" 
+	 				 		value="${listagemUsuarioController.bloqueioUsuarioSelecionado.marcado}" 
+	 				 		label="Bloquear função de reserva de áresas comuns" itemLabel="Bloquear função de reserva de áreas comuns" >
+	 				 	<p:ajax process="@this" update="@this" listener="#{listagemUsuarioController.changeValueBloqueio()}" ></p:ajax>
+	 			</p:selectBooleanCheckbox>
+	 			<br />
+	 			<br />
+	 			<p:outputLabel value="A mensagem abaixo será exibida para o morador quando ele tentar efetuar uma reserva" id="txtMsgConfirmacao"  /><br />	 
+	            <p:inputTextarea id="txtAreaComentario" styleClass="textAreaPadrao"
+					value="#{listagemUsuarioController.bloqueioUsuarioSelecionado.comentario}" maxlength="500"  />
+ 			</p:outputPanel>
+		 			
+ 			<p:outputPanel>
+ 			    <p:commandButton id="btnConfirmar" value="Confirmar" actionListener="#{listagemUsuarioController.salvarBloqueioUsuario}"
+ 			    		process="dialogBloqueioFuncao" partialSubmit="true" update="@form" oncomplete="PF('dialogBloqueioFuncao').hide(); subirTela();"/>
+	            <p:commandButton id="btnCancelar" value="Cancelar" onclick="PF('dialogBloqueioFuncao').hide();" />
+            </p:outputPanel>
+		
+		</p:dialog>
 
 	 </h:form>
 

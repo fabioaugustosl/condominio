@@ -39,6 +39,26 @@
 		        <h:outputText value="#{ocorrencia.mensagem}" />
 		    </p:column>
 		    
+		    
+		    <p:column headerText="Arquivo" style="text-align:center">
+		        
+		    	<p:outputPanel rendered="#{not empty ocorrencia.arquivo &amp;&amp; arquivosUtil.ehImagem(ocorrencia.arquivo.extensao)}">
+	    		 	<p:graphicImage id="imgFotoOcorrencia" url="/img/icones/ico_foto.png" title="Clique para ver a foto maior" 
+			        	style="cursor:pointer" />
+ 				
+					<p:overlayPanel id="imagePanel" for="imgFotoOcorrencia" hideEffect="fade">
+		        	<p:graphicImage  id="imgFotoGrandeVisitante"  
+								url="/imagem?arquivo=#{ocorrencia.arquivo.caminhoCompleto}" />
+					</p:overlayPanel>
+			    
+ 				</p:outputPanel>
+ 				
+ 				<p:commandButton value="Download arquivo" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s"
+		    		rendered="#{not empty ocorrencia.arquivo &amp;&amp; not arquivosUtil.ehImagem(ocorrencia.arquivo.extensao)}">
+			        <p:fileDownload value="#{ultimaAssembleiaController.download()}" />
+			    </p:commandButton>	
+		    				    
+		    </p:column>
 		</p:dataTable>
 		
 		<p:commandButton id="btnCadastrarOcorrencia" value="Nova Ocorrência"  immediate="true"

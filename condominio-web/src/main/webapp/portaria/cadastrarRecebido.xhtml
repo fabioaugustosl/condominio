@@ -9,7 +9,6 @@
    <style type="text/css">
    </style>
    
-   
    <ui:define name="content">
 	
 	<h:form id="form" styleClass="formPad10">   
@@ -19,23 +18,38 @@
    		<p:outputPanel id="cadastroRecebidoPanel" >
    		
    		
-   			<p:outputPanel id="containerComboBloco" rendered="#{empty cadastroRecebidoController.blocoSelecionado}" >
-				<p:outputLabel value="Selecione o bloco:" styleClass="labelPadrao" ></p:outputLabel>
+   			<p:outputPanel id="containerComboAgrupamento" rendered="#{principalController.condominioPossuiAgrupamento() &amp;&amp; empty cadastroRecebidoController.agrupamentoSelecionado}" >
+				<p:outputLabel value="Selecione o #{cadastroRecebidoController.condominio.nomeNivelAgrupamento2}:" styleClass="labelPadrao" ></p:outputLabel>
 				<br />
-			 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
+			 	<p:selectOneMenu id="comboAgrupamento"  style="width:400px;"
 			 		styleClass="selectPadrao"
-			 		requiredMessage="Favor selecionar o bloco." required="true"
-			 			value="#{cadastroRecebidoController.blocoSelecionado}" 
+			 			value="#{cadastroRecebidoController.agrupamentoSelecionado}" 
 						converter="converterEntityById"  >
 			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
-			 		<f:selectItems value="#{cadastroRecebidoController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
-			 		<p:ajax event="change" update="containerComboApartamentos"  />
+			 		<f:selectItems value="#{cadastroRecebidoController.agrupamentos}" var="agrupamento" itemLabel="#{agrupamento.nome}" itemValue="#{agrupamento}" />
+			 		<p:ajax event="change" update="containerComboBloco"  />
 			 	</p:selectOneMenu>
 			 </p:outputPanel>
+			 
+			 <p:outputPanel id="containerComboBloco" rendered="#{empty cadastroRecebidoController.blocoSelecionado}" >
+	   			<p:outputPanel id="containerComboBlocoInterno" rendered="#{empty cadastroRecebidoController.blocoSelecionado}" >
+					<p:outputLabel value="Selecione o #{principalController.condominio.nomeNivelAgrupamento1}:" styleClass="labelPadrao" ></p:outputLabel>
+					<br />
+				 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
+				 		styleClass="selectPadrao"
+				 		requiredMessage="Favor selecionar o bloco." required="true"
+				 			value="#{cadastroRecebidoController.blocoSelecionado}" 
+							converter="converterEntityById"  >
+				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+				 		<f:selectItems value="#{cadastroRecebidoController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
+				 		<p:ajax event="change" update="containerComboApartamentos"  />
+				 	</p:selectOneMenu>
+				 </p:outputPanel>
+			</p:outputPanel>
 			 	
 		 	<p:outputPanel id="containerComboApartamentos" >
 			 	<p:outputPanel id="containerComboApartamentosInterno" rendered="#{not empty cadastroRecebidoController.blocoSelecionado}" >
-			 		<p:outputLabel value="Selecione o apartamento:" styleClass="labelPadrao"></p:outputLabel>
+			 		<p:outputLabel value="Selecione o #{principalController.condominio.nomeUnidade}:" styleClass="labelPadrao"></p:outputLabel>
 			 		<br />
 				 	<p:selectOneMenu id="comboApartamentos"  style="width:400px;"
 				 			value="#{cadastroRecebidoController.apartamentoSelecionado}"

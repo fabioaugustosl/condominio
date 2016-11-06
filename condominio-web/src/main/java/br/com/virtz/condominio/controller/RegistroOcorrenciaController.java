@@ -1,5 +1,8 @@
 package br.com.virtz.condominio.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,12 +17,14 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.primefaces.event.FileUploadEvent;
 
 import br.com.virtz.boleto.util.DataUtil;
 import br.com.virtz.condominio.bean.Email;
 import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
+import br.com.virtz.condominio.entidades.ArquivoOcorrencia;
 import br.com.virtz.condominio.entidades.RegistroOcorrencia;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
@@ -27,6 +32,7 @@ import br.com.virtz.condominio.service.IRegistroOcorrenciaService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
+import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
 import br.com.virtz.condominio.util.NavigationPage;
 
@@ -53,13 +59,14 @@ public class RegistroOcorrenciaController {
 	private EnviarEmail enviarEmail;
 
 	@Inject
-	private ArquivosUtil arquivosUtil;
-
-	@Inject
 	private NavigationPage navegacao;
 
+	@Inject
+	private IArquivosUtil arquivoUtil;
 
 
+
+	private ArquivoOcorrencia arquivoOcorrencia;
 	private RegistroOcorrencia registroOcorrencia;
 	private List<Usuario> usuarios = null;
 	private Usuario usuarioSessao = null;
@@ -87,6 +94,10 @@ public class RegistroOcorrenciaController {
 				registroOcorrencia.setDataOcorrencia(new Date());
 			}
 
+			if(arquivoOcorrencia != null){
+				registroOcorrencia.setArquivo(arquivoOcorrencia);
+			}
+
 			registroOcorrencia.setCondominio(usuario.getCondominio());
 			if(this.usuario != null){
 				registroOcorrencia.setUsuario(usuario);
@@ -105,6 +116,7 @@ public class RegistroOcorrenciaController {
 
 			usuario = null;
 			registroOcorrencia = new RegistroOcorrencia();
+			arquivoOcorrencia = null;
 		}catch(Exception e){
 			e.printStackTrace();
 			messageHelper.addError("Ocorreu um erro inesperado ao salvar nova ocorrência.");
@@ -127,9 +139,11 @@ public class RegistroOcorrenciaController {
 		return auto;
 	}
 
+
 	public void irParaListagem(){
 		navegacao.redirectToPage("/ocorrencia/listagemRegistroOcorrencia.faces");
 	}
+
 
 	private void envioEmail(List<Usuario> sindicos, RegistroOcorrencia registroOcorrencia) {
 		for(Usuario sindico : sindicos){
@@ -138,7 +152,7 @@ public class RegistroOcorrenciaController {
 			map.put("nome_usuario", usuario.getNomeExibicao());
 			map.put("msg", registroOcorrencia.getMensagem());
 
-			String caminho = arquivosUtil.getCaminhaPastaTemplatesEmail();
+			String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
 			String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.REGISTRO_OCORRENCIA.getNomeArquivo(), map);
 
 			Email email = new Email(EnumTemplates.REGISTRO_OCORRENCIA.getDe(), sindico.getEmail(), EnumTemplates.REGISTRO_OCORRENCIA.getAssunto(), msgEnviar);
@@ -147,6 +161,53 @@ public class RegistroOcorrenciaController {
 
 	}
 
+
+	public void uploadArquivo(FileUploadEvent arquivo) throws CondominioException {
+        try {
+        	InputStream inputStream = arquivo.getFile().getInputstream();
+
+			String caminho = arquivoUtil.getCaminhoArquivosUpload();
+			String nomeAntigo = arquivo.getFile().getFileName();
+			String extensao = arquivoUtil.pegarExtensao(nomeAntigo);
+			String nomeNovo = arquivoUtil.gerarNomeArquivo(extensao, ArquivosUtil.TIPO_ARQUIVO_DOCUMENTO);
+
+			arquivoOcorrencia = new ArquivoOcorrencia();
+			arquivoOcorrencia.setCaminho(caminho);
+			arquivoOcorrencia.setExtensao(extensao);
+			arquivoOcorrencia.setNomeOriginal(nomeAntigo);
+			arquivoOcorrencia.setTamanho(arquivo.getFile().getSize());
+			arquivoOcorrencia.setNome(nomeNovo);
+
+			if(arquivoUtil.ehImagem(arquivoOcorrencia.getExtensao())){
+				arquivoUtil.redimensionarImagem(inputStream, arquivoUtil.getCaminhoArquivosUpload(), nomeNovo, extensao, 1000, 1000);
+			} else {
+				arquivoUtil.arquivar(inputStream, nomeNovo);
+			}
+
+			messageHelper.addInfo("Arquivo "+nomeAntigo+" foi anexado com sucesso.");
+        } catch (IOException e) {
+        	messageHelper.addError("Ocorreu um erro ao fazer upload do arquivo. Favor acessar novamente na tela.");
+        }
+    }
+
+
+	public void removerArquivo() throws CondominioException {
+		if(arquivoOcorrencia != null){
+			File arquivoDeletar = new File(arquivoUtil.getCaminhoArquivosUpload()+"\\"+arquivoOcorrencia.getNome());
+			arquivoDeletar.delete();
+
+			arquivoOcorrencia = null;
+
+			messageHelper.addInfo("Arquivo removido com sucesso!");
+		}
+	}
+
+
+	public String getCaminhoCompletoThumb(String nomeArq){
+		String ext = "."+arquivoUtil.pegarExtensao(nomeArq);
+		String novoNome = nomeArq.replace(ext, "");
+		return novoNome+ArquivosUtil.THUMB_POS_FIXO+ext;
+	}
 
 
 	// GETTERS E SETTERS
@@ -171,5 +232,12 @@ public class RegistroOcorrenciaController {
 		return usuarios;
 	}
 
+	public ArquivoOcorrencia getArquivoOcorrencia() {
+		return arquivoOcorrencia;
+	}
+
+	public void setArquivoOcorrencia(ArquivoOcorrencia arquivoOcorrencia) {
+		this.arquivoOcorrencia = arquivoOcorrencia;
+	}
 
 }

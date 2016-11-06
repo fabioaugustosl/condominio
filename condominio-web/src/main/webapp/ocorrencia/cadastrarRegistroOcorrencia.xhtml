@@ -53,7 +53,35 @@
 					required="true" requiredMessage="O preenchimento da descrição/comentário é obritagório."
 					value="#{registroOcorrenciaController.registroOcorrencia.mensagem}"   />
 			
-			<br/>
+			
+			<br />
+		 	<p:outputLabel value="Deseja anexar algum arquivo?  (foto, video, audio, pdf, etc)" styleClass="labelPadrao" /> <br />
+		 	<p:outputPanel id="painelArquivo" style="position:relative; diplay:block; margin-top:10px; " layout="block" >
+			       
+				      <p:fileUpload mode="advanced" update="painelArquivo" label="Selecionar arquivo"
+				        fileUploadListener="#{registroOcorrenciaController.uploadArquivo}"
+				        rendered="#{empty registroOcorrenciaController.arquivoOcorrencia}"
+				        styleClass="dataArquivosMenorEsquerda" 
+				        allowTypes="/(\.|\/)(JPG|jpg|jpeg|JPEG|png|PNG|PDF|pdf|mp3|mp4|AVI|MPEG)$/" 
+				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. "
+				        invalidFileMessage="Tipo do arquivo inválido. É aceito apenas arquivos no formato."
+						invalidSizeMessage="Tamanho do arquivo inválido"
+				        auto="true" dragDropSupport="false" />
+		        
+					<br />
+					<p:outputPanel rendered="#{registroOcorrenciaController.arquivoOcorrencia != null}" 
+								styleClass="dataArquivosMenorEsquerda containerArquivoSimples">
+						<p:outputLabel value="Arquivo anexado: "/> <p:outputLabel value="#{registroOcorrenciaController.arquivoOcorrencia.nome}"></p:outputLabel>
+						
+						<p:commandLink actionListener="#{registroOcorrenciaController.removerArquivo()}" 
+								style="float:right; "  
+			         			id="removerArq" immediate="true" update="painelArquivo"   >
+			         		<p:graphicImage id="imgDeletarNot" url="/img/icones/deletar.png" title="Clique para deletar esse arquivo." />
+			         	</p:commandLink>
+			         
+					</p:outputPanel>
+				</p:outputPanel>
+				<br />
 			
 			<p:commandButton id="btnSalvarRecebido" value="Salvar"  update="cadastroOcorrenciaPanel"
 				styleClass="botao botao-grande"

@@ -8,7 +8,7 @@ import br.com.virtz.condominio.entidades.Recebido;
 import br.com.virtz.condominio.exception.AppException;
 
 @Local
-public interface IRecebidoService extends PaginacaoServiceVisitantes<Recebido> {
+public interface IRecebidoService extends PaginacaoServiceRecebidos<Recebido> {
 	public List<Recebido> recuperarPorApartamento(Long idApartamento);
 	public List<Recebido> recuperarPorCondominio(Long idCondominio);
 
