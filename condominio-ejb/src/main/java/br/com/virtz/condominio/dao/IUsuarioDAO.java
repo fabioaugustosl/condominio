@@ -18,4 +18,5 @@ public interface IUsuarioDAO extends CrudDAO<Usuario> {
 	public Usuario recuperarUsuarioPorEmailAutenticacao(String email);
 	public List<Usuario> recuperarUsuariosPorEmail(String email);
 	public List<Usuario> recuperarUsuariosPorApartamento(Long idApartamento);
+	public List<Usuario> recuperarTodosAdm(Long idCondominio);
 }

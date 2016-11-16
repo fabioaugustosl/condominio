@@ -32,7 +32,7 @@
 	   	<p:outputLabel styleClass="textoInformativo" value="Utilize esse espaço para registrar alguma ocorrência importante. Vale registrar sugestão de melhoria, reclamação de barulho, observação sobre a manutenção das áreas comuns do empreendimento, entre outras." />
 	   		
    		<p:outputPanel id="cadastroOcorrenciaPanel" >
-   			<p:outputPanel id="containerSelecionarUsuario" 
+   			<p:outputPanel id="containerSelecionarUsuario" style="display:none"
    					rendered="#{principalController.ehSindico() || principalController.ehAdministrativo()}" >
    					
    					<p:autoComplete id="autoCompleteUsuario" dropdown="true" 
@@ -44,7 +44,7 @@
 	 	
 	 		<p:outputLabel value="Data ocorrido" styleClass="labelPadrao" /><br />
 	 		<p:calendar id="button" value="#{registroOcorrenciaController.registroOcorrencia.dataOcorrencia}" 
-	 					showOn="button" pattern="MM/dd/yyyy HH:mm" />
+	 					showOn="button" pattern="MM/dd/yyyy HH:mm" locale="pt" />
 	 	
 	 		<br />
  			<p:outputLabel value="Descrição / Comentário" styleClass="labelPadrao" /><br />
@@ -97,7 +97,7 @@
 				
 	</h:form>
 	
-	<script >
+
 	 <script type="text/javascript">
 	    PrimeFaces.locales['pt_br'] = {
 	        closeText: 'Fechar',
@@ -121,7 +121,6 @@
 	        day: 'Dia',
 	        allDayText : 'Hora'
 	    };
-	</script>
 	</script>
    </ui:define>
 </ui:composition>

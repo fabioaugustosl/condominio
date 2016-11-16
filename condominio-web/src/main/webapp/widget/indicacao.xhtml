@@ -62,7 +62,7 @@
 	   		
 	   	}
 	   </style>
-	   <p:outputPanel id="panelIndicacoes" rendered="#{not empty indicacaoController.indicacoes}" >
+	   <p:outputPanel id="panelIndicacoes" rendered="#{not empty indicacaoController.indicacoes &amp;&amp; not principalController.ehPorteiro()}" >
 		   <p:carousel value="#{indicacaoController.indicacoes}"  itemStyleClass="indItem"  styleClass="corouselImg"
 		   			headerText="Olha o que seus vizinhos indicaram pra você" var="ind" 
 		   			numVisible="3" >

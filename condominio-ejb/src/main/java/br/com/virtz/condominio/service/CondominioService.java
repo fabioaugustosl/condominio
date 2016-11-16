@@ -16,6 +16,7 @@ import br.com.virtz.condominio.dao.IBoletoExternoDAO;
 import br.com.virtz.condominio.dao.ICidadeDAO;
 import br.com.virtz.condominio.dao.ICondominioDAO;
 import br.com.virtz.condominio.dao.IContaBancariaDAO;
+import br.com.virtz.condominio.dao.IUnidadeDAO;
 import br.com.virtz.condominio.entidades.AcessoCFTV;
 import br.com.virtz.condominio.entidades.AgrupamentoUnidades;
 import br.com.virtz.condominio.entidades.AreaComum;
@@ -24,6 +25,7 @@ import br.com.virtz.condominio.entidades.BoletoExterno;
 import br.com.virtz.condominio.entidades.Cidade;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.ContaBancariaCondominio;
+import br.com.virtz.condominio.entidades.Unidade;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 
@@ -41,6 +43,9 @@ public class CondominioService implements ICondominioService {
 
 	@EJB
 	private IBlocoDAO blocoDAO;
+
+	@EJB
+	private IUnidadeDAO unidadeDAO;
 
 	@EJB
 	private IContaBancariaDAO contaBancariaDAO;
@@ -124,6 +129,14 @@ public class CondominioService implements ICondominioService {
 				Collections.sort(b.getApartamentos());
 			}
 		}
+
+		return blocos;
+	}
+
+	@Override
+	public List<Unidade> recuperarTodasUnidades(Long idCondominio) {
+		List<Unidade> blocos = unidadeDAO.recuperarPorCondominio(idCondominio);
+
 
 		return blocos;
 	}

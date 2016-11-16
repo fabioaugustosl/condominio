@@ -11,21 +11,21 @@ import br.com.virtz.condominio.entidades.Apartamento;
 public class ApartamentoDAO extends DAO<Apartamento> implements IApartamentoDAO {
 
 	@Override
-	public Apartamento recuperarPorNumero(Long idCondominio, String numeroApto, String nomeBloco) {
+	public Apartamento recuperarPorNumero(Long idCondominio, String numeroApto,
+			String nomeBloco) {
 
-		Query qry = getEntityManager().createNamedQuery("Apartamento.recuperarPorCondominioENumeroBloco");
+		Query qry = getEntityManager().createNamedQuery(
+				"Apartamento.recuperarPorCondominioENumeroBloco");
 		qry.setParameter("idCondominio", idCondominio);
 		qry.setParameter("numero", numeroApto);
 		qry.setParameter("nomeBloco", nomeBloco);
 		List<Apartamento> aptos = qry.getResultList();
-		
-		if(aptos != null && !aptos.isEmpty()){
+
+		if (aptos != null && !aptos.isEmpty()) {
 			return aptos.get(0);
 		}
 		return null;
-		
+
 	}
-	
-	
-	
+
 }

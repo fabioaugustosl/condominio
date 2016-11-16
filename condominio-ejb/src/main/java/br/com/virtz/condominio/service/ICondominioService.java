@@ -13,6 +13,7 @@ import br.com.virtz.condominio.entidades.BoletoExterno;
 import br.com.virtz.condominio.entidades.Cidade;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.ContaBancariaCondominio;
+import br.com.virtz.condominio.entidades.Unidade;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 
@@ -56,4 +57,7 @@ public interface ICondominioService {
 	public BoletoExterno recuperarBoletoExterno(Long idCondominio);
 	public BoletoExterno salvarBoletoExterno(BoletoExterno boleto) throws Exception;
 	public void removerBoletoExterno(Long idBoletoExterno) throws Exception;
+
+	//Unidades
+	public List<Unidade> recuperarTodasUnidades(Long idCondominio);
 }

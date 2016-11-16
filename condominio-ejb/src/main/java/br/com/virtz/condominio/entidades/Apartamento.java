@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "Apartamento.recuperarPorCondominioENumeroBloco",
 						query = "Select a FROM apartamento a "
 							+ " LEFT JOIN a.bloco b "
-							+ " WHERE b.condominio.id = :idCondominio AND a.numero = :numero AND b.nome = :nomeBloco ")
+							+ " WHERE b.condominio.id = :idCondominio AND a.numero = :numero AND b.nome = :nomeBloco")
 })
 public class Apartamento extends Entidade implements Serializable, Comparable<Apartamento> {
 
@@ -29,7 +29,7 @@ public class Apartamento extends Entidade implements Serializable, Comparable<Ap
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name="idBloco", nullable=false)
+	@JoinColumn(name="idBloco", nullable=true)
 	private Bloco bloco;
 
 	@Column
@@ -37,6 +37,8 @@ public class Apartamento extends Entidade implements Serializable, Comparable<Ap
 
 	@Column
 	private String numero;
+
+
 
 
 

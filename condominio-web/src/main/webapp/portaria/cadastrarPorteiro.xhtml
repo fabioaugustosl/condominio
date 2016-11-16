@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   
+   <style type="text/css">
+   </style>
+   
+   
+   <ui:define name="content">
+	
+	<h:form id="form"  styleClass="formPad10" >   
+	   
+	   	<h1>Cadastro de porteiros </h1>
+		
+		<br />
+		
+		<table id="divConteudo" class="tabelaPadrao" style="width: 100%">
+    		<tr>
+    			<td style="width:50%; align:top;">        
+		            <p:outputPanel id="atualizacaoUsuario" styleClass="labelPadrao" >
+	  				<p:outputLabel value="Nome: " /><br />
+					<p:inputText id="nomeUsuario" alt="Insira seu nome. Exemplo: João Lopes" 
+						value="#{cadastrarPorteiroController.usuario.nome}" maxlength="100" styleClass="inputPadrao100"
+						required="true" requiredMessage="Favor preencher o nome." />
+					<br />
+					
+					<p:outputLabel value="Email: (o seu email será o seu login de acesso)" /><br />
+					<p:inputText id="emailUsuario" alt="Insira seu email."
+							validatorMessage="O email digitado é inválido."
+							value="#{cadastrarPorteiroController.usuario.email}" maxlength="100" 
+							styleClass="inputPadrao"
+							required="true" requiredMessage="Favor preencher o email" >
+						<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+					</p:inputText>
+				
+					<br />
+					<p:outputLabel value="Celular: " styleClass="labelPadrao" /><br />
+					<p:inputMask id="celularUsuario" value="#{cadastrarPorteiroController.usuario.celular}" alt="Insira seu celular."
+						maxlength="20" styleClass="inputPadrao100" style="width:30%"
+						mask="(99) 9999-9999?9" />
+					
+					<br />
+						
+					<p:outputLabel value="CPF: " styleClass="labelPadrao" /><br />
+					<p:inputMask id="cpfUsuario" value="#{cadastrarPorteiroController.usuario.cpf}" alt="Insira seu CPF. Isso é importante em funcionalidades como a geração do boleto por exemplo."
+							maxlength="14" styleClass="inputPadrao100" style="width:30%"
+							mask="999.999.999-99" >
+					</p:inputMask>
+					
+					<br />
+					<p:outputLabel value="Digite uma senha: (mínimo 6 caracteres) " /><br />
+				   	<p:password id="senhaUsuario" value="#{cadastrarPorteiroController.usuario.senhaDigitada}" 
+				   			styleClass="inputPadrao" style="width:200px;" 
+				   			match="senhaUsuario2" validatorMessage="A senha repetida não foi igual. Favor digitar novamente a senha de forma idêntica."
+				   			maxlength="20" required="true" requiredMessage="Favor inserir uma senha."
+				   			/>
+				   	<br />
+					<p:outputLabel value="Confirme sua senha:" /><br />		
+	        		<p:password id="senhaUsuario2"  validatorMessage="A senha repetida não foi igual. Favor digitar novamente a senha de forma idêntica."
+			        		value="#{cadastrarPorteiroController.usuario.senhaDigitadaConfirmacao}" 
+			        		styleClass="inputPadrao" style="width:200px;"
+			        		requiredMessage="Favor inserir uma confirmação de senha."
+			        		required="true" maxlength="20" />
+						
+				</p:outputPanel>
+				
+				
+	 			</td>
+	 			
+	 			<td style="width:50%; align:top;">
+	 				<p:fileUpload mode="advanced" immediate="true" label="Selecionar arquivo"
+				        fileUploadListener="#{cadastrarPorteiroController.uploadArquivo}"
+				        allowTypes="/(\.|\/)(JPg|jpg|jpeg|JPEG|png|PNG)$/"  
+				        multiple="false" sizeLimit="6000000" 
+				        invalidFileMessage="Arquivo não válido." 
+				        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
+				        update="@form"  />
+			        
+		 				<p:outputPanel  id="containerCortadorImagem" rendered="#{empty cadastrarPorteiroController.caminhoImagem}" >
+		     				<p:graphicImage id="imagemUsuario" url="/imagem?arquivo=/arquivos/usuario/foto.jpg" width="300" />
+		     			</p:outputPanel>	 
+		     			
+						<p:imageCropper id="cortadorImagem" value="#{cadastrarPorteiroController.imagemCortada}" 
+			   					rendered="#{not empty cadastrarPorteiroController.caminhoImagem}"
+								initialCoords="0,0,200,275" maxSize="750,900" minSize="200,275"
+								image="#{cadastrarPorteiroController.caminhoImagem}" />
+					
+	 			</td>
+	 		</tr>
+		 </table>
+   		
+		<br />
+		<p:commandButton id="salvarUsuario" value="Salvar" 
+			styleClass="botao"
+	   		actionListener="#{cadastrarPorteiroController.cortar}" 
+	   		update="@form" process="@form" oncomplete="subirTela()" >
+	   	</p:commandButton>
+	   	
+	   	<p:commandButton id="btnListagem" value="Ir para listagem"  immediate="true"
+				styleClass="botao botao-grande"
+		   		actionListener="#{cadastrarPorteiroController.irParaListagem()}" >
+		</p:commandButton> 
+				
+		</h:form>
+   </ui:define>
+</ui:composition>

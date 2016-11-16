@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   
+   <style>
+  </style>
+   
+   <h:form id="formPorteiroVisitantes">
+	   <p:outputPanel id="containerVisitantes" styleClass="painelWidgetInterno" style="text-align:center" >
+	  			
+	  		<p:commandLink actionListener="#{controlePortariaController.irParaCadastroVisitante()}" 
+		         		id="irParaCadastroVisitantes" immediate="true" >
+				<p:graphicImage id="icoConfigMenu" url="/img/icones/ico_visitantes.png"  />
+			
+			</p:commandLink>	
+  				
+	   </p:outputPanel>
+			    
+	</h:form>
+</ui:composition>
+

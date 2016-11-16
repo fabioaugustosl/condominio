@@ -305,7 +305,16 @@ public class ReservaController {
 			aptoAgendamento = usu.getApartamento();
 		}
 
-		verificarUsuarioBloqueado(usu);
+		if(usu == null){
+			List<Usuario> usuarios = usuarioService.recuperarUsuariosPorApartamento(aptoAgendamento.getId());
+			if(usuarios != null){
+				for(Usuario u : usuarios){
+					verificarUsuarioBloqueado(u);
+				}
+			}
+		} else {
+			verificarUsuarioBloqueado(usu);
+		}
 
 		Reserva reserva = new Reserva();
         reserva.setAreaComum(getAreaSelecionada());

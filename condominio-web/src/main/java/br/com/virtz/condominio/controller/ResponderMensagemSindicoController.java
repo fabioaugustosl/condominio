@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -100,7 +101,13 @@ public class ResponderMensagemSindicoController {
 
 		String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.RESPOSTA_MENSAGEM_SINDICO.getNomeArquivo(), mapParametrosEmail);
 
-		List<Usuario> usuarios = listarTodos();
+		List<Usuario> usuarios = null;
+		if(enviarParaTodos){
+			usuarios = listarTodos();
+		} else {
+			usuarios = new ArrayList<Usuario>();
+			usuarios.add(mensagemSindico.getUsuario());
+		}
 
 		try {
 			RespostaMensagemSindico resposta = new RespostaMensagemSindico();

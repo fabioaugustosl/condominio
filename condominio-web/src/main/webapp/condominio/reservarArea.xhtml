@@ -38,7 +38,7 @@
 	 	</p:outputPanel>
 	 	
 	 	<p:outputPanel id="containerSelecionarUsuario" rendered="#{principalController.ehSindico() || principalController.ehAdministrativo()}" style="margin-left:10%">
-		 	<p:outputPanel id="containerComboAgrupamento" rendered="#{reservaController.condominoPossuiAgrupamento &amp;&amp; empty reservaController.agrupamentoSelecionado}" >
+		 	<p:outputPanel id="containerComboAgrupamento" rendered="#{principalController.condominioPossuiAgrupamento() &amp;&amp; empty reservaController.agrupamentoSelecionado}" >
 				<p:outputLabel value="Selecione o #{principalController.condominio.nomeNivelAgrupamento2} da pessoa que está fazendo a reserva:" styleClass="labelPadrao" ></p:outputLabel>
 				<br />
 			 	<p:selectOneMenu id="comboAgrupamento"  style="width:400px;"

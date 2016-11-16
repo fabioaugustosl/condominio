@@ -21,56 +21,63 @@ import br.com.virtz.condominio.util.NavigationPage;
 @ManagedBean
 @ViewScoped
 public class ListagemCorrespondenciaController {
-	
+
 	@EJB
 	private IRecebidoService recebidoService;
-	
+
 	@Inject
 	private SessaoUsuario sessao;
-	
+
+	@Inject
+	private PrincipalController principalController;
+
 	@Inject
 	private MessageHelper message;
-	
+
 	@Inject
 	private NavigationPage navegacao;
-	
-		
+
+
 	private LazyDataModel<Recebido> recebidos = null;
-	
+
 	private Usuario usuario = null;
 	private Recebido recebidoRetirada = null;
 	private String nomeRetirada = null;
-	
-	
-	
+
+
+
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
 	}
-	
-	
+
+
 	public LazyDataModel<Recebido> getRecebidos(){
 		if(recebidos == null){
-			recebidos = new RecebidoLazyModel(recebidoService.recuperarPorCondominioPaginado(usuario.getCondominio().getId(), 0, 50), usuario.getCondominio().getId(),usuario.getApartamento().getId(), recebidoService);
+			Long idApto = null;
+			if(usuario.getApartamento() != null){
+				idApto = usuario.getApartamento().getId();
+			}
+			recebidos = new RecebidoLazyModel(recebidoService.recuperarPorCondominioPaginado(usuario.getCondominio().getId(), 0, 50), usuario.getCondominio().getId(), idApto , recebidoService);
 		}
-			
+
 		return recebidos;
 	}
-	
-	
+
+
 	public boolean superUsuario(){
 		if(EnumTipoUsuario.MORADOR.equals(usuario.getTipoUsuario())){
 			return false;
 		}
 		return true;
 	}
-	
+
 	public void irParaCadastro(){
 		navegacao.redirectToPage("/portaria/cadastrarRecebido.faces");
 	}
-			
-			
-	
+
+
+
 	public void retirada(){
 		if(recebidoRetirada != null){
 			try {
@@ -86,11 +93,11 @@ public class ListagemCorrespondenciaController {
 			message.addError("Ocorreu um erro ao identificar a correspondência/encomenda para dar baixa. Favor tentar novamente.");
 		}
 	}
-	
-	
-	
+
+
+
 	// GETTERS E SETTERS
-	
+
 	public Recebido getRecebidoRetirada() {
 		return recebidoRetirada;
 	}
@@ -106,7 +113,7 @@ public class ListagemCorrespondenciaController {
 	public void setNomeRetirada(String nomeRetirada) {
 		this.nomeRetirada = nomeRetirada;
 	}
-	
-	
+
+
 }
 

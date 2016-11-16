@@ -31,6 +31,61 @@
 			</div>
 		
 		</div>
+		
+		<br/>
+		<br/>
+		<p:dataTable id="dtListagemNotificacao" var="notificacao" 
+				value="#{controlePortariaController.notificacoes}"
+				rendered="#{not empty controlePortariaController.notificacoes}"
+				rows="50" paginator="true" style="margin-top:280px" styleClass="formPad10" 
+				paginatorPosition="bottom"
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="20,50,100" >
+			
+			<f:facet name="header">
+		        Notificações enviadas por moradores
+		    </f:facet>
+    
+    		<p:column headerText="Morador">
+		        <h:outputText value="#{notificacao.usuario.nomeExibicao}" style="font-weight:bold" /><br />
+		        <h:outputText value="#{notificacao.usuario.nomeUnidade}" />
+		    </p:column>
+		    
+	        <p:column headerText="Data prevista" styleClass="colunaLargura160" style="text-align:center">
+		        <h:outputText value="#{notificacao.dataPrevista}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="Quem ou o quê">
+		        <h:outputText value="#{notificacao.nome}" />
+		    </p:column>
+		    
+		    <p:column headerText="Descrição">
+		        <h:outputText value="#{notificacao.comentario}" />
+		    </p:column>
+		    
+		    <p:column headerText="Arquivo" style="text-align:center">
+		        
+		    	<p:outputPanel rendered="#{not empty notificacao.arquivo &amp;&amp; arquivosUtil.ehImagem(notificacao.arquivo.extensao)}">
+	    		 	<p:graphicImage id="imgFotoOcorrencia" url="/img/icones/ico_foto.png" title="Clique para ver a foto maior" 
+			        	style="cursor:pointer" />
+ 				
+					<p:overlayPanel id="imagePanel" for="imgFotoOcorrencia" hideEffect="fade">
+		        	<p:graphicImage  id="imgFotoGrandeVisitante"  
+								url="/imagem?arquivo=#{notificacao.arquivo.caminhoCompleto}" />
+					</p:overlayPanel>
+			    
+ 				</p:outputPanel>
+ 				
+ 				<p:commandButton value="Download arquivo" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s"
+		    		rendered="#{not empty notificacao.arquivo &amp;&amp; not arquivosUtil.ehImagem(notificacao.arquivo.extensao)}">
+			        <p:fileDownload value="#{ultimaAssembleiaController.download(notificacao)}" />
+			    </p:commandButton>	
+		    				    
+		    </p:column>
+		    
+		</p:dataTable> 
 
 	 </h:form>
 	    

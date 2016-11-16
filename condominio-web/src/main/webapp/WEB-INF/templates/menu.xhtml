@@ -12,20 +12,20 @@
 		    
 		    <li><a href="#"><p:graphicImage id="icoCondMenu" url="/img/icones/ico_condominio.png" ></p:graphicImage> <span id="titulosubmenu">Condomínio</span></a>
 		      <ul id="submenu">
-		      	<li><p:link value="Assembleias" outcome="/assembleia/listagemAssembleia.faces" ></p:link></li>
-		      	<li><p:link value="Documentos" outcome="/documento/listagemDocumento.faces" ></p:link></li>
-				<li><p:link value="Indicações de seus vizinhos" outcome="/indicacao/listagemIndicacao.faces" /></li>
-		      	<li><p:link value="Reservar Área" outcome="/condominio/reservarArea.faces" ></p:link></li>
-		      	<li><p:link value="Votações" rendered="#{principalController.ehSindico()}" outcome="/votacao/cadastrarVotacao.faces" /></li>
-		      	<li><p:link value="Registro de Ocorrências" outcome="/ocorrencia/listagemRegistroOcorrencia.faces" /></li>
-		      	<li><p:link value="Moradores" outcome="/usuario/listagemUsuario.faces" ></p:link></li>
+		      	<li><p:link value="Assembleias" rendered="#{principalController.exibirMenu('assembleias')}" outcome="/assembleia/listagemAssembleia.faces" ></p:link></li>
+		      	<li><p:link value="Documentos" rendered="#{principalController.exibirMenu('documentos')}" outcome="/documento/listagemDocumento.faces" ></p:link></li>
+				<li><p:link value="Indicações de seus vizinhos" rendered="#{principalController.exibirMenu('indicacao')}" outcome="/indicacao/listagemIndicacao.faces" /></li>
+		      	<li><p:link value="Reservar Área"  rendered="#{principalController.exibirMenu('reservar')}"  outcome="/condominio/reservarArea.faces" ></p:link></li>
+		      	<li><p:link value="Votações" rendered="#{principalController.exibirMenu('votacao')}"  outcome="/votacao/cadastrarVotacao.faces" /></li>
+		      	<li><p:link value="Registro de Ocorrências" rendered="#{principalController.exibirMenu('ocorrencia')}"  outcome="/ocorrencia/listagemRegistroOcorrencia.faces" /></li>
+		      	<li><p:link value="Moradores" rendered="#{principalController.exibirMenu('moradores')}"  outcome="/usuario/listagemUsuario.faces" ></p:link></li>
 		      </ul>
 		    </li>
 		    <li><a href="#"><p:graphicImage id="icoComumMenu" url="/img/icones/ico_comum.png" /> <span id="titulosubmenu">Comunicação</span></a>
 			    <ul id="submenu">
-					<li><p:link value="Notícias e Avisos" outcome="/noticia/listagemNoticia.faces" /></li>
-					<li><p:link value="Mensagens do Síndico" rendered="#{principalController.ehSindico()}" outcome="/sindico/listagemMensagemSindico.faces" /></li>
-					<li><p:link value="Enviar Mensagem Para Moradores" rendered="#{principalController.ehSindico() || principalController.ehAdministrativo()}" outcome="/enviarmsg/enviar.faces" /></li>
+					<li><p:link value="Notícias e Avisos" rendered="#{principalController.exibirMenu('noticias')}" outcome="/noticia/listagemNoticia.faces" /></li>
+					<li><p:link value="Mensagens do Síndico"  rendered="#{principalController.exibirMenu('mensagemSindico')}" outcome="/sindico/listagemMensagemSindico.faces" /></li>
+					<li><p:link value="Enviar Mensagem Para Moradores" rendered="#{principalController.exibirMenu('mensagemMoradores')}" outcome="/enviarmsg/enviar.faces" /></li>
 				</ul>
 			</li>
 			<li><a href="#"><p:graphicImage id="icoFinanceiroMenu" url="/img/icones/ico_financeiro.png" /> <span id="titulosubmenu">Financeiro</span></a>
@@ -33,21 +33,23 @@
 				<!-- li><p:link value="Configurações" rendered="#{principalController.ehSindico()}" outcome="/financeiro/gerenciarFinanceiro.faces" /></li-->
 				<!-- li><p:link value="Lançamento de título"  rendered="#{principalController.ehSindico()}" outcome="/boleto/configuracaoBoleto.faces" /></li -->
 				<!-- li><p:link value="Emitir de boleto" rendered="#{principalController.ehSindico()}" outcome="/financeiro/gerarBoletos.faces" /></li -->
-				<li><p:link value="Meus boletos" outcome="/financeiro/gerarBoletoPorUsuario.faces" /></li>
-				<li><p:link value="Lançar receitas e despesas" outcome="/balanco/lancarBalanco.faces" rendered="#{principalController.ehSindico()}" /></li>
-				<li><p:link value="Ver as prestações de contas" outcome="/balanco/listagemBalanco.faces"  /></li>
+				<li><p:link value="Meus boletos" rendered="#{principalController.exibirMenu('boletos')}" outcome="/financeiro/gerarBoletoPorUsuario.faces" /></li>
+				<li><p:link value="Lançar receitas e despesas" rendered="#{principalController.exibirMenu('receitasDespesas')}" outcome="/balanco/lancarBalanco.faces"  /></li>
+				<li><p:link value="Ver as prestações de contas" rendered="#{principalController.exibirMenu('prestacaoContas')}" outcome="/balanco/listagemBalanco.faces"  /></li>
 				</ul>
 			</li>
 			<li><a href="#"><p:graphicImage id="icoPortariaMenu" url="/img/icones/ico_portaria_menu.png" /> <span id="titulosubmenu">Portaria</span></a>
 				<ul id="submenu">
-				<li><p:link value="Controle portaria" outcome="/portaria/gerenciarPortaria.faces" rendered="#{principalController.ehSindico()}" /></li>
-				<li><p:link value="Correspondências e entregas" outcome="/portaria/listagemCorrespondencias.faces"  /></li>
+				<li><p:link value="Porteiros" rendered="#{principalController.exibirMenu('porteiros')}" outcome="/portaria/listagemPorteiro.faces"  /></li>
+				<li><p:link value="Controle portaria" rendered="#{principalController.exibirMenu('portaria')}" outcome="/portaria/gerenciarPortaria.faces" /></li>
+				<li><p:link value="Notificar portaria" rendered="#{principalController.exibirMenu('notificarPortaria')}" outcome="/portaria/cadastrarNotificacaoPortaria.faces"  /></li>
+				<li><p:link value="Correspondências e entregas" rendered="#{principalController.exibirMenu('correspondecias')}" outcome="/portaria/listagemCorrespondencias.faces"  /></li>
 				</ul>
 			</li>
 			<li><a href="#"><p:graphicImage id="icoConfigMenu" url="/img/icones/ico_configuracao_menu.png" /> <span id="titulosubmenu">Configurações</span></a>
 				<ul id="submenu">
-				<li><p:link value="Meu Condomínio" outcome="/condominio/condominioEdicao.faces" rendered="#{principalController.ehSindico()}" /></li>
-				<li><p:link value="Gerais" outcome="/configuracao/configuracao.faces" rendered="#{principalController.ehSindico()}" /></li>
+				<li><p:link value="Meu Condomínio" rendered="#{principalController.exibirMenu('meuCondominio')}" outcome="/condominio/condominioEdicao.faces" /></li>
+				<li><p:link value="Gerais" rendered="#{principalController.exibirMenu('gerais')}" outcome="/configuracao/configuracao.faces" /></li>
 				</ul>
 			</li>
 		  </ul>

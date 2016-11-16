@@ -14,6 +14,7 @@ import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 
+
 @ManagedBean
 @SessionScoped
 public class PrincipalController implements Serializable {
@@ -47,11 +48,82 @@ public class PrincipalController implements Serializable {
 	}
 
 
+	public boolean ehPorteiro(){
+		 if(EnumTipoUsuario.PORTEIRO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
+			 return Boolean.TRUE;
+		 }
+		 return Boolean.FALSE;
+	}
+
+
 	public boolean ehAdministrativo(){
 		 if(EnumTipoUsuario.ADMINISTRATIVO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
 			 return Boolean.TRUE;
 		 }
 		 return Boolean.FALSE;
+	}
+
+
+	public boolean exibirMenu(String menu){
+		if("mensagemMoradores".equals(menu)){
+			return this.ehSindico() || this.ehAdministrativo();
+		}
+		else if("assembleias".equals(menu)){
+			return !ehPorteiro();
+		}
+		else if("documentos".equals(menu)){
+			return true;
+		}
+		else if("indicacao".equals(menu)){
+			return !ehPorteiro();
+		}
+		else if("reservar".equals(menu)){
+			return !ehPorteiro();
+		}
+		else if("votacao".equals(menu)){
+			return ehSindico();
+		}
+		else if("ocorrencia".equals(menu)){
+			return !ehPorteiro();
+		}
+		else if("moradores".equals(menu)){
+			return true;
+		}
+		else if("noticias".equals(menu)){
+			return true;
+		}
+		else if("mensagemSindico".equals(menu)){
+			return ehSindico();
+		}
+		else if("boletos".equals(menu)){
+			return !ehPorteiro();
+		}
+		else if("receitasDespesas".equals(menu)){
+			return ehSindico();
+		}
+		else if("prestacaoContas".equals(menu)){
+			return !ehPorteiro();
+		}
+		else if("porteiros".equals(menu)){
+			return ehSindico();
+		}
+		else if("portaria".equals(menu)){
+			return ehSindico() || ehPorteiro() || ehAdministrativo();
+		}
+		else if("notificarPortaria".equals(menu)){
+			return !ehPorteiro();
+		}
+		else if("correspondecias".equals(menu)){
+			return !ehPorteiro();
+		}
+		else if("meuCondominio".equals(menu)){
+			return ehSindico();
+		}
+		else if("gerais".equals(menu)){
+			return ehSindico();
+		}
+
+		return false;
 	}
 
 

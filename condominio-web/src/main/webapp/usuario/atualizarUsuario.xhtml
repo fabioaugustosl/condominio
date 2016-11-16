@@ -53,7 +53,7 @@
 							
 				</p:outputPanel>
 				
-				<p:outputPanel id="blocoEapartamento">
+				<p:outputPanel id="blocoEapartamento" rendered="#{not principalController.usuario.adm}">
 					<p:outputLabel value="Bloco: " styleClass="labelPadrao"></p:outputLabel>
 					<br />
 				 	<p:selectOneMenu id="comboBloco"  styleClass="selectPadrao" style="width:50%"

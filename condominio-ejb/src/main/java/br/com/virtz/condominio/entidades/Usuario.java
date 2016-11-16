@@ -30,9 +30,18 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 			query = "Select u FROM usuario u "
 					+ "	LEFT JOIN u.apartamento ap "
 					+ "	LEFT JOIN u.arquivo arq "
-					+ " WHERE u.condominio.id = :idCondominio AND u.deletado = 0 ORDER BY u.nome ASC "),
+					+ " WHERE u.condominio.id = :idCondominio AND u.deletado = 0 AND u.adm = 0"
+					+ " ORDER BY u.nome ASC "),
+	@NamedQuery(name = "Usuario.recuperarAdmsPorCondominio",
+			query = "Select u FROM usuario u "
+							+ "	LEFT JOIN u.apartamento ap "
+							+ "	LEFT JOIN u.arquivo arq "
+							+ " WHERE u.condominio.id = :idCondominio AND u.deletado = 0 AND u.adm = 1"
+							+ " ORDER BY u.nome ASC "),
 	@NamedQuery(name = "Usuario.recuperarSindicosPorCondominio",
-			query = "Select u FROM usuario u WHERE u.condominio.id = :idCondominio AND u.tipoUsuario = 'SINDICO' AND u.deletado = 0"),
+			query = "Select u FROM usuario u"
+					+ " WHERE u.condominio.id = :idCondominio AND u.tipoUsuario = 'SINDICO' "
+					+ "AND u.deletado = 0 AND u.adm = 0 "),
 	@NamedQuery(name = "Usuario.recuperarPorEmail",
 			query = "Select u FROM usuario u "
 					+ " LEFT JOIN FETCH u.condominio c "
@@ -49,10 +58,10 @@ import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 					+ " WHERE c.id = :idCondominio AND u.tipoUsuario = :tipoUsuario AND u.deletado = 0"),
 	@NamedQuery(name = "Usuario.recuperarUsuariosPorEmail",
 				query = "Select u FROM usuario u "
-							+ " WHERE u.email = :email AND u.deletado = 0"),
+							+ " WHERE u.email = :email AND u.deletado = 0 AND u.adm = 0"),
 	@NamedQuery(name = "Usuario.recuperarUsuariosPorApto",
 				query = "Select u FROM usuario u "
-							+ " WHERE u.apartamento.id = :idApartamento AND u.deletado = 0")
+							+ " WHERE u.apartamento.id = :idApartamento AND u.deletado = 0 AND  u.adm = 0")
 })
 public class Usuario extends Entidade implements Serializable {
 
@@ -113,6 +122,13 @@ public class Usuario extends Entidade implements Serializable {
 
 	@Column(name = "deletado")
 	private Boolean deletado;
+
+	@Column(name = "adm")
+	private Boolean adm;
+
+	@ManyToOne
+	@JoinColumn(name="idUnidade")
+	private Unidade unidade;
 
 	@Transient
 	private String senhaDigitada;
@@ -243,6 +259,22 @@ public class Usuario extends Entidade implements Serializable {
 		this.cadastroConfirmado = cadastroConfirmado;
 	}
 
+	public Unidade getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
+	}
+
+	public Boolean getAdm() {
+		return adm;
+	}
+
+	public void setAdm(Boolean adm) {
+		this.adm = adm;
+	}
+
 	public boolean isSindico(){
 		if(EnumTipoUsuario.SINDICO.equals(this.tipoUsuario)){
 			return Boolean.TRUE;
@@ -259,6 +291,13 @@ public class Usuario extends Entidade implements Serializable {
 
 	public boolean isAdministrativo(){
 		if(EnumTipoUsuario.ADMINISTRATIVO.equals(this.tipoUsuario)){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+
+	public boolean isPorteiro(){
+		if(EnumTipoUsuario.PORTEIRO.equals(this.tipoUsuario)){
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;

@@ -82,11 +82,11 @@
 				<div style="float:right; padding:0px;">
 				
 					<p:outputPanel id="icoConfiguracao" styleClass="containerMenuFloat containerMenuUsuario containerMenuFloatTitulo" 
-							rendered="#{not empty principalController.usuario.apartamento}" style="cursor:pointer; float:right;">
-						#{principalController.usuario.nomeExibicao} <h6>#{principalController.condominio.nomeUnidade} #{principalController.usuario.apartamento.numero} #{principalController.usuario.apartamento.bloco.nome}</h6>
+							 style="cursor:pointer; float:right;">
+						#{principalController.usuario.nomeExibicao}
+						<p:outputPanel rendered="#{not principalController.usuario.adm}"> <h6>#{principalController.condominio.nomeUnidade} #{principalController.usuario.apartamento.numero} #{principalController.usuario.apartamento.bloco.nome}</h6></p:outputPanel>
 						<p:outputPanel rendered="#{principalController.condominioPossuiAgrupamento()}"><h6>#{principalController.usuario.apartamento.bloco.agrupamentoUnidades.nome}</h6></p:outputPanel>
 					</p:outputPanel>
-					
 					
 					<p:overlayPanel widgetVar="panelConfiguracao" id="panelConfiguracao"
 						for="icoConfiguracao" hideEffect="fade" dynamic="false" styleClass="menuConfiguracoesDiv">

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   
+   <style>
+   		
+   </style>
+	
+	<h:form id="form" styleClass="formPad10">   
+	   
+	   	<h1>Notificar portaria.</h1>
+	   	<p:outputLabel styleClass="textoInformativo" value="Utilize esse espaço para enviar alguma notificação para a portaria. Pode ser usado para avisar sobre a chegada de uma encomenda ou de uma visita por exemplo. " />
+	   		
+   		<p:outputPanel id="cadastroNotificacaoPanel" >
+   			
+	 		<p:outputLabel value="Data prevista" styleClass="labelPadrao" /><br />
+	 		<p:calendar id="button" value="#{notificacaoPortariaController.notificacaoPortaria.dataPrevista}" 
+	 					showOn="button" pattern="MM/dd/yyyy" required="true" locale="pt" />
+	 	
+	 		<br />
+ 			<p:outputLabel value="Quem ou o quê" styleClass="labelPadrao" /><br />
+			<p:inputText id="nomeNotificacao" alt="Digite o que ou quem você está esperando."
+					value="#{notificacaoPortariaController.notificacaoPortaria.nome}" maxlength="100" 
+					styleClass="inputPadrao" />
+	 		<br />
+ 			<p:outputLabel value="Descrição / Comentário" styleClass="labelPadrao" /><br />
+			<p:inputTextarea rows="10" cols="50" id="txtAreaComentario" 
+					styleClass="textAreaPadrao"
+					requiredMessage="O preenchimento da descrição/comentário é obritagório."
+					value="#{notificacaoPortariaController.notificacaoPortaria.comentario}"   />
+			
+			
+			<br />
+		 	<p:outputLabel value="Deseja anexar algum arquivo?  " styleClass="labelPadrao" /> <br />
+		 	<p:outputPanel id="painelArquivo" style="position:relative; diplay:block; margin-top:10px; " layout="block" >
+			       
+				      <p:fileUpload mode="advanced" update="painelArquivo" label="Selecionar arquivo"
+				        fileUploadListener="#{notificacaoPortariaController.uploadArquivo}"
+				        rendered="#{empty notificacaoPortariaController.arquivoNotificacao}"
+				        styleClass="dataArquivosMenorEsquerda" 
+				        allowTypes="/(\.|\/)(JPG|jpg|jpeg|JPEG|png|PNG|PDF|pdf|gif)$/" 
+				        multiple="false" sizeLimit="100000000" fileLimitMessage="O arquivo é muito grande. "
+				        invalidFileMessage="Tipo do arquivo inválido. É aceito apenas arquivos no formato."
+						invalidSizeMessage="Tamanho do arquivo inválido"
+				        auto="true" dragDropSupport="false" />
+		        
+					<br />
+					<p:outputPanel rendered="#{notificacaoPortariaController.arquivoNotificacao != null}" 
+								styleClass="dataArquivosMenorEsquerda containerArquivoSimples">
+						<p:outputLabel value="Arquivo anexado: "/> <p:outputLabel value="#{notificacaoPortariaController.arquivoNotificacao.nome}"></p:outputLabel>
+						
+						<p:commandLink actionListener="#{notificacaoPortariaController.removerArquivo()}" 
+								style="float:right; "  
+			         			id="removerArq" immediate="true" update="painelArquivo"   >
+			         		<p:graphicImage id="imgDeletarNot" url="/img/icones/deletar.png" title="Clique para deletar esse arquivo." />
+			         	</p:commandLink>
+			         
+					</p:outputPanel>
+				</p:outputPanel>
+				<br />
+			
+			<p:commandButton id="btnSalvarRecebido" value="Salvar"  update="@form"
+				styleClass="botao botao-grande"
+		   		actionListener="#{notificacaoPortariaController.salvar}" >
+		   	</p:commandButton>
+		   	
+		
+		</p:outputPanel>
+				
+	</h:form>
+	
+
+	 <script type="text/javascript">
+	    PrimeFaces.locales['pt_br'] = {
+	        closeText: 'Fechar',
+	        prevText: 'Anterior',
+	        nextText: 'Próximo',
+	        currentText: 'Hoje',
+	        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+	            'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+	        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun',
+	            'Jul','Ago','Set','Out','Nov','Dez'],
+	        dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+	        dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+	        dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+	        weekHeader: 'Hf',
+	        firstDay: 1,
+	        isRTL: false,
+	        showMonthAfterYear: false,
+	        yearSuffix: '',
+	        month: 'Mês',
+	        week: 'Semana',
+	        day: 'Dia',
+	        allDayText : 'Hora'
+	    };
+	</script>
+   </ui:define>
+</ui:composition>

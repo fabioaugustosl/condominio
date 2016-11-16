@@ -18,7 +18,7 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		.append(" LEFT JOIN FETCH u.condominio c ")
 		.append(" LEFT JOIN FETCH c.areasComuns areas ")
 		.append(" WHERE u.id = :idUsuario AND u.deletado = 0 ");
-		
+
 		Query qry = getEntityManager().createQuery(sb.toString());
 		qry.setParameter("idUsuario", id);
 		List<Usuario> usuarios = qry.getResultList();
@@ -27,7 +27,7 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		}
 		return null;
 	}
-	
+
 
 	@Override
 	public List<Usuario> recuperarTodos(Long idCondominio) {
@@ -35,19 +35,27 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		qry.setParameter("idCondominio", idCondominio);
 		return qry.getResultList();
 	}
-	
+
+	@Override
+	public List<Usuario> recuperarTodosAdm(Long idCondominio) {
+		Query qry = getEntityManager().createNamedQuery("Usuario.recuperarAdmsPorCondominio");
+		qry.setParameter("idCondominio", idCondominio);
+		return qry.getResultList();
+	}
+
+
 	@Override
 	public void alterarStatus(Long idUsuario, EnumTipoUsuario tipoUsuario) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE ").append(Usuario.class.getName()).append(" u ")
 		.append(" SET u.tipoUsuario = :tipoUsuairo ")
 		.append(" WHERE u.id = :idUsuario AND u.deletado = 0 ");
-		
+
 		Query qry = getEntityManager().createQuery(sb.toString());
-		
+
 		qry.setParameter("idUsuario", idUsuario);
 		qry.setParameter("tipoUsuairo", tipoUsuario);
-		
+
 		qry.executeUpdate();
 	}
 
@@ -62,7 +70,7 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public List<Usuario> recuperarUsuariosPorEmail(String email) {
 		Query qry = getEntityManager().createNamedQuery("Usuario.recuperarUsuariosPorEmail");
@@ -77,8 +85,8 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		qry.setParameter("idCondominio", idCondominio);
 		return qry.getResultList();
 	}
-	
-	
+
+
 	@Override
 	public List<Usuario> recuperar(Long idCondominio, EnumTipoUsuario tipo) {
 		Query qry = getEntityManager().createNamedQuery("Usuario.recuperarPorCondominioETipoUsuario");
@@ -86,8 +94,8 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		qry.setParameter("tipoUsuario", tipo);
 		return qry.getResultList();
 	}
-	
-	
+
+
 	@Override
 	public void remover(Long id)  {
 		Usuario u = recuperarPorId(id);
@@ -121,5 +129,5 @@ public class UsuarioDAO extends DAO<Usuario> implements IUsuarioDAO {
 		qry.setParameter("idApartamento", idApartamento);
 		return qry.getResultList();
 	}
-	
+
 }

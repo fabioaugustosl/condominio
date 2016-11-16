@@ -49,6 +49,14 @@ public class UsuarioService implements IUsuarioService {
 		return usuarioDAO.recuperarTodos(condominio.getId());
 	}
 
+
+	@Override
+	public List<Usuario> recuperarTodosPorteiros(Long idCondominio) {
+		return usuarioDAO.recuperarTodosAdm(idCondominio);
+	}
+
+
+
 	@Override
 	public void remover(Long id) {
 		usuarioDAO.remover(id);
