@@ -55,7 +55,7 @@
  				
  				<p:commandButton value="Download arquivo" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s"
 		    		rendered="#{not empty ocorrencia.arquivo &amp;&amp; not arquivosUtil.ehImagem(ocorrencia.arquivo.extensao)}">
-			        <p:fileDownload value="#{ultimaAssembleiaController.download()}" />
+			        <p:fileDownload value="#{listagemRegistroOcorrenciasController.download(ocorrencia)}" />
 			    </p:commandButton>	
 		    				    
 		    </p:column>

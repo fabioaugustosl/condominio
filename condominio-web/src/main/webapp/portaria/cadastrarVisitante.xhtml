@@ -41,11 +41,10 @@
 						<p:outputLabel value="Qual o #{principalController.condominio.nomeNivelAgrupamento2} que o visitante vai:" styleClass="labelPadrao" ></p:outputLabel>
 						<br />
 					 	<p:selectOneMenu id="comboAgrupamento"  style="width:400px;"
-					 			value="#{cadastroVisitanteController.agrupamentoSelecionado}" 
-									converter="converterEntityById"  >
+					 			value="#{cadastroVisitanteController.agrupamentoSelecionado}" converter="converterEntityById"  >
 						 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 						 		<f:selectItems value="#{cadastroVisitanteController.agrupamentos}" var="agrupamento" itemLabel="#{agrupamento.nome}" itemValue="#{agrupamento}" />
-					 		<p:ajax event="change" update="containerComboBlocos" listener="#{cadastroVisitanteController.recuperarBlocos}" />
+					 		<p:ajax event="change" update="containerComboBloco" listener="#{cadastroVisitanteController.recuperarBlocosPorAgrupamento}" />
 						 </p:selectOneMenu>
 					</p:outputPanel>
 					

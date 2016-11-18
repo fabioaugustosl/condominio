@@ -17,7 +17,8 @@ public class BlocoDAO extends DAO<Bloco> implements IBlocoDAO {
 		qry.setParameter("idCondominio", idCondominio);
 		return qry.getResultList();
 	}
-	
+
+
 	@Override
 	public Bloco recuperarBlocoCompleto(Long idBloco) {
 		Query qry = getEntityManager().createNamedQuery("Bloco.recuperarBlocoCompleto");
@@ -28,6 +29,13 @@ public class BlocoDAO extends DAO<Bloco> implements IBlocoDAO {
 			return null;
 		}
 	}
-	
-	
+
+
+	@Override
+	public List<Bloco> recuperarPorAgrupamento(Long idAgrupamento) {
+		Query qry = getEntityManager().createNamedQuery("Bloco.recuperarPorAgrupamentoComApts");
+		qry.setParameter("idAgrupamento", idAgrupamento);
+		return qry.getResultList();
+	}
+
 }

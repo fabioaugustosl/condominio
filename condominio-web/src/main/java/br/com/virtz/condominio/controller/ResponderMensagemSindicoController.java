@@ -70,7 +70,7 @@ public class ResponderMensagemSindicoController {
 
 	@PostConstruct
 	public void init(){
-		enviarParaTodos = Boolean.FALSE;
+		enviarParaTodos = Boolean.TRUE;
 		usuario = sessao.getUsuarioLogado();
 
 		Object idMensagem = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idMensagem");

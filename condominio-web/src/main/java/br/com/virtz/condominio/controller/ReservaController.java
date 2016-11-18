@@ -178,6 +178,16 @@ public class ReservaController {
 	}
 
 
+	public void recuperarBlocosPorAgrupamento() {
+		if(agrupamentoSelecionado != null){
+			blocos = condominioService.recuperarTodosBlocosPorAgrupamento(agrupamentoSelecionado.getId());
+			if(blocos != null && blocos.size() == 1){
+				blocoSelecionado = blocos.get(0);
+			}
+		}
+	}
+
+
 	public void onEventSelect(SelectEvent selectEvent) {
         evento = (ScheduleEvent) selectEvent.getObject();
         podeRemoverReserva = verificarSePodeRemoverReserva();
@@ -226,11 +236,18 @@ public class ReservaController {
 	private String montarNomeEvento(Usuario usuario, Apartamento apartamento) {
 		StringBuilder sb = new StringBuilder();
 		if(apartamento != null){
-			sb.append("Apto: ").append(apartamento.getNumero());
-			sb.append(" Bloco: ").append(apartamento.getBloco().getNome()).append("");
+			if(usuarioLogado.getCondominio().condominioEhVertical()){
+				sb.append("Apto: ").append(apartamento.getNumero());
+				sb.append(" Bloco: ").append(apartamento.getBloco().getNome()).append("");
+			}else{
+				sb.append(apartamento.getNumero()).append(" | ").append(apartamento.getBloco().getNome());
+				if(principalController.condominioPossuiAgrupamento()){
+					sb.append(" | ").append(apartamento.getBloco().getAgrupamentoUnidades().getNome());
+				}
+			}
 		}
 		if(usuario != null){
-			sb.append(" [").append(usuario.getNomeExibicao()).append("]");
+			sb.append("  [").append(usuario.getNomeExibicao()).append("]");
 		}
 		return sb.toString();
 	}
@@ -307,7 +324,8 @@ public class ReservaController {
 
 		if(usu == null){
 			List<Usuario> usuarios = usuarioService.recuperarUsuariosPorApartamento(aptoAgendamento.getId());
-			if(usuarios != null){
+			if(usuarios != null && !usuarios.isEmpty()){
+				usu = usuarios.get(0);
 				for(Usuario u : usuarios){
 					verificarUsuarioBloqueado(u);
 				}
@@ -354,7 +372,13 @@ public class ReservaController {
         	try{
 	        	String apto = recuperarAptoDaReserva();
 	        	String bloco = recuperarBlocoDaReserva();
-	        	reservaService.removerProAptoEData(getAreaSelecionada(), apto, bloco, evento.getStartDate());
+
+	        	if(principalController.condominioPossuiAgrupamento()){
+	        		String agrupamento = recuperarAgrupamentoDaReserva();
+	        		reservaService.removerProAptoEData(getAreaSelecionada(), apto, bloco, agrupamento, evento.getStartDate());
+	        	} else{
+	        		reservaService.removerProAptoEData(getAreaSelecionada(), apto, bloco, evento.getStartDate());
+	        	}
 	        	reservas.deleteEvent(evento);
 	        	message.addInfo("A reserva foi removida com sucesso!");
         	}catch(AppException e){
@@ -401,25 +425,54 @@ public class ReservaController {
 	}
 
 	private String recuperarAptoDaReserva() {
-		String[] arrayTitulo = evento.getTitle().split(" ");
-		if(arrayTitulo == null && arrayTitulo.length <= 1){
-			return null;
+		if(usuarioLogado.getCondominio().condominioEhVertical()){
+			String[] arrayTitulo = evento.getTitle().split(" ");
+			if(arrayTitulo == null && arrayTitulo.length <= 1){
+				return null;
+			}
+			String  apto = arrayTitulo[1].trim();
+			return apto;
+		}else{
+			String[] arrayTitulo = evento.getTitle().split(" \\| ");
+			if(arrayTitulo == null && arrayTitulo.length <= 1){
+				return null;
+			}
+			String  apto = arrayTitulo[0].trim();
+			return apto;
 		}
-		String  apto = arrayTitulo[1].trim();
-		return apto;
+
 	}
 
 	private String recuperarBlocoDaReserva() {
-		String[] arrayTitulo = evento.getTitle().split("Bloco:");
+		if(usuarioLogado.getCondominio().condominioEhVertical()){
+			String[] arrayTitulo = evento.getTitle().split("Bloco:");
+			if(arrayTitulo == null && arrayTitulo.length <= 1){
+				return null;
+			}
+			String  padrao = arrayTitulo[1].trim();
+			String  bloco = padrao;
+			if(bloco.contains("[")){
+				bloco = padrao.substring(0,padrao.indexOf("["));
+			}
+			return bloco.trim();
+		}else{
+			String[] arrayTitulo = evento.getTitle().split(" \\| ");
+			if(arrayTitulo == null && arrayTitulo.length <= 1){
+				return null;
+			}
+			String  bloco = arrayTitulo[1].trim();
+			return bloco;
+		}
+	}
+
+	private String recuperarAgrupamentoDaReserva() {
+		String[] arrayTitulo = evento.getTitle().split(" \\| ");
 		if(arrayTitulo == null && arrayTitulo.length <= 1){
 			return null;
 		}
-		String  padrao = arrayTitulo[1].trim();
-		String  bloco = padrao;
-		if(bloco.contains("[")){
-			bloco = padrao.substring(0,padrao.indexOf("["));
-		}
-		return bloco.trim();
+		String[] novoArray = arrayTitulo[2].split("[");
+		String  agrup = novoArray[0].trim();
+		return agrup;
 	}
 
 	public boolean condominoPossuiAgrupamento(){

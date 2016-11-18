@@ -94,6 +94,15 @@ public class CadastroRecebidoController {
 
 	}
 
+	public void recuperarBlocosPorAgrupamento() {
+		if(agrupamentoSelecionado != null){
+			blocos = condominioService.recuperarTodosBlocosPorAgrupamento(agrupamentoSelecionado.getId());
+			if(blocos != null && blocos.size() == 1){
+				blocoSelecionado = blocos.get(0);
+			}
+		}
+	}
+
 
 	public void salvar(ActionEvent event) throws CondominioException {
 		if(apartamento == null){

@@ -17,6 +17,7 @@ import javax.servlet.ServletContext;
 
 import org.primefaces.event.CaptureEvent;
 
+import br.com.virtz.condominio.entidades.AgrupamentoUnidades;
 import br.com.virtz.condominio.entidades.Apartamento;
 import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.entidades.Usuario;
@@ -53,12 +54,14 @@ public class CadastroVisitanteController {
 	@Inject
 	private IArquivosUtil arquivoUtil;
 
+	@Inject
+	private PrincipalController principalController;
 
 	private List<Bloco> blocos = null;
-	private List<Bloco> agrupamentos = null;
+	private List<AgrupamentoUnidades> agrupamentos = null;
 	private Bloco blocoSelecionado;
 	private Apartamento apartamentoSelecionado;
-	private Apartamento agrupamentoSelecionado;
+	private AgrupamentoUnidades agrupamentoSelecionado;
 
 	private Usuario usuario = null;
 
@@ -74,12 +77,24 @@ public class CadastroVisitanteController {
 
 		blocoSelecionado = null;
 
-		recuperarBlocos();
+		if(principalController.condominioPossuiAgrupamento()){
+			recuperarAgrupamentos();
+		} else{
+			recuperarBlocos();
+		}
 
 		apartamentoSelecionado = null;
 
 		visitante = new Visitante();
 
+	}
+
+
+	public void recuperarAgrupamentos() {
+		agrupamentos = condominioService.recuperarTodosAgrupamentos(usuario.getCondominio().getId());
+		if(agrupamentos != null && agrupamentos.size() == 1){
+			agrupamentoSelecionado = agrupamentos.get(0);
+		}
 	}
 
 
@@ -89,6 +104,16 @@ public class CadastroVisitanteController {
 			blocoSelecionado = blocos.get(0);
 		}
 	}
+
+	public void recuperarBlocosPorAgrupamento() {
+		if(agrupamentoSelecionado != null){
+			blocos = condominioService.recuperarTodosBlocosPorAgrupamento(agrupamentoSelecionado.getId());
+			if(blocos != null && blocos.size() == 1){
+				blocoSelecionado = blocos.get(0);
+			}
+		}
+	}
+
 
 
 	public void salvar(ActionEvent event) throws CondominioException {
@@ -185,15 +210,15 @@ public class CadastroVisitanteController {
 		this.visitante = visitante;
 	}
 
-	public Apartamento getAgrupamentoSelecionado() {
+	public AgrupamentoUnidades getAgrupamentoSelecionado() {
 		return agrupamentoSelecionado;
 	}
 
-	public void setAgrupamentoSelecionado(Apartamento agrupamentoSelecionado) {
+	public void setAgrupamentoSelecionado(AgrupamentoUnidades agrupamentoSelecionado) {
 		this.agrupamentoSelecionado = agrupamentoSelecionado;
 	}
 
-	public List<Bloco> getAgrupamentos() {
+	public List<AgrupamentoUnidades> getAgrupamentos() {
 		return agrupamentos;
 	}
 

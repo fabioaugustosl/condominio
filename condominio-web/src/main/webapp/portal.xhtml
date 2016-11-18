@@ -71,7 +71,7 @@
 		 			</td>
 		 			
 		 			<td style="width:25%; top:0;">
-		 				<p:panel id="panelWidgetVisitantes" header="Controle de visitas" style="height:100%;" rendered="#{not principalController.ehPorteiro()}" > 
+		 				<p:panel id="panelWidgetVisitantes" header="Controle de visitas" style="height:100%;" rendered="#{principalController.ehPorteiro()}" > 
 			                <ui:include src="widget/porteiroVisitantes.xhtml" />
 			            </p:panel>
 			            

@@ -30,8 +30,10 @@
 		    
 		    <p:column headerText="Morador" styleClass="colunaLargura200">
 		        <strong><h:outputText value="#{usuario.nome}" /></strong><br />
-		        <h:outputText value="#{principalController.condominio.nomeUnidade} #{usuario.apartamento.numero}" />
+		        <h:outputText value="#{principalController.condominio.nomeUnidade}" rendered="#{usuario.condominio.condominioEhVertical()}" />
+		        <h:outputText value="#{usuario.apartamento.numero}" />
 		        <h:outputText value=" - #{usuario.apartamento.bloco.nome}" />
+		        <h:outputText value=" - #{usuario.apartamento.bloco.agrupamentoUnidades.nome}" rendered="#{principalController.condominioPossuiAgrupamento()}" />
 		    </p:column>
 		    
 		    <p:column headerText="Contatos" styleClass="colunaLargura200">

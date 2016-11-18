@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 		@NamedQuery(name = "RegistroOcorrencia.recuperarPorCondominio",
 				query = "Select n FROM RegistroOcorrencia n "
-						+ " WHERE n.condominio.id = :idCondominio "),
+						+ " WHERE n.condominio.id = :idCondominio order by id desc "),
 		@NamedQuery(name = "RegistroOcorrencia.totalOcorrencias",
 				query = "SELECT count(v) FROM RegistroOcorrencia v WHERE v.condominio.id = :idCondominio ")
 

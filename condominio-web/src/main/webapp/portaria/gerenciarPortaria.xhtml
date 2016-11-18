@@ -80,7 +80,7 @@
  				
  				<p:commandButton value="Download arquivo" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s"
 		    		rendered="#{not empty notificacao.arquivo &amp;&amp; not arquivosUtil.ehImagem(notificacao.arquivo.extensao)}">
-			        <p:fileDownload value="#{ultimaAssembleiaController.download(notificacao)}" />
+			        <p:fileDownload value="#{controlePortariaController.download(notificacao)}" />
 			    </p:commandButton>	
 		    				    
 		    </p:column>

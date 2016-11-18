@@ -247,4 +247,9 @@ public class CondominioService implements ICondominioService {
 		return agrupamentoDAO.condominioPossuiAgrupamento(idCondominio);
 	}
 
+	@Override
+	public List<Bloco> recuperarTodosBlocosPorAgrupamento(Long idAgrupamento) {
+		return blocoDAO.recuperarPorAgrupamento(idAgrupamento);
+	}
+
 }

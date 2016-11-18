@@ -8,6 +8,8 @@
    
    
    <style type="text/css">
+   .jcrop-holder{max-width:600px}
+   .jcrop-holder img{max-width: 600px;}
    </style>
    
    
@@ -42,7 +44,7 @@
 					<p:outputLabel value="Celular: " styleClass="labelPadrao" /><br />
 					<p:inputMask id="celularUsuario" value="#{cadastrarPorteiroController.usuario.celular}" alt="Insira seu celular."
 						maxlength="20" styleClass="inputPadrao100" style="width:30%"
-						mask="(99) 9999-9999?9" />
+						mask="(99) 9999-99999" />
 					
 					<br />
 						
@@ -73,23 +75,26 @@
 	 			</td>
 	 			
 	 			<td style="width:50%; align:top;">
+	 			<p:outputPanel id="painelFotoPorteiro" >
 	 				<p:fileUpload mode="advanced" immediate="true" label="Selecionar arquivo"
 				        fileUploadListener="#{cadastrarPorteiroController.uploadArquivo}"
 				        allowTypes="/(\.|\/)(JPg|jpg|jpeg|JPEG|png|PNG)$/"  
-				        multiple="false" sizeLimit="6000000" 
-				        invalidFileMessage="Arquivo não válido." 
+				        multiple="false" sizeLimit="6000000" style="max-width:600px"
+				        invalidFileMessage="Arquivo não válido."  process="@this"
 				        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
-				        update="@form"  />
+				        update="painelFotoPorteiro"  />
 			        
 		 				<p:outputPanel  id="containerCortadorImagem" rendered="#{empty cadastrarPorteiroController.caminhoImagem}" >
-		     				<p:graphicImage id="imagemUsuario" url="/imagem?arquivo=/arquivos/usuario/foto.jpg" width="300" />
+		     				<p:graphicImage id="imagemUsuario"
+		     				 url="/imagem?arquivo=/arquivos/usuario/foto.jpg" width="300" />
 		     			</p:outputPanel>	 
 		     			
 						<p:imageCropper id="cortadorImagem" value="#{cadastrarPorteiroController.imagemCortada}" 
 			   					rendered="#{not empty cadastrarPorteiroController.caminhoImagem}"
+			   					style="max-width:600px"
 								initialCoords="0,0,200,275" maxSize="750,900" minSize="200,275"
 								image="#{cadastrarPorteiroController.caminhoImagem}" />
-					
+					</p:outputPanel>
 	 			</td>
 	 		</tr>
 		 </table>

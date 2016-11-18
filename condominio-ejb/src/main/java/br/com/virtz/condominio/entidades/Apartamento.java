@@ -18,7 +18,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "Apartamento.recuperarPorCondominioENumeroBloco",
 						query = "Select a FROM apartamento a "
 							+ " LEFT JOIN a.bloco b "
-							+ " WHERE b.condominio.id = :idCondominio AND a.numero = :numero AND b.nome = :nomeBloco")
+							+ " WHERE b.condominio.id = :idCondominio AND a.numero = :numero AND b.nome = :nomeBloco"),
+				@NamedQuery(name = "Apartamento.recuperarPorCondominioENumeroBlocoAgrupamento",
+						query = "Select a FROM apartamento a "
+							+ " LEFT JOIN a.bloco b "
+							+ " LEFT JOIN b.agrupamentoUnidades agrupamento "
+							+ " WHERE b.condominio.id = :idCondominio AND a.numero = :numero AND b.nome = :nomeBloco AND agrupamento.nome = :nomeAgrupamento")
 })
 public class Apartamento extends Entidade implements Serializable, Comparable<Apartamento> {
 

@@ -24,6 +24,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 			query = "Select distinct b FROM bloco b "
 					+ " LEFT JOIN FETCH b.apartamentos apts "
 					+ " WHERE b.condominio.id = :idCondominio ORDER BY b.id "),
+					@NamedQuery(name = "Bloco.recuperarPorAgrupamentoComApts",
+					query = "Select distinct b FROM bloco b "
+							+ " LEFT JOIN FETCH b.apartamentos apts "
+							+ " JOIN FETCH b.agrupamentoUnidades agrupamentos "
+							+ " WHERE agrupamentos.id = :idAgrupamento ORDER BY b.id "),
 	@NamedQuery(name = "Bloco.recuperarBlocoCompleto",
 			query = "Select distinct b FROM bloco b "
 					+ " LEFT JOIN FETCH b.apartamentos apts "

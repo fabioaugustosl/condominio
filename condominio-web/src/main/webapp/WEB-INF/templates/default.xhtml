@@ -84,7 +84,7 @@
 					<p:outputPanel id="icoConfiguracao" styleClass="containerMenuFloat containerMenuUsuario containerMenuFloatTitulo" 
 							 style="cursor:pointer; float:right;">
 						#{principalController.usuario.nomeExibicao}
-						<p:outputPanel rendered="#{not principalController.usuario.adm}"> <h6>#{principalController.condominio.nomeUnidade} #{principalController.usuario.apartamento.numero} #{principalController.usuario.apartamento.bloco.nome}</h6></p:outputPanel>
+						<p:outputPanel rendered="#{not principalController.usuario.adm}"> <h6> <p:outputLabel value="#{principalController.condominio.nomeUnidade}" rendered="#{not principalController.condominioPossuiAgrupamento()}"></p:outputLabel> #{principalController.usuario.apartamento.numero} #{principalController.usuario.apartamento.bloco.nome}</h6></p:outputPanel>
 						<p:outputPanel rendered="#{principalController.condominioPossuiAgrupamento()}"><h6>#{principalController.usuario.apartamento.bloco.agrupamentoUnidades.nome}</h6></p:outputPanel>
 					</p:outputPanel>
 					

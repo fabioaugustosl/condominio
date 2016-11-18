@@ -27,7 +27,7 @@
 						converter="converterEntityById"  >
 			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 			 		<f:selectItems value="#{cadastroRecebidoController.agrupamentos}" var="agrupamento" itemLabel="#{agrupamento.nome}" itemValue="#{agrupamento}" />
-			 		<p:ajax event="change" update="containerComboBloco"  />
+			 		<p:ajax event="change" update="containerComboBloco" listener="#{cadastroRecebidoController.recuperarBlocosPorAgrupamento}" />
 			 	</p:selectOneMenu>
 			 </p:outputPanel>
 			 

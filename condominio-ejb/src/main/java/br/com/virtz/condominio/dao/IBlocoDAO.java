@@ -9,5 +9,6 @@ import br.com.virtz.condominio.entidades.Bloco;
 @Local
 public interface IBlocoDAO extends CrudDAO<Bloco> {
 	public List<Bloco> recuperarComApartamentos(Long idCondominio);
+	public List<Bloco> recuperarPorAgrupamento(Long idAgrupamento);
 	public Bloco recuperarBlocoCompleto(Long idBloco);
 }

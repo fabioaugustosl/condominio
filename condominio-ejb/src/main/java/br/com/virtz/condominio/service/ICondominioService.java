@@ -37,6 +37,7 @@ public interface ICondominioService {
 	public void removerBloco(Long id);
 	public List<Bloco> recuperarTodosBlocos();
 	public List<Bloco> recuperarTodosBlocosComApartamentos(Long idCondominio);
+	public List<Bloco> recuperarTodosBlocosPorAgrupamento(Long idAgrupamento);
 	public List<Bloco> sugerirBlocos(int quantidadeBlocos, Condominio condominio);
 	public Bloco recuperarBloco(Long idBloco);
 

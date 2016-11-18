@@ -18,4 +18,5 @@ public interface IReservaService {
 	public List<Reserva> recuperarRecentes(AreaComum area);
 	public void remover(AreaComum areaReservada, String nomeUsuarioReserva, Date dataInicioReserva) throws AppException;
 	public void removerProAptoEData(AreaComum areaReservada, String apto, String bloco, Date dataInicioReserva) throws AppException;
+	public void removerProAptoEData(AreaComum areaReservada, String apto, String bloco, String agrupamento, Date dataInicioReserva) throws AppException;
 }

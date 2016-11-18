@@ -47,7 +47,7 @@
 						converter="converterEntityById"  >
 			 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 			 		<f:selectItems value="#{reservaController.agrupamentos}" var="agrupamento" itemLabel="#{agrupamento.nome}" itemValue="#{agrupamento}" />
-			 		<p:ajax event="change" update="containerComboBloco"  />
+			 		<p:ajax event="change" update="containerComboBloco" listener="#{reservaController.recuperarBlocosPorAgrupamento}" />
 			 	</p:selectOneMenu>
 			 </p:outputPanel>
 			 
