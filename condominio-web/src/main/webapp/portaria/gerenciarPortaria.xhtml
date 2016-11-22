@@ -48,7 +48,7 @@
     
     		<p:column headerText="Morador">
 		        <h:outputText value="#{notificacao.usuario.nomeExibicao}" style="font-weight:bold" /><br />
-		        <h:outputText value="#{notificacao.usuario.nomeUnidade}" />
+		        <h:outputText value="#{principalController.condominio.nomeUnidade} #{notificacao.usuario.nomeUnidade}" />
 		    </p:column>
 		    
 	        <p:column headerText="Data prevista" styleClass="colunaLargura160" style="text-align:center">

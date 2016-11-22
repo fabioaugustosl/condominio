@@ -20,47 +20,47 @@ import br.com.virtz.condominio.util.NavigationPage;
 @ManagedBean
 @ViewScoped
 public class ConfirmarUsuarioController {
-	
+
 	@EJB
 	private IUsuarioService usuarioService;
-	
+
 	@EJB
 	private ICondominioService condominioService;
-	
+
 	@EJB
 	private ITokenService tokenService;
-	
+
 	@Inject
 	private NavigationPage navegacao;
-	
+
 	@Inject
 	private EnviarEmailSuporteController emailSuporte;
-	
+
 
 	private boolean usuarioConfirmado;
 	private Usuario usuario = null;
-		
-	
+
+
 	@PostConstruct
 	public void init(){
-		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest(); 
- 
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
 		String token = request.getParameter("token");
-		
+
 		// verifica se o token é valido
 		if(tokenService.tokenEhValido(token)){
 			Token tokenEntidade = tokenService.recuperarToken(token);
-			
+
 			// recuperar o id do usuario para busca-lo no banco
 			String chave = tokenEntidade.getChaveEntidade();
 			if(StringUtils.isNotBlank(chave)){
 				usuario = usuarioService.recuperarUsuarioCompleto(Long.valueOf(chave));
-				
+
 				// validar se o email já está sendo usado e ativo
 				if(usuarioService.emailJaEstaAtivo(usuario.getEmail())){
 					usuarioConfirmado = Boolean.FALSE;
 				} else {
-				
+
 					usuario.setCadastroConfirmado(Boolean.TRUE);
 					try {
 						usuario = usuarioService.salvar(usuario);
@@ -75,28 +75,28 @@ public class ConfirmarUsuarioController {
 				}
 				tokenService.invalidar(token);
 			}
-			
-			
+
+
 		} else {
 			usuarioConfirmado = Boolean.FALSE;
 		}
-				
+
 	}
-	
-	
+
+
 	public void selecionarCondominio(){
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("idUsuario", usuario.getId());
 		navegacao.redirectToPage("selecionarCondominioUsuario.faces");
 	}
 
-	
+
 	public void irParaLogin(){
 		navegacao.redirectToPage("../login.faces");
 	}
-	
-	
+
+
 	/* GETTERS e SETTERS*/
-	
+
 	public boolean isUsuarioConfirmado() {
 		return usuarioConfirmado;
 	}
@@ -105,5 +105,5 @@ public class ConfirmarUsuarioController {
 		this.usuarioConfirmado = usuarioConfirmado;
 	}
 
-	
+
 }

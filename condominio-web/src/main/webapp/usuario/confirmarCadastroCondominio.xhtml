@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/templateSimples.xhtml">
+   
+   <style type="text/css">
+ 
+   </style>
+   
+   <ui:define name="content">
+   
+   	<h:form id="form" >   
+	   
+	   	<p:outputPanel id="mensagemFalha" rendered="#{not confirmarUsuarioCondominioController.usuarioConfirmado}">
+	   		
+		</p:outputPanel>
+		
+		<p:outputPanel id="mensagemSucesso" rendered="#{confirmarUsuarioCondominioController.usuarioConfirmado}">
+			<h1>Seu cadastro foi confirmado!</h1>
+			<br />
+			<p:messages autoUpdate="true"></p:messages>
+			<br />
+			
+			<p><p:outputLabel value="Seja bem vindo ao CondomínioSobControle."></p:outputLabel></p>
+			<br/>
+			
+			<p:outputPanel id="containerSelecionarUsuario" 
+					rendered="#{not confirmarUsuarioCondominioController.cadastrouApto}" >
+				<p><p:outputLabel value="Falta pouco. Precisamos apenas definir sua senha e seu #{confirmarUsuarioCondominioController.usuario.condominio.nomeUnidade}."></p:outputLabel></p>
+				<br/>
+				
+				<p:outputPanel id="containerSenha">
+					<p:outputLabel value="Digite uma senha: (mínimo 6 caracteres) " /><br />
+				   	<p:password id="senhaUsuario" value="#{confirmarUsuarioCondominioController.usuario.senhaDigitada}" 
+				   			styleClass="inputPadrao" style="width:200px;" 
+				   			match="senhaUsuario2" validatorMessage="A senha repetida não foi igual. Favor digitar novamente a senha de forma idêntica."
+				   			maxlength="20" required="true" requiredMessage="Favor inserir uma senha."
+				   			/>
+				   	<br />
+					<p:outputLabel value="Confirme sua senha:" /><br />		
+	        		<p:password id="senhaUsuario2"  validatorMessage="A senha repetida não foi igual. Favor digitar novamente a senha de forma idêntica."
+			        		value="#{confirmarUsuarioCondominioController.usuario.senhaDigitadaConfirmacao}" 
+			        		styleClass="inputPadrao" style="width:200px;"
+			        		requiredMessage="Favor inserir uma confirmação de senha."
+			        		required="true" maxlength="20" />
+				</p:outputPanel>
+				
+				
+			 	<p:outputPanel id="containerComboAgrupamento" rendered="#{confirmarUsuarioCondominioController.condominioPossuiAgrupamento()}" >
+					<p:outputLabel value="Favor selecione o seu #{confirmarUsuarioCondominioController.usuario.condominio.nomeNivelAgrupamento2}:" styleClass="labelPadrao" ></p:outputLabel>
+					<br />
+				 	<p:selectOneMenu id="comboAgrupamento"  style="width:400px;"
+				 		styleClass="selectPadrao" required="true" requiredMessage="Favor selecionar seu #{confirmarUsuarioCondominioController.usuario.condominio.nomeNivelAgrupamento2}"
+				 			value="#{confirmarUsuarioCondominioController.agrupamentoSelecionado}" 
+							converter="converterEntityById"  >
+				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+				 		<f:selectItems value="#{confirmarUsuarioCondominioController.agrupamentos}" var="agrupamento" itemLabel="#{agrupamento.nome}" itemValue="#{agrupamento}" />
+				 		<p:ajax event="change" update="containerComboBloco" listener="#{confirmarUsuarioCondominioController.recuperarBlocosPorAgrupamento}" />
+				 	</p:selectOneMenu>
+				 </p:outputPanel>
+				 
+			 	<p:outputPanel id="containerComboBloco" >
+					<p:outputLabel value="Agora selecione o seu #{confirmarUsuarioCondominioController.usuario.condominio.nomeNivelAgrupamento1}:" styleClass="labelPadrao" ></p:outputLabel>
+					<br />
+				 	<p:selectOneMenu id="comboBloco"  style="width:400px;"
+				 		styleClass="selectPadrao" required="true" requiredMessage="Favor selecionar seu #{confirmarUsuarioCondominioController.usuario.condominio.nomeNivelAgrupamento1}"
+				 			value="#{confirmarUsuarioCondominioController.blocoSelecionado}" 
+							converter="converterEntityById"  >
+				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+				 		<f:selectItems value="#{confirmarUsuarioCondominioController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
+				 		<p:ajax event="change" update="containerComboApartamentos"  />
+				 	</p:selectOneMenu>
+				 </p:outputPanel>
+				 	
+			 	<p:outputPanel id="containerComboApartamentos" >
+				 	<p:outputPanel id="containerComboApartamentosInterno" rendered="#{not empty confirmarUsuarioCondominioController.blocoSelecionado}" >
+				 		<p:outputLabel value="Por fim, selecione o seu #{confirmarUsuarioCondominioController.usuario.condominio.nomeUnidade}:" styleClass="labelPadrao"></p:outputLabel>
+				 		<br />
+					 	<p:selectOneMenu id="comboApartamentos"  style="width:400px;"
+					 			value="#{confirmarUsuarioCondominioController.apartamentoSelecionado}"
+					 			styleClass="selectPadrao" 
+								converter="converterEntityById" required="true"
+								requiredMessage="Favor selecionar o #{confirmarUsuarioCondominioController.usuario.condominio.nomeUnidade}." >
+					 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+					 		<f:selectItems value="#{confirmarUsuarioCondominioController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
+					 	</p:selectOneMenu>
+					 </p:outputPanel>
+				</p:outputPanel>
+				
+				<p:commandButton id="salvarCondominio" value="Salvar"
+					styleClass="botao"  update="@form"
+			   		actionListener="#{confirmarUsuarioCondominioController.salvar}" >
+			   	</p:commandButton>
+			   	
+		 	</p:outputPanel>
+		 		
+		 		
+		 	<p:outputPanel id="containerFim" >
+				<p:outputLabel value="Pronto!  " 
+					rendered="#{confirmarUsuarioCondominioController.cadastrouApto}"
+					styleClass="labelPadrao"></p:outputLabel>
+					<br />
+					<p:outputLabel value="Parabéns. Agora seu cadastro está completo. " 
+					rendered="#{confirmarUsuarioCondominioController.cadastrouApto}"
+					styleClass="labelPadrao"></p:outputLabel>
+					<br /><br />
+				<p:commandButton id="salvarCondominio3" value="Ir para login"
+					styleClass="botao" rendered="#{confirmarUsuarioCondominioController.cadastrouApto}"
+			   		actionListener="#{confirmarUsuarioCondominioController.irParaLogin}" >
+			   	</p:commandButton>
+		   	</p:outputPanel>
+				   	
+	   </p:outputPanel>
+	  
+	 </h:form>
+   </ui:define>
+</ui:composition>

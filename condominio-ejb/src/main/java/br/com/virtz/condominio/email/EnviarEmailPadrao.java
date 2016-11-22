@@ -55,6 +55,7 @@ public class EnviarEmailPadrao implements EnviarEmail {
             Address[] para = InternetAddress.parse(email.getParaToString());
             m.setFrom(de);
             m.setRecipients(Message.RecipientType.TO, para);
+           // m.setSubject(email.getAssunto(), "ISO-8859-1");
             m.setSubject(email.getAssunto());
 
             Multipart multiparteEmail = new MimeMultipart();
@@ -67,7 +68,7 @@ public class EnviarEmailPadrao implements EnviarEmail {
 //			} catch (UnsupportedEncodingException e1) {
 				msgEnviar = email.getMensagem();
 //			}
-            msgEmail.setContent(msgEnviar, "text/html;");
+            msgEmail.setContent(msgEnviar, "text/html; charset=ISO-8859-1");
 
             // adds parts to the multipart
             multiparteEmail.addBodyPart(msgEmail);
@@ -88,7 +89,7 @@ public class EnviarEmailPadrao implements EnviarEmail {
             	e.printStackTrace();
             }
 
-            m.setContent(multiparteEmail,"text/html");
+            m.setContent(multiparteEmail,"text/html; charset=ISO-8859-1");
 
             Transport.send(m);
 //            return Boolean.TRUE;

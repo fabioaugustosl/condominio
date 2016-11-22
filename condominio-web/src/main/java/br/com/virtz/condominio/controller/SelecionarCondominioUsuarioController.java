@@ -173,6 +173,16 @@ public class SelecionarCondominioUsuarioController {
 	}
 
 
+	public void recuperarBlocosPorAgrupamento() {
+		if(agrupamentoSelecionado != null){
+			blocos = condominioService.recuperarTodosBlocosPorAgrupamento(agrupamentoSelecionado.getId());
+			if(blocos != null && blocos.size() == 1){
+				blocoSelecionado = blocos.get(0);
+			}
+		}
+	}
+
+
 	/* GETTERS e SETTERS*/
 
 	public boolean isCondominioExistente() {
@@ -253,6 +263,14 @@ public class SelecionarCondominioUsuarioController {
 
 	public List<AgrupamentoUnidades> getAgrupamentos() {
 		return agrupamentos;
+	}
+
+	public AgrupamentoUnidades getAgrupamentoSelecionado() {
+		return agrupamentoSelecionado;
+	}
+
+	public void setAgrupamentoSelecionado(AgrupamentoUnidades agrupamentoSelecionado) {
+		this.agrupamentoSelecionado = agrupamentoSelecionado;
 	}
 
 

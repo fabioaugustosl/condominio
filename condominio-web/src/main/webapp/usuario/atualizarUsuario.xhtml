@@ -54,7 +54,20 @@
 				</p:outputPanel>
 				
 				<p:outputPanel id="blocoEapartamento" rendered="#{not principalController.usuario.adm}">
-					<p:outputLabel value="Bloco: " styleClass="labelPadrao"></p:outputLabel>
+					<p:outputPanel id="containerComboAgrupamento" rendered="#{principalController.condominioPossuiAgrupamento()}" >
+						<p:outputLabel value="#{principalController.condominio.nomeNivelAgrupamento2}:" styleClass="labelPadrao" style="text-transform: capitalize;" ></p:outputLabel>
+						<br />
+					 	<p:selectOneMenu id="comboAgrupamento"  style="width:400px;"
+					 		styleClass="selectPadrao"
+					 			value="#{atualizarUsuarioController.agrupamentoSelecionado}" 
+								converter="converterEntityById"  >
+					 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
+					 		<f:selectItems value="#{atualizarUsuarioController.agrupamentos}" var="agrupamento" itemLabel="#{agrupamento.nome}" itemValue="#{agrupamento}" />
+					 		<p:ajax event="change" update="comboBloco" listener="#{atualizarUsuarioController.recuperarBlocosPorAgrupamento}" />
+					 	</p:selectOneMenu>
+					</p:outputPanel>
+			 
+					<p:outputLabel value="#{principalController.condominio.nomeNivelAgrupamento1}: " styleClass="labelPadrao" style="text-transform: capitalize;"></p:outputLabel>
 					<br />
 				 	<p:selectOneMenu id="comboBloco"  styleClass="selectPadrao" style="width:50%"
 					 			value="#{atualizarUsuarioController.blocoSelecionado}" 
@@ -62,13 +75,13 @@
 					 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 					 		<f:selectItems value="#{atualizarUsuarioController.blocos}" var="bloco" itemLabel="#{bloco.nome}" itemValue="#{bloco}" />
 					 		<p:ajax event="change" update="containerComboApartamentos"  />
-					 	</p:selectOneMenu>
-					 </p:outputPanel>
+					 </p:selectOneMenu>
+					</p:outputPanel>
 				 	
 				 	<br />
 				 	<p:outputPanel id="containerComboApartamentos" >
 				 		<p:outputLabel rendered="#{not empty atualizarUsuarioController.blocoSelecionado}" 
-				 			styleClass="labelPadrao" value="Apartamento:"></p:outputLabel>
+				 			styleClass="labelPadrao" value="#{principalController.condominio.nomeUnidade}:" style="text-transform: capitalize;" ></p:outputLabel>
 				 		<br />
 					 	<p:selectOneMenu id="comboApartamentos"  styleClass="selectPadrao"  style="width:50%"
 					 			rendered="#{not empty atualizarUsuarioController.blocoSelecionado}" 
@@ -87,7 +100,7 @@
 				        multiple="false" sizeLimit="6000000" 
 				        invalidFileMessage="Arquivo não válido." 
 				        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
-				        update="@form"  />
+				        update="@form" />
 			        
 		 				<p:outputPanel  id="containerCortadorImagem" rendered="#{empty atualizarUsuarioController.caminhoImagem}" >
 		     				<p:graphicImage id="imagemUsuario" url="/imagem?arquivo=/arquivos/usuario/foto.jpg" width="300" />

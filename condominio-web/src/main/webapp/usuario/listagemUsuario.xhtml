@@ -16,8 +16,40 @@
    			
 	   	<p:outputLabel styleClass="textoInformativo" rendered="#{principalController.ehSindico()}"
    			value="Gerencie todos os moradores do condominio. Aqui você pode alterar o perfil de cada morador. Para isso basta clicar no 'V' na coluna do perfil desejado. " />
+ 		
 	 	<br />
 	 	
+	 	<p:outputPanel id="painelConviteVizinhos" rendered="#{principalController.ehSindico()}" 
+	 			style="background-color: #ACB4C5 ; border: 1px solid #648697; padding: 6px;">
+		 	<p><p:outputLabel value="Convide seus vizinhos para participar do site. " /></p>
+		 	<table style="width:100%">
+		 	<tr>
+		 		<td style="width:35%">
+			 		<p:outputLabel value="Nome do seu vizinho: " /><br />
+					<p:inputText id="nomeUsuario" alt="Insira o nome do seu vizinho. Exemplo: João Lopes" 
+						value="#{listagemUsuarioController.usuarioConvite.nome}" 
+						maxlength="100" styleClass="inputPadrao90" />
+		 		</td>
+		 		<td style="width:45%">
+		 			<p:outputLabel value="Qual o email do seu vizinho? (o seu email será o login de acesso)" /><br />
+					<p:inputText id="emailUsuario" alt="Insira seu email."
+							validatorMessage="O email digitado é inválido."
+							value="#{listagemUsuarioController.usuarioConvite.email}" maxlength="100" 
+							styleClass="inputPadrao90" >
+						<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+					</p:inputText>
+		 		</td>
+		 		<td style="width:20%">
+		 			<p:commandButton id="salvarVizinho" value="Enviar convite" 
+							styleClass="botao" process="painelConviteVizinhos" update="painelConviteVizinhos"
+					   		actionListener="#{listagemUsuarioController.enviarConvite}" >
+				   	</p:commandButton>
+		 		</td>
+		 	</tr>
+		 	</table>
+			
+	 	</p:outputPanel>
+		
 		<p:dataTable id="dtListagemUsuarios" var="usuario" 
 				value="#{listagemUsuarioController.usuarios}"
 				rowKey="#{usuario.id}"
@@ -30,7 +62,7 @@
 		    
 		    <p:column headerText="Morador" styleClass="colunaLargura200">
 		        <strong><h:outputText value="#{usuario.nome}" /></strong><br />
-		        <h:outputText value="#{principalController.condominio.nomeUnidade}" rendered="#{usuario.condominio.condominioEhVertical()}" />
+		        <h:outputText value="#{principalController.condominio.nomeUnidade} " />
 		        <h:outputText value="#{usuario.apartamento.numero}" />
 		        <h:outputText value=" - #{usuario.apartamento.bloco.nome}" />
 		        <h:outputText value=" - #{usuario.apartamento.bloco.agrupamentoUnidades.nome}" rendered="#{principalController.condominioPossuiAgrupamento()}" />
@@ -81,7 +113,7 @@
 	         	</p:commandLink>
 	         </p:column>
 	        
-	         <p:column style="text-align:center" styleClass="colunaLargura100" headerText="Bloquear" 
+	         <p:column style="text-align:center" styleClass="colunaLargura100" headerText="Funções" 
 		    		rendered="#{principalController.ehSindico()}">
 		    	<p:commandLink rendered="#{not listagemUsuarioController.usuarioPossuiBloqueios(usuario)}" actionListener="#{listagemUsuarioController.montarInfoTelaBloqueio(usuario)}" 
 		    		update=":form:painelBloqueioUsuario"  id="usuarioUsuarioSelecionada" immediate="true" onsuccess="PF('dialogBloqueioFuncao').show();" >
@@ -111,7 +143,7 @@
 	            <p:selectBooleanCheckbox id="checkBloquearReservas" 
 	 				 		value="${listagemUsuarioController.bloqueioUsuarioSelecionado.marcado}" 
 	 				 		label="Bloquear função de reserva de áresas comuns" itemLabel="Bloquear função de reserva de áreas comuns" >
-	 				 	<p:ajax process="@this" update="@this" listener="#{listagemUsuarioController.changeValueBloqueio()}" ></p:ajax>
+
 	 			</p:selectBooleanCheckbox>
 	 			<br />
 	 			<br />

@@ -1,16 +1,16 @@
 <html>
 
 	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<meta charset="ISO-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta charset="UTF-8">
 	</head>
-	
+
 	<body>
-	
+
 		<h1>Olá ${nome_sindico}.</h1>
-		
+
 		<p>O morador ${nome_usuario} enviou uma sugestão de pauta para a assembleia do dia ${data_assembleia}.</p>
-		
+
 		<p>A pauta sugerida foi:</p>
 		<br/>
 		<p><b>${msg}</b></p>

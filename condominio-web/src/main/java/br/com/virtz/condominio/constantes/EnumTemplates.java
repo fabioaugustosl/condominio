@@ -3,6 +3,7 @@ package br.com.virtz.condominio.constantes;
 public enum EnumTemplates {
 	PADRAO("padrao.ftl", "Informativo CondominioSOBCOntrole.com.br", "contato@condominiosobcontrole.com.br"),
 	CONFIRMACAO_USUARIO("confirmacaoUsuario.ftl", "Confirmação de usuário", "contato@condominiosobcontrole.com.br"),
+	CONFIRMACAO_USUARIO_CONDOMINIO("confirmacaoUsuarioCondominio.ftl", "Bem vindo! Acesse seu condomínio online. ", "contato@condominiosobcontrole.com.br"),
 	LEMBRETE_ASSEMBLEIA("lembreteAssembleia.ftl", "Lembrete de assembleia", "contato@condominiosobcontrole.com.br"),
 	MENSAGEM_SINDICO("mensagemSindico.ftl", "Fale com o Síndico - Contato enviado através do site", "contato@condominiosobcontrole.com.br"),
 	RESPOSTA_MENSAGEM_SINDICO("respostaMensagemSindico.ftl", "Resposta do S\u00edndico - reposta registrada no site", "contato@condominiosobcontrole.com.br"),

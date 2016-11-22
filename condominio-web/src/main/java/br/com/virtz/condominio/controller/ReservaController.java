@@ -235,20 +235,28 @@ public class ReservaController {
 
 	private String montarNomeEvento(Usuario usuario, Apartamento apartamento) {
 		StringBuilder sb = new StringBuilder();
+
 		if(apartamento != null){
+			String nomeApto = usuarioLogado.getCondominio().getNomeUnidade();
+			String nomeBloco = usuarioLogado.getCondominio().getNomeNivelAgrupamento1();
+			String nomeAgrup = usuarioLogado.getCondominio().getNomeNivelAgrupamento2();
 			if(usuarioLogado.getCondominio().condominioEhVertical()){
-				sb.append("Apto: ").append(apartamento.getNumero());
-				sb.append(" Bloco: ").append(apartamento.getBloco().getNome()).append("");
+				//sb.append(nomeApto).append(": ").append(apartamento.getNumero());
+				//sb.append(" ").append(nomeBloco).append(": ").append(apartamento.getBloco().getNome()).append("");
+				sb.append(" [").append(principalController.getCondominio().getNomeUnidade()).append(" ").append(apartamento.getNumero()).append("]");
+				sb.append("[").append(apartamento.getBloco().getNome()).append("]");
 			}else{
-				sb.append(apartamento.getNumero()).append(" | ").append(apartamento.getBloco().getNome());
+				sb.append(" [").append(apartamento.getNumero()).append("][").append(apartamento.getBloco().getNome()).append("]");
 				if(principalController.condominioPossuiAgrupamento()){
-					sb.append(" | ").append(apartamento.getBloco().getAgrupamentoUnidades().getNome());
+					sb.append(" [").append(apartamento.getBloco().getAgrupamentoUnidades().getNome()).append("]");
 				}
 			}
 		}
+
 		if(usuario != null){
-			sb.append("  [").append(usuario.getNomeExibicao()).append("]");
+			sb.append("  ").append(usuario.getNomeExibicao().toUpperCase()).append(" ");
 		}
+
 		return sb.toString();
 	}
 
@@ -425,7 +433,7 @@ public class ReservaController {
 	}
 
 	private String recuperarAptoDaReserva() {
-		if(usuarioLogado.getCondominio().condominioEhVertical()){
+		/*if(usuarioLogado.getCondominio().condominioEhVertical()){
 			String[] arrayTitulo = evento.getTitle().split(" ");
 			if(arrayTitulo == null && arrayTitulo.length <= 1){
 				return null;
@@ -439,12 +447,22 @@ public class ReservaController {
 			}
 			String  apto = arrayTitulo[0].trim();
 			return apto;
+		}*/
+
+		String[] arrayTitulo = evento.getTitle().split("\\[");
+		if(arrayTitulo == null && arrayTitulo.length < 2){
+			return null;
 		}
+
+		String txt =arrayTitulo[1].replace(principalController.getCondominio().getNomeUnidade()+" ", "");
+
+		String  apto = txt.substring(0,txt.indexOf("]")).trim();
+		return apto;
 
 	}
 
 	private String recuperarBlocoDaReserva() {
-		if(usuarioLogado.getCondominio().condominioEhVertical()){
+		/*if(usuarioLogado.getCondominio().condominioEhVertical()){
 			String[] arrayTitulo = evento.getTitle().split("Bloco:");
 			if(arrayTitulo == null && arrayTitulo.length <= 1){
 				return null;
@@ -462,17 +480,34 @@ public class ReservaController {
 			}
 			String  bloco = arrayTitulo[1].trim();
 			return bloco;
+		}*/
+
+		String[] arrayTitulo = evento.getTitle().split("\\[");
+		if(arrayTitulo == null && arrayTitulo.length <= 2){
+			return null;
 		}
+		String  bloco = arrayTitulo[2].substring(0,arrayTitulo[2].indexOf("]")).trim();
+		return bloco;
+
 	}
 
 	private String recuperarAgrupamentoDaReserva() {
-		String[] arrayTitulo = evento.getTitle().split(" \\| ");
+		/*String[] arrayTitulo = evento.getTitle().split(" \\| ");
 		if(arrayTitulo == null && arrayTitulo.length <= 1){
 			return null;
 		}
 		String[] novoArray = arrayTitulo[2].split("[");
 		String  agrup = novoArray[0].trim();
-		return agrup;
+		return agrup;*/
+
+		String[] arrayTitulo = evento.getTitle().split("\\[");
+		if(arrayTitulo == null && arrayTitulo.length <= 3){
+			return null;
+		}
+		String  bloco = arrayTitulo[3].substring(0,arrayTitulo[3].indexOf("]")).trim();
+		return bloco;
+
+
 	}
 
 	public boolean condominoPossuiAgrupamento(){

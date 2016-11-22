@@ -31,7 +31,11 @@ public class GerarTemplate implements IGerarTemplate {
 
 		// recupera o template
 
-		Template t = cfg.getTemplate(templateName, "UTF-8");
+		//Template t = cfg.getTemplate(templateName, "UTF-8");
+		Template t = cfg.getTemplate(templateName, "ISO-8859-1");
+		if(t.toString().contains("UTF-8")){
+			t = cfg.getTemplate(templateName, "UTF-8");
+		}
 
 		StringWriter writer = new StringWriter();
 

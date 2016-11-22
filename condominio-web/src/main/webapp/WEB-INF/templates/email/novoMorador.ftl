@@ -1,16 +1,16 @@
 <html>
 
 	<head>
-	<meta http-equiv="Content-Type" content="text/html;" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
-	
+
 	<body>
-	
+
 		<h1>Olá ${nomeUsuario}!</h1>
 		<br />
 		<br />
 		<h3>Um novo morador se cadatrou no site www.condominiosobcontrole.com.br para acessar o condomínio ${nomeCondominio}.</h3>
-		
+
 		<br/>
 		<br/>
 		<p>Seus dados para conferência são: </p>
