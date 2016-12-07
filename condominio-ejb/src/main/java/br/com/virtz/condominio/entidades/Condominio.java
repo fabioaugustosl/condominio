@@ -1,11 +1,14 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,11 +18,19 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.StringUtils;
 
+import br.com.virtz.condominio.constantes.EnumPlanoContratado;
+
+/**
+ * @author Fabio
+ *
+ */
 @Entity(name="condominio")
 @XmlRootElement
 @NamedQueries({
@@ -95,6 +106,24 @@ public class Condominio extends Entidade implements Serializable {
 
 	@Column(name = "nomeNivelAgrupamento2", length = 50)
 	private String nomeNivelAgrupamento2;
+
+	@Column(name = "bloqueado")
+	private Boolean bloqueado;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "dataAceite")
+	private Date dataAceiteTermo;
+
+	@Column(name = "termoAceite", length=40000)
+	private String termoAceite;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "planoContratado", length=50)
+	private EnumPlanoContratado planoContratado;
+
+	@Column(name = "usuarioTermoAceite", length=100)
+	private String usuarioTermoAceite;
+
 
 
 	// parte financeira
@@ -315,6 +344,46 @@ public class Condominio extends Entidade implements Serializable {
 
 	public void setNomeNivelAgrupamento2(String nomeNivelAgrupamento2) {
 		this.nomeNivelAgrupamento2 = nomeNivelAgrupamento2;
+	}
+
+	public Boolean getBloqueado() {
+		return bloqueado;
+	}
+
+	public void setBloqueado(Boolean bloqueado) {
+		this.bloqueado = bloqueado;
+	}
+
+	public Date getDataAceiteTermo() {
+		return dataAceiteTermo;
+	}
+
+	public void setDataAceiteTermo(Date dataAceiteTermo) {
+		this.dataAceiteTermo = dataAceiteTermo;
+	}
+
+	public String getTermoAceite() {
+		return termoAceite;
+	}
+
+	public void setTermoAceite(String termoAceite) {
+		this.termoAceite = termoAceite;
+	}
+
+	public EnumPlanoContratado getPlanoContratado() {
+		return planoContratado;
+	}
+
+	public void setPlanoContratado(EnumPlanoContratado planoContratado) {
+		this.planoContratado = planoContratado;
+	}
+
+	public String getUsuarioTermoAceite() {
+		return usuarioTermoAceite;
+	}
+
+	public void setUsuarioTermoAceite(String usuarioTermoAceite) {
+		this.usuarioTermoAceite = usuarioTermoAceite;
 	}
 
 }

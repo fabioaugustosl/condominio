@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   
+   <style type="text/css">
+   .jcrop-holder{max-width:600px}
+   .jcrop-holder img{max-width: 600px;}
+   </style>
+   
+   
+   <ui:define name="content">
+	
+	<h:form id="form"  styleClass="formPad10" >   
+	   
+	   	<h1>Cadastro de usuário administrador </h1>
+		
+		<br />
+		     
+        <p:outputPanel id="atualizacaoUsuario" styleClass="labelPadrao" >
+				<p:outputLabel value="Nome: " /><br />
+		<p:inputText id="nomeUsuario" alt="Insira seu nome. Exemplo: João Lopes" 
+			value="#{cadastrarAdministradorController.usuario.nome}" maxlength="100" styleClass="inputPadrao90"
+			required="true" requiredMessage="Favor preencher o nome." />
+		<br />
+		
+		<p:outputLabel value="Email: (o seu email será o login de acesso)" /><br />
+		<p:inputText id="emailUsuario" alt="Insira seu email."
+				validatorMessage="O email digitado é inválido."
+				value="#{cadastrarAdministradorController.usuario.email}" maxlength="100" 
+				styleClass="inputPadrao90"
+				required="true" requiredMessage="Favor preencher o email" >
+			<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+		</p:inputText>
+	
+		<br />
+		<p:outputLabel value="Celular: " styleClass="labelPadrao" /><br />
+		<p:inputMask id="celularUsuario" value="#{cadastrarAdministradorController.usuario.celular}" alt="Insira seu celular."
+			maxlength="20" styleClass="inputPadrao100" style="width:30%"
+			mask="(99) 99999-9999" />
+		
+		<br />
+			
+		<p:outputLabel value="CPF: " styleClass="labelPadrao" /><br />
+		<p:inputMask id="cpfUsuario" value="#{cadastrarAdministradorController.usuario.cpf}" alt="Insira seu CPF. Isso é importante em funcionalidades como a geração do boleto por exemplo."
+				maxlength="14" styleClass="inputPadrao100" style="width:30%"
+				mask="999.999.999-99" >
+		</p:inputMask>
+		
+		<br />
+		<p:outputLabel value="Digite uma senha: (mínimo 6 caracteres) " /><br />
+	   	<p:password id="senhaUsuario" value="#{cadastrarAdministradorController.usuario.senhaDigitada}" 
+	   			styleClass="inputPadrao" style="width:200px;" 
+	   			match="senhaUsuario2" validatorMessage="A senha repetida não foi igual. Favor digitar novamente a senha de forma idêntica."
+	   			maxlength="20" required="true" requiredMessage="Favor inserir uma senha."
+	   			/>
+	   	<br />
+		<p:outputLabel value="Confirme sua senha:" /><br />		
+      		<p:password id="senhaUsuario2"  validatorMessage="A senha repetida não foi igual. Favor digitar novamente a senha de forma idêntica."
+        		value="#{cadastrarAdministradorController.usuario.senhaDigitadaConfirmacao}" 
+        		styleClass="inputPadrao" style="width:200px;"
+        		requiredMessage="Favor inserir uma confirmação de senha."
+        		required="true" maxlength="20" />
+			
+	</p:outputPanel>
+   		
+		<br />
+		<p:commandButton id="salvarUsuario" value="Salvar" 
+			styleClass="botao"
+	   		actionListener="#{cadastrarAdministradorController.salvar()}" 
+	   		update="@form" process="@form" oncomplete="subirTela()" >
+	   	</p:commandButton>
+	   	
+	   	<p:commandButton id="btnListagem" value="Ir para listagem"  immediate="true"
+				styleClass="botao botao-grande"
+		   		actionListener="#{cadastrarAdministradorController.irParaListagem()}" >
+		</p:commandButton> 
+				
+		</h:form>
+   </ui:define>
+</ui:composition>

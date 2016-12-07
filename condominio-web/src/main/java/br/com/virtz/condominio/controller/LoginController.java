@@ -18,6 +18,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
 import br.com.virtz.condominio.bean.Email;
+import br.com.virtz.condominio.constantes.EnumPlanoContratado;
 import br.com.virtz.condominio.constantes.EnumTemplates;
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 import br.com.virtz.condominio.email.EnviarEmail;
@@ -40,47 +41,47 @@ import br.com.virtz.condominio.util.NavigationPage;
 @ManagedBean
 @ViewScoped
 public class LoginController {
-	
+
 	@Inject
 	private NavigationPage navigation;
-	
+
 	@EJB
 	private IUsuarioService usuarioService;
-	
+
 	@EJB
 	private ICondominioService condominioService;
-	
+
 	@EJB
 	private ITokenService tokenService;
-	
+
 	@Inject
 	private SessaoUsuario sessao;
-	
+
 	@Inject
 	private MessageHelper messageHelper;
-	
+
 	@Inject
 	private ParametroSistemaLookup parametroLookup;
-	
+
 	@Inject
 	private IArquivosUtil arquivoUtil;
 
-	
-	
+
+
 	private String login;
 	private String senha;
-	private String emailEsqueciMinhaSenha = null; 
-	
+	private String emailEsqueciMinhaSenha = null;
+
 	@Inject
 	private LeitorTemplate leitor;
-	
+
 	@Inject
 	private ArquivosUtil arquivosUtil;
-	
+
 	@EJB
 	private EnviarEmail enviarEmail;
-	
-	
+
+
 	public void logar() throws Exception{
 		if(StringUtils.isBlank(senha)){
 			messageHelper.addError("Favor preencher sua senha de acesso.");
@@ -91,27 +92,34 @@ public class LoginController {
 		Subject usuarioAtual = SecurityUtils.getSubject();
 		try{
 			usuarioAtual.login(tokenShiro);
-			
+
 			Usuario u = usuarioService.recuperarUsuario(login);
 			sessao.setUsuarioLogado(u);
-			
+
 			// iniciar lookups
 			parametroLookup.iniciarLookup(u.getCondominio());
 
-			navigation.redirectToPage("/portal.faces");
+			if(u.getCondominio().getPlanoContratado() != null &&
+					u.getCondominio().getDataAceiteTermo() == null &&
+					(u.getCondominio().getPlanoContratado().equals(EnumPlanoContratado.PREMIUM)
+					|| u.getCondominio().getPlanoContratado().equals(EnumPlanoContratado.STANDARD))){
+				navigation.redirectToPage("/condominio/aceiteTermo.faces");
+			} else {
+				navigation.redirectToPage("/portal.faces");
+			}
 		} catch (AuthenticationException ae) {
 			ae.printStackTrace();
 			ae.getMessage();
 			messageHelper.addError(ae.getMessage());
 		}
 	}
-	
-	
+
+
 	public void novoUsuario(){
 		navigation.redirectToPage("/usuario/cadastrarUsuario.faces");
 	}
-	
-	
+
+
 	/**
 	 * Procedimento:
 	 *  0 - Verifica se o email existe
@@ -122,41 +130,41 @@ public class LoginController {
 	 */
 	public void esqueciMinhaSenha() throws AppException{
 		if(StringUtils.isNotBlank(login)){
-			
+
 			Usuario usuario = usuarioService.recuperarUsuario(login);
 			if(usuario == null ){
 				messageHelper.addError("O email digitado não existe em nossa base de dados.");
 				return;
 			}
-			
+
 			Token token = tokenService.novoToken(usuario.getId().toString());
-			
+
 			// TODO - terminar envio de email
 			enviarEmailEsqueciMinhaSenha(token, login);
-			
+
 			messageHelper.addInfo("Aguarde alguns minutos, acesse seu email para concluir a recuperação de senha.");
 		} else {
 			messageHelper.addError("Para recuperar sua senha digite seu email e cliente em Equeci Minha Senha.");
 		}
 	}
-	
-	
+
+
 	private void enviarEmailEsqueciMinhaSenha(Token token, String para) {
 		// recuperar url da aplicação
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		StringBuffer sb = origRequest.getRequestURL().delete(origRequest.getRequestURL().indexOf("login.faces"), origRequest.getRequestURL().toString().length()); 
+		StringBuffer sb = origRequest.getRequestURL().delete(origRequest.getRequestURL().indexOf("login.faces"), origRequest.getRequestURL().toString().length());
 		sb.append("usuario/confirmarEsqueciSenha.faces?token=").append(token.getToken());
-		
+
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
 		mapParametrosEmail.put("token", sb.toString());
-		
+
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
 		String msg = leitor.processarTemplate(caminho, EnumTemplates.ESQUECI_MINHA_SENHA.getNomeArquivo(), mapParametrosEmail);
 		Email email = new Email(EnumTemplates.ESQUECI_MINHA_SENHA.getDe(), para, EnumTemplates.ESQUECI_MINHA_SENHA.getAssunto(), msg);
    		enviarEmail.enviar(email);
 	}
-	
-	
+
+
 	public void sair(){
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
@@ -167,35 +175,35 @@ public class LoginController {
 		Usuario u = new Usuario();
 		u.setEmail("fabioaugustosl@gmail.com");
 		u.setNome("Fabio");
-		
+
 		if(StringUtils.isNotBlank(login) && login.equalsIgnoreCase("sindico") ){
 			u.setTipoUsuario(EnumTipoUsuario.SINDICO);
 		} else {
 			u.setTipoUsuario(EnumTipoUsuario.MORADOR);
 		}
-		
+
 		Condominio c = new Condominio();
 		c.setNome("Ponto Imperial");
-		
+
 		c = condominioService.salvar(c);
-		
+
 		AreaComum ac = new AreaComum();
 		ac.setNome("Churrasqueira");
 		ac.setCondominio(c);
-		
+
 		ac = condominioService.salvarAreaComum(ac);
-		
+
 		c.setAreasComuns(new HashSet<AreaComum>());
 		c.getAreasComuns().add(ac);
-		
+
 		u.setCondominio(c);
-		
+
 		u = usuarioService.salvar(u);
 	}
 
 
 
-	
+
 	public String getLogin() {
 		return login;
 	}
@@ -219,7 +227,7 @@ public class LoginController {
 	public void setEmailEsqueciMinhaSenha(String emailEsqueciMinhaSenha) {
 		this.emailEsqueciMinhaSenha = emailEsqueciMinhaSenha;
 	}
-	
-	
-		
+
+
+
 }

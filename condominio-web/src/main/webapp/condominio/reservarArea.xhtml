@@ -30,7 +30,7 @@
 			 	<p:outputLabel value="Selecione a área que você deseja reservar: " styleClass="labelPadrao" />
 		 	</div>
 		 	<p:selectOneMenu id="comboArea" value="#{reservaController.areaSelecionada}" 
-		 			stsyleClass="selectPadrao" converter="converterEntityById" style="width:40%" >
+		 			styleClass="selectPadrao" converter="converterEntityById" style="width:40%" >
 		 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 		 		<f:selectItems value="#{reservaController.areas}" var="area" itemLabel="#{area.nome}" itemValue="#{area}" />
 		 		<p:ajax event="change" update="containerAgenda" listener="#{reservaController.recuperarEventos}" />
@@ -74,7 +74,7 @@
 							converter="converterEntityById" required="true"
 							requiredMessage="Favor selecionar o #{principalController.condominio.nomeUnidade}." >
 				 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
-				 		<f:selectItems value="#{reservaController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
+				 		<f:selectItems value="#{reservaController.blocoSelecionado.apartamentosOrdenados}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
 				 	</p:selectOneMenu>
 				 </p:outputPanel>
 			</p:outputPanel>

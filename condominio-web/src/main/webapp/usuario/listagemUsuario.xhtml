@@ -20,8 +20,8 @@
 	 	<br />
 	 	
 	 	<p:outputPanel id="painelConviteVizinhos" rendered="#{principalController.ehSindico()}" 
-	 			style="background-color: #ACB4C5 ; border: 1px solid #648697; padding: 6px;">
-		 	<p><p:outputLabel value="Convide seus vizinhos para participar do site. " /></p>
+	 			style="background-color: #ACB4C5 ; border: 1px solid #648697; padding: 6px; margin-bottom: 8px;">
+		 	<p:outputLabel value="Convide seus vizinhos para participar do site. " />
 		 	<table style="width:100%">
 		 	<tr>
 		 		<td style="width:35%">
@@ -41,26 +41,26 @@
 		 		</td>
 		 		<td style="width:20%">
 		 			<p:commandButton id="salvarVizinho" value="Enviar convite" 
-							styleClass="botao" process="painelConviteVizinhos" update="painelConviteVizinhos"
+							styleClass="botao" process="painelConviteVizinhos" update="painelConviteVizinhos dtListagemUsuarios"
 					   		actionListener="#{listagemUsuarioController.enviarConvite}" >
 				   	</p:commandButton>
 		 		</td>
 		 	</tr>
 		 	</table>
-			
 	 	</p:outputPanel>
 		
-		<p:dataTable id="dtListagemUsuarios" var="usuario" 
+		<p:dataTable id="dtListagemUsuarios" var="usuario" widgetVar="dtListagemUsuarios"
 				value="#{listagemUsuarioController.usuarios}"
-				rowKey="#{usuario.id}"
-				emptyMessage="Ainda não foi cadastrado nenhum usuário." >
-			
+				rowKey="#{usuario.id}" filterDelay="300" 
+				emptyMessage="Nenhum morador encontrado." >
+        
 			<p:column styleClass="colunaLargura100">
 				<p:graphicImage id="img" url="/imagem?arquivo=#{usuario.arquivo.caminhoCompleto}" 
 					alt="#{usuario.nome}" style="width:60px;"/>
 		    </p:column>
 		    
-		    <p:column headerText="Morador" styleClass="colunaLargura200">
+		    <p:column headerText="Morador" styleClass="colunaLargura200" 
+		       	 filterBy="#{usuario.nome}" filterMatchMode="contains">
 		        <strong><h:outputText value="#{usuario.nome}" /></strong><br />
 		        <h:outputText value="#{principalController.condominio.nomeUnidade} " />
 		        <h:outputText value="#{usuario.apartamento.numero}" />
@@ -68,7 +68,8 @@
 		        <h:outputText value=" - #{usuario.apartamento.bloco.agrupamentoUnidades.nome}" rendered="#{principalController.condominioPossuiAgrupamento()}" />
 		    </p:column>
 		    
-		    <p:column headerText="Contatos" styleClass="colunaLargura200">
+		    <p:column headerText="Contatos" styleClass="colunaLargura200"
+		   	 filterBy="#{usuario.email} #{usuario.celular}" filterMatchMode="contains">
 		        <h:outputText value="#{usuario.email}" /><br />
 		        <h:outputText value="Celular: #{usuario.celular}" /> <br />
 		        <h:outputText value="Fixo: #{usuario.telefone}" />

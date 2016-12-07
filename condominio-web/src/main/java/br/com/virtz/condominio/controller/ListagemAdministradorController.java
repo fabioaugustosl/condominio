@@ -17,7 +17,7 @@ import br.com.virtz.condominio.util.NavigationPage;
 
 @ManagedBean
 @ViewScoped
-public class ListagemPorteiroController {
+public class ListagemAdministradorController {
 
 	@EJB
 	private IUsuarioService usuarioService;
@@ -45,21 +45,20 @@ public class ListagemPorteiroController {
 
 
 	public List<Usuario> listarTodos(){
-		List<Usuario> usuarios = usuarioService.recuperarTodosPorteiros(usuario.getCondominio().getId());
-		return usuarios;
+		return usuarioService.recuperarTodosAdministradores(usuario.getCondominio().getId());
 	}
 
 
 	public void remover(Usuario usuario) throws CondominioException {
 		usuarioService.remover(usuario.getId());
 		usuarios.remove(usuario);
-		messageHelper.addInfo("Porteiro removido com sucesso!");
+		messageHelper.addInfo("Administrador removido com sucesso!");
 	}
 
 
 	@SuppressWarnings("static-access")
 	public void irParaCadastro(){
-		navegacao.redirectToPage("/portaria/cadastrarPorteiro.faces");
+		navegacao.redirectToPage("/usuario/cadastrarUsuarioAdministrador.faces");
 	}
 
 

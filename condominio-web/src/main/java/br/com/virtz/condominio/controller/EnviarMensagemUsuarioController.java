@@ -108,13 +108,13 @@ public class EnviarMensagemUsuarioController {
 		}
 
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
-		mapParametrosEmail.put("titulo", new String(this.assunto.getBytes("ISO-8859-1")));
-		mapParametrosEmail.put("msg", new String(this.mensagem.getBytes("ISO-8859-1")));
+		mapParametrosEmail.put("titulo", this.assunto);
+		mapParametrosEmail.put("msg", this.mensagem);
 
 		String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.PADRAO.getNomeArquivo(), mapParametrosEmail);
 
 		for(Usuario u : usuariosSelecionados){
-			Email email = new Email(EnumTemplates.PADRAO.getDe(), u.getEmail(), new String(this.assunto.getBytes("ISO-8859-1")), msg);
+			Email email = new Email(EnumTemplates.PADRAO.getDe(), u.getEmail(), new String(this.assunto), msg);
 			if(anexo != null){
 				email.setAnexo(anexo);
 				email.setNomeAnexo(nomeArqAnexo);

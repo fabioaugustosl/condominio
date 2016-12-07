@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   	<h:form id="form" style="width:100%" styleClass="formPad10">
+	   	<h1>Usuários administradores</h1>
+
+   			
+	   	<p:outputLabel styleClass="textoInformativo" value="Gerencie todos usuários administradores. Caso seu condomínio tenha uma administradora, empresa ou funcionário que auxilie o síndico na adminsitração do condomínio." />
+	 	<br />
+	 	
+		<p:dataTable id="dtListagemUsuarios" var="usuario" 
+				value="#{listagemAdministradorController.usuarios}"
+				rowKey="#{usuario.id}"
+				emptyMessage="Ainda não foi cadastrado nenhum usuário." >
+			
+		    <p:column headerText="Nome" styleClass="colunaLargura200">
+		        <strong><h:outputText value="#{usuario.nome}" /></strong><br />
+		    </p:column>
+		    
+		    <p:column headerText="Contatos" styleClass="colunaLargura200">
+		        <h:outputText value="#{usuario.email}" /><br />
+		        <h:outputText value="Celular: #{usuario.celular}" /> 
+		    </p:column>
+		    
+	
+		    <p:column style="text-align:center" styleClass="colunaLargura100" headerText="Excluir" >
+		    	<p:commandLink actionListener="#{listagemAdministradorController.remover(usuario)}" ajax="false"
+		    		update="@form"
+		    		id="excluirUsuarioSelecionada" immediate="true" >
+	         			<p:confirm header="Confirmação" message="Tem certeza que deseja remover esse usuário" icon="ui-icon-alert" />
+	         			<p:graphicImage id="imgDeletarUsu" url="/img/icones/deletar.png" title="Clique para deletar esse usuário" />
+	         	</p:commandLink>
+	         </p:column>
+	        
+		</p:dataTable> 
+	    
+	   	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
+	    
+	    <p:commandButton id="btnCadastrarOcorrencia" value="Novo administrador"  immediate="true"
+				styleClass="botao botao-grande"
+		   		actionListener="#{listagemAdministradorController.irParaCadastro()}" >
+		</p:commandButton> 
+	    
+	 </h:form>
+
+  </ui:define>
+</ui:composition>

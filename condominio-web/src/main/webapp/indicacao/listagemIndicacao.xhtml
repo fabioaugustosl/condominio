@@ -208,12 +208,11 @@
 		        </h:panelGrid>
 		    </p:dataScroller>
 	    
-			    
 	   	<p:commandButton id="novaIndicacao" value="Nova Indicação" immediate="true"
 	   		styleClass="botao botao-grande" 
+	   		rendered="#{not principalController.ehAdministrador()}"
 	   		actionListener="#{listagemIndicacaoController.irParaCadastro}"  >
 	   	</p:commandButton>
-	   
 	   
 	  	<p:dialog modal="true" id="dlgFotos" widgetVar="dlgFotos" header="Fotos" 
 						draggable="true" closable="true" resizable="false" 

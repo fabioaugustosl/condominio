@@ -32,6 +32,7 @@ public interface IUsuarioService {
 	public List<Usuario> recuperarUsuariosPorApartamento(Long idApartamento);
 	public boolean emailJaEstaAtivo(String email);
 	public List<Usuario> recuperarTodosPorteiros(Long idCondominio);
+	public List<Usuario> recuperarTodosAdministradores(Long idCondominio);
 
 
 	//Bloqueio de função

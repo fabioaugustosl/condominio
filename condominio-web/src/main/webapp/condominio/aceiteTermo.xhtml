@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+ 	
+ 	<h:form id="formAceiteTermo" styleClass="formPad10">
+	   	<h1>Termo de uso - Confirmação de contratação do plano</h1>
+	 	<p:outputLabel styleClass="textoInformativo" 
+	 		value="Prezado síndico(a), segue abaixo um termo de uso do sistema. Pedimos que o mesmo seja lido com atenção. Caso o senhor esteje de acordo com os termos de uso favor clicar no botão 'Concordo!' "  />
+	   		<br />
+   		<p:outputPanel id="panelTermo" >
+   		
+		 	
+		 	<object type="application/pdf" data="../doc/termos_de_uso.pdf?pfdrid_c=true" height="300px" width="100%" internalinstanceid="6">
+            	Ocorreu algum problema com seu browser para exibir o termo, <a href="../doc/termos_de_uso.pdf">clique aqui</a> para fazer o download..
+        	</object>
+		 	
+			<br />
+			<br />
+			
+			<p:commandButton id="voltar" value="Não concordo" immediate="true"
+				styleClass="botao botao-grande"
+		   		actionListener="#{termoAceiteController.sair()}"  >
+		   	</p:commandButton>
+		   	
+			<p:commandButton id="btnSalvarConta" value="Concordo!"
+				styleClass="botao botao-grande"  immediate="true"
+		   		actionListener="#{termoAceiteController.salvar}" >
+		   	</p:commandButton>
+
+		</p:outputPanel>
+		
+	</h:form>
+	
+   </ui:define>
+</ui:composition>

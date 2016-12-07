@@ -90,20 +90,17 @@ public class CadastrarPorteiroController implements Serializable{
 		usuario.setAdm(true);
 		List<Unidade> unidades = condominioService.recuperarTodasUnidades(usuarioLogado.getCondominio().getId());
 		if(unidades != null && !unidades.isEmpty()){
-			usuario.setUnidade(unidades.get(0));
+			Unidade unidade = null;
+			for(Unidade uni : unidades){
+				if(!uni.getAdm()){
+					unidade = uni;
+					break;
+				}
+			}
+			usuario.setUnidade(unidade);
 		}
         try {
-        	//ArquivoUsuario arq = null;
-        	//try{
-        		//	if(usuario.getArquivo() != null){
-        			//		ArquivoUsuario arq = usuarioService.salvarArquivo(usuario.getArquivo());
-        			//		usuario.setArquivo(arq);
-        			//	}
-        		//}catch(Exception e){
-        		//	e.printStackTrace();
-        	//}
         	usuario = usuarioService.salvar(usuario);
-
         } catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar seu usuário. Favor tentar novamente.");
 		}

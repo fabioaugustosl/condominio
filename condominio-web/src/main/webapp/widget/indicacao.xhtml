@@ -90,6 +90,7 @@
 			   		actionListener="#{indicacaoController.irParaListagem}"  >
 			   	</p:commandButton>
 			   	<p:commandButton id="btnNovaIndicacao" value="Quero indicar" immediate="true"
+			   		rendered="#{not principalController.ehAdministrador()}"
 			   		actionListener="#{indicacaoController.irParaCadastro}"  >
 			   	</p:commandButton>
 		    </p:outputPanel>

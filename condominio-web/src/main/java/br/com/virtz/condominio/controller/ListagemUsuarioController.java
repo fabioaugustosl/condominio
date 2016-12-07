@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +63,7 @@ public class ListagemUsuarioController {
 	private EnviarEmail enviarEmail;
 
 	private List<Usuario> usuarios;
+	private List<Usuario> usuariosFiltrados;
 	private Usuario usuarioSelecionado = null;
 	private BloqueioFuncaoUsuario bloqueioUsuarioSelecionado = null;
 	private List<BloqueioFuncaoUsuario> usuariosBloqueados = null;
@@ -73,7 +75,9 @@ public class ListagemUsuarioController {
 	@PostConstruct
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
+
 		usuarios = listarTodos();
+		usuariosFiltrados = new ArrayList<Usuario>();
 		usuarioConvite = new Usuario();
 		usuariosBloqueados = usuarioService.recuperarBloqueiosPorCondominio(usuario.getCondominio().getId(), EnumFuncaoBloqueio.RESERVA);
 	}
@@ -104,7 +108,7 @@ public class ListagemUsuarioController {
 				// validar se o email já existe
 				Usuario u = usuarioService.recuperarUsuario(usuarioConvite.getEmail());
 				if(u != null){
-					throw new AppException("O email digitado já está sendo utilizado por outro usuário. Favor varificar se o morador já está cadastrado.");
+					throw new AppException("O email digitado já está sendo utilizado por outro usuário. Favor verificar se o morador já está cadastrado.");
 				}
 
 				usuarioConvite.setCondominio(usuario.getCondominio());
@@ -321,5 +325,14 @@ public class ListagemUsuarioController {
 	public Usuario getUsuarioConvite() {
 		return usuarioConvite;
 	}
+
+	public List<Usuario> getUsuariosFiltrados() {
+		return usuariosFiltrados;
+	}
+
+	public void setUsuariosFiltrados(List<Usuario> usuariosFiltrados) {
+		this.usuariosFiltrados = usuariosFiltrados;
+	}
+
 
 }

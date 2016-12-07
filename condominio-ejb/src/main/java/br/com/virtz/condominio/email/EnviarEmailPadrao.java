@@ -55,8 +55,8 @@ public class EnviarEmailPadrao implements EnviarEmail {
             Address[] para = InternetAddress.parse(email.getParaToString());
             m.setFrom(de);
             m.setRecipients(Message.RecipientType.TO, para);
-           // m.setSubject(email.getAssunto(), "ISO-8859-1");
-            m.setSubject(email.getAssunto());
+            m.setSubject(email.getAssunto(), "ISO-8859-1");
+            //m.setSubject(email.getAssunto());
 
             Multipart multiparteEmail = new MimeMultipart();
 

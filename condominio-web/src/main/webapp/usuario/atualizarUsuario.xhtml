@@ -7,8 +7,6 @@
    template="/WEB-INF/templates/default.xhtml">
    
    <style type="text/css">
-
- 	
  	.cropCss {
  		max-height: 600px;
  		max-width: 600px;
@@ -94,14 +92,15 @@
 	 			</td>
 	 			
 	 			<td style="width:70%; align:top;">
-	 				<p:fileUpload mode="advanced" immediate="true" label="Selecionar arquivo"
-				        fileUploadListener="#{atualizarUsuarioController.uploadArquivo}"
-				        allowTypes="/(\.|\/)(JPg|jpg|jpeg|JPEG|png|PNG)$/"  
-				        multiple="false" sizeLimit="6000000" 
-				        invalidFileMessage="Arquivo não válido." 
-				        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
-				        update="@form" />
-			        
+	 				<p:outputPanel id="painelFotoMorador" >
+		 				<p:fileUpload mode="advanced" immediate="true" label="Selecionar arquivo"
+					        fileUploadListener="#{atualizarUsuarioController.uploadArquivo}"
+					        allowTypes="/(\.|\/)(JPg|jpg|jpeg|JPEG|png|PNG)$/"  
+					        multiple="false" sizeLimit="6000000" 
+					        invalidFileMessage="Arquivo não válido." 
+					        auto="true" dragDropSupport="false" invalidSizeMessage="Tamanho do arquivo é muito grande."
+					        update="painelFotoMorador" />
+				        
 		 				<p:outputPanel  id="containerCortadorImagem" rendered="#{empty atualizarUsuarioController.caminhoImagem}" >
 		     				<p:graphicImage id="imagemUsuario" url="/imagem?arquivo=/arquivos/usuario/foto.jpg" width="300" />
 		     			</p:outputPanel>	 
@@ -120,7 +119,7 @@
 				 							url="/imagem?arquivo=#{atualizarUsuarioController.caminhoImagem}"/>
 		     			</p:outputPanel>
 		     			
-					
+					</p:outputPanel>
 	 			</td>
 	 		</tr>
 		 </table>

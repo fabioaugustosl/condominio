@@ -57,7 +57,7 @@
 			            
 			            <p:panel id="panelWidgetVotacaoImagem" header="Votação em destaque" 
 			    			style="height:100%;" styleClass="painelWidget"  
-		       				rendered="#{not principalController.ehPorteiro() &amp;&amp; votacaoController.possuiVotacaoPorImagemEmAndamento()}"> 
+		       				rendered="#{not principalController.ehPorteiro() &amp;&amp; not principalController.ehAdministrador() &amp;&amp; votacaoController.possuiVotacaoPorImagemEmAndamento()}"> 
 			                <ui:include src="widget/votacaoImagem.xhtml" />
 			            </p:panel>       
 			            
@@ -76,7 +76,7 @@
 			            </p:panel>
 			            
 			            <p:panel id="panelWidgetVotacao" header="Votação online" 
-			            	style="height:100%;" rendered="#{not principalController.ehPorteiro() &amp;&amp;  votacaoController.possuiVotacaoEmAndamento()}" 
+			            	style="height:100%;" rendered="#{not principalController.ehPorteiro() &amp;&amp;  not principalController.ehAdministrador() &amp;&amp; votacaoController.possuiVotacaoEmAndamento()}" 
 			            	styleClass="painelWidget"> 
 			                <ui:include src="widget/votacao.xhtml" />
 			            </p:panel>

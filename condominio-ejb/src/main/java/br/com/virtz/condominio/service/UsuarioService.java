@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.service;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,9 +53,34 @@ public class UsuarioService implements IUsuarioService {
 
 	@Override
 	public List<Usuario> recuperarTodosPorteiros(Long idCondominio) {
-		return usuarioDAO.recuperarTodosAdm(idCondominio);
+		List<Usuario> usuarios = usuarioDAO.recuperarTodosAdm(idCondominio);
+		if(usuarios == null){
+			return null;
+		}
+		List<Usuario> porteiros = new ArrayList<Usuario>();
+		for(Usuario u : usuarios){
+			if(!u.getUnidade().getAdm()){
+				porteiros.add(u);
+			}
+		}
+		return porteiros;
 	}
 
+
+	@Override
+	public List<Usuario> recuperarTodosAdministradores(Long idCondominio) {
+		List<Usuario> usuarios = usuarioDAO.recuperarTodosAdm(idCondominio);
+		if(usuarios == null){
+			return null;
+		}
+		List<Usuario> administradores = new ArrayList<Usuario>();
+		for(Usuario u : usuarios){
+			if(u.getUnidade().getAdm()){
+				administradores.add(u);
+			}
+		}
+		return administradores;
+	}
 
 
 	@Override

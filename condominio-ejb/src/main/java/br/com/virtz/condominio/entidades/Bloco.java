@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -162,6 +163,13 @@ public class Bloco extends Entidade implements Serializable {
 			hash = 23 * hash + (this.getNumero()!= null ? this.getNumero().hashCode() : 0);
 		}
 	    return hash;
+	}
+
+	public List<Apartamento> getApartamentosOrdenados() {
+		if(this.apartamentos != null && !apartamentos.isEmpty()){
+			Collections.sort(this.apartamentos);
+		}
+		return this.apartamentos;
 	}
 
 

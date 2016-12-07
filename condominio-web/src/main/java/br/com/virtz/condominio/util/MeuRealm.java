@@ -21,13 +21,13 @@ import br.com.virtz.condominio.entidades.Usuario;
 public class MeuRealm extends AuthenticatingRealm {
 
 	private IUsuarioDAO dao;
-	 
+
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
 
 		String principal = (String) token.getPrincipal();
-		 
+
 		 InitialContext context;
 		try {
 			context = new InitialContext();
@@ -40,25 +40,28 @@ public class MeuRealm extends AuthenticatingRealm {
 			e.printStackTrace();
 			throw new AuthenticationException("Ocorreu erro ao processar a autenticação do usuário.");
 		}
-		 
+
         Usuario credencial = dao.recuperarUsuarioPorEmailAutenticacao(principal);
- 
+
         if(credencial != null) {
-        	
+
         	if(!credencial.getCadastroConfirmado()){
         		throw new AuthenticationException("Usuário não confirmado. Acesse seu email para finalizar seu cadastro.");
         	}
         	if(credencial.getCondominio() == null){
         		throw new AuthenticationException("Condomínio não reconhecido. Favor enviar um email para contato@condominiosobcontrole.com.br com seu nome, condomínio e seu apto. Corrigiremos seu cadastro o mais rápido possível.");
         	}
+        	if(credencial.getCondominio().getBloqueado() != null && credencial.getCondominio().getBloqueado()){
+        		throw new AuthenticationException("Condomínio com uso bloqueado. Favor enviar um email para contato@condominiosobcontrole.com.br com seu nome e condomínio solicitando o motivo do bloqueio.");
+        	}
             AuthenticationInfo info = new SimpleAuthenticationInfo(principal, credencial.getSenha() , "usuario");
             SimpleCredentialsMatcher cmatcher = new SimpleCredentialsMatcher();
- 
+
             boolean credentialsMatch = cmatcher.doCredentialsMatch(token, info);
             if(credentialsMatch) {
                 return info;
             }
- 
+
          }
          throw new AuthenticationException("Usuário ou senha inválido(s)");
 	}

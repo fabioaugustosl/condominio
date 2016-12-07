@@ -64,6 +64,14 @@ public class PrincipalController implements Serializable {
 	}
 
 
+	public boolean ehAdministrador(){
+		 if(EnumTipoUsuario.ADMINISTRADOR.equals(sessao.getUsuarioLogado().getTipoUsuario())){
+			 return Boolean.TRUE;
+		 }
+		 return Boolean.FALSE;
+	}
+
+
 	public boolean exibirMenu(String menu){
 		if("mensagemMoradores".equals(menu)){
 			return this.ehSindico() || this.ehAdministrativo();
@@ -75,16 +83,16 @@ public class PrincipalController implements Serializable {
 			return true;
 		}
 		else if("indicacao".equals(menu)){
-			return !ehPorteiro();
+			return !ehPorteiro() && !ehAdministrador();
 		}
 		else if("reservar".equals(menu)){
-			return !ehPorteiro();
+			return !ehPorteiro() && !ehAdministrador();
 		}
 		else if("votacao".equals(menu)){
 			return ehSindico();
 		}
 		else if("ocorrencia".equals(menu)){
-			return !ehPorteiro();
+			return !ehPorteiro() && !ehAdministrador();
 		}
 		else if("moradores".equals(menu)){
 			return true;
@@ -99,7 +107,7 @@ public class PrincipalController implements Serializable {
 			return !ehPorteiro();
 		}
 		else if("receitasDespesas".equals(menu)){
-			return ehSindico();
+			return ehSindico() || ehAdministrador();
 		}
 		else if("prestacaoContas".equals(menu)){
 			return !ehPorteiro();
@@ -107,14 +115,17 @@ public class PrincipalController implements Serializable {
 		else if("porteiros".equals(menu)){
 			return ehSindico();
 		}
+		else if("administrador".equals(menu)){
+			return ehSindico();
+		}
 		else if("portaria".equals(menu)){
 			return ehSindico() || ehPorteiro() || ehAdministrativo();
 		}
 		else if("notificarPortaria".equals(menu)){
-			return !ehPorteiro();
+			return !ehPorteiro() && !ehAdministrador();
 		}
 		else if("correspondecias".equals(menu)){
-			return !ehPorteiro();
+			return !ehPorteiro() && !ehAdministrador();
 		}
 		else if("meuCondominio".equals(menu)){
 			return ehSindico();
