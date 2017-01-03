@@ -107,7 +107,7 @@
 					rendered="#{confirmarUsuarioCondominioController.cadastrouApto}"
 					styleClass="labelPadrao"></p:outputLabel>
 					<br /><br />
-				<p:commandButton id="salvarCondominio3" value="Ir para login"
+				<p:commandButton id="salvarCondominio3" value="Ir para login" immediate="true" ajax="false"
 					styleClass="botao" rendered="#{confirmarUsuarioCondominioController.cadastrouApto}"
 			   		actionListener="#{confirmarUsuarioCondominioController.irParaLogin}" >
 			   	</p:commandButton>

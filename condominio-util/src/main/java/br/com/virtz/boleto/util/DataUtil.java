@@ -73,9 +73,9 @@ public class DataUtil {
 		List<Integer> anos = new ArrayList<Integer>();
 
 		Calendar c = agora();
-		Integer anoMax = c.get(Calendar.YEAR)+5;
+		Integer anoMax = c.get(Calendar.YEAR)+1;
 		if(inicio == null){
-			inicio = c.get(Calendar.YEAR);
+			inicio = c.get(Calendar.YEAR)-10;
 		}
 
 		while(inicio <= anoMax){

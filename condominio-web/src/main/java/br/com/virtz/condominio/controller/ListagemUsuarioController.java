@@ -132,7 +132,7 @@ public class ListagemUsuarioController {
 	        	}
 
 	        	try{
-	        		enviarEmailAvisoCadastro(usuario);
+	        		enviarEmailAvisoCadastro(usuarioConvite);
 	        	}catch(Exception e){
 	        		e.printStackTrace();
 	        	}

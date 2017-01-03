@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -145,7 +146,19 @@ public class ReservaService implements IReservaService {
 	public List<Reserva> recuperarRecentes(AreaComum area) {
 		Integer ano = Calendar.getInstance().get(Calendar.YEAR);
 		Integer mes = Calendar.getInstance().get(Calendar.MONTH);
-		return reservaDAO.recuperarReservarAPartir(area, ano, mes);
+		List<Reserva> reservas = reservaDAO.recuperarReservarAPartir(area, ano, mes);
+
+		if(mes >= 10){
+			if(reservas == null){
+				reservas = new ArrayList<Reserva>();
+			}
+			List<Reserva> reservasProximoAno = reservaDAO.recuperarReservarAPartir(area, (ano+1), 0);
+			if(reservasProximoAno != null && !reservasProximoAno.isEmpty()){
+				reservas.addAll(reservasProximoAno);
+			}
+		}
+
+		return reservas;
 	}
 
 }

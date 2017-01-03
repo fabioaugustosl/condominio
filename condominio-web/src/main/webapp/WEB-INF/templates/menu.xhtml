@@ -30,9 +30,9 @@
 			</li>
 			<li><a href="#"><p:graphicImage id="icoFinanceiroMenu" url="/img/icones/ico_financeiro.png" /> <span id="titulosubmenu">Financeiro</span></a>
 				<ul id="submenu">
-				<!-- li><p:link value="Configurações" rendered="#{principalController.ehSindico()}" outcome="/financeiro/gerenciarFinanceiro.faces" /></li-->
-				<!-- li><p:link value="Lançamento de título"  rendered="#{principalController.ehSindico()}" outcome="/boleto/configuracaoBoleto.faces" /></li -->
-				<!-- li><p:link value="Emitir de boleto" rendered="#{principalController.ehSindico()}" outcome="/financeiro/gerarBoletos.faces" /></li -->
+				<li><p:link value="Configurações" rendered="#{principalController.ehSindico()}" outcome="/financeiro/gerenciarFinanceiro.faces" /></li>
+				<li><p:link value="Lançamento de título"  rendered="#{principalController.ehSindico()}" outcome="/boleto/configuracaoBoleto.faces" /></li>
+				<li><p:link value="Emitir de boleto" rendered="#{principalController.ehSindico()}" outcome="/financeiro/gerarBoletos.faces" /></li>
 				<li><p:link value="Meus boletos" rendered="#{principalController.exibirMenu('boletos')}" outcome="/financeiro/gerarBoletoPorUsuario.faces" /></li>
 				<li><p:link value="Lançar receitas e despesas" rendered="#{principalController.exibirMenu('receitasDespesas')}" outcome="/balanco/lancarBalanco.faces"  /></li>
 				<li><p:link value="Ver as prestações de contas" rendered="#{principalController.exibirMenu('prestacaoContas')}" outcome="/balanco/listagemBalanco.faces"  /></li>

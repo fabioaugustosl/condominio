@@ -92,7 +92,7 @@ public class ConfirmarUsuarioCondominioController {
 	}
 
 	public void irParaLogin(){
-		navegacao.redirectToPage("../login.faces");
+		navegacao.redirectToPage("/login.faces");
 	}
 
 	public void salvar() throws AppException{
