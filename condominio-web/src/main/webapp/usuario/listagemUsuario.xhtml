@@ -61,7 +61,10 @@
 		    
 		    <p:column headerText="Morador" styleClass="colunaLargura200" 
 		       	 filterBy="#{usuario.nome}" filterMatchMode="contains">
-		        <strong><h:outputText value="#{usuario.nome}" /></strong><br />
+		        <p:graphicImage id="imgAtivo" url="/img/icones/ico_ligado.png" title="Usuário ativo no site." rendered="#{usuario.cadastroConfirmado}" style="margin:3px;" />
+		        <p:graphicImage id="imgNaoAtivo" url="/img/icones/ico_desligado.png" title="Usuário ainda não aceitou o convite enviado." rendered="#{not usuario.cadastroConfirmado}" style="margin:3px;" />
+		        
+		        <strong><h:outputText value="#{usuario.nome}" /></strong> <br />
 		        <h:outputText value="#{principalController.condominio.nomeUnidade} " />
 		        <h:outputText value="#{usuario.apartamento.numero}" />
 		        <h:outputText value=" - #{usuario.apartamento.bloco.nome}" />

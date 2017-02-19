@@ -85,6 +85,13 @@
 	    <servlet-name>Faces Servlet</servlet-name>
 	</filter-mapping>
 	
+	
+	<error-page>
+    	<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+    	<location>/nosession.html</location>
+  	</error-page>
+  
+	
 	<!--  SHIRO -->
 	<listener>
 	    <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>

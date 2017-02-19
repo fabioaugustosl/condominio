@@ -112,7 +112,7 @@ public class ConfirmarUsuarioCondominioController {
 
 		usuario.setCadastroConfirmado(Boolean.TRUE);
 		usuario.setApartamento(apartamentoSelecionado);
-
+		usuario.setAdm(false);
 		try {
 			usuario = usuarioService.salvar(usuario);
 			tokenService.invalidar(token);

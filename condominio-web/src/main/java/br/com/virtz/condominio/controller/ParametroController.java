@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import org.primefaces.event.FileUploadEvent;
 
+import br.com.virtz.boleto.util.ValidadorUtil;
 import br.com.virtz.condominio.constantes.EnumParametroSistema;
 import br.com.virtz.condominio.entidades.AcessoCFTV;
 import br.com.virtz.condominio.entidades.ArquivoBoletoExterno;
@@ -56,6 +57,7 @@ public class ParametroController {
 	private Usuario usuario = null;
 	
 	private ParametroSistema parametroMaximoDias = null;
+	private ParametroSistema parametroMinimoDias = null;
 	private ParametroSistema parametroEnviarEmailAta = null;
 	private Boolean parametroEnviarEmailAtaBool = null;
 	
@@ -67,6 +69,7 @@ public class ParametroController {
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
 		parametroMaximoDias = parametroService.recuperar(EnumParametroSistema.QUANTIDADE_DIAS_MAXIMO_PARA_AGENDAR_AREA_COMUM, usuario.getCondominio());
+		parametroMinimoDias = parametroService.recuperar(EnumParametroSistema.QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM, usuario.getCondominio());
 		parametroEnviarEmailAta = parametroService.recuperar(EnumParametroSistema.AVISAR_POR_EMAIL_QUANDO_AXEXAR_ATA, usuario.getCondominio());
 		parametroEnviarEmailAtaBool = ("1".equals(parametroEnviarEmailAta.getValor()) ? Boolean.TRUE: Boolean.FALSE);
 		
@@ -93,6 +96,7 @@ public class ParametroController {
 		
 		try {
 			parametroService.salvar(parametroMaximoDias);
+			parametroService.salvar(parametroMinimoDias);
 			
 			parametroEnviarEmailAta.setValor(parametroEnviarEmailAtaBool ? "1" : "0");
 			parametroService.salvar(parametroEnviarEmailAta);
@@ -182,6 +186,12 @@ public class ParametroController {
 			
 			if(arquivoBoleto != null){
 				boletoExterno.setLogomarca(arquivoBoleto);
+			}
+			
+			ValidadorUtil validador = new ValidadorUtil();
+			if(!validador.validateEmail(boletoExterno.getUrl()) && 
+					!(boletoExterno.getUrl().toLowerCase().startsWith("http://") || boletoExterno.getUrl().toLowerCase().startsWith("https://"))){
+				boletoExterno.setUrl("http://"+boletoExterno.getUrl());
 			}
 			
 			boletoExterno = condominioService.salvarBoletoExterno(boletoExterno);
@@ -279,6 +289,13 @@ public class ParametroController {
 	public void setBoletoExterno(BoletoExterno boletoExterno) {
 		this.boletoExterno = boletoExterno;
 	}
+
+	public ParametroSistema getParametroMinimoDias() {
+		return parametroMinimoDias;
+	}
+
+	public void setParametroMinimoDias(ParametroSistema parametroMinimoDias) {
+		this.parametroMinimoDias = parametroMinimoDias;
+	}
 	
-		    
 }

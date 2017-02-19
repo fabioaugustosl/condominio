@@ -152,7 +152,13 @@
 			        <p:ajax event="select" update="@form" listener="#{listagemIndicacaoController.selecionarCategoria}" />
 			    </p:tagCloud>
 		    </div>
-		    
+		    <div id="divCloud" style="height: auto;">
+		    	<p:commandButton id="novaIndicacao" value="Nova Indicação" immediate="true"
+			   		styleClass="botao botao-grande" 
+			   		rendered="#{not principalController.ehAdministrador()}"
+			   		actionListener="#{listagemIndicacaoController.irParaCadastro}"  >
+			   	</p:commandButton>
+		   	</div>
 		    <p:dataScroller id="listaIndicacoes" value="#{listagemIndicacaoController.indicacoes}" 
 		    		var="indicacao" chunkSize="20" styleClass="scrollerCss"  >
 		        <f:facet name="header">
@@ -208,11 +214,6 @@
 		        </h:panelGrid>
 		    </p:dataScroller>
 	    
-	   	<p:commandButton id="novaIndicacao" value="Nova Indicação" immediate="true"
-	   		styleClass="botao botao-grande" 
-	   		rendered="#{not principalController.ehAdministrador()}"
-	   		actionListener="#{listagemIndicacaoController.irParaCadastro}"  >
-	   	</p:commandButton>
 	   
 	  	<p:dialog modal="true" id="dlgFotos" widgetVar="dlgFotos" header="Fotos" 
 						draggable="true" closable="true" resizable="false" 

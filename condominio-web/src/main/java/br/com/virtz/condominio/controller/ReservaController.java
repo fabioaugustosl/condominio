@@ -90,6 +90,7 @@ public class ReservaController {
 	private String mensagemConfirmacaoReserva = null ;
 	private String mensagemErroReserva = null ;
 	private ParametroSistema maximoDias = null;
+	private ParametroSistema minimoDias = null;
 
 	private boolean podeRemoverReserva;
 	private boolean checkLiEConcordo;
@@ -111,6 +112,8 @@ public class ReservaController {
 		montarListaAreasParaReserva();
 
 		maximoDias = parametroLookup.buscar(EnumParametroSistema.QUANTIDADE_DIAS_MAXIMO_PARA_AGENDAR_AREA_COMUM);
+		minimoDias = parametroLookup.buscar(EnumParametroSistema.QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM);
+		
 		areaSelecionada = null;
 		podeRemoverReserva = false;
 		mensagemExclusaoReserva = null;
@@ -322,6 +325,13 @@ public class ReservaController {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			throw new AppException("A reserva não foi realizada. A data limite para agendamentos é "+sdf.format(dataMaxima)+". ");
 		}
+		
+		// valida a proximidade da data da reserva. Se tiver configurado uma procedencia minima a reserva deve ser barrada.
+		if(minimoDias != null || Integer.valueOf(minimoDias.getValor()) > 0){
+			if(getDiferencaDiasEntreHojeEaReserva(data.getTime()) < Integer.valueOf(minimoDias.getValor())){
+				throw new AppException("A reserva não foi realizada. A quantidade mínima de antecedência para reserva é de "+minimoDias.getValor()+" dias. ");
+			}
+		}
 
 		Usuario usu = null;
 		Apartamento aptoAgendamento = apartamentoSelecionado;
@@ -407,6 +417,12 @@ public class ReservaController {
 			return dt.adicionarDias(new Date(), Integer.parseInt(maximoDias.getValor()));
 		}
 		return null;
+	}
+	
+	
+	private Integer getDiferencaDiasEntreHojeEaReserva(Date dataReserva){
+		DataUtil dt =new DataUtil();
+		return dt.diasEntreDatas(dt.agora().getTime(), dt.limparHora(dataReserva));
 	}
 
 

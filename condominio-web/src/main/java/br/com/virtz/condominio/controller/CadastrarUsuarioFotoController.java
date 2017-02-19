@@ -103,6 +103,7 @@ public class CadastrarUsuarioFotoController implements Serializable{
         		ArquivoUsuario arq = usuarioService.salvarArquivo(usuario.getArquivo());
         		usuario.setArquivo(arq);
         	}
+        	usuario.setAdm(false);
         	usuario = usuarioService.salvar(usuario);
         	
         	// gerar token
@@ -121,7 +122,6 @@ public class CadastrarUsuarioFotoController implements Serializable{
         		e.printStackTrace();
         	}
         
-
         	cadastroFinalizado = Boolean.TRUE;
         } catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar seu usuário. Favor tentar novamente.");

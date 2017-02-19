@@ -19,7 +19,7 @@ public class ParametroSistemaService implements IParametroSistemaService {
 
 	@Override
 	public List<ParametroSistema> recuperarTodos(Condominio condominio) {
-		return parametroDAO.recuperarTodos();
+		return parametroDAO.recuperarTodos(condominio);
 	}
 
 	@Override

@@ -9,12 +9,22 @@
    </style>
    
    <h:form id="formBoletoExterno">
+	   <p:growl id="msgsGrowlBoletoExterno" showDetail="false" autoUpdate="false" life="5000" />
 	   <p:outputPanel id="containerWidgetBoletoExterno" style="width:100%; text-align:center;" >
 	  		<p:graphicImage  id="imgBoletoExterno"  
 	  		rendered="#{not empty boletoExternoController.boleto.logomarca}"
 				 	url="/imagem?arquivo=#{boletoExternoController.imagem}" />
   			<br />
-  			<p:link href="#{boletoExternoController.boleto.url}" value="#{boletoExternoController.boleto.descricaoLink}" target="_blank" />	
+  			<p:link href="#{boletoExternoController.boleto.url}"
+  				rendered="#{not boletoExternoController.linkEhEmail()}" 
+  				value="#{boletoExternoController.boleto.descricaoLink}" target="_blank" />
+  				
+  			<p:commandLink id="lnkEnvioSolicicaoBoletoExt" 
+  				actionListener="#{boletoExternoController.enviarEmailSolicitacao()}" 
+  				rendered="#{boletoExternoController.linkEhEmail()}"
+  				update="msgsGrowlBoletoExterno"
+  				value="#{boletoExternoController.boleto.descricaoLink}" >
+  			</p:commandLink>	
 	   </p:outputPanel>
 	   			    
 	</h:form>

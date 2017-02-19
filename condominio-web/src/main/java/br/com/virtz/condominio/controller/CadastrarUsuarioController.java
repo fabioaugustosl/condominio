@@ -68,6 +68,7 @@ public class CadastrarUsuarioController implements Serializable{
 			}
 			
 			usuario.setArquivo(null);
+			usuario.setAdm(false);
         	usuario = usuarioService.salvarNovo(usuario);
 		} catch (AppException app){
 			throw app;

@@ -22,6 +22,14 @@
 		 	
 		 	<br />
 		   	<br />
+		   	
+		   	<p:outputLabel value="Qual a quantidade mínima de antecedência em dias que uma área comum pode ser agendada? " styleClass="labelPadrao" /> <br />
+		 	<p:inputMask  id="qtdDiaMinimoAgendaAreaComum" value="#{parametroController.parametroMinimoDias.valor}" 
+		 			style="width:200px;"
+		 			mask="9?999" maxlength="4" placeHolder=" " styleClass="inputPadrao"/> <p:outputLabel value=" 0 (zero) o morador poderá reservar até no mesmo dia." styleClass="labelPadrao" /> <p:outputLabel value=" Ex.: 1 indica que pode marcar com até 1 dia de antecedência. 2 com dois dias. E asism por diante." styleClass="labelPequeno" />
+		 	
+		 	<br />
+		   	<br />
 		    
 		 	<p:selectBooleanCheckbox value="#{parametroController.parametroEnviarEmailAtaBool}" />
 	   	 	<p:outputLabel value="Deseja avisar automaticamento os moradores quando uma nova ata for anexada a uma assembleia?" styleClass="labelPadrao" style="margin-left:4px;"/> <br />
@@ -95,11 +103,12 @@
 	
     
     	<p:fieldset legend="Acesso a boleto em sistema externo" style="margin-bottom:20px">
-	        
-	        <p:outputLabel value="Qual a URL para emissão dos boletos?" styleClass="labelPadrao" /> <br />
+	        <p:outputLabel value="Essa área deve ser utilizada caso exista algum outro sistema (site) já utilizado pelo condomínio para geração de boletos. Também pode ser utilizado caso não possua site mas sim um email de alguma pessoa/empresa responsavél pela geração. Nesse caso será disparado um email de solicitação de segunda via para o email cadastrado." styleClass="labelPadrao" /> <br />
+	        <br />
+	        <p:outputLabel value="Qual a Link ou Email para emissão dos boletos?" styleClass="labelPadrao" /> <br />
 		 	<p:inputText  id="urlBoletos" value="#{parametroController.boletoExterno.url}" 
 		 			styleClass="inputPadrao" maxlength="100"/>
-		 	
+		 	<p:outputLabel value="Se você preencher com o ENDERECO (URL/LINK) de algum outro site o mesmo será aberto quando o morador clicar. Caso você preencha com um EMAIL quando o usuário clicar será disparado automaticamente um email com os dados do morador solicitando a segunda via." styleClass="labelPadrao" />
 		   	<br />
 		   	
 		   	<p:outputLabel value="Qual a descrição do link a ser exibido na página principal?" styleClass="labelPadrao" /> <br />

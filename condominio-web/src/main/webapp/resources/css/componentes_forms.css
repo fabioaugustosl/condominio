@@ -59,6 +59,14 @@
 	color: #525A6E;
 }
 
+.labelPequeno {
+	margin-top:10px;
+	margin-bottom:0px;
+	padding:0px;
+	font-size: 0.7em !important;
+	color: #525A6E;
+}
+
 .labelPadraoInline {
 	margin-top:3px;
 	line-height:25px;

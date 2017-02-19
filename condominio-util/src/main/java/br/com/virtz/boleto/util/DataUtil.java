@@ -132,7 +132,14 @@ public class DataUtil {
 		if(data1 == null || data2 == null){
 			return 0;
 		}
-
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		c1.setTime(data1);
+		c2.setTime(data2);
+		if(c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)){
+			return Math.abs(c1.get(Calendar.DAY_OF_YEAR) - c2.get(Calendar.DAY_OF_YEAR)); 
+		}
+		
 		return Math.abs(diasEntreTimestemp(this.limparHora(data1).getTime(), this.limparHora(data2).getTime()));
 	}
 
@@ -145,4 +152,5 @@ public class DataUtil {
 		SimpleDateFormat dt1 = new SimpleDateFormat(formato);
         return dt1.format(data);
 	}
+	
 }

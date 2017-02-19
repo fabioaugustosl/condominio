@@ -17,7 +17,8 @@ public enum EnumTemplates {
 	NOVA_NOTICIA("notificacaoNoticia.ftl", "Nova notícia!", "contato@condominiosobcontrole.com.br"),
 	CONVOCACAO_ASSEMBLEIA("convocacaoAssembleia.ftl", "Convocação para assembleia", "contato@condominiosobcontrole.com.br"),
 	NOVA_ASSEMBLEIA("avisoCriacaoAssembleia.ftl", "Aviso de nova assembleia", "contato@condominiosobcontrole.com.br"),
-	REGISTRO_OCORRENCIA("novoRegistroOcorrencia.ftl", "Novo registro de ocorrência", "contato@condominiosobcontrole.com.br");
+	REGISTRO_OCORRENCIA("novoRegistroOcorrencia.ftl", "Novo registro de ocorrência", "contato@condominiosobcontrole.com.br"),
+	SOLICITACAO_SEGUNDA_VIA_BOLETO("solicitacaoSegundaViaBoleto.ftl", "Solicitação de segunda via de boleto", "contato@condominiosobcontrole.com.br");
 
 	private String nomeArquivo;
 	private String assunto;

@@ -18,7 +18,7 @@ public class ParametroSistemaLookup implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Map<Long, ParametroSistema> mapParametros = new HashMap<Long, ParametroSistema>();
+	private Map<String, ParametroSistema> mapParametros = new HashMap<String, ParametroSistema>();
 	
 	@EJB
 	private IParametroSistemaService parametroService;
@@ -28,12 +28,12 @@ public class ParametroSistemaLookup implements Serializable {
 		List<ParametroSistema> parametros = parametroService.recuperarTodos(condominio);
 		if(parametros != null){
 			for(ParametroSistema p : parametros){
-				mapParametros.put(p.getId(), p);
+				mapParametros.put(p.getNome(), p);
 			}
 		}
 	}
 	
 	public ParametroSistema buscar(EnumParametroSistema parametro){
-		return mapParametros.get(parametro.getId());
+		return mapParametros.get(parametro.toString());
 	}
 }

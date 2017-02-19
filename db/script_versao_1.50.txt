@@ -1,0 +1,17 @@
+
+/* TEMOS QUE CRIAR UM NOVO PARAMETRO PARA CADA CONDOMINIO. O DEFAULT É ZERO.*/
+
+/* para descobrir os ids dos condominios*/
+select id from db_condominio.condominio;
+
+/* esses ids são q vou rodar em produção */
+insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 1);
+insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 29);
+insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 30);
+insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 31);
+insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 32);
+insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 33);
+insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 34);
+insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 35);
+insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 36);
+insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 37);

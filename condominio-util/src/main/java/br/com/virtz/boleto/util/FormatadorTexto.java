@@ -2,9 +2,12 @@ package br.com.virtz.boleto.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FormatadorTexto {
-
+	
+	
 	public List<String> quebrarStrings(String texto, int tamanhoMaxLinha){
 		if(tamanhoMaxLinha<1){
 			tamanhoMaxLinha = 999;
@@ -33,5 +36,6 @@ public class FormatadorTexto {
 		
 		return linhas;
 	}
+
 	
 }

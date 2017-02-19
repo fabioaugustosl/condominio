@@ -39,7 +39,7 @@ public class TestDataUtil {
 		d1 = new Date(2012, 8, 3);
 		d2 = new Date(2012, 10, 13);
 		
-		Assert.assertEquals(70, dataUtil.diasEntreDatas(d1, d2));
+		Assert.assertEquals(71, dataUtil.diasEntreDatas(d1, d2));
 	}
 
 

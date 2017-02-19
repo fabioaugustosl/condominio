@@ -88,12 +88,12 @@ public class LoginController {
 			return;
 		}
 		//metodoAuxiliarCriacaoUsuarioDesenv();
-		UsernamePasswordToken tokenShiro = new UsernamePasswordToken(login, usuarioService.criptografarSenhaUsuario(senha));
+		UsernamePasswordToken tokenShiro = new UsernamePasswordToken(login.toLowerCase(), usuarioService.criptografarSenhaUsuario(senha));
 		Subject usuarioAtual = SecurityUtils.getSubject();
 		try{
 			usuarioAtual.login(tokenShiro);
 
-			Usuario u = usuarioService.recuperarUsuario(login);
+			Usuario u = usuarioService.recuperarUsuario(login.toLowerCase());
 			sessao.setUsuarioLogado(u);
 
 			// iniciar lookups

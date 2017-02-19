@@ -108,6 +108,8 @@
         	<p:column selectionMode="multiple" style="width:40px;text-align:center"/>
         	
 		    <p:column headerText="Morador" >
+			    <p:graphicImage id="imgAtivo" url="/img/icones/ico_ligado.png" title="Usuário ativo no site." rendered="#{usuario.cadastroConfirmado}" style="margin:3px;"/>
+		        <p:graphicImage id="imgNaoAtivo" url="/img/icones/ico_desligado.png" title="Usuário ainda não aceitou o convite enviado." rendered="#{not usuario.cadastroConfirmado}" style="margin:3px;" />
 		        <h:outputText value="#{usuario.nome}" />
 		    </p:column>
 		    

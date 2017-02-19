@@ -5,6 +5,10 @@
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:p="http://primefaces.org/ui">
    
+   <style>
+   .dropdownmenu ul li a { width: 100%;}
+   
+   </style>
 		<nav class="dropdownmenu">
 		  <ul>
 		    <!-- Exemplo de menu sem submenu -->
@@ -38,7 +42,7 @@
 				<li><p:link value="Ver as prestações de contas" rendered="#{principalController.exibirMenu('prestacaoContas')}" outcome="/balanco/listagemBalanco.faces"  /></li>
 				</ul>
 			</li>
-			<li><a href="#"><p:graphicImage id="icoPortariaMenu" url="/img/icones/ico_portaria_menu.png" /> <span id="titulosubmenu">Portaria</span></a>
+			<li><a href="#" style="width: 100%;"><p:graphicImage id="icoPortariaMenu" url="/img/icones/ico_portaria_menu.png" /> <span id="titulosubmenu">Portaria</span></a>
 				<ul id="submenu">
 				<li><p:link value="Porteiros" rendered="#{principalController.exibirMenu('porteiros')}" outcome="/portaria/listagemPorteiro.faces"  /></li>
 				<li><p:link value="Controle portaria" rendered="#{principalController.exibirMenu('portaria')}" outcome="/portaria/gerenciarPortaria.faces" /></li>
@@ -46,7 +50,7 @@
 				<li><p:link value="Correspondências e entregas" rendered="#{principalController.exibirMenu('correspondecias')}" outcome="/portaria/listagemCorrespondencias.faces"  /></li>
 				</ul>
 			</li>
-			<li><a href="#"><p:graphicImage id="icoConfigMenu" url="/img/icones/ico_configuracao_menu.png" /> <span id="titulosubmenu">Configurações</span></a>
+			<li><a href="#" style=""><p:graphicImage id="icoConfigMenu" url="/img/icones/ico_configuracao_menu.png" /> <span id="titulosubmenu">Configurações</span></a>
 				<ul id="submenu">
 				<li><p:link value="Meu Condomínio" rendered="#{principalController.exibirMenu('meuCondominio')}" outcome="/condominio/condominioEdicao.faces" /></li>
 				<li><p:link value="Gerais" rendered="#{principalController.exibirMenu('gerais')}" outcome="/configuracao/configuracao.faces" /></li>

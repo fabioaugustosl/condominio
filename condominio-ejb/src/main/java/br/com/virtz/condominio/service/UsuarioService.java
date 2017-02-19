@@ -113,6 +113,8 @@ public class UsuarioService implements IUsuarioService {
 			throw new AppException("Favor digitar a senhas iguais.");
 		}
 
+		
+		usuario.setEmail(usuario.getEmail().toLowerCase());
 		Usuario usuarioEmail = usuarioDAO.recuperarUsuarioPorEmail(usuario.getEmail());
 		if(usuarioEmail != null){
 			// se o usuario for novo verifica se o
