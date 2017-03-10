@@ -1,10 +1,15 @@
 
+select * from db_condominio.parametrosistema;
+
+
+
+
 /* TEMOS QUE CRIAR UM NOVO PARAMETRO PARA CADA CONDOMINIO. O DEFAULT É ZERO.*/
 
 /* para descobrir os ids dos condominios*/
 select id from db_condominio.condominio;
 
-/* esses ids são q vou rodar em produção */
+/* esses ids são q vou rodar em produção. TEM QUE CRIAR ESSE PARAMETRO PARA TODOS OS CONDOMINIOS DO BANCO! */
 insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 1);
 insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 29);
 insert into db_condominio.parametrosistema (nome, valor, idCondominio) values('QUANTIDADE_DIAS_MINIMO_PARA_AGENDAR_AREA_COMUM', 0, 30);
