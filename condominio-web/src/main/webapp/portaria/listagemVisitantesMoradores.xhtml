@@ -8,21 +8,23 @@
    
    <ui:define name="content">
    	<h:form id="form" style="width:100%" styleClass="formPad10">
-	   	<h1>Todos os visitantes que acessaram o condomínio.</h1>
+	   	<h1>Todos os visitantes que acessaram sua unidade.</h1>
 	   	<p:outputLabel styleClass="textoInformativo" 
-	   		value="Veja quem acessou o condomínio." />
+	   		value="Veja quem acessou o condomínio visitando sua unidade." />
 	 	<br />
 	 	
 		<p:dataTable id="dtListagemVisitants" var="visitante" 
-				value="#{listagemVisitanteController.visitantes}"
-				emptyMessage="Ainda não foi cadastradas nenhuma correspondência para você."
-				rows="50" paginator="true" lazy="true"
-				paginatorPosition="bottom"
-                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                rowsPerPageTemplate="20,50,100" >
+				value="#{listagemVisitanteMoradorController.visitantes}"
+				emptyMessage="Ainda não foi cadastrado nenhuma visita para você." >
 			
-	        <p:column headerText="Data" styleClass="colunaLargura160" style="text-align:center">
+	        <p:column headerText="Data Entrada" styleClass="colunaLargura160" style="text-align:center">
 		        <h:outputText value="#{visitante.dataEntrada}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="Data Saída" styleClass="colunaLargura160" style="text-align:center">
+		        <h:outputText value="#{visitante.dataSaida}" >
 		        	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 		        </h:outputText>
 		    </p:column>
@@ -34,11 +36,7 @@
 		    <p:column headerText="Documento">
 		        <h:outputText value="#{visitante.documento}" />
 		    </p:column>
-		    
-		    <p:column headerText="Unidade" styleClass="colunaLargura160">
-		        <h:outputText value="#{visitante.apartamento.nomeExibicao}" />
-		    </p:column>
-		    
+
 		    <p:column headerText="Foto" styleClass="colunaLargura100" style="text-align:center;">
 		        <p:graphicImage id="imgFotoVisitante" url="/img/icones/ico_foto.png" title="Clique para ver a foto do visitante" 
 		        	style="cursor:pointer"
@@ -51,13 +49,7 @@
 		    </p:column>
 		    
 		</p:dataTable> 
-		
-		<p:commandButton id="btnCadastrarVisitantes" value="Voltar" immediate="true"
-			styleClass="botao botao-grande"
-	   		actionListener="#{listagemVisitanteController.irParaCadastro()}" >
-	   	</p:commandButton>
-	
-			 	
+
 	 </h:form>
   </ui:define>
 </ui:composition>

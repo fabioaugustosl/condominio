@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -66,6 +67,18 @@ public class VisitanteService implements IVisitanteService {
 	@Override
 	public int total(Long idCondominio) {
 		return visitanteDAO.totalVisitantes(idCondominio);
+	}
+
+
+	@Override
+	public void saidaVisitante(Long idVisitante) throws AppException {
+		Visitante v = visitanteDAO.recuperarPorId(idVisitante);
+		v.setDataSaida(new Date());
+		try {
+			visitanteDAO.salvar(v);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
 
 

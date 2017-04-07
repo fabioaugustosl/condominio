@@ -18,6 +18,7 @@ import org.primefaces.model.StreamedContent;
 import br.com.virtz.condominio.entidades.ArquivoAtaAssembleia;
 import br.com.virtz.condominio.entidades.ArquivoNotificacaoPortaria;
 import br.com.virtz.condominio.entidades.NotificacaoPortaria;
+import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.service.INotificacaoPortariaService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.IArquivosUtil;
@@ -46,6 +47,8 @@ public class ControlePortariaController {
 
 	private List<NotificacaoPortaria> notificacoes = null;
 
+	
+	
 	@PostConstruct
 	public void init(){
 		notificacoes = notificacaoService.recuperarPorCondominio(sessao.getUsuarioLogado().getCondominio().getId());
@@ -62,7 +65,16 @@ public class ControlePortariaController {
 	}
 
 
-
+	public void confirmarNotificacao(Long idNotificacao){
+		try {
+			notificacaoService.confirmar(idNotificacao);
+			notificacoes = notificacaoService.recuperarPorCondominio(sessao.getUsuarioLogado().getCondominio().getId());
+			this.message.addInfo("Confirmado!");
+		} catch (AppException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	public List<NotificacaoPortaria> getNotificacoes() {
 		return notificacoes;

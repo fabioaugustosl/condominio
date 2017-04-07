@@ -26,6 +26,18 @@ public class GeradorNossoNumeroImpl implements GeradorNossoNumero {
 			}
 			return new NossoNumero(StringUtils.leftPad(sb.toString(), 12, "0"), "1");
 		}
+		if(EnumBanco.ITAU.getCodigo().equals(conta.getBanco().getCodigoDeCompensacao())){
+			Calendar c = Calendar.getInstance();
+			c.setTime(titulo.getDataDocumento());
+			sb.append(titulo.getNumeroDocumento());
+			sb.append(c.get(Calendar.MONTH));
+			sb.append(c.get(Calendar.YEAR));
+			if(sb.toString().length() > 8){
+				String nn = sb.toString().substring(0, 8);
+				return new NossoNumero(nn, "1");
+			}
+			return new NossoNumero(StringUtils.leftPad(sb.toString(), 8, "0"), "1");
+		}
 		return new NossoNumero("000000");
 	}
 

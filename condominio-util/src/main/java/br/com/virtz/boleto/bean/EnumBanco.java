@@ -2,7 +2,8 @@ package br.com.virtz.boleto.bean;
 
 public enum EnumBanco {
 	BB("Banco do Brasil","001"),
-	SANTANDER("Santander","033");
+	SANTANDER("Santander","033"),
+	ITAU("Itaú","341");
 	
 	private String descricao;
 	private String codigo;

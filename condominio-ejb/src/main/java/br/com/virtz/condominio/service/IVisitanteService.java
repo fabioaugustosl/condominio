@@ -11,6 +11,7 @@ import br.com.virtz.condominio.exception.AppException;
 public interface IVisitanteService extends PaginacaoService<Visitante> {
 	public List<Visitante> recuperar(Long idCondominio);
 	public void salvarVisitante(Visitante visitante) throws AppException ;
+	public void saidaVisitante(Long idVisitante) throws AppException ;
 	public void remover(Long idVisitante) throws AppException;
 	
 	public int totalVisitantes(Long idCondominio);

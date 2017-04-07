@@ -4,6 +4,7 @@ public enum EnumTipoNotificacao {
 	CORRESPONDENCIA("Correspondência"),
 	ENCOMENDA("Encomenda"),
 	AVISO("Aviso"),
+	AUTORIZACAO("Autorização"),
 	LEMBRETE("Lembrete");
 	
 	private String descricao;

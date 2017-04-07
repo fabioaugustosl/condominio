@@ -265,6 +265,11 @@ public class ReservaController {
 
 
 	public void salvarReserva() throws AppException {
+		if(principalController.ehPorteiro()){
+			this.message.addError("Você não tem permissão para realizar uma reserva");
+			return;
+		}
+		
 		salvar();
 
 		if(evento.getId() == null) {
@@ -386,6 +391,12 @@ public class ReservaController {
 	}
 
 	public void removerReserva() throws AppException {
+		
+		if(principalController.ehPorteiro()){
+			this.message.addError("Você não tem permissão para remover uma reserva");
+			return;
+		}
+		
         if(evento != null) {
         	try{
 	        	String apto = recuperarAptoDaReserva();

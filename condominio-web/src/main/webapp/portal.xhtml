@@ -14,7 +14,16 @@
  		<p:outputPanel id="containerDashBoard" style="width:100% !important;" >
        		
        		<div id="divNotificacoesImportantes">
-       			
+       			<p:panel id="panelWidgetNotificacoes" header="Notificações/Autorizações enviadas por moradores" style="height:100%;"
+	            		styleClass="painelWidget"
+	            		rendered="#{principalController.ehPorteiro() &amp;&amp; not empty controlePortariaController.notificacoes }" > 
+	                <ui:include src="widget/notificacaoPortaria.xhtml" />
+	            </p:panel>
+	            <p:panel id="panelWidgetVisitantesPortal" header="Acessos ao condomínio" 
+				    			style="height:100%;" styleClass="painelWidget"  
+	       				rendered="#{principalController.ehPorteiro()}"> 
+	                <ui:include src="widget/listagemVisitantesPortal.xhtml" />
+	            </p:panel>  
 	   		</div>
        		
      		<table id="divConteudoPortal" class="tabelaPadrao">
@@ -59,13 +68,15 @@
 			    			style="height:100%;" styleClass="painelWidget"  
 		       				rendered="#{not principalController.ehPorteiro() &amp;&amp; not principalController.ehAdministrador() &amp;&amp; votacaoController.possuiVotacaoPorImagemEmAndamento()}"> 
 			                <ui:include src="widget/votacaoImagem.xhtml" />
-			            </p:panel>       
+			            </p:panel>
 			            
 			            <p:panel id="panelWidgetNoticia" header="Notícias" style="height:100%;"
 			            	styleClass="painelWidget"
 			            		rendered="#{noticiaController.noticias.size() > 0 || noticiaController.noticiaDestaque != null}" > 
 			                <ui:include src="widget/noticias.xhtml" />
 			            </p:panel>
+			            
+			            
 			            
 			            <ui:include src="widget/indicacao.xhtml" />
 		 			</td>

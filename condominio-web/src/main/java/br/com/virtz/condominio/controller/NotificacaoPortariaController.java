@@ -73,7 +73,7 @@ public class NotificacaoPortariaController {
 	public void salvar(ActionEvent event) throws CondominioException {
 		try{
 			DataUtil dataUtil = new DataUtil();
-			if(notificacaoPortaria.getDataPrevista() != null && dataUtil.dataEhMenorQueHoje(notificacaoPortaria.getDataPrevista())){
+			if(notificacaoPortaria.getDataPrevista() != null &&  dataUtil.dataEhMenorQueHoje(dataUtil.adicionarDias(notificacaoPortaria.getDataPrevista(), -1))){
 				messageHelper.addError("A data prevista não pode ser menor que hoje.");
 			}
 

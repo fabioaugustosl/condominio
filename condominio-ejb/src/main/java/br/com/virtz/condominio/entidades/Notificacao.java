@@ -59,7 +59,6 @@ public class Notificacao extends Entidade implements Serializable {
 
 	
 	
-	
 	public Long getId() {
 		return id;
 	}

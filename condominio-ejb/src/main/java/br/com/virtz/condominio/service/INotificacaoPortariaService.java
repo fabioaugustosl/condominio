@@ -14,6 +14,7 @@ public interface INotificacaoPortariaService  {
 	public NotificacaoPortaria recuperar(Long idNotificacao) throws AppException;
 	public void salvar(NotificacaoPortaria notificaao) throws AppException ;
 	public void remover(Long idNotificacao) throws AppException;
+	public void confirmar(Long idNotificacao) throws AppException ;
 
 }
 

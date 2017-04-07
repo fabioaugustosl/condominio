@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 		@NamedQuery(name = "NotificacaoPortaria.recuperarPorCondominio",
 				query = "Select n FROM NotificacaoPortaria n "
-						+ " WHERE n.condominio.id = :idCondominio AND n.dataPrevista >= CURRENT_DATE")
+						+ " WHERE n.condominio.id = :idCondominio AND n.dataPrevista >= CURRENT_DATE AND n.dataConfirmacao is null")
 
 })
 public class NotificacaoPortaria extends Entidade implements Serializable {
@@ -58,7 +58,10 @@ public class NotificacaoPortaria extends Entidade implements Serializable {
 	@JoinColumn(name="idArquivo")
 	private ArquivoNotificacaoPortaria arquivo;
 
-
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_confirmacao")
+	private Date dataConfirmacao;
+	
 
 
 	public Long getId() {
@@ -116,5 +119,15 @@ public class NotificacaoPortaria extends Entidade implements Serializable {
 	public void setArquivo(ArquivoNotificacaoPortaria arquivo) {
 		this.arquivo = arquivo;
 	}
+
+	public Date getDataConfirmacao() {
+		return dataConfirmacao;
+	}
+
+	public void setDataConfirmacao(Date dataConfirmacao) {
+		this.dataConfirmacao = dataConfirmacao;
+	}
+	
+	
 
 }

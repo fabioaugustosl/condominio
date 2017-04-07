@@ -2,20 +2,25 @@ package br.com.virtz.condominio.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.CaptureEvent;
+import org.primefaces.event.SelectEvent;
 
 import br.com.virtz.condominio.entidades.AgrupamentoUnidades;
 import br.com.virtz.condominio.entidades.Apartamento;
@@ -24,6 +29,7 @@ import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Visitante;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.ICondominioService;
+import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.service.IVisitanteService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
@@ -37,6 +43,9 @@ public class CadastroVisitanteController {
 
 	@EJB
 	private ICondominioService condominioService;
+	
+	@EJB
+	private IUsuarioService usuarioService;
 
 	@EJB
 	private IVisitanteService visitanteService;
@@ -59,6 +68,8 @@ public class CadastroVisitanteController {
 
 	private List<Bloco> blocos = null;
 	private List<AgrupamentoUnidades> agrupamentos = null;
+	private List<Usuario> usuarios = null;
+	private Usuario moradorSelecionado = null;
 	private Bloco blocoSelecionado;
 	private Apartamento apartamentoSelecionado;
 	private AgrupamentoUnidades agrupamentoSelecionado;
@@ -75,6 +86,8 @@ public class CadastroVisitanteController {
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
 
+		usuarios = listarTodos();
+		
 		blocoSelecionado = null;
 
 		if(principalController.condominioPossuiAgrupamento()){
@@ -84,12 +97,50 @@ public class CadastroVisitanteController {
 		}
 
 		apartamentoSelecionado = null;
+		moradorSelecionado = null;
 
 		visitante = new Visitante();
 
 	}
+	
+	
+	public List<Usuario> listarTodos(){
+		List<Usuario> usuarios = usuarioService.recuperarTodos(usuario.getCondominio());
+		return usuarios;
+	}
 
-
+	
+	public List<Usuario> pesquisarMorador(String query) {
+		List<Usuario> usuarioFiltrados = new ArrayList<Usuario>();
+		
+		if(StringUtils.isBlank(query)){
+			return usuarios;
+		}
+		
+		for (int i = 0; i < usuarios.size(); i++) {
+			 Usuario u = usuarios.get(i);
+            if(u.getNome().toLowerCase().startsWith(query.toLowerCase())) {
+                usuarioFiltrados.add(u);
+            }
+        }
+	 	         
+		return usuarioFiltrados;
+	}
+	 
+	
+	public void selecionarMorador(ValueChangeEvent event) {
+		Usuario usuario = (Usuario) event.getNewValue();
+		
+		if(this.visitante != null){
+			this.visitante.setApartamento(usuario.getApartamento());
+		}
+		
+		blocoSelecionado = usuario.getApartamento().getBloco();
+		apartamentoSelecionado = usuario.getApartamento();
+		agrupamentoSelecionado = usuario.getApartamento().getBloco().getAgrupamentoUnidades();
+    }
+	
+	 
 	public void recuperarAgrupamentos() {
 		agrupamentos = condominioService.recuperarTodosAgrupamentos(usuario.getCondominio().getId());
 		if(agrupamentos != null && agrupamentos.size() == 1){
@@ -118,14 +169,24 @@ public class CadastroVisitanteController {
 
 	public void salvar(ActionEvent event) throws CondominioException {
 		try{
+			if(apartamentoSelecionado == null && this.visitante.getApartamento() == null){
+				message.addError("É necessário selecionar a unidade que o visitante vai acessar.");
+				return;
+			}
+			
 			visitante.setDataEntrada(new Date());
 			visitante.setCondominio(usuario.getCondominio());
-			visitante.setApartamento(apartamentoSelecionado);
+			if(visitante.getApartamento() == null){
+				visitante.setApartamento(apartamentoSelecionado);
+			}
 			visitante.setComentario(descricao);
+			
 			visitanteService.salvarVisitante(visitante);
+			
 			descricao = null;
 			apartamentoSelecionado = null;
 			blocoSelecionado = null;
+			moradorSelecionado = null;
 			visitante = new Visitante();
 			message.addInfo("O visitante foi salvo com sucesso.");
 		}catch(Exception e){
@@ -221,5 +282,18 @@ public class CadastroVisitanteController {
 	public List<AgrupamentoUnidades> getAgrupamentos() {
 		return agrupamentos;
 	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public Usuario getMoradorSelecionado() {
+		return moradorSelecionado;
+	}
+
+	public void setMoradorSelecionado(Usuario moradorSelecionado) {
+		this.moradorSelecionado = moradorSelecionado;
+	}
+
 
 }

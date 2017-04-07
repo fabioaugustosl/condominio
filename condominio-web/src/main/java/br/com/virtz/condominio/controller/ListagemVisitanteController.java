@@ -11,6 +11,7 @@ import org.primefaces.model.LazyDataModel;
 import br.com.virtz.condominio.controller.lazy.VisitantesLazyModel;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.entidades.Visitante;
+import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.service.IVisitanteService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.MessageHelper;
@@ -58,6 +59,16 @@ public class ListagemVisitanteController {
 		navigation.redirectToPage("/portaria/cadastrarVisitante.faces");
 	}
 
+	
+	public void notificarSaida(Long idVisitante){
+		try {
+			visitanteService.saidaVisitante(idVisitante);
+			visitantes = new VisitantesLazyModel(visitanteService.recuperarPorCondominioPaginado(usuario.getCondominio().getId(), 0, 50), usuario.getCondominio().getId(), visitanteService);
+			this.message.addInfo("Saída registrada!");
+		} catch (AppException e) {
+			e.printStackTrace();
+		}
+	}
 
 
 

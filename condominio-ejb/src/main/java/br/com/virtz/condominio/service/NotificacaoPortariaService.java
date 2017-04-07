@@ -1,5 +1,6 @@
 package br.com.virtz.condominio.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -49,6 +50,22 @@ public class NotificacaoPortariaService implements INotificacaoPortariaService {
 	@Override
 	public List<NotificacaoPortaria> recuperarPorCondominio(Long idCondominio) {
 		return notificacaoDAO.recuperarPorCondominio(idCondominio);
+	}
+
+
+	@Override
+	public void confirmar(Long idNotificacao) throws AppException {
+		NotificacaoPortaria n = notificacaoDAO.recuperarPorId(idNotificacao);
+		
+		if(n != null){
+			n.setDataConfirmacao(new Date());
+			try {
+				notificacaoDAO.salvar(n);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 

@@ -8,6 +8,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 
+import org.apache.commons.lang.StringUtils;
+
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Usuario;
@@ -39,7 +41,10 @@ public class PrincipalController implements Serializable {
 		condominio = usuario.getCondominio();
 	}
 
-
+	public void onIdle() {
+		// fazer nada
+    }
+	
 	public boolean ehSindico(){
 		 if(EnumTipoUsuario.SINDICO.equals(sessao.getUsuarioLogado().getTipoUsuario())){
 			 return Boolean.TRUE;
@@ -86,7 +91,7 @@ public class PrincipalController implements Serializable {
 			return !ehPorteiro() && !ehAdministrador();
 		}
 		else if("reservar".equals(menu)){
-			return !ehPorteiro() && !ehAdministrador();
+			return !ehAdministrador();
 		}
 		else if("votacao".equals(menu)){
 			return ehSindico();
@@ -127,6 +132,9 @@ public class PrincipalController implements Serializable {
 		else if("correspondecias".equals(menu)){
 			return !ehPorteiro() && !ehAdministrador();
 		}
+		else if("minhasVisitas".equals(menu)){
+			return !ehPorteiro() && !ehAdministrador();
+		}
 		else if("meuCondominio".equals(menu)){
 			return ehSindico();
 		}
@@ -139,7 +147,7 @@ public class PrincipalController implements Serializable {
 
 
 	public boolean possuiCFTB(){
-		if(getCondominio().getCftv() != null && getCondominio().getCftv().getUrl() != null){
+		if(getCondominio().getCftv() != null && !StringUtils.isEmpty(getCondominio().getCftv().getUrl())){
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;

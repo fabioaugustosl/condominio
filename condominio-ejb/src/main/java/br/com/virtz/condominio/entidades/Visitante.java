@@ -24,7 +24,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 								+ " WHERE v.condominio.id = :idCondominio  "
 								+ " ORDER BY v.id DESC"),
 				@NamedQuery(name = "Visitante.totalVisitantes", 
-					query = "SELECT count(v) FROM visitante v WHERE v.condominio.id = :idCondominio   ")
+					query = "SELECT count(v) FROM visitante v WHERE v.condominio.id = :idCondominio   "),
+				@NamedQuery(name = "Visitante.recuperarPorApartamento", 
+					query = "SELECT v FROM visitante v "
+								+ " WHERE v.apartamento.id in (:idApartamento)  "
+								+ " ORDER BY v.id DESC"),
+				@NamedQuery(name = "Visitante.totalVisitantesApartamento", 
+					query = "SELECT count(v) FROM visitante v WHERE v.apartamento.id in (:idApartamento)   ")
 				
 })
 public class Visitante extends Entidade implements Serializable {

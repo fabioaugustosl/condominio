@@ -70,6 +70,10 @@
 		    <p:graphicImage url="/img/ajax-loader.GIF" />
 		</p:dialog>
 		
+		<p:idleMonitor timeout="60000">
+	        <p:ajax event="idle" listener="#{principalController.onIdle}" immediate="true"  />
+	    </p:idleMonitor>
+		
 		<div class="menu">
 			<h:form id="formMenuConfiguracoes">
 				<div style="float:left; margin-left:10px; padding:0px;">
