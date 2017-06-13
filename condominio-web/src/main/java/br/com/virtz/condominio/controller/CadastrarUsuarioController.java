@@ -13,6 +13,7 @@ import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.ArquivoUsuario;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.IArquivosUtil;
@@ -27,7 +28,10 @@ public class CadastrarUsuarioController implements Serializable{
 
 	@EJB
 	private IUsuarioService usuarioService;
-		
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
+	
 	@Inject
 	private SessaoUsuario sessao;
 	
@@ -51,6 +55,8 @@ public class CadastrarUsuarioController implements Serializable{
 		usuario = new Usuario();
 		usuario.setArquivo(new ArquivoUsuario());
 		usuario.setCadastroConfirmado(Boolean.FALSE);
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 

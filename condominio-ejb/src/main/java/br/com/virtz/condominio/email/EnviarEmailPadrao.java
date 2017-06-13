@@ -41,7 +41,8 @@ public class EnviarEmailPadrao implements EnviarEmail {
 						|| "192.168.0.5".equals(host)
 						|| "192.168.1.5".equals(host)
 						|| "192.168.1.6".equals(host)
-						|| "192.168.1.8".equals(host)){
+						|| "192.168.1.8".equals(host)
+						|| "127.0.1.1".equals(host)){
 					sessaoEmail = getSessao();
 				} else {
 					sessaoEmail = getSessaoAWS();
@@ -56,6 +57,11 @@ public class EnviarEmailPadrao implements EnviarEmail {
             m.setFrom(de);
             m.setRecipients(Message.RecipientType.TO, para);
             m.setSubject(email.getAssunto(), "ISO-8859-1");
+            
+            if(email.getResponderPara() != null){
+            	Address[] respPara = InternetAddress.parse(email.getResponderPara());
+            	m.setReplyTo(respPara);
+            }
             //m.setSubject(email.getAssunto());
 
             Multipart multiparteEmail = new MimeMultipart();

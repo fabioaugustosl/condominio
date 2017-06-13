@@ -21,6 +21,7 @@ import br.com.virtz.condominio.entidades.NotificacaoPortaria;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.INotificacaoPortariaService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
@@ -34,6 +35,9 @@ public class NotificacaoPortariaController {
 
 	@EJB
 	private INotificacaoPortariaService notificacaoService;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 
 	@Inject
 	private MessageHelper messageHelper;
@@ -67,13 +71,15 @@ public class NotificacaoPortariaController {
 	public void init(){
 		notificacaoPortaria = new NotificacaoPortaria();
 		usuarioSessao = sessao.getUsuarioLogado();
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 
 	public void salvar(ActionEvent event) throws CondominioException {
 		try{
 			DataUtil dataUtil = new DataUtil();
-			if(notificacaoPortaria.getDataPrevista() != null &&  dataUtil.dataEhMenorQueHoje(dataUtil.adicionarDias(notificacaoPortaria.getDataPrevista(), -1))){
+			if(notificacaoPortaria.getDataPrevista() != null &&  dataUtil.dataEhMenorQueHoje(notificacaoPortaria.getDataPrevista())){
 				messageHelper.addError("A data prevista não pode ser menor que hoje.");
 			}
 

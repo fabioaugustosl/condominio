@@ -10,5 +10,6 @@ import br.com.virtz.condominio.entidades.NotificacaoPortaria;
 public interface INotificacaoPortariaDAO extends CrudDAO<NotificacaoPortaria> {
 
 	public List<NotificacaoPortaria> recuperarPorCondominio(Long idCondominio);
+	public List<NotificacaoPortaria> recuperarUltimasNotificacoesConfirmadas(Long idCondominio, Integer quantidade);
 
 }

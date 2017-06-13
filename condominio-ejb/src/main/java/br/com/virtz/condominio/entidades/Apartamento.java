@@ -1,6 +1,7 @@
 package br.com.virtz.condominio.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity(name="apartamento")
@@ -19,6 +21,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 						query = "Select a FROM apartamento a "
 							+ " LEFT JOIN a.bloco b "
 							+ " WHERE b.condominio.id = :idCondominio AND a.numero = :numero AND b.nome = :nomeBloco"),
+				@NamedQuery(name = "Apartamento.recuperarNaoAssociadosPorCondominio",
+						query = "Select a FROM apartamento a "
+							+ " LEFT JOIN a.usuario u "
+							+ " LEFT JOIN a.bloco b "
+							+ " WHERE b.condominio.id = :idCondominio AND u is null "),
 				@NamedQuery(name = "Apartamento.recuperarPorCondominioENumeroBlocoAgrupamento",
 						query = "Select a FROM apartamento a "
 							+ " LEFT JOIN a.bloco b "
@@ -43,7 +50,8 @@ public class Apartamento extends Entidade implements Serializable, Comparable<Ap
 	@Column
 	private String numero;
 
-
+	@OneToMany(mappedBy="apartamento")
+	private List<Usuario> usuario;
 
 
 
@@ -130,4 +138,14 @@ public class Apartamento extends Entidade implements Serializable, Comparable<Ap
 		}
 		return this.getNumero().compareTo(o.getNumero());
 	}
+
+	public List<Usuario> getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(List<Usuario> usuario) {
+		this.usuario = usuario;
+	}
+	
+	
 }

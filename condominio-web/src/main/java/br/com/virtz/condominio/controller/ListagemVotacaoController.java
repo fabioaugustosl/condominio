@@ -30,6 +30,7 @@ import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.geral.VotacaoView;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.service.IVotacaoService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -46,6 +47,9 @@ public class ListagemVotacaoController {
 
 	@EJB
 	private IUsuarioService usuarioService;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 	
 	@Inject
 	private SessaoUsuario sessao;
@@ -83,6 +87,8 @@ public class ListagemVotacaoController {
 		usuario = sessao.getUsuarioLogado();
 		votacoes = votacaoService.recuperarTodas(usuario.getCondominio());
 		resultadoVotacaoSelecionada = new HashMap<String, Integer>();
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 	
 	public void ativarVotacao(Votacao votacao) throws CondominioException{
@@ -297,7 +303,7 @@ public class ListagemVotacaoController {
 				mapParametrosEmail.put("resultados", resultados);
 				mapParametrosEmail.put("anexos", anexos);
 				
-				String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.RESULTADO_FINAL_VOTACAO.getNomeArquivo(), mapParametrosEmail);
+				String msg = leitor.processarTemplate(u.getCondominio().getId(), arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.RESULTADO_FINAL_VOTACAO.getNomeArquivo(), mapParametrosEmail);
 				
 				Email email = new Email(EnumTemplates.RESULTADO_FINAL_VOTACAO.getDe(), u.getEmail(), EnumTemplates.RESULTADO_FINAL_VOTACAO.getAssunto(), msg);
 				enviarEmail.enviar(email);

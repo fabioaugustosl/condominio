@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <style type="text/css">
+   </style>
+   
+   <ui:define name="content">
+	
+	<h:form id="form" styleClass="formPad10">   
+	   
+	   	<h1>Cadastrar atalhos na tela inicial do site</h1>
+	   		
+   		<p:outputPanel id="cadastroAtalhos" >
+   		
+   		
+		 	<p:outputPanel id="comboFuncionalidade" >
+		 		<p:outputLabel value="Qual a funcionalidade que deseja criar um atalho:" styleClass="labelPadrao"></p:outputLabel>
+		 		<br />
+			 	<p:selectOneMenu id="tipo" value="#{cadastroAtalhoController.tipo}" 
+			 	  required="true" style="width:400px;"
+			 	  requiredMessage="Favor selecionar o tipo.">
+		         <f:selectItem itemLabel="Selecione..." itemValue="" />
+		         <f:selectItems value="#{cadastroAtalhoController.tipos}" />
+		     </p:selectOneMenu>
+			</p:outputPanel>
+			
+			<br/>
+				
+ 			<p:outputLabel value="Descrição:" styleClass="labelPadrao" /><br />
+			<p:inputTextarea rows="10" cols="50" id="txtAreaComentario" maxlength="500"
+					styleClass="textAreaPadrao" required="true" requiredMessage="Favor preencher a descrição. Esse texto é importante porque será exibido na tela principal."
+					value="#{cadastroAtalhoController.atalho.texto}"   />
+			
+			<br/> <br/>
+			
+			<p:commandButton id="btnSalvarRecebido" value="Salvar"  update="@form"
+				styleClass="botao botao-grande"
+		   		actionListener="#{cadastroAtalhoController.salvar}" >
+		   	</p:commandButton>
+		   		
+			<br/> <br/>
+		   	
+		   	<p:dataTable id="dtListagemAtalhos" var="atalh" 
+				value="#{cadastroAtalhoController.atalhos}"
+				rowKey="#{atalh.id}"
+				emptyMessage="Ainda não foi cadastrado nenhum atalho." >
+			
+			    <p:column headerText="Funcionalidade">
+			        <h:outputText value="#{atalh.funcionalidade.descricao}" />
+			    </p:column>
+
+			    <p:column headerText="Descrição">
+			        <h:outputText value="#{atalh.texto}" /><br />
+			    </p:column>
+		    
+			    <p:column style="text-align:center" styleClass="colunaLargura100" headerText="Excluir" >
+				   	</p:commandLink>
+				    
+			         	<p:commandLink actionListener="#{cadastroAtalhoController.remover(atalh)}" ajax="false"
+			    		update="@form"
+			    		id="excluirUsuarioSelecionada" immediate="true" >
+		         			<p:graphicImage id="imgDeletarUsu" url="/img/icones/deletar.png" title="Clique para deletar esse morador." />
+		         	</p:commandLink>
+		        </p:column>
+	        
+			</p:dataTable> 
+		
+		   	
+		</p:outputPanel>
+		
+				
+		</h:form>
+   </ui:define>
+</ui:composition>

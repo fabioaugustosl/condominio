@@ -16,5 +16,14 @@ public class NotificacaoPortariaDAO extends DAO<NotificacaoPortaria> implements 
 		qry.setParameter("idCondominio", idCondominio);
 		return qry.getResultList();
 	}
+	
+	
+	@Override
+	public List<NotificacaoPortaria> recuperarUltimasNotificacoesConfirmadas(Long idCondominio, Integer quantidade) {
+		Query qry = getEntityManager().createNamedQuery("NotificacaoPortaria.recuperarNotificacoesConfirmadas");
+		qry.setParameter("idCondominio", idCondominio);
+		qry.setMaxResults(quantidade);
+		return qry.getResultList();
+	}
 
 }

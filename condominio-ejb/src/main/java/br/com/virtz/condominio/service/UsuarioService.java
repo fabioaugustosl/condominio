@@ -12,9 +12,11 @@ import org.apache.commons.lang.StringUtils;
 
 import br.com.virtz.condominio.constantes.EnumFuncaoBloqueio;
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
+import br.com.virtz.condominio.dao.IApartamentoExtraUsuarioDAO;
 import br.com.virtz.condominio.dao.IArquivoUsuarioDAO;
 import br.com.virtz.condominio.dao.IBloqueioFuncaoUsuarioDAO;
 import br.com.virtz.condominio.dao.IUsuarioDAO;
+import br.com.virtz.condominio.entidades.ApartamentoExtraUsuario;
 import br.com.virtz.condominio.entidades.ArquivoUsuario;
 import br.com.virtz.condominio.entidades.BloqueioFuncaoUsuario;
 import br.com.virtz.condominio.entidades.Condominio;
@@ -34,6 +36,8 @@ public class UsuarioService implements IUsuarioService {
 	@EJB
 	private IArquivoUsuarioDAO arquivoUsuarioDAO;
 
+	@EJB
+	private IApartamentoExtraUsuarioDAO aptoExtraDAO;
 
 
 	@Override
@@ -276,6 +280,29 @@ public class UsuarioService implements IUsuarioService {
 	}
 
 
+	@Override
+	public List<ApartamentoExtraUsuario> recuperarApartamentosExtras(Long idUsuario) {
+		return aptoExtraDAO.recuperar(idUsuario);
+	}
+
+
+	@Override
+	public List<ApartamentoExtraUsuario> salvarApartamentosExtras(Long idUsuario, List<ApartamentoExtraUsuario> apartamentos) {
+		List<ApartamentoExtraUsuario> listaSalvos = new ArrayList<ApartamentoExtraUsuario>();
+		aptoExtraDAO.removerTodos(idUsuario);
+		if(apartamentos != null && !apartamentos.isEmpty()){
+			for(ApartamentoExtraUsuario a: apartamentos){
+				try {
+					a = aptoExtraDAO.salvar(a);
+					listaSalvos.add(a);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return listaSalvos;
+	}
 
 
 }

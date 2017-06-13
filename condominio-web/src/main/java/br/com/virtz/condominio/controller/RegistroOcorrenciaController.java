@@ -28,6 +28,7 @@ import br.com.virtz.condominio.entidades.ArquivoOcorrencia;
 import br.com.virtz.condominio.entidades.RegistroOcorrencia;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IRegistroOcorrenciaService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -54,6 +55,9 @@ public class RegistroOcorrenciaController {
 
 	@EJB
 	private IUsuarioService usuarioService;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 
 	@EJB
 	private EnviarEmail enviarEmail;
@@ -79,6 +83,8 @@ public class RegistroOcorrenciaController {
 		usuarioSessao = sessao.getUsuarioLogado();
 		usuario = null;
 		usuarios = usuarioService.recuperarTodos(usuarioSessao.getCondominio());
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 
@@ -152,9 +158,10 @@ public class RegistroOcorrenciaController {
 			map.put("msg", registroOcorrencia.getMensagem());
 
 			String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
-			String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.REGISTRO_OCORRENCIA.getNomeArquivo(), map);
+			String msgEnviar = leitor.processarTemplate(usuario.getCondominio().getId(), caminho, EnumTemplates.REGISTRO_OCORRENCIA.getNomeArquivo(), map);
 
 			Email email = new Email(EnumTemplates.REGISTRO_OCORRENCIA.getDe(), sindico.getEmail(), EnumTemplates.REGISTRO_OCORRENCIA.getAssunto(), msgEnviar);
+			email.setResponderPara(usuario.getEmail());
 			enviarEmail.enviar(email);
 		}
 

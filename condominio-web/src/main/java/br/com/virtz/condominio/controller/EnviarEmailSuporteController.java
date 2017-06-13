@@ -55,7 +55,7 @@ public class EnviarEmailSuporteController {
 		mapParametrosEmail.put("msg", sb.toString());
 
 
-		String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.PADRAO.getNomeArquivo(), mapParametrosEmail);
+		String msgEnviar = leitor.processarTemplate(idCondominio, caminho, EnumTemplates.PADRAO.getNomeArquivo(), mapParametrosEmail);
 		
 		Email email = new Email(EnumTemplates.PADRAO.getDe(), EnumTemplates.PADRAO.getDe(), EnumTemplates.PADRAO.getAssunto(), msgEnviar);
 		enviarEmail.enviar(email);

@@ -62,7 +62,7 @@
 		    <p:column headerText="Confirmação" style="text-align:center" styleClass="colunaLargura160">
 		     	<p:commandButton id="btnConfirmarNotificacao"
 			        	actionListener="#{controlePortariaController.confirmarNotificacao(notificacao.id)}"
-			        	value="Confirmar" update="@form" >
+			        	value="Confirmar"  onsuccess="PF('dlgAposConfirmacao').show();">
 		        	<p:confirm header="Confirmação" message="Tem certeza que você confirma essa notificação?" icon="ui-icon-alert" />
 		     	</p:commandButton>
 		    </p:column>    
@@ -91,6 +91,26 @@
 		
 			
 	   </p:outputPanel>
+	   
+	   <p:dialog modal="true" id="dlgAposConfirmacao" widgetVar="dlgAposConfirmacao" header="O que deseja fazer?" 
+						draggable="true" closable="true" resizable="false" width="600" appendTo="@(body)" >
+						
+		    <h:outputText value="A notificação foi confirmada com sucesso!" style="font-weight:bold;" /><br/>
+		    <h:outputText value="Você quer aproveitar e fazer mais alguma coisa?" /><br/><br/>
+		   
+		   	    <p:commandButton id="btnRegistrarEntrada" style="margin:5px;" process="@this"
+				        	actionListener="#{controlePortariaController.irParaCadastroVisitante()}"
+				        	value="Registrar entrada" ></p:commandButton><br/>
+			    
+			    <p:commandButton id="btnRegistrarEncomenda" style="margin:5px;" 
+				        	actionListener="#{controlePortariaController.irParaCadastroRecebido()}"
+				        	value="Registrar encomenda ou correspondência" process="@this" ></p:commandButton><br/>
+				        	
+				<p:commandButton id="btnNada" value="Não obrigado" onclick="PF('dlgAposConfirmacao').hide();" style="margin:5px;" 
+				update="@form :panelWidgetNotificacoesUltimas" actionListener="#{controlePortariaController.fazerNada()}" ></p:commandButton>
+			 	
+		</p:dialog>
+		
 	</h:form>
 	
 </ui:composition>

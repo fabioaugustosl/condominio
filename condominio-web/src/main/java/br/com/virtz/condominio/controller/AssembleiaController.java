@@ -27,6 +27,7 @@ import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exception.ErroAoSalvar;
 import br.com.virtz.condominio.service.IAssembleiaService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.ITokenService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -43,6 +44,9 @@ public class AssembleiaController {
 
 	@EJB
 	private IUsuarioService usuarioService;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 
 	@Inject
 	private MessageHelper messageHelper;
@@ -77,6 +81,7 @@ public class AssembleiaController {
 	public void init(){
 		usuario = sessao.getUsuarioLogado();
 		assembleias = listarTodos();
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 
@@ -144,7 +149,7 @@ public class AssembleiaController {
 					mapParametrosEmail.put("link", " - Nâo foi possível gerar o link - ");
 				}
 
-				String msg = leitor.processarTemplate(caminho, EnumTemplates.PAUTA_ENVIADA.getNomeArquivo(), mapParametrosEmail);
+				String msg = leitor.processarTemplate(usuario.getCondominio().getId(), caminho, EnumTemplates.PAUTA_ENVIADA.getNomeArquivo(), mapParametrosEmail);
 
 				Email email = new Email(EnumTemplates.PAUTA_ENVIADA.getDe(), sindico.getEmail(), EnumTemplates.PAUTA_ENVIADA.getAssunto(), msg);
 				enviarEmail.enviar(email);

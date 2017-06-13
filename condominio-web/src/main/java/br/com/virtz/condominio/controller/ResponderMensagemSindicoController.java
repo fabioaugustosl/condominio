@@ -25,6 +25,7 @@ import br.com.virtz.condominio.entidades.RespostaMensagemSindico;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.IMensagemSindicoService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.IArquivosUtil;
@@ -50,6 +51,9 @@ public class ResponderMensagemSindicoController {
 	@EJB
 	private EnviarEmail enviarEmail;
 
+	@EJB
+	private IPublicidadeService publicidadeService;
+	
 	@Inject
 	private IArquivosUtil arquivoUtil;
 
@@ -82,7 +86,8 @@ public class ResponderMensagemSindicoController {
 
 			mensagem = sb.toString();
 		}
-
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 
@@ -99,7 +104,7 @@ public class ResponderMensagemSindicoController {
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
 		mapParametrosEmail.put("msg", this.mensagem);
 
-		String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.RESPOSTA_MENSAGEM_SINDICO.getNomeArquivo(), mapParametrosEmail);
+		String msg = leitor.processarTemplate(usuario.getCondominio().getId(), arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.RESPOSTA_MENSAGEM_SINDICO.getNomeArquivo(), mapParametrosEmail);
 
 		List<Usuario> usuarios = null;
 		if(enviarParaTodos){

@@ -51,6 +51,12 @@ public class NotificacaoPortariaService implements INotificacaoPortariaService {
 	public List<NotificacaoPortaria> recuperarPorCondominio(Long idCondominio) {
 		return notificacaoDAO.recuperarPorCondominio(idCondominio);
 	}
+	
+	
+	@Override
+	public List<NotificacaoPortaria> recuperarUltimasNotificacoes(Long idCondominio) {
+		return notificacaoDAO.recuperarUltimasNotificacoesConfirmadas(idCondominio, 5);
+	}
 
 
 	@Override

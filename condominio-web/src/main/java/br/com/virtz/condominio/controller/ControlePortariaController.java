@@ -46,12 +46,15 @@ public class ControlePortariaController {
 
 
 	private List<NotificacaoPortaria> notificacoes = null;
+	private List<NotificacaoPortaria> ultimasNotificacoes = null;
+	
 
 	
 	
 	@PostConstruct
 	public void init(){
 		notificacoes = notificacaoService.recuperarPorCondominio(sessao.getUsuarioLogado().getCondominio().getId());
+		ultimasNotificacoes = notificacaoService.recuperarUltimasNotificacoes(sessao.getUsuarioLogado().getCondominio().getId());
 	}
 
 
@@ -69,6 +72,7 @@ public class ControlePortariaController {
 		try {
 			notificacaoService.confirmar(idNotificacao);
 			notificacoes = notificacaoService.recuperarPorCondominio(sessao.getUsuarioLogado().getCondominio().getId());
+			ultimasNotificacoes = notificacaoService.recuperarUltimasNotificacoes(sessao.getUsuarioLogado().getCondominio().getId());
 			this.message.addInfo("Confirmado!");
 		} catch (AppException e) {
 			e.printStackTrace();
@@ -95,5 +99,16 @@ public class ControlePortariaController {
 		 }
 		 return null;
 	}
+
+
+	public List<NotificacaoPortaria> getUltimasNotificacoes() {
+		return ultimasNotificacoes;
+	}
+	
+	public void fazerNada(){
+		// nadinha
+	}
+	
+	
 
 }

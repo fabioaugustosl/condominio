@@ -26,7 +26,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 		@NamedQuery(name = "NotificacaoPortaria.recuperarPorCondominio",
 				query = "Select n FROM NotificacaoPortaria n "
-						+ " WHERE n.condominio.id = :idCondominio AND n.dataPrevista >= CURRENT_DATE AND n.dataConfirmacao is null")
+						+ " WHERE n.condominio.id = :idCondominio AND n.dataPrevista >= CURRENT_DATE AND n.dataConfirmacao is null ORDER BY n.dataPrevista desc"),
+		@NamedQuery(name = "NotificacaoPortaria.recuperarNotificacoesConfirmadas",
+				query = "Select n FROM NotificacaoPortaria n "
+					+ " WHERE n.condominio.id = :idCondominio AND n.dataConfirmacao is not null ORDER BY n.dataConfirmacao desc")
 
 })
 public class NotificacaoPortaria extends Entidade implements Serializable {

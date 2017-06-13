@@ -31,6 +31,7 @@ import br.com.virtz.condominio.entidades.Noticia;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.INoticiaService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
@@ -66,6 +67,9 @@ public class CadastroNoticiaController {
 	@Inject
 	private LeitorTemplate leitor;
 	
+	@EJB
+	private IPublicidadeService publicidadeService;
+	
 	@Inject
 	private EnviarEmailSuporteController emailSuporte;
 	
@@ -85,6 +89,8 @@ public class CadastroNoticiaController {
 		} else {
 			noticia = noticiaService.recuperarNoticia(Long.parseLong(noticiaEditar.toString()));
 		}
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 
@@ -206,7 +212,7 @@ public class CadastroNoticiaController {
 		map.put("texto", noticia.getConteudo());
 		
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
-		String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.NOVA_NOTICIA.getNomeArquivo(), map);
+		String msgEnviar = leitor.processarTemplate(usuario.getCondominio().getId(), caminho, EnumTemplates.NOVA_NOTICIA.getNomeArquivo(), map);
 		String assunto = usuario.getCondominio().getNome()+": "+ EnumTemplates.NOVA_NOTICIA.getAssunto();
 		//email.setAnexo(arquivosUtil.converter(arquivoBoleto));
 		//email.setNomeAnexo("Boleto_condominio_"+cobranca.getAnoMes()+".pdf");

@@ -30,6 +30,7 @@ import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.service.ICondominioService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.ITokenService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -80,6 +81,9 @@ public class LoginController {
 
 	@EJB
 	private EnviarEmail enviarEmail;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 
 
 	public void logar() throws Exception{
@@ -112,6 +116,8 @@ public class LoginController {
 			ae.getMessage();
 			messageHelper.addError(ae.getMessage());
 		}
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 
@@ -159,7 +165,7 @@ public class LoginController {
 		mapParametrosEmail.put("token", sb.toString());
 
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
-		String msg = leitor.processarTemplate(caminho, EnumTemplates.ESQUECI_MINHA_SENHA.getNomeArquivo(), mapParametrosEmail);
+		String msg = leitor.processarTemplate(null, caminho, EnumTemplates.ESQUECI_MINHA_SENHA.getNomeArquivo(), mapParametrosEmail);
 		Email email = new Email(EnumTemplates.ESQUECI_MINHA_SENHA.getDe(), para, EnumTemplates.ESQUECI_MINHA_SENHA.getAssunto(), msg);
    		enviarEmail.enviar(email);
 	}

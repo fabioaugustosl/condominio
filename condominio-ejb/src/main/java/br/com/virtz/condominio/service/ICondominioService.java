@@ -7,6 +7,7 @@ import javax.ejb.Local;
 import br.com.virtz.boleto.bean.EnumBanco;
 import br.com.virtz.condominio.entidades.AcessoCFTV;
 import br.com.virtz.condominio.entidades.AgrupamentoUnidades;
+import br.com.virtz.condominio.entidades.Apartamento;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.entidades.BoletoExterno;
@@ -26,6 +27,7 @@ public interface ICondominioService {
 	public Condominio recuperarCondominioCompleto(Usuario usuario);
 	public List<Condominio> recuperarPorCidade(Long idCidade);
 	public List<Cidade> cidadesQuePossuemCondominioCadastrado();
+	public List<Apartamento> recuperarApartamentosNaoAssociados(Long idCondominio);
 
 	//agrupamento
 	public List<AgrupamentoUnidades> recuperarTodosAgrupamentos(Long idCondominio);

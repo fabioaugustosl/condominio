@@ -141,6 +141,9 @@ public class PrincipalController implements Serializable {
 		else if("gerais".equals(menu)){
 			return ehSindico();
 		}
+		else if("atalho".equals(menu)){
+			return ehSindico();
+		}
 
 		return false;
 	}

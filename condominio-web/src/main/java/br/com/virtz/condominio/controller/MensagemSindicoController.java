@@ -21,6 +21,7 @@ import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.MensagemSindico;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.service.IMensagemSindicoService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
@@ -44,6 +45,9 @@ public class MensagemSindicoController {
 	
 	@EJB
 	private IUsuarioService usuarioService;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 	
 	@EJB
 	private EnviarEmail enviarEmail;
@@ -87,6 +91,8 @@ public class MensagemSindicoController {
 				messageHelper.addError("Ocorreu um erro ao enviar sua mensagem.");
 			}
 		}
+		
+		leitor.setPublicidadeService(publicidadeService);
     }
 
 	
@@ -99,9 +105,10 @@ public class MensagemSindicoController {
 			map.put("msg", msg.getMensagem());
 			
 			String caminho = arquivosUtil.getCaminhaPastaTemplatesEmail();
-			String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.MENSAGEM_SINDICO.getNomeArquivo(), map);
+			String msgEnviar = leitor.processarTemplate(sindico.getCondominio().getId(),caminho, EnumTemplates.MENSAGEM_SINDICO.getNomeArquivo(), map);
 			
 			Email email = new Email(EnumTemplates.MENSAGEM_SINDICO.getDe(), sindico.getEmail(), EnumTemplates.MENSAGEM_SINDICO.getAssunto(), msgEnviar);
+			email.setResponderPara(msg.getUsuario().getEmail());
 			enviarEmail.enviar(email);
 		}
 		

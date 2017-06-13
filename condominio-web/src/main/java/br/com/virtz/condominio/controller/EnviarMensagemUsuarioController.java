@@ -29,6 +29,7 @@ import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.INotificacaoService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
@@ -44,6 +45,9 @@ public class EnviarMensagemUsuarioController {
 
 	@EJB
 	private INotificacaoService notificacaoService;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 
 	@Inject
 	private SessaoUsuario sessao;
@@ -82,6 +86,7 @@ public class EnviarMensagemUsuarioController {
 		usuariosSelecionados = new ArrayList<Usuario>();
 		nomeArqAnexo = null;
 		inputStreamArquivo = null;
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 
@@ -111,7 +116,7 @@ public class EnviarMensagemUsuarioController {
 		mapParametrosEmail.put("titulo", this.assunto);
 		mapParametrosEmail.put("msg", this.mensagem);
 
-		String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.PADRAO.getNomeArquivo(), mapParametrosEmail);
+		String msg = leitor.processarTemplate(usuario.getCondominio().getId(), arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.PADRAO.getNomeArquivo(), mapParametrosEmail);
 
 		for(Usuario u : usuariosSelecionados){
 			Email email = new Email(EnumTemplates.PADRAO.getDe(), u.getEmail(), new String(this.assunto), msg);

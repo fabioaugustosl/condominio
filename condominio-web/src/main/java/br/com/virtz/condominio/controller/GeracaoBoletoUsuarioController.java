@@ -26,6 +26,7 @@ import br.com.virtz.condominio.entidades.CobrancaUsuario;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.service.ICondominioService;
 import br.com.virtz.condominio.service.IFinanceiroService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
@@ -43,6 +44,9 @@ public class GeracaoBoletoUsuarioController extends BoletoController {
 	
 	@EJB
 	private ICondominioService condominioService;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 	
 	@Inject
 	private MessageHelper message;
@@ -72,6 +76,8 @@ public class GeracaoBoletoUsuarioController extends BoletoController {
 		if(cobrancas == null || cobrancas.isEmpty()){
 			message.addWarn("Ainda não foram geradas cobranças para você!");
 		}
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 	
 	
@@ -113,7 +119,7 @@ public class GeracaoBoletoUsuarioController extends BoletoController {
 			map.put("ano_mes", cobranca.getAnoMes());
 			
 			String caminho = arquivosUtil.getCaminhaPastaTemplatesEmail();
-			String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.BOLETO.getNomeArquivo(), map);
+			String msgEnviar = leitor.processarTemplate(usuario.getCondominio().getId(),caminho, EnumTemplates.BOLETO.getNomeArquivo(), map);
 			
 			Email email = new Email(EnumTemplates.BOLETO.getDe(), usuario.getEmail(), EnumTemplates.BOLETO.getAssunto(), msgEnviar);
 			email.setAnexo(arquivosUtil.converter(arquivoBoleto));

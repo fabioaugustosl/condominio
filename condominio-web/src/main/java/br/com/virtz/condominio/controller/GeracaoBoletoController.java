@@ -23,6 +23,7 @@ import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.CobrancaUsuario;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.service.IFinanceiroService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
 import br.com.virtz.condominio.util.MessageHelper;
@@ -42,6 +43,9 @@ public class GeracaoBoletoController {
 	
 	@EJB
 	private EnviarEmail enviarEmail;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 	
 	@Inject
 	private ArquivosUtil arquivosUtil;
@@ -72,6 +76,8 @@ public class GeracaoBoletoController {
 			listarUsuarios();
 		}
 		cobrancasSelecionadas= new ArrayList<CobrancaUsuario>();
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 	
 
@@ -147,7 +153,7 @@ public class GeracaoBoletoController {
 		map.put("ano_mes", cobranca.getAnoMes());
 		
 		String caminho = arquivosUtil.getCaminhaPastaTemplatesEmail();
-		String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.BOLETO.getNomeArquivo(), map);
+		String msgEnviar = leitor.processarTemplate(usuario.getCondominio().getId(),caminho, EnumTemplates.BOLETO.getNomeArquivo(), map);
 		
 		Email email = new Email(EnumTemplates.BOLETO.getDe(), cobranca.getUsuario().getEmail(), EnumTemplates.BOLETO.getAssunto(), msgEnviar);
 		email.setAnexo(arquivosUtil.converter(arquivoBoleto));

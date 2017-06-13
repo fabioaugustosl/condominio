@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   
+   
+   		<style>
+   		 .containerNoticiasDestaque{
+   		 	border-top: 1px solid #FAFAFA;
+   		 }
+   		 
+   		.noticiasDestaque div{
+   			border: none;
+   		}
+   		
+   		.containerImg{
+   			text-align: center;
+   			border: 1px solid #F3F3F3;
+   		}
+   		 
+   		.containerImg img {
+		    max-width:400px;
+		    max-height:400px;
+		    width: auto;
+		    height: auto;
+		}
+   		
+   		</style>
+   
+	   <p:outputPanel id="containerNotificacaoPortariaUltimas">
+		
+		
+		<p:dataTable id="dtListagemNotificacaoUltimas" var="notificacao" 
+				value="#{controlePortariaController.ultimasNotificacoes}" >
+			
+    		<p:column headerText="Morador">
+		        <h:outputText value="#{notificacao.usuario.nomeExibicao}" style="font-weight:bold" /><br />
+		        <h:outputText value="#{principalController.condominio.nomeUnidade} #{notificacao.usuario.nomeUnidade}" />
+		    </p:column>
+		    
+	        <p:column headerText="Data prevista" styleClass="colunaLargura160" style="text-align:center">
+		        <h:outputText value="#{notificacao.dataPrevista}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy" />
+		        </h:outputText>
+		    </p:column>
+		    
+		    <p:column headerText="Quem ou o quê">
+		        <h:outputText value="#{notificacao.nome}" />
+		    </p:column>
+		    
+		    <p:column headerText="Descrição">
+		        <h:outputText value="#{notificacao.comentario}" />
+		    </p:column>
+		    
+		    <p:column headerText="Data da Confirmação" style="text-align:center" styleClass="colunaLargura160">
+		     	<h:outputText value="#{notificacao.dataConfirmacao}" >
+		        	<f:convertDateTime pattern="dd/MM/yyyy" />
+		        </h:outputText>
+		    </p:column>    
+		        
+		    <p:column headerText="Arquivo" style="text-align:center" styleClass="colunaLargura160">
+		        
+		    	<p:outputPanel rendered="#{not empty notificacao.arquivo &amp;&amp; arquivosUtil.ehImagem(notificacao.arquivo.extensao)}">
+	    		 	<p:graphicImage id="imgFotoOcorrencia" url="/img/icones/ico_foto.png" title="Clique para ver a foto maior" 
+			        	style="cursor:pointer" />
+ 				
+					<p:overlayPanel id="imagePanel" for="imgFotoOcorrencia" hideEffect="fade">
+		        	<p:graphicImage  id="imgFotoGrandeVisitante"  
+								url="/imagem?arquivo=#{notificacao.arquivo.caminhoCompleto}" />
+					</p:overlayPanel>
+			    
+ 				</p:outputPanel>
+ 				
+ 				<p:commandButton value="Download arquivo" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s"
+		    		rendered="#{not empty notificacao.arquivo &amp;&amp; not arquivosUtil.ehImagem(notificacao.arquivo.extensao)}">
+			        <p:fileDownload value="#{controlePortariaController.download(notificacao)}" />
+			    </p:commandButton>	
+		    				    
+		    </p:column>
+		    
+		</p:dataTable> 
+		
+			
+	   </p:outputPanel>
+	
+</ui:composition>
+

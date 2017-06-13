@@ -40,6 +40,7 @@ import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.geral.ParametroSistemaLookup;
 import br.com.virtz.condominio.service.ICondominioService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IReservaService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -76,6 +77,9 @@ public class ReservaController {
 
 	@EJB
 	private EnviarEmail enviarEmail;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 
 	@Inject
 	private PrincipalController principalController;
@@ -137,6 +141,8 @@ public class ReservaController {
 		}
 
 		checkLiEConcordo = false;
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 
@@ -297,7 +303,7 @@ public class ReservaController {
 		mapParametrosEmail.put("data_reserva", dataUtil.formatarData(reserva.getData().getTime(),"dd/MM/yyyy"));
 		mapParametrosEmail.put("nome_area", reserva.getAreaComum().getNome());
 
-		String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.CONFIRMACAO_RESERVA_AREA.getNomeArquivo(), mapParametrosEmail);
+		String msg = leitor.processarTemplate(usuario.getCondominio().getId(), arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.CONFIRMACAO_RESERVA_AREA.getNomeArquivo(), mapParametrosEmail);
 
 		Email email = new Email(EnumTemplates.PAUTA_ENVIADA.getDe(), usuario.getEmail(), EnumTemplates.CONFIRMACAO_RESERVA_AREA.getAssunto(), msg);
 		enviarEmail.enviar(email);

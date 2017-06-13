@@ -39,6 +39,7 @@ import br.com.virtz.condominio.exception.ErroAoSalvar;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.IAssembleiaService;
 import br.com.virtz.condominio.service.IParametroSistemaService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
@@ -77,6 +78,9 @@ public class CadastrarAssembleiaController {
 	@EJB
 	private EnviarEmail enviarEmail;
 	
+	@EJB
+	private IPublicidadeService publicidadeService;
+	
 	
 	private Assembleia assembleia;
 	private UploadedFile arquivo;
@@ -113,6 +117,8 @@ public class CadastrarAssembleiaController {
 		}
 		
 		parametroEnviarEmailAta = parametroService.recuperar(EnumParametroSistema.AVISAR_POR_EMAIL_QUANDO_AXEXAR_ATA, usuario.getCondominio());
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 
@@ -311,7 +317,7 @@ public class CadastrarAssembleiaController {
 				mapParametrosEmail.put("chamada_1", h1);
 				mapParametrosEmail.put("chamada_2", h2);
 				
-				String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.NOVA_ASSEMBLEIA.getNomeArquivo(), mapParametrosEmail);
+				String msg = leitor.processarTemplate(c.getId(),  arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.NOVA_ASSEMBLEIA.getNomeArquivo(), mapParametrosEmail);
 				
 				Email email = new Email(EnumTemplates.NOVA_ASSEMBLEIA.getDe(), u.getEmail(), EnumTemplates.NOVA_ASSEMBLEIA.getAssunto(), msg);
 				enviarEmail.enviar(email);
@@ -334,7 +340,7 @@ public class CadastrarAssembleiaController {
 				mapParametrosEmail.put("nome_usuario", u.getNomeExibicao());
 				mapParametrosEmail.put("data_assembleia", sdf.format(assembleia.getData()));
 				
-				String msg = leitor.processarTemplate( arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.ATA_ANEXADA.getNomeArquivo(), mapParametrosEmail);
+				String msg = leitor.processarTemplate( u.getCondominio().getId(),  arquivoUtil.getCaminhaPastaTemplatesEmail(), EnumTemplates.ATA_ANEXADA.getNomeArquivo(), mapParametrosEmail);
 				
 				Email email = new Email(EnumTemplates.ATA_ANEXADA.getDe(), u.getEmail(), EnumTemplates.ATA_ANEXADA.getAssunto(), msg);
 				enviarEmail.enviar(email);

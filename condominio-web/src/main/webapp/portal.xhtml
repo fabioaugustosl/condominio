@@ -19,6 +19,11 @@
 	            		rendered="#{principalController.ehPorteiro() &amp;&amp; not empty controlePortariaController.notificacoes }" > 
 	                <ui:include src="widget/notificacaoPortaria.xhtml" />
 	            </p:panel>
+	            <p:panel id="panelWidgetNotificacoesUltimas" header="Últimas 5 Notificações/Autorizações Confirmadas" style="height:100%;"
+	            		styleClass="painelWidget"
+	            		rendered="#{principalController.ehPorteiro() &amp;&amp; not empty controlePortariaController.ultimasNotificacoes}" > 
+	                <ui:include src="widget/notificacaoPortariaUltimas.xhtml" />
+	            </p:panel>
 	            <p:panel id="panelWidgetVisitantesPortal" header="Acessos ao condomínio" 
 				    			style="height:100%;" styleClass="painelWidget"  
 	       				rendered="#{principalController.ehPorteiro()}"> 
@@ -38,6 +43,11 @@
 			            	styleClass="painelWidget"  >            
 							<ui:include src="widget/ultimaAssembleia.xhtml" />
 						</p:panel>
+						
+						<p:panel id="panelWidgetAtalhoNotif" styleClass="painelWidget" 
+							header="Notificar portaria" style="height:100%;" rendered="#{not principalController.ehPorteiro() &amp;&amp; atalhoPrincipalControllerController.possuiAtalhoNotificacao()}" >
+					    	<ui:include src="widget/atalhoNotificacao.xhtml" />
+					    </p:panel>
 						
 						<p:panel id="panelWidgetMsgSindico" styleClass="painelWidget" 
 							header="Fale com o síndico" style="height:100%;"  >
@@ -85,6 +95,11 @@
 		 				<p:panel id="panelWidgetVisitantes" header="Controle de visitas" style="height:100%;" rendered="#{principalController.ehPorteiro()}" > 
 			                <ui:include src="widget/porteiroVisitantes.xhtml" />
 			            </p:panel>
+			            
+			            <p:panel id="panelWidgetPublicidadeDireita" styleClass="painelWidget" 
+							header="Publicidade" style="height:100%;" rendered="#{publicidadePrincipalController.possuiPublicidadeDireita()}" >
+					    	<ui:include src="widget/publicidadeDireita.xhtml" />
+					    </p:panel>
 			            
 			            <p:panel id="panelWidgetVotacao" header="Votação online" 
 			            	style="height:100%;" rendered="#{not principalController.ehPorteiro() &amp;&amp;  not principalController.ehAdministrador() &amp;&amp; votacaoController.possuiVotacaoEmAndamento()}" 

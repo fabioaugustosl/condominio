@@ -44,5 +44,13 @@ public class ApartamentoDAO extends DAO<Apartamento> implements IApartamentoDAO 
 		return null;
 
 	}
+	
+
+	@Override
+	public List<Apartamento> recuperarAptosNaoAssociados(Long idCondominio) {
+		Query qry = getEntityManager().createNamedQuery("Apartamento.recuperarNaoAssociadosPorCondominio");
+		qry.setParameter("idCondominio", idCondominio);
+		return qry.getResultList();
+	}
 
 }

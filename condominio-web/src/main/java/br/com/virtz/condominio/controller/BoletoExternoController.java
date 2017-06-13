@@ -109,7 +109,7 @@ public class BoletoExternoController {
 		map.put("nome_agrupamento", (logado.getApartamento().getBloco().getAgrupamentoUnidades() != null) ? logado.getApartamento().getBloco().getAgrupamentoUnidades().getNome() : " " );
 		
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
-		String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.SOLICITACAO_SEGUNDA_VIA_BOLETO.getNomeArquivo(), map);
+		String msgEnviar = leitor.processarTemplate(logado.getCondominio().getId(), caminho, EnumTemplates.SOLICITACAO_SEGUNDA_VIA_BOLETO.getNomeArquivo(), map);
 		
 		Email email = new Email(EnumTemplates.SOLICITACAO_SEGUNDA_VIA_BOLETO.getDe(), boleto.getUrl(), EnumTemplates.SOLICITACAO_SEGUNDA_VIA_BOLETO.getAssunto(), msgEnviar);
 		enviarEmail.enviar(email);

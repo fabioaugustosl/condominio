@@ -88,7 +88,13 @@
 					 		<f:selectItem itemLabel="Selecione ..." itemValue="" />
 					 		<f:selectItems value="#{atualizarUsuarioController.blocoSelecionado.apartamentos}" var="ap" itemLabel="#{ap.nomeExibicao}" itemValue="#{ap}" />
 					 	</p:selectOneMenu>
-				</p:outputPanel>
+					</p:outputPanel>
+					<br />
+					
+					<p:commandLink id="bhtMaisUnidade" value="Possuo outras unidades nesse condomínio"
+				   		onclick="PF('dlgOutrasUnidades').show();" >
+				   	</p:commandLink>
+				
 	 			</td>
 	 			
 	 			<td style="width:70%; align:top;">
@@ -131,6 +137,26 @@
 	   		update="@form" process="@form" oncomplete="subirTela()" >
 	   	</p:commandButton>
 
+		
+		<p:dialog modal="true" id="dlgOutrasUnidades" widgetVar="dlgOutrasUnidades" 
+						header="Minhas outras unidades neste condomínio" 
+						draggable="true" closable="true" resizable="false" 
+						dynamic="true" width="500" >
+						
+		    <p:pickList id="picklistExtrs" value="#{atualizarUsuarioController.apartamentosPicklist}" 
+		    	var="apto" effect="bounce"
+                itemValue="#{apto}" itemLabel="#{apto.nomeExibicao}" 
+                responsive="true"
+                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="converterEntityById">
+ 
+		        <f:facet name="sourceCaption">Unidades disponíveis</f:facet>
+		        <f:facet name="targetCaption">Minhas outras unidades</f:facet>
+		 
+		    </p:pickList>
+			
+			<p:commandButton id="btnNada" value="Ok" onclick="PF('dlgOutrasUnidades').hide();" style="margin:5px;" ></p:commandButton> 	
+		</p:dialog>
+		
 		</h:form>
    </ui:define>
 </ui:composition>

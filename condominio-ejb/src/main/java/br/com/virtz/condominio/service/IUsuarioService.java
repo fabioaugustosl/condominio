@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import br.com.virtz.condominio.constantes.EnumFuncaoBloqueio;
+import br.com.virtz.condominio.entidades.ApartamentoExtraUsuario;
 import br.com.virtz.condominio.entidades.ArquivoUsuario;
 import br.com.virtz.condominio.entidades.BloqueioFuncaoUsuario;
 import br.com.virtz.condominio.entidades.Condominio;
@@ -34,7 +35,10 @@ public interface IUsuarioService {
 	public List<Usuario> recuperarTodosPorteiros(Long idCondominio);
 	public List<Usuario> recuperarTodosAdministradores(Long idCondominio);
 
-
+	public List<ApartamentoExtraUsuario> recuperarApartamentosExtras(Long idUsuario);
+	public List<ApartamentoExtraUsuario> salvarApartamentosExtras(Long idUsuario, List<ApartamentoExtraUsuario> apartamentos);
+	
+	
 	//Bloqueio de função
 	public void bloquearFuncao(Usuario usuario, EnumFuncaoBloqueio funcao, String comentario) throws Exception;
 	public void removerBloqueio(Long idUsuario, EnumFuncaoBloqueio funcao);

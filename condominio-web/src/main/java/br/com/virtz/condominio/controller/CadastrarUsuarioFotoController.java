@@ -29,6 +29,7 @@ import br.com.virtz.condominio.entidades.Token;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.ITokenService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
@@ -48,6 +49,9 @@ public class CadastrarUsuarioFotoController implements Serializable{
 	
 	@EJB
 	private ITokenService tokenService;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 	
 	@Inject
 	private SessaoUsuario sessao;
@@ -82,6 +86,8 @@ public class CadastrarUsuarioFotoController implements Serializable{
 		if(usuario != null){
 			usuario.setArquivo(new ArquivoUsuario());
 		}
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 	
@@ -142,7 +148,7 @@ public class CadastrarUsuarioFotoController implements Serializable{
 		mapParametrosEmail.put("link", sb.toString());
 		
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
-		String msg = leitor.processarTemplate(caminho, EnumTemplates.CONFIRMACAO_USUARIO.getNomeArquivo(), mapParametrosEmail);
+		String msg = leitor.processarTemplate(usuario.getCondominio().getId(), caminho, EnumTemplates.CONFIRMACAO_USUARIO.getNomeArquivo(), mapParametrosEmail);
 		
 		Email email = new Email(EnumTemplates.CONFIRMACAO_USUARIO.getDe(), usuario.getEmail(), EnumTemplates.CONFIRMACAO_USUARIO.getAssunto(), msg);
 		enviarEmail.enviar(email);
@@ -159,7 +165,7 @@ public class CadastrarUsuarioFotoController implements Serializable{
 		mapParametrosEmail.put("msg", sb.toString());
 		
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
-		String msg = leitor.processarTemplate(caminho, EnumTemplates.PADRAO.getNomeArquivo(), mapParametrosEmail);
+		String msg = leitor.processarTemplate(usuario.getCondominio().getId(),caminho, EnumTemplates.PADRAO.getNomeArquivo(), mapParametrosEmail);
 		
 		Email email = new Email(EnumTemplates.PADRAO.getDe(), "contatovirtz@gmail.com", EnumTemplates.PADRAO.getAssunto(), msg);
 		enviarEmail.enviar(email);

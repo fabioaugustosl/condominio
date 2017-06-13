@@ -33,6 +33,7 @@ import br.com.virtz.condominio.entidades.PautaAssembleia;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.IAssembleiaService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.IArquivosUtil;
@@ -45,6 +46,9 @@ public class ListagemAssembleiaController {
 
 	@EJB
 	private IAssembleiaService assembleiaService;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 	
 	@Inject
 	private MessageHelper messageHelper;
@@ -85,6 +89,8 @@ public class ListagemAssembleiaController {
 		assembleias = listarTodos(); 
 		dataUtil = new DataUtil();
 		sindicos = usuarioService.recuperarSindicos(sessao.getUsuarioLogado().getCondominio().getId());
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 	
 	
@@ -206,7 +212,7 @@ public class ListagemAssembleiaController {
 				map.put("chamada_2", sdfHora.format(assembleia.getHorario2()));
 			}
 			
-			String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.LEMBRETE_ASSEMBLEIA.getNomeArquivo(), map);
+			String msgEnviar = leitor.processarTemplate(morador.getCondominio().getId(), caminho, EnumTemplates.LEMBRETE_ASSEMBLEIA.getNomeArquivo(), map);
 			
 			Email email = new Email(EnumTemplates.LEMBRETE_ASSEMBLEIA.getDe(), morador.getEmail(), EnumTemplates.LEMBRETE_ASSEMBLEIA.getAssunto(), msgEnviar);
 			enviarEmail.enviar(email);
@@ -290,7 +296,7 @@ public class ListagemAssembleiaController {
 			map.put("chamada_2", "-");
 		}
 		
-		String msgEnviar = leitor.processarTemplate(caminho, EnumTemplates.CONVOCACAO_ASSEMBLEIA.getNomeArquivo(), map);
+		String msgEnviar = leitor.processarTemplate(assembleia.getCondominio().getId(), caminho, EnumTemplates.CONVOCACAO_ASSEMBLEIA.getNomeArquivo(), map);
 		
 		for(Usuario morador : moradores){
 			Email email = new Email(EnumTemplates.CONVOCACAO_ASSEMBLEIA.getDe(), morador.getEmail(), EnumTemplates.CONVOCACAO_ASSEMBLEIA.getAssunto(), msgEnviar);

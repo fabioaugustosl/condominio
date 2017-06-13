@@ -23,6 +23,7 @@ import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exception.AppException;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.ICondominioService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.session.SessaoUsuario;
 import br.com.virtz.condominio.util.ArquivosUtil;
@@ -41,6 +42,9 @@ public class CadastrarPorteiroController implements Serializable{
 
 	@EJB
 	private ICondominioService condominioService;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 
 	@Inject
 	private SessaoUsuario sessao;
@@ -53,7 +57,7 @@ public class CadastrarPorteiroController implements Serializable{
 
 	@Inject
 	private LeitorTemplate leitor;
-
+	
 	@Inject
 	private NavigationPage navegacao;
 
@@ -70,6 +74,8 @@ public class CadastrarPorteiroController implements Serializable{
 		usuario.setArquivo(new ArquivoUsuario());
 		usuario.setCadastroConfirmado(Boolean.TRUE);
 		usuario.setTipoUsuario(EnumTipoUsuario.PORTEIRO);
+		
+		leitor.setPublicidadeService(publicidadeService);
 
 		usuarioLogado = sessao.getUsuarioLogado();
 	}

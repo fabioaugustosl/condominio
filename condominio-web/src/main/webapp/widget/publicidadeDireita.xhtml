@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   
+   <style>
+   </style>
+   
+   <h:form id="formPublicidadeDireita" style="text-align:center;">
+	
+		<p:commandLink id="lnkPublicidade" style="width:100%; max-width:310px;"
+				action="#{publicidadePrincipalController.irPublicidadeDireita()}"
+				ajax="false" >
+			<p:graphicImage id="imgDeletarUsu" url="#{publicidadePrincipalController.publicidadeDireita.linkImagem}" style="max-width: 300px;" />
+		</p:commandLink>
+  			
+	</h:form>
+</ui:composition>
+

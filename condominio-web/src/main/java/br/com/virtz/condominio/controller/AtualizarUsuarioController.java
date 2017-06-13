@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,9 +15,11 @@ import javax.inject.Inject;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.CroppedImage;
+import org.primefaces.model.DualListModel;
 
 import br.com.virtz.condominio.entidades.AgrupamentoUnidades;
 import br.com.virtz.condominio.entidades.Apartamento;
+import br.com.virtz.condominio.entidades.ApartamentoExtraUsuario;
 import br.com.virtz.condominio.entidades.ArquivoUsuario;
 import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.entidades.Usuario;
@@ -67,6 +70,9 @@ public class AtualizarUsuarioController implements Serializable{
 
 	private List<AgrupamentoUnidades> agrupamentos = null;
 	private AgrupamentoUnidades agrupamentoSelecionado;
+	
+	private DualListModel<Apartamento> apartamentosPicklist = null;
+	private List<ApartamentoExtraUsuario> apartamentosExtras = null;
 
 
 	@PostConstruct
@@ -93,8 +99,23 @@ public class AtualizarUsuarioController implements Serializable{
 		if(blocos == null){
 			blocos = condominioService.recuperarTodosBlocosComApartamentos(usuario.getCondominio().getId());
 		}
-
+		
+		atualizarPicklistAptosExtras();
+		
 		trocouFoto = false;
+	}
+
+
+	protected void atualizarPicklistAptosExtras() {
+		List<Apartamento> apartamentosLivres = condominioService.recuperarApartamentosNaoAssociados(usuario.getCondominio().getId());
+		List<Apartamento> apartamentosMeus = new ArrayList<Apartamento>();
+		apartamentosExtras = usuarioService.recuperarApartamentosExtras(usuario.getId());
+		if(apartamentosExtras != null && !apartamentosExtras.isEmpty()){
+			for(ApartamentoExtraUsuario e : apartamentosExtras){
+				apartamentosMeus.add(e.getApartamento());
+			}
+		}
+		apartamentosPicklist = new DualListModel<Apartamento>(apartamentosLivres, apartamentosMeus);
 	}
 
 
@@ -155,7 +176,22 @@ public class AtualizarUsuarioController implements Serializable{
         		ArquivoUsuario arq = usuarioService.salvarArquivo(usuario.getArquivo());
         		usuario.setArquivo(arq);
         	}
+        	
         	usuario = usuarioService.salvar(usuario);
+        	
+        	List<Apartamento> extras = apartamentosPicklist.getTarget();
+        	List<ApartamentoExtraUsuario> extrasPersistir = new ArrayList<ApartamentoExtraUsuario>();
+        	if(extras != null && !extras.isEmpty()){
+        		for(Apartamento a : extras){
+        			ApartamentoExtraUsuario e = new ApartamentoExtraUsuario();
+        			e.setUsuario(usuario);
+        			e.setApartamento(a);
+        			extrasPersistir.add(e);
+        		}
+        	}
+        	usuarioService.salvarApartamentosExtras(usuario.getId(), extrasPersistir);
+        	
+        	atualizarPicklistAptosExtras();
 
         } catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar seu usuário. Favor tentar novamente.");
@@ -261,7 +297,6 @@ public class AtualizarUsuarioController implements Serializable{
 		return agrupamentoSelecionado;
 	}
 
-
 	public void setAgrupamentoSelecionado(AgrupamentoUnidades agrupamentoSelecionado) {
 		this.agrupamentoSelecionado = agrupamentoSelecionado;
 	}
@@ -270,5 +305,13 @@ public class AtualizarUsuarioController implements Serializable{
 		return agrupamentos;
 	}
 
+	public DualListModel<Apartamento> getApartamentosPicklist() {
+		return apartamentosPicklist;
+	}
+
+	public void setApartamentosPicklist(DualListModel<Apartamento> apartamentosPicklist) {
+		this.apartamentosPicklist = apartamentosPicklist;
+	}
+	
 
 }

@@ -24,6 +24,7 @@ import br.com.virtz.condominio.entidades.Condominio;
 import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.exceptions.CondominioException;
 import br.com.virtz.condominio.service.ICondominioService;
+import br.com.virtz.condominio.service.IPublicidadeService;
 import br.com.virtz.condominio.service.IUsuarioService;
 import br.com.virtz.condominio.util.IArquivosUtil;
 import br.com.virtz.condominio.util.NavigationPage;
@@ -49,6 +50,9 @@ public class SelecionarCondominioUsuarioController {
 
 	@EJB
 	private EnviarEmail enviarEmail;
+	
+	@EJB
+	private IPublicidadeService publicidadeService;
 
 
 	private boolean condominioExistente = Boolean.FALSE;
@@ -88,6 +92,8 @@ public class SelecionarCondominioUsuarioController {
 		blocoSelecionado = null;
 		apartamentoSelecionado = null;
 		agrupamentoSelecionado = null;
+		
+		leitor.setPublicidadeService(publicidadeService);
 	}
 
 	public void recuperarCondominios(){
@@ -165,9 +171,10 @@ public class SelecionarCondominioUsuarioController {
 			mapParametrosEmail.put("numeroApto", (usuario.getApartamento() != null) ? usuario.getApartamento().getNomeExibicao() : "-");
 			mapParametrosEmail.put("numeroBloco", (usuario.getApartamento() != null && usuario.getApartamento().getBloco() != null) ? usuario.getApartamento().getBloco().getNome() : "-");
 
-			String msg = leitor.processarTemplate(caminho, EnumTemplates.NOVO_MORADOR.getNomeArquivo(), mapParametrosEmail);
+			String msg = leitor.processarTemplate(usuario.getCondominio().getId(), caminho, EnumTemplates.NOVO_MORADOR.getNomeArquivo(), mapParametrosEmail);
 
 			Email email = new Email(EnumTemplates.NOVO_MORADOR.getDe(), sindico.getEmail(), EnumTemplates.NOVO_MORADOR.getAssunto(), msg);
+			email.setResponderPara(usuario.getEmail());
 			enviarEmail.enviar(email);
 		}
 	}

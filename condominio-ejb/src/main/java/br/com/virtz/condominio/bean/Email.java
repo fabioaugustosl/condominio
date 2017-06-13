@@ -12,6 +12,7 @@ public class Email {
 	private String mensagem;
 	private byte[] anexo;
 	private String nomeAnexo;
+	private String responderPara;
 	
 	
 	public Email(String de, List<String> para, String assunto, String mensagem) {
@@ -76,6 +77,14 @@ public class Email {
 
 	public void setNomeAnexo(String nomeAnexo) {
 		this.nomeAnexo = nomeAnexo;
+	}
+
+	public String getResponderPara() {
+		return responderPara;
+	}
+
+	public void setResponderPara(String responderPara) {
+		this.responderPara = responderPara;
 	}
 	
 	

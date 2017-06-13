@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import br.com.virtz.boleto.bean.EnumBanco;
 import br.com.virtz.condominio.dao.IAcessoCFTVDAO;
 import br.com.virtz.condominio.dao.IAgrupamentoUnidadesDAO;
+import br.com.virtz.condominio.dao.IApartamentoDAO;
 import br.com.virtz.condominio.dao.IAreaComumDAO;
 import br.com.virtz.condominio.dao.IBlocoDAO;
 import br.com.virtz.condominio.dao.IBoletoExternoDAO;
@@ -19,6 +20,7 @@ import br.com.virtz.condominio.dao.IContaBancariaDAO;
 import br.com.virtz.condominio.dao.IUnidadeDAO;
 import br.com.virtz.condominio.entidades.AcessoCFTV;
 import br.com.virtz.condominio.entidades.AgrupamentoUnidades;
+import br.com.virtz.condominio.entidades.Apartamento;
 import br.com.virtz.condominio.entidades.AreaComum;
 import br.com.virtz.condominio.entidades.Bloco;
 import br.com.virtz.condominio.entidades.BoletoExterno;
@@ -37,7 +39,10 @@ public class CondominioService implements ICondominioService {
 
 	@EJB
 	private ICidadeDAO cidadeDAO;
-
+	
+	@EJB
+	private IApartamentoDAO apartamentoDAO;
+	
 	@EJB
 	private IAgrupamentoUnidadesDAO agrupamentoDAO;
 
@@ -250,6 +255,11 @@ public class CondominioService implements ICondominioService {
 	@Override
 	public List<Bloco> recuperarTodosBlocosPorAgrupamento(Long idAgrupamento) {
 		return blocoDAO.recuperarPorAgrupamento(idAgrupamento);
+	}
+
+	@Override
+	public List<Apartamento> recuperarApartamentosNaoAssociados(Long idCondominio) {
+		return apartamentoDAO.recuperarAptosNaoAssociados(idCondominio);
 	}
 
 }
