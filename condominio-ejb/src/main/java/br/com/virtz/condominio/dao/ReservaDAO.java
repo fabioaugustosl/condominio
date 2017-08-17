@@ -111,6 +111,13 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 		
 		return qry.getResultList();
 	}
+
+	@Override
+	public List<Reserva> recuperarPorCondominio(Long idCondominio) {
+		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorCondominio");
+		qry.setParameter("idCondominio", idCondominio);
+		return qry.getResultList();
+	}
 	
 	
 }

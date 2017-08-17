@@ -16,6 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity(name="reserva")
 @XmlRootElement
@@ -23,6 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 	@NamedQuery(name = "Reserva.recuperarQtdReservasPorArea", 
 			query = "Select count(*) FROM reserva r "
 					+ "	WHERE r.areaComum.id = :idAreaComum "),
+	@NamedQuery(name = "Reserva.recuperarPorCondominio", 
+			query = "Select r FROM reserva r "
+					+ " INNER JOIN r.areaComum a "
+					+ "	WHERE a.condominio.id = :idCondominio "),
 	@NamedQuery(name = "Reserva.recuperarPorAreaNomeEData", 
 			query = "Select r FROM reserva r "
 					+ "	WHERE r.areaComum.id = :idAreaComum AND r.usuario.nome = :nomeUsuario AND r.data = :data "),

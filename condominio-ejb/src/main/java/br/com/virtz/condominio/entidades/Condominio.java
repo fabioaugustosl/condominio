@@ -22,6 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -35,7 +36,9 @@ import br.com.virtz.condominio.constantes.EnumPlanoContratado;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Condominio.recuperarPorCidade",
-			query = "Select c FROM condominio c WHERE c.cidade.id = :idCidade AND ehTeste = 0 ")
+			query = "Select c FROM condominio c WHERE c.cidade.id = :idCidade AND ehTeste = 0 "),
+	@NamedQuery(name = "Condominio.recuperarPorId",
+			query = "Select c FROM condominio c WHERE c.id = :id")
 })
 public class Condominio extends Entidade implements Serializable {
 
@@ -48,6 +51,7 @@ public class Condominio extends Entidade implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@XmlTransient
 	@OneToMany(mappedBy = "condominio")
 	private List<Bloco> blocos;
 

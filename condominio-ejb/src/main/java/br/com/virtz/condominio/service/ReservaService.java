@@ -142,6 +142,7 @@ public class ReservaService implements IReservaService {
 		reservaDAO.remover(r.getId());
 	}
 
+	
 	@Override
 	public List<Reserva> recuperarRecentes(AreaComum area) {
 		Integer ano = Calendar.getInstance().get(Calendar.YEAR);
@@ -159,6 +160,11 @@ public class ReservaService implements IReservaService {
 		}
 
 		return reservas;
+	}
+
+	@Override
+	public List<Reserva> recuperarPorCondominio(Long idCondominio) {
+		return reservaDAO.recuperarPorCondominio(idCondominio);
 	}
 
 }

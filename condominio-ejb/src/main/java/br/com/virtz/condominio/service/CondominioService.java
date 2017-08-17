@@ -262,4 +262,9 @@ public class CondominioService implements ICondominioService {
 		return apartamentoDAO.recuperarAptosNaoAssociados(idCondominio);
 	}
 
+	@Override
+	public Condominio recuperarPorId(Long id) {
+		return condominioDAO.recuperarPorId(id);
+	}
+
 }

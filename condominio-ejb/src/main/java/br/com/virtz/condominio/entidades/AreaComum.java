@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity(name="areacomum")
 @XmlRootElement
@@ -30,6 +31,7 @@ public class AreaComum extends Entidade implements Serializable {
 	@Column(name = "descricao")
 	private String descricao;
 
+	@XmlTransient
 	@ManyToOne
 	@JoinColumn(name = "idCondominio", nullable = false)
 	private Condominio condominio;

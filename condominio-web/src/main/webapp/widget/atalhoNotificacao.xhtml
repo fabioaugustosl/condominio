@@ -6,6 +6,8 @@
    xmlns:p="http://primefaces.org/ui">
    
    <style>
+   
+   #panelWidgetAtalhoNotif_content{ margin-top:-15px; }
    </style>
    
    <h:form id="formAtalhoNotificacao" style="text-align:center;">
@@ -16,7 +18,7 @@
 				ajax="false"
 				value="#{atalhoPrincipalControllerController.atalhoNotificacao.texto}" >
 				
-		</p:commandLink>
+		</p:commandLink> <br />
 		<p:commandLink id="lnkAtalhoNotificacaoImg" 
 				action="#{atalhoPrincipalControllerController.irParaNotificacao()}"
 				ajax="false" >

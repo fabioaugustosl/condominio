@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import br.com.virtz.condominio.constantes.EnumTipoUsuario;
 
@@ -104,6 +105,7 @@ public class Usuario extends Entidade implements Serializable {
 	@Column(name = "tipoUsuario", nullable = false, length=30)
 	private EnumTipoUsuario tipoUsuario;
 
+	@XmlTransient
 	@ManyToOne
 	@JoinColumn(name="idCondominio")
 	private Condominio condominio;

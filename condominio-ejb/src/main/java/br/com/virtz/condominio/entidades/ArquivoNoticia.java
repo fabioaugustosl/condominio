@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity(name="arquivonoticia")
 @XmlRootElement
@@ -21,28 +22,29 @@ public class ArquivoNoticia extends Entidade implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@XmlTransient
 	@ManyToOne
 	@JoinColumn(name = "idNoticia", nullable = false)
 	private Noticia noticia;
 
 	@Column(name = "caminho", length=500)
 	private String caminho;
-	
+
 	@Column(name = "tamanho")
 	private long tamanho;
-	
+
 	@Column(name = "nome", length=100, nullable = false)
 	private String nome;
 
 	@Column(name = "nomeOriginal", length=500)
 	private String nomeOriginal;
-	
+
 	@Column(name = "extensao", length=5)
 	private String extensao;
-	
+
 	@Column(name = "destaque")
 	private Boolean destaque;
-	
+
 
 	public Long getId() {
 		return id;
@@ -107,9 +109,9 @@ public class ArquivoNoticia extends Entidade implements Serializable {
 	public void setDestaque(boolean destaque) {
 		this.destaque = destaque;
 	}
-	
+
 	public String getCaminhoCompleto(){
 		return "/arquivos/"+getNome();
 	}
-	
+
 }

@@ -165,7 +165,7 @@ public class CadastrarUsuarioFotoController implements Serializable{
 		mapParametrosEmail.put("msg", sb.toString());
 		
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
-		String msg = leitor.processarTemplate(usuario.getCondominio().getId(),caminho, EnumTemplates.PADRAO.getNomeArquivo(), mapParametrosEmail);
+		String msg = leitor.processarTemplate(null,caminho, EnumTemplates.PADRAO.getNomeArquivo(), mapParametrosEmail);
 		
 		Email email = new Email(EnumTemplates.PADRAO.getDe(), "contatovirtz@gmail.com", EnumTemplates.PADRAO.getAssunto(), msg);
 		enviarEmail.enviar(email);

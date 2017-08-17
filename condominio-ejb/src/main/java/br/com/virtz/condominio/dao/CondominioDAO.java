@@ -40,4 +40,17 @@ public class CondominioDAO extends DAO<Condominio> implements ICondominioDAO {
 		return qry.getResultList();
 	}
 	
+	
+	@Override
+	public Condominio recuperarPorId(Long id) {
+		Query qry = getEntityManager().createNamedQuery("Condominio.recuperarPorId");
+		qry.setParameter("id", id);
+		
+		List<Condominio> lista = qry.getResultList();
+		if(lista != null && !lista.isEmpty()){
+			return lista.get(0);
+		}
+		return null;
+	}
+	
 }

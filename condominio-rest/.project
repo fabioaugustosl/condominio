@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>condominio-util</name>
+	<name>condominio-rest</name>
 	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
-		<buildCommand>
-			<name>org.eclipse.wst.common.project.facet.core.builder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+			<name>org.eclipse.wst.common.project.facet.core.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>org.jboss.tools.jst.web.kb.kbbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.jboss.tools.ws.jaxrs.metamodelBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -43,6 +48,9 @@
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.jboss.tools.jst.web.kb.kbnature</nature>
+		<nature>org.jboss.tools.jsf.jsfnature</nature>
+		<nature>org.jboss.tools.ws.jaxrs.nature</nature>
+		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 		<nature>org.jboss.tools.cdi.core.cdinature</nature>
 	</natures>
 </projectDescription>

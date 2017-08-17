@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity(name="pautaassembleia")
 @XmlRootElement
@@ -25,24 +26,25 @@ public class PautaAssembleia extends Entidade implements Serializable {
 	@JoinColumn(name = "idUsuario", nullable = false)
 	private Usuario usuario;
 
+	@XmlTransient
 	@ManyToOne
 	@JoinColumn(name = "idAssembleia", nullable = false)
 	private Assembleia assembleia;
 
 	@Column(name = "mensagem", length = 1000)
 	private String mensagem;
-	
+
 	@Column(name = "aprovada")
 	private boolean aprovada;
 
-	
-	
+
+
 	public PautaAssembleia() {
 		super();
 		aprovada = false;
 	}
-	
-	
+
+
 
 	public Long getId() {
 		return id;
@@ -82,7 +84,7 @@ public class PautaAssembleia extends Entidade implements Serializable {
 
 	public void setAprovada(boolean aprovada) {
 		this.aprovada = aprovada;
-	} 
-	
-	
+	}
+
+
 }

@@ -28,6 +28,7 @@ public interface ICondominioService {
 	public List<Condominio> recuperarPorCidade(Long idCidade);
 	public List<Cidade> cidadesQuePossuemCondominioCadastrado();
 	public List<Apartamento> recuperarApartamentosNaoAssociados(Long idCondominio);
+	public Condominio recuperarPorId(Long id);
 
 	//agrupamento
 	public List<AgrupamentoUnidades> recuperarTodosAgrupamentos(Long idCondominio);

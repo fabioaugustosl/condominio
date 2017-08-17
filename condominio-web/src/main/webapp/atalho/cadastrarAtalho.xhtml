@@ -59,12 +59,9 @@
 			    </p:column>
 		    
 			    <p:column style="text-align:center" styleClass="colunaLargura100" headerText="Excluir" >
-				   	</p:commandLink>
-				    
-			         	<p:commandLink actionListener="#{cadastroAtalhoController.remover(atalh)}" ajax="false"
-			    		update="@form"
-			    		id="excluirUsuarioSelecionada" immediate="true" >
-		         			<p:graphicImage id="imgDeletarUsu" url="/img/icones/deletar.png" title="Clique para deletar esse morador." />
+		         	<p:commandLink actionListener="#{cadastroAtalhoController.remover(atalh)}" ajax="false"
+			    		update="@form" id="excluirUsuarioSelecionada" immediate="true" >
+		         		<p:graphicImage id="imgDeletarUsu" url="/img/icones/deletar.png" title="Clique para deletar esse morador." />
 		         	</p:commandLink>
 		        </p:column>
 	        

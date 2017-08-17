@@ -17,6 +17,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity(name="bloco")
 @XmlRootElement
@@ -58,6 +59,7 @@ public class Bloco extends Entidade implements Serializable {
 	@JoinColumn(name="idAgrupamentoUnidades", nullable=true)
 	private AgrupamentoUnidades agrupamentoUnidades;
 
+	@XmlTransient
 	@OneToMany(mappedBy="bloco", cascade = CascadeType.ALL)
 	private List<Apartamento> apartamentos;
 

@@ -13,6 +13,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name="unidade")
@@ -29,6 +30,7 @@ public class Unidade extends Entidade implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
+	@XmlTransient
 	@ManyToOne
 	@JoinColumn(name="idCondominio", nullable=true)
 	private Condominio condominio;

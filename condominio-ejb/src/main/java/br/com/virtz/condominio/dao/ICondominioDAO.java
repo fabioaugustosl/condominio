@@ -12,4 +12,5 @@ import br.com.virtz.condominio.entidades.Usuario;
 public interface ICondominioDAO extends CrudDAO<Condominio> {
 	public Condominio recuperarCondominioCompleto(Usuario usuario);
 	public List<Condominio> recuperarPorCidade(Long idCidade);
+	public Condominio recuperarPorId(Long id);
 }

@@ -14,6 +14,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 
 @Entity(name="apartamento")
 @XmlRootElement
@@ -39,7 +41,8 @@ public class Apartamento extends Entidade implements Serializable, Comparable<Ap
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-
+	
+	
 	@ManyToOne
 	@JoinColumn(name="idBloco", nullable=true)
 	private Bloco bloco;
@@ -50,6 +53,7 @@ public class Apartamento extends Entidade implements Serializable, Comparable<Ap
 	@Column
 	private String numero;
 
+	@XmlTransient
 	@OneToMany(mappedBy="apartamento")
 	private List<Usuario> usuario;
 
