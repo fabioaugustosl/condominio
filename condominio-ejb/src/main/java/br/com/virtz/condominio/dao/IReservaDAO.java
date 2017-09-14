@@ -18,5 +18,6 @@ public interface IReservaDAO extends CrudDAO<Reserva> {
 	public List<Reserva> recuperarPorAreaEEmail(AreaComum area, String emailUsuario);
 	public List<Reserva> recuperarPorAreaEApto(AreaComum area, Long idApartamento);
 	public List<Reserva> recuperarPorCondominio(Long idCondominio);
-	
+	public List<Reserva> recuperarReservarPorCondominioAPartir(Integer idCondominio, Integer ano, Integer mes);
+
 }

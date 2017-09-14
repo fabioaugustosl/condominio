@@ -12,7 +12,7 @@
       <module>condominio-util</module>
       <module>condominio-web</module>
       <module>condominio-ear</module>
-    <module>condominio-rest</module>
+      <module>condominio-rest</module>
   </modules>
 
    <properties>

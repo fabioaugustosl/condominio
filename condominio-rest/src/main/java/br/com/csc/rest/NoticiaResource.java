@@ -29,7 +29,7 @@ public class NoticiaResource {
     @Path("/condominio/{idCondominio}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Noticia> getNoticiaPorCondominio(@PathParam("idCondominio") Long idCondominio) {
-    	List<Noticia> noticias = noticiaService.recuperarNoticiasAtivas(idCondominio, 10);
+    	List<Noticia> noticias = noticiaService.recuperarNoticiasAtivas(idCondominio, 6);
     	if(noticias !=null){
     		for(Noticia a : noticias){
     			a.setCondominio(null);

@@ -1,26 +1,22 @@
 package br.com.csc.rest;
 
+import java.io.File;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.com.csc.util.IArquivosUtil;
 import br.com.virtz.condominio.entidades.Assembleia;
 import br.com.virtz.condominio.entidades.PautaAssembleia;
-import br.com.virtz.condominio.entidades.Reserva;
-import br.com.virtz.condominio.entidades.Usuario;
 import br.com.virtz.condominio.service.IAssembleiaService;
-import br.com.virtz.condominio.service.IReservaService;
-import br.com.virtz.condominio.service.IUsuarioService;
-import br.com.virtz.condominio.service.UsuarioService;
 
 
 @Path("/assembleia")
@@ -28,6 +24,9 @@ public class AssembleiaResource {
 
 	@EJB
 	private IAssembleiaService assembleiaService;
+
+	@Inject
+	private IArquivosUtil arquivoUtil;
 
 
 
@@ -70,16 +69,36 @@ public class AssembleiaResource {
 
 
 	protected void ajustarAssembleiaParaRetorno(Assembleia a) {
-		a.setPautas(null);
-		/*if(a.getPautasAprovadas() != null){
-			for(PautaAssembleia p : a.getPautasAprovadas()){
+		//a.setPautas(null);
+		if(a.getPautas() != null){
+			for(PautaAssembleia p : a.getPautas()){
 				p.setAssembleia(null);
 				p.setUsuario(null);
 			}
-		}*/
+		}
 		a.setCondominio(null);
 	}
 
+
+	@GET
+    @Path("/ata/{idAssembleia}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response download(@PathParam("idAssembleia") Long idAssembleia) {
+		Assembleia a = assembleiaService.recuperar(idAssembleia);
+		if(a == null){
+			return Response.status(500).entity("Não foi possível recuperar essa assembleia.").type(MediaType.TEXT_PLAIN).build();
+		}
+
+		if(a.getArquivoAta() == null){
+			return Response.status(500).entity("Não foi possível recuperar a ata da assembleia.").type(MediaType.TEXT_PLAIN).build();
+		}
+
+		File f = new File(arquivoUtil.getCaminhoArquivosUpload()+a.getArquivoAta().getNome());
+		ResponseBuilder response = Response.ok((Object) f);
+        response.header("Content-Disposition", "attachment; filename=ata_"+a.getData()+".pdf");
+        return response.build();
+
+    }
 
 
 }

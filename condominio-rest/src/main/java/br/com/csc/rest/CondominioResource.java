@@ -17,13 +17,13 @@ import br.com.virtz.condominio.service.ICondominioService;
 
 @Path("/condominio")
 public class CondominioResource {
-    
+
 	@EJB
 	private ICondominioService condominioService;
-    
-   
-    
-    @GET 
+
+
+
+    @GET
     @Path("/areas/{idCondominio}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<AreaComum> getAreasPorCondominio(@PathParam("idCondominio") Long idCondominio) {
@@ -38,15 +38,24 @@ public class CondominioResource {
     	return areas;
     }
 
-    
-    @GET 
+
+    @GET
     @Path("/{idCondominio}")
     @Produces(MediaType.APPLICATION_JSON)
     public Condominio getCondominio(@PathParam("idCondominio") Long idCondominio) {
     	Condominio c = condominioService.recuperarPorId(idCondominio);
+    	c.setUsuarios(null);
+    	c.setBlocos(null);
+    	c.getCidade().setCondominios(null);
+    	c.setCftv(null);
+    	if(c.getAreasComuns() != null){
+    		for(AreaComum a : c.getAreasComuns()){
+    			a.setCondominio(null);
+    		}
+    	}
     	return c;
     }
 
-    
-    
+
+
 }

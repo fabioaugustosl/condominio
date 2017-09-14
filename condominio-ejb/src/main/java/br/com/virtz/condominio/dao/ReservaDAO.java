@@ -15,24 +15,24 @@ import br.com.virtz.condominio.entidades.Reserva;
 @Stateless
 public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 
-	
+
 	@Override
 	public List<Reserva> recuperar(AreaComum area) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(" SELECT r FROM ");
 		sb.append(Reserva.class.getName()).append(" r ");
 		sb.append(" WHERE r.areaComum.id = :idArea  ");
-		
+
 		Query qry = getEntityManager().createQuery(sb.toString());
-		
+
 		qry.setParameter("idArea", area.getId());
-		
+
 		return qry.getResultList();
 	}
 
 	@Override
 	public Reserva recuperar(AreaComum area, String nomeUsuario, Date dataInicioReserva) {
-		
+
 		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorAreaNomeEData");
 		qry.setParameter("idAreaComum", area.getId());
 		qry.setParameter("nomeUsuario", nomeUsuario);
@@ -42,15 +42,15 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 		}catch (NoResultException e) {
 			return null;
 		}
-		
+
 	}
-	
-	
+
+
 	@Override
 	public Reserva recuperarPorAreaEmailEData(AreaComum area, String emailUsuario, Date dataInicioReserva) {
-		
+
 		DataUtil util = new DataUtil();
-				
+
 		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorAreaEmailEData");
 		qry.setParameter("idAreaComum", area.getId());
 		qry.setParameter("emailUsuario", emailUsuario);
@@ -63,7 +63,7 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 		}catch (NoResultException e) {
 			return null;
 		}
-		
+
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorAreaEEmail");
 		qry.setParameter("idAreaComum", area.getId());
 		qry.setParameter("emailUsuario", emailUsuario);
-		
+
 		return qry.getResultList();
 	}
 
@@ -79,7 +79,7 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 	public Reserva recuperarPorAreaAptoEData(AreaComum area, Long idApto,
 			Date dataInicioReserva) {
 		DataUtil util = new DataUtil();
-		
+
 		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorAreaAptoEData");
 		qry.setParameter("idAreaComum", area.getId());
 		qry.setParameter("idApartamento", idApto);
@@ -98,7 +98,7 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorAreaEApto");
 		qry.setParameter("idAreaComum", area.getId());
 		qry.setParameter("idApartamento", idApartamento);
-		
+
 		return qry.getResultList();
 	}
 
@@ -108,9 +108,21 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 		qry.setParameter("idAreaComum", area.getId());
 		qry.setParameter("ano", ano);
 		qry.setParameter("mes", mes);
-		
+
 		return qry.getResultList();
 	}
+
+
+	@Override
+	public List<Reserva> recuperarReservarPorCondominioAPartir(Integer idCondominio, Integer ano, Integer mes) {
+		Query qry = getEntityManager().createNamedQuery("Reserva.recuperarPorCondominioAPartirMesAno");
+		qry.setParameter("idCondominio", idCondominio.longValue());
+		qry.setParameter("ano", ano);
+		qry.setParameter("mes", mes);
+
+		return qry.getResultList();
+	}
+
 
 	@Override
 	public List<Reserva> recuperarPorCondominio(Long idCondominio) {
@@ -118,6 +130,6 @@ public class ReservaDAO extends DAO<Reserva> implements IReservaDAO {
 		qry.setParameter("idCondominio", idCondominio);
 		return qry.getResultList();
 	}
-	
-	
+
+
 }
