@@ -1,16 +1,16 @@
 <html>
 
 	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html;" />
 	<meta charset="ISO-8859-1">
 	</head>
 
 	<body>
 
-		<h1>Olá ${nomeUsuario}!</h1>
+		<h1>Ol\u00e1 ${nomeUsuario}!</h1>
 		<br />
 		<br />
-		<h3>Bem vindo ao sistema de condomínio.</h3>
+		<h3>Bem vindo ao sistema de condom\u00ednio.</h3>
 
 		<br/>
 		<p>Seu cadastro foi realizado com sucesso!</p>
@@ -30,7 +30,7 @@
 					www.condominiosobcontrole.com.br
 				</a>
 			</td>
-			<td style="text-align:center; width:50%">	
+			<td style="text-align:center; width:50%">
 				<#if parceiro??>
 					<img src="${parceiro}" style="max-width:300px; max-height:180px;" />
 					<p style=" font-size:10px;">Email patrocinado pelo nosso parceiro</p>

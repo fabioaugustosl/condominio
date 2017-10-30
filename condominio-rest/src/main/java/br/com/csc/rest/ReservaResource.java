@@ -1,9 +1,11 @@
 package br.com.csc.rest;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.ejb.EJB;
 import javax.inject.Inject;
@@ -22,13 +24,15 @@ import javax.ws.rs.core.Response;
 import br.com.csc.rest.bean.ReservaRest;
 import br.com.csc.util.ArquivosUtil;
 import br.com.csc.util.EnumTemplatesRestRefatorar;
+import br.com.csc.util.EnviadorEmail;
 import br.com.virtz.boleto.util.DataUtil;
-import br.com.virtz.condominio.bean.Email;
-import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
 import br.com.virtz.condominio.entidades.AreaComum;
+import br.com.virtz.condominio.entidades.EmailParaEnviar;
 import br.com.virtz.condominio.entidades.Reserva;
 import br.com.virtz.condominio.entidades.Usuario;
+import br.com.virtz.condominio.geral.ParametroSistemaLookup;
+import br.com.virtz.condominio.service.IEmailEnviarService;
 import br.com.virtz.condominio.service.IReservaService;
 import br.com.virtz.condominio.service.IUsuarioService;
 
@@ -43,13 +47,18 @@ public class ReservaResource {
 	private IUsuarioService usuarioService;
 
 	@EJB
-	private EnviarEmail enviarEmail;
+	private IEmailEnviarService emailService;
+
+	private EnviadorEmail enviarEmail;
 
 	@Inject
 	private ArquivosUtil arquivosUtil;
 
 	@Inject
 	private LeitorTemplate leitor;
+
+	@Inject
+	private ParametroSistemaLookup parametroLookup;
 
 
     @GET
@@ -59,7 +68,15 @@ public class ReservaResource {
     	List<Reserva> reservas = reservaService.recuperarReservarRecentesPorCondominio(idCondominio);
     	List<ReservaRest> reservasRet = new ArrayList<ReservaRest>();
     	if(reservas  !=null){
+    		Calendar cal = Calendar.getInstance();
+    		Integer anoAtual = cal.get(Calendar.YEAR);
+    		Integer mesAtual = cal.get(Calendar.MONTH);
     		for(Reserva a : reservas){
+    			Integer ano = a.getData().get(Calendar.YEAR);
+    			Integer mes = a.getData().get(Calendar.MONTH);
+    			if(ano < anoAtual || mes < mesAtual){
+    				continue;
+    			}
     			ReservaRest reserva = new ReservaRest(a);
     			ajustarReservaParaRetorno(reserva);
     			reservasRet.add(reserva);
@@ -106,8 +123,27 @@ public class ReservaResource {
 	    	}
     	}
 
+    	// iniciar lookups
+    	parametroLookup.iniciarLookup(u.getCondominio());
+
     	reserva.setApartamento(u.getApartamento());
     	reserva.setUsuario(u);
+
+    	Calendar c = reserva.getData();
+    	c.add(Calendar.DAY_OF_YEAR, 1);
+    	c.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
+    	reserva.setData(c);
+
+    	// valida se já existe reserva para o dia
+    	List<Reserva> reservas = reservaService.recuperarRecentes(reserva.getAreaComum());
+    	if(reservas != null){
+    		DataUtil dUtil = new DataUtil();
+    		for(Reserva r : reservas){
+    			if(dUtil.mesmoDiaMesAno(reserva.getData().getTime(), r.getData().getTime())){
+    				return Response.status(500).entity("Já existe uma reserva para para este dia.").type(MediaType.TEXT_PLAIN).build();
+    			}
+    		}
+    	}
 
     	try {
 			reservaService.validarReserva(reserva.getData(), reserva.getAreaComum(), true);
@@ -142,6 +178,7 @@ public class ReservaResource {
 		}
 		if(a.getAreaComum() !=null){
 			a.getAreaComum().setCondominio(null);
+			a.getAreaComum().setInstrucoesReserva(null);
 		}
 		if(a.getUsuario() !=null){
 			a.getUsuario().setCondominio(null);
@@ -157,16 +194,29 @@ public class ReservaResource {
 		DataUtil dataUtil = new DataUtil();
 
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
-		mapParametrosEmail.put("nome_usuario", usuario.getNomeExibicao());
+		mapParametrosEmail.put("nome_usuario", org.apache.commons.lang.StringEscapeUtils.escapeHtml(usuario.getNomeExibicao()));
 		mapParametrosEmail.put("data_reserva", dataUtil.formatarData(reserva.getData().getTime(),"dd/MM/yyyy"));
-		mapParametrosEmail.put("nome_area", nomeArea);
+		mapParametrosEmail.put("nome_area", org.apache.commons.lang.StringEscapeUtils.escapeHtml(nomeArea));
 
 		String caminho = arquivosUtil.getCaminhaPastaTemplatesEmail(context);
 
 		String msg = leitor.processarTemplate(idCondominio, caminho, EnumTemplatesRestRefatorar.CONFIRMACAO_RESERVA_AREA.getNomeArquivo(), mapParametrosEmail);
 
-		Email email = new Email(EnumTemplatesRestRefatorar.PAUTA_ENVIADA.getDe(), usuario.getEmail(), EnumTemplatesRestRefatorar.CONFIRMACAO_RESERVA_AREA.getAssunto(), msg);
-		enviarEmail.enviar(email);
+//		Email email = new Email(EnumTemplatesRestRefatorar.PAUTA_ENVIADA.getDe(), usuario.getEmail(), EnumTemplatesRestRefatorar.CONFIRMACAO_RESERVA_AREA.getAssunto(), msg);
+//		enviarEmail.enviar(email);
+
+		EmailParaEnviar email = new EmailParaEnviar();
+		email.setDe(EnumTemplatesRestRefatorar.CONFIRMACAO_RESERVA_AREA.getDe());
+		email.setPara(usuario.getEmail());
+		email.setAssunto(EnumTemplatesRestRefatorar.CONFIRMACAO_RESERVA_AREA.getAssunto());
+		email.setMensagem(msg);
+		email.setResponderPara(usuario.getEmail());
+
+		try {
+			emailService.salvar(email);
+		} catch (Exception e) {
+			System.out.println("ocorreu um erro ao salvar email para enviar");
+		}
 	}
 
 

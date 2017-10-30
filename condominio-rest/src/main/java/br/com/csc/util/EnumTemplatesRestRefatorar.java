@@ -5,7 +5,7 @@ public enum EnumTemplatesRestRefatorar {
 	CONFIRMACAO_USUARIO("confirmacaoUsuario.ftl", "Confirmação de usuário", "nao_responder@condominiosobcontrole.com.br"),
 	CONFIRMACAO_USUARIO_CONDOMINIO("confirmacaoUsuarioCondominio.ftl", "Bem vindo! Acesse seu condomínio online. ", "nao_responder@condominiosobcontrole.com.br"),
 	LEMBRETE_ASSEMBLEIA("lembreteAssembleia.ftl", "Lembrete de assembleia", "nao_responder@condominiosobcontrole.com.br"),
-	MENSAGEM_SINDICO("mensagemSindico.ftl", "Fale com o Síndico - Contato enviado através do site", "nao_responder@condominiosobcontrole.com.br"),
+	MENSAGEM_SINDICO("mensagemSindico.ftl", "Fale com o Síndico - Condomínio Sob Controle", "nao_responder@condominiosobcontrole.com.br"),
 	RESPOSTA_MENSAGEM_SINDICO("respostaMensagemSindico.ftl", "Resposta do S\u00edndico - reposta registrada no site", "nao_responder@condominiosobcontrole.com.br"),
 	BOLETO("boletoPorEmail.ftl", "Boleto", "nao_responder@condominiosobcontrole.com.br"),
 	NOVO_MORADOR("novoMorador.ftl", "Novo Morador Cadastrado no Site", "nao_responder@condominiosobcontrole.com.br"),

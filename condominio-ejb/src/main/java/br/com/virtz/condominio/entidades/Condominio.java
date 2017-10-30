@@ -38,7 +38,7 @@ import br.com.virtz.condominio.constantes.EnumPlanoContratado;
 	@NamedQuery(name = "Condominio.recuperarPorCidade",
 			query = "Select c FROM condominio c WHERE c.cidade.id = :idCidade AND ehTeste = 0 "),
 	@NamedQuery(name = "Condominio.recuperarPorId",
-			query = "Select c  FROM condominio c JOIN FETCH c.areasComuns areas  WHERE c.id = :id")
+			query = "Select c  FROM condominio c LEFT JOIN FETCH c.areasComuns areas  WHERE c.id = :id")
 })
 public class Condominio extends Entidade implements Serializable {
 

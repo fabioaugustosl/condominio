@@ -20,12 +20,14 @@ import javax.ws.rs.core.Response;
 
 import br.com.csc.util.ArquivosUtil;
 import br.com.csc.util.EnumTemplatesRestRefatorar;
+import br.com.csc.util.EnviadorEmail;
 import br.com.virtz.condominio.bean.Email;
-import br.com.virtz.condominio.email.EnviarEmail;
 import br.com.virtz.condominio.email.template.LeitorTemplate;
+import br.com.virtz.condominio.entidades.EmailParaEnviar;
 import br.com.virtz.condominio.entidades.MensagemSindico;
 import br.com.virtz.condominio.entidades.RespostaMensagemSindico;
 import br.com.virtz.condominio.entidades.Usuario;
+import br.com.virtz.condominio.service.IEmailEnviarService;
 import br.com.virtz.condominio.service.IMensagemSindicoService;
 import br.com.virtz.condominio.service.IUsuarioService;
 
@@ -40,7 +42,7 @@ public class FaleSindicoResource {
 	private IUsuarioService usuarioService;
 
 	@EJB
-	private EnviarEmail enviarEmail;
+	private IEmailEnviarService emailService;
 
 	@Inject
 	private ArquivosUtil arquivosUtil;
@@ -92,6 +94,7 @@ public class FaleSindicoResource {
 			}catch(Exception e1){
 			}
 
+    		//5mensagem.getCondominio().setBlocos(null);
 
 			return Response.status(200).entity(mensagem).build();
 		} catch (Exception e) {
@@ -120,16 +123,25 @@ public class FaleSindicoResource {
 	private void envioEmail(List<Usuario> sindicos, String nomeUsuario, MensagemSindico msg, ServletContext context) {
 		for(Usuario sindico : sindicos){
 			Map<Object, Object> map = new HashMap<Object, Object>();
-			map.put("nome_sindico", sindico.getNome());
-			map.put("nome_usuario", nomeUsuario);
-			map.put("msg", msg.getMensagem());
+			map.put("nome_sindico", org.apache.commons.lang.StringEscapeUtils.escapeHtml(sindico.getNome()));
+			map.put("nome_usuario", org.apache.commons.lang.StringEscapeUtils.escapeHtml(nomeUsuario));
+			map.put("msg", org.apache.commons.lang.StringEscapeUtils.escapeHtml(msg.getMensagem()));
 
 			String caminho = arquivosUtil.getCaminhaPastaTemplatesEmail(context);
 			String msgEnviar = leitor.processarTemplate(sindico.getCondominio().getId(),caminho, EnumTemplatesRestRefatorar.MENSAGEM_SINDICO.getNomeArquivo(), map);
 
-			Email email = new Email(EnumTemplatesRestRefatorar.MENSAGEM_SINDICO.getDe(), sindico.getEmail(), EnumTemplatesRestRefatorar.MENSAGEM_SINDICO.getAssunto(), msgEnviar);
-			email.setResponderPara(msg.getUsuario().getEmail());
-			enviarEmail.enviar(email);
+			EmailParaEnviar email = new EmailParaEnviar();
+			email.setDe(EnumTemplatesRestRefatorar.MENSAGEM_SINDICO.getDe());
+			email.setPara(sindico.getEmail());
+			email.setAssunto(EnumTemplatesRestRefatorar.MENSAGEM_SINDICO.getAssunto());
+			email.setMensagem(msgEnviar);
+			email.setResponderPara(sindico.getEmail());
+
+			try {
+				emailService.salvar(email);
+			} catch (Exception e) {
+				System.out.println("ocorreu um erro ao salvar email para enviar");
+			}
 		}
 
 	}

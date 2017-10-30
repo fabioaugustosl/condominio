@@ -44,6 +44,9 @@ public class CondominioResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Condominio getCondominio(@PathParam("idCondominio") Long idCondominio) {
     	Condominio c = condominioService.recuperarPorId(idCondominio);
+    	if(c == null){
+    		return null;
+    	}
     	c.setUsuarios(null);
     	c.setBlocos(null);
     	c.getCidade().setCondominios(null);

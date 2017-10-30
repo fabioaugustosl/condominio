@@ -1,0 +1,5 @@
+AUTODEPLOY_TARGET=/home/fabio/dev/server/wildfly-8.2.0.Final/standalone/deployments
+EXTRACT_ARTIFACTS=false
+HOTDEPLOY_TARGET=
+WILDFLY_SUPPORT=true
+eclipse.preferences.version=1

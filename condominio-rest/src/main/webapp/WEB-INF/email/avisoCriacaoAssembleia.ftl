@@ -1,23 +1,23 @@
 <html>
 
 	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html;" />
 	<meta charset="UTF-8">
 	</head>
 
 	<body>
 
-		<h1>Olá ${nome_usuario}.</h1>
+		<h1>Ol\u00e1 ${nome_usuario}.</h1>
 		<br />
-		<p>Uma nova assembléia acabou de ser lançada no site. Acesse <a href="http://www.condominiosobcontrole.com.br" target="_blank">www.condominiosobcontrole.com.br</a> e veja mais informações.</p>
+		<p>Uma nova assembl\u00e9ia acabou de ser lan\u00e7ada no site. Acesse <a href="http://www.condominiosobcontrole.com.br" target="_blank">www.condominiosobcontrole.com.br</a> e veja mais informa\u00e7\u00f5es.</p>
 		<br/>
 		<p>Dados da assembleia:</p>
 		------------------------------------------------------------
 		<div>
 			Data:<b> ${data} </b><br />
-			Horário 1ª chamada: <b> ${chamada_1} </b><br />
-			Horário 2ª chamada: <b> ${chamada_2} </b><br />
-			Contamos com sua presença.
+			Hor\u00e1rio 1\u00aa chamada: <b> ${chamada_1} </b><br />
+			Hor\u00e1rio 2\u00aa chamada: <b> ${chamada_2} </b><br />
+			Contamos com sua presen\u00e7a.
 		</div>
 		<br />
 		<br />
@@ -29,7 +29,7 @@
 					www.condominiosobcontrole.com.br
 				</a>
 			</td>
-			<td style="text-align:center; width:50%">	
+			<td style="text-align:center; width:50%">
 				<#if parceiro??>
 					<img src="${parceiro}" style="max-width:300px; max-height:180px;" />
 					<p style=" font-size:10px;">Email patrocinado pelo nosso parceiro</p>
@@ -37,7 +37,7 @@
 			</td>
 		</tr>
 		</table>
-		<p style="width:100%; text-align:center; font-size:10px;">Email enviado pelo site www.condominiosobcontrole.com.br. Favor não responder.</p>
+		<p style="width:100%; text-align:center; font-size:10px;">Email enviado pelo site www.condominiosobcontrole.com.br. Favor n\u00e3o responder.</p>
 	</body>
 
 </html>

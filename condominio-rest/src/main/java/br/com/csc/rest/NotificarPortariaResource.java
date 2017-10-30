@@ -1,6 +1,7 @@
 package br.com.csc.rest;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -25,7 +26,7 @@ public class NotificarPortariaResource {
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response notificarPortadia(NotificacaoPortaria notificacao) {
+    public Response notificarPortaria(NotificacaoPortaria notificacao) {
 
 		if(notificacao == null){
     		return Response.status(500).entity("Notificação não enviada").build();
@@ -41,6 +42,10 @@ public class NotificarPortariaResource {
     	c.setTime(notificacao.getDataPrevista());
     	c.add(Calendar.DAY_OF_YEAR, 1);
     	notificacao.setDataPrevista(c.getTime());
+
+    	if(c.getTime().before(new Date())){
+    		return Response.status(500).entity("Não é possível criar uma notificação retroativa.").type(MediaType.TEXT_PLAIN).build();
+    	}
 
     	try {
 			notificacaoService.salvar(notificacao);

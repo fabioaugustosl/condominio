@@ -41,43 +41,43 @@ import br.com.virtz.condominio.util.NavigationPage;
 @ManagedBean
 @ViewScoped
 public class CadastrarUsuarioFotoController implements Serializable{
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@EJB
 	private IUsuarioService usuarioService;
-	
+
 	@EJB
 	private ITokenService tokenService;
-	
+
 	@EJB
 	private IPublicidadeService publicidadeService;
-	
+
 	@Inject
 	private SessaoUsuario sessao;
-	
+
 	@Inject
 	private MessageHelper message;
-	
+
 	@Inject
 	private IArquivosUtil arquivoUtil;
 
 	@Inject
 	private LeitorTemplate leitor;
-	
+
 	@EJB
 	private EnviarEmail enviarEmail;
-	
+
 	@Inject
 	private NavigationPage navegacao;
-	
-	
+
+
 	private CroppedImage imagemCortada = null;
     private String caminhoImagem = null;
-    
+
 	private Usuario usuario = null;
 	private Boolean cadastroFinalizado= null;
-	
+
 	@PostConstruct
 	public void init(){
 		Object usuarioEditar = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("idUsuario");
@@ -86,24 +86,24 @@ public class CadastrarUsuarioFotoController implements Serializable{
 		if(usuario != null){
 			usuario.setArquivo(new ArquivoUsuario());
 		}
-		
+
 		leitor.setPublicidadeService(publicidadeService);
 	}
 
-	
+
 	 public void redirecionarPaginaInicial() throws AppException{
 		navegacao.redirectToPage("/login.faces");
 	 }
 
 
-   
+
 	public void salvar(ActionEvent actionEvent) throws AppException {
         salvar();
     }
 
 
 	private void salvar() throws AppException {
-		
+
         try {
         	if(usuario.existeFotoParaUsuario() && usuario.getArquivo() != null){
         		ArquivoUsuario arq = usuarioService.salvarArquivo(usuario.getArquivo());
@@ -111,27 +111,28 @@ public class CadastrarUsuarioFotoController implements Serializable{
         	}
         	usuario.setAdm(false);
         	usuario = usuarioService.salvar(usuario);
-        	
+
         	// gerar token
-        	Token token = tokenService.novoToken(String.valueOf(usuario.getId())); 
-        	
+        	Token token = tokenService.novoToken(String.valueOf(usuario.getId()));
+
         	// enviar email confirmação
         	try{
         		enviarEmailConfirmacaoCadastro(usuario, token);
         	}catch(Exception e){
+        		e.printStackTrace();
         		message.addInfo("Ocorreu uma falha ao enviar email de confirmação pra você!");
         	}
-        	
+
         	try{
         		enviarEmailAvisoCadastro(usuario);
         	}catch(Exception e){
         		e.printStackTrace();
         	}
-        
+
         	cadastroFinalizado = Boolean.TRUE;
         } catch (Exception e) {
 			throw new AppException("Ocorreu um erro ao salvar seu usuário. Favor tentar novamente.");
-		} 
+		}
 	}
 
 
@@ -139,79 +140,81 @@ public class CadastrarUsuarioFotoController implements Serializable{
 	private void enviarEmailConfirmacaoCadastro(Usuario usuario, Token token) {
 		// recuperar url da aplicação
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		
-		StringBuffer sb = origRequest.getRequestURL().delete(origRequest.getRequestURL().indexOf("cadastrarUsuarioFoto.faces"), origRequest.getRequestURL().toString().length()); 
+
+		StringBuffer sb = origRequest.getRequestURL().delete(origRequest.getRequestURL().indexOf("cadastrarUsuarioFoto.faces"), origRequest.getRequestURL().toString().length());
 		sb.append("confirmarCadastro.faces?token=").append(token.getToken());
 
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
 		mapParametrosEmail.put("nomeUsuario", usuario.getNome());
 		mapParametrosEmail.put("link", sb.toString());
-		
+
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
-		String msg = leitor.processarTemplate(usuario.getCondominio().getId(), caminho, EnumTemplates.CONFIRMACAO_USUARIO.getNomeArquivo(), mapParametrosEmail);
-		
+		String msg = leitor.processarTemplate((usuario.getCondominio() != null ? usuario.getCondominio().getId() : null),
+													caminho, EnumTemplates.CONFIRMACAO_USUARIO.getNomeArquivo(),
+													mapParametrosEmail);
+
 		Email email = new Email(EnumTemplates.CONFIRMACAO_USUARIO.getDe(), usuario.getEmail(), EnumTemplates.CONFIRMACAO_USUARIO.getAssunto(), msg);
 		enviarEmail.enviar(email);
 	}
 
-	
+
 	private void enviarEmailAvisoCadastro(Usuario usuario) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Nome usuário : ").append(usuario.getNome()).append("<br />");
 		sb.append("ID usuário : ").append(usuario.getId()).append("<br />");
-		
+
 		Map<Object, Object> mapParametrosEmail = new HashMap<Object, Object>();
 		mapParametrosEmail.put("titulo", "Novo usuário do site acaba de se cadastrar");
 		mapParametrosEmail.put("msg", sb.toString());
-		
+
 		String caminho = arquivoUtil.getCaminhaPastaTemplatesEmail();
 		String msg = leitor.processarTemplate(null,caminho, EnumTemplates.PADRAO.getNomeArquivo(), mapParametrosEmail);
-		
+
 		Email email = new Email(EnumTemplates.PADRAO.getDe(), "contatovirtz@gmail.com", EnumTemplates.PADRAO.getAssunto(), msg);
 		enviarEmail.enviar(email);
 	}
-	
-	
-	
+
+
+
 	public void cortar() throws CondominioException{
         if(imagemCortada != null) {
 	        ArquivoUsuario arquivo = createArquivo(Long.valueOf(imagemCortada.getBytes().length));
 	    	arquivo.setAltura(imagemCortada.getHeight());
 	    	arquivo.setLargura(imagemCortada.getWidth());
-	        
+
 	    	ByteArrayInputStream inputStream = new ByteArrayInputStream(imagemCortada.getBytes());
 	    	try {
 				arquivoUtil.arquivar(inputStream, arquivo.getNome());
-				
+
 				if(caminhoImagem != null){
 					removerArquivo(caminhoImagem);
 				}
-				
+
 			} catch (IOException e) {
 				throw new CondominioException("Ocorreu um erro ao recortar a foto.");
 			}
-	    	
+
 	    	usuario.setArquivo(arquivo);
         } else {
         	usuario.setArquivo(null);
         }
-        
+
         try {
 			salvar();
 		} catch (AppException e) {
 			throw new CondominioException("Aconteceu um erro ao salvar o usuário. Favor tentar novamente.");
 		}
 	 }
-	 
-	
+
+
 	 public void uploadArquivo(FileUploadEvent event) throws CondominioException{
         try {
-        	
+
         	if(!arquivoUtil.tamanhoImagemEhValido(event.getFile().getInputstream(), 300, 375)){
         		message.addError("Erro. A imagem deve ter largura mínima de 300 e altura mínima de 375 pixels.");
         		return;
         	}
-            
+
         	ArquivoUsuario arquivo = createArquivo(event.getFile().getSize());
         	arquivoUtil.redimensionarImagem(event.getFile().getInputstream(), arquivoUtil.getCaminhoUploadArquivosTemporario(), arquivo.getNome(), arquivo.getExtensao(), 900, 900, 300, 375);
 //        	arquivoUtil.copiarArquivos(arquivo.getCaminhoCompleto());
@@ -220,38 +223,38 @@ public class CadastrarUsuarioFotoController implements Serializable{
             throw new CondominioException("Ocorreu um erro ao realizar o upload da imagem.");
         }
 	 }
-	 
-	 
+
+
 	 private ArquivoUsuario createArquivo(long tamanho){
 		 String caminho = arquivoUtil.getCaminhoArquivosUpload();
 		 String extensao = arquivoUtil.pegarExtensao("jpg");
 		 String nomeNovo = arquivoUtil.gerarNomeArquivo(extensao, ArquivosUtil.TIPO_IMAGEM);
-	 	
+
 	 	 ArquivoUsuario arqUsuario = new ArquivoUsuario();
 	 	 arqUsuario.setCaminho(caminho);
 	 	 arqUsuario.setExtensao(extensao);
 	 	 arqUsuario.setTamanho(tamanho);
 	 	 arqUsuario.setNome(nomeNovo);
-	 	 
+
 	 	 return arqUsuario;
 	 }
-	 
-	 
+
+
 	 public void removerArquivo(String arquivo) {
 		if(arquivo != null){
 			File arquivoDeletar = new File(arquivo);
 			arquivoDeletar.delete();
 		}
-	 }	
-		
-	
-	
+	 }
+
+
+
 	/*  GETTERS e SETTERs	 */
 
 	public Usuario getUsuario() {
 		return usuario;
 	}
-	
+
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
@@ -279,6 +282,6 @@ public class CadastrarUsuarioFotoController implements Serializable{
 	public void setCadastroFinalizado(Boolean cadastroFinalizado) {
 		this.cadastroFinalizado = cadastroFinalizado;
 	}
-	
-	
+
+
 }

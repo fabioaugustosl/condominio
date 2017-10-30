@@ -7,7 +7,7 @@
 
 	<body>
 
-		<h1>Olá ${nome_usuario}.</h1>
+		<h1>Ol&aacute; ${nome_usuario}.</h1>
 
 		<p>Confirmamos sua reserva da(o) ${nome_area} para o dia ${data_reserva}.</p>
 		<br/>
@@ -24,7 +24,7 @@
 					www.condominiosobcontrole.com.br
 				</a>
 			</td>
-			<td style="text-align:center; width:50%">	
+			<td style="text-align:center; width:50%">
 				<#if parceiro??>
 					<img src="${parceiro}" style="max-width:300px; max-height:180px;" />
 					<p style=" font-size:10px;">Email patrocinado pelo nosso parceiro</p>
@@ -32,7 +32,7 @@
 			</td>
 		</tr>
 		</table>
-		<p style="width:100%; text-align:center; font-size:10px;">Email enviado pelo site www.condominiosobcontrole.com.br. Favor não responder.</p>
+		<p style="width:100%; text-align:center; font-size:10px;">Email enviado pelo site www.condominiosobcontrole.com.br. Favor n&atilde;o responder.</p>
 	</body>
 
 </html>

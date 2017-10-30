@@ -14,25 +14,25 @@ import br.com.virtz.email.template.IGerarTemplate;
 
 @ApplicationScoped
 public class LeitorTemplate {
-	
+
 	private IPublicidadeService publicidadeService;
-	
+
 	private Map<Long, Publicidade> cachePublicidade = null;
 	private IGerarTemplate gerar = null;
-	
+
 	public LeitorTemplate() {
 		super();
 		cachePublicidade = new HashMap<Long, Publicidade>();
-		
+
 	}
 
 	public String processarTemplate(Long idCondominio, String caminhoTemplate, String template, Map<Object, Object> parametros){
 		gerar = new GerarTemplate();
-		
+
 		File arquivo = new File(caminhoTemplate);
-		
+
 		if(idCondominio != null && publicidadeService != null){
-			
+
 			Publicidade publicidade = cachePublicidade.get(idCondominio);
 			if(publicidade == null){
 				publicidade = publicidadeService.recuperar(idCondominio, EnumTipoPublicidade.EMAIL);
@@ -42,7 +42,7 @@ public class LeitorTemplate {
 				cachePublicidade.put(idCondominio, publicidade);
 			}
 		}
-		
+
 		try {
 			return gerar.gerar(parametros, arquivo, template);
 		} catch (Exception e) {
@@ -50,10 +50,10 @@ public class LeitorTemplate {
 		}
 	}
 
-	
+
 	public void setPublicidadeService(IPublicidadeService publicidadeService) {
 		this.publicidadeService = publicidadeService;
 	}
-	
-	
+
+
 }
