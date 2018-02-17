@@ -2,15 +2,21 @@ package br.com.csc.rest;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import br.com.virtz.condominio.entidades.ArquivoNoticia;
+import br.com.virtz.condominio.entidades.ArquivoNotificacaoPortaria;
+import br.com.virtz.condominio.entidades.Noticia;
 import br.com.virtz.condominio.entidades.NotificacaoPortaria;
 import br.com.virtz.condominio.service.INotificacaoPortariaService;
 
@@ -55,5 +61,47 @@ public class NotificarPortariaResource {
 		}
     	return Response.status(500).entity("Ocorreu um erro ao registrar notificação.").type(MediaType.TEXT_PLAIN).build();
     }
+
+
+	@GET
+    @Path("/condominio/{idCondominio}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<NotificacaoPortaria> getNotificacaoPortariaPorCondominio(@PathParam("idCondominio") Long idCondominio) {
+    	List<NotificacaoPortaria> noticias = notificacaoService.recuperarPorCondominio(idCondominio);
+    	if(noticias !=null){
+    		for(NotificacaoPortaria a : noticias){
+    			prepararObjetoParaRetorno(a);
+    		}
+    	}
+    	return noticias;
+    }
+
+
+	@GET
+    @Path("/ultimas/condominio/{idCondominio}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<NotificacaoPortaria> getUltimasNotificacaoPortariaPorCondominio(@PathParam("idCondominio") Long idCondominio) {
+    	List<NotificacaoPortaria> noticias = notificacaoService.recuperarUltimasNotificacoes(idCondominio);
+    	if(noticias !=null){
+    		for(NotificacaoPortaria a : noticias){
+    			prepararObjetoParaRetorno(a);
+    		}
+    	}
+    	return noticias;
+    }
+
+
+
+	protected void prepararObjetoParaRetorno(NotificacaoPortaria a) {
+		a.setCondominio(null);
+
+		if(a.getUsuario() !=null){
+			a.getUsuario().setCondominio(null);
+			a.getUsuario().setApartamento(null);
+			a.getUsuario().setUnidade(null);
+		}
+	}
+
+
 
 }

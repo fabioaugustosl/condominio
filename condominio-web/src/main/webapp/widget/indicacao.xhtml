@@ -65,7 +65,7 @@
 	   <p:outputPanel id="panelIndicacoes" rendered="#{not empty indicacaoController.indicacoes &amp;&amp; not principalController.ehPorteiro()}" >
 		   <p:carousel value="#{indicacaoController.indicacoes}"  itemStyleClass="indItem"  styleClass="corouselImg"
 		   			headerText="Olha o que seus vizinhos indicaram pra você" var="ind" 
-		   			numVisible="3" >
+		   			numVisible="3" style="max-width:650px!important;" >
 		   
 		   		<p:outputPanel id="containerIndicacaoDestaque" >
 		   			<p:commandLink actionListener="#{indicacaoController.ver(ind)}" style="cursor:pointer;" title="Clique para ver mais detalhes">

@@ -12,6 +12,7 @@
 	   .fc-header-right{display: none!important;}
 	   .fc-header-title{padding-left:30% !important; }
 	   .fc-header-center{text-align: left;}
+	   .fc-time{display: none!important;}
    </style>
 
 	<p:outputPanel styleClass="formPad5">
@@ -81,7 +82,7 @@
 	 	</p:outputPanel>
 	 	
 	 	<p:outputPanel id="containerAgenda" style="margin-top:30px;margin-left:10%; width:80%;">
-	  		<p:schedule id="agendaReserva" value="#{reservaController.reservas}"
+	  		<p:schedule id="agendaReserva" value="#{reservaController.reservas}" 
 	  			 widgetVar="agendaReserva" timeZone="GMT-3" locale="pt_br" timeFormat="dd/MM/yyyy"  >
 	            <p:ajax event="dateSelect" listener="#{reservaController.onDateSelect}" process="@form"
 	             update="novoEventoPanelContainer"  

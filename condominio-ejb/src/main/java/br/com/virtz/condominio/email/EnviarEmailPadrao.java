@@ -33,7 +33,7 @@ public class EnviarEmailPadrao implements EnviarEmail {
 	public void enviar(Email email) {
         try {
         	Session sessaoEmail = null;
-        	try {
+        	/*try {
 				String host = InetAddress.getLocalHost().getHostAddress();
 				if("127.0.0.1".equals(host)
 						|| "192.168.1.3".equals(host)
@@ -49,15 +49,16 @@ public class EnviarEmailPadrao implements EnviarEmail {
 				}
 			} catch (UnknownHostException e1) {
 				sessaoEmail = getSessaoAWS();
-			}
-        	//getSessaoAWS();
+			}*/
+    		sessaoEmail = getSessao();
+
             MimeMessage m = new MimeMessage(sessaoEmail);
             Address de = new InternetAddress(email.getDe());
             Address[] para = InternetAddress.parse(email.getParaToString());
             m.setFrom(de);
             m.setRecipients(Message.RecipientType.TO, para);
             m.setSubject(email.getAssunto(), "ISO-8859-1");
-            
+
             if(email.getResponderPara() != null){
             	Address[] respPara = InternetAddress.parse(email.getResponderPara());
             	m.setReplyTo(respPara);

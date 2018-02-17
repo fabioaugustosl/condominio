@@ -14,7 +14,7 @@
    <name>condominio Web module</name>
 
    <dependencies>
-   
+
 
       <!-- Dependency on the EJB module so we can use it's services if needed -->
       <dependency>
@@ -28,8 +28,8 @@
          <artifactId>condominio-util</artifactId>
          <version>1.0.0-SNAPSHOT</version>
       </dependency>
-      
-      <!-- Import the JAX-RS API, we use provided scope as the API is included 
+
+      <!-- Import the JAX-RS API, we use provided scope as the API is included
          in JBoss AS 7 -->
       <dependency>
          <groupId>org.jboss.spec.javax.ws.rs</groupId>
@@ -37,7 +37,7 @@
          <scope>provided</scope>
       </dependency>
 
-      <!-- Import the CDI API, we use provided scope as the API is included 
+      <!-- Import the CDI API, we use provided scope as the API is included
          in JBoss AS 7 -->
       <dependency>
          <groupId>javax.enterprise</groupId>
@@ -45,33 +45,39 @@
          <scope>provided</scope>
       </dependency>
 
-      <!-- Import the JPA API, we use provided scope as the API is included 
+      <!-- Import the JPA API, we use provided scope as the API is included
          in JBoss AS 7 -->
       <dependency>
          <groupId>org.hibernate.javax.persistence</groupId>
          <artifactId>hibernate-jpa-2.0-api</artifactId>
          <scope>provided</scope>
       </dependency>
-      
+
       <dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>5.0</version>
+			<version>6.0</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.primefaces.extensions</groupId>
+			<artifactId>primefaces-extensions</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>all-themes</artifactId>
@@ -80,9 +86,9 @@
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
-			<version>1.2.1</version>
+			<version>1.3.1</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>commons-io</groupId>
 		    <artifactId>commons-io</artifactId>
@@ -101,7 +107,7 @@
 			<artifactId>jboss-jsf-api_2.1_spec</artifactId>
 			<version>2.1.26.Final</version>
 		</dependency>
-		
+
 		 <dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -113,7 +119,7 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 		</dependency>
-		
+
 		<!-- Shiro dependencies: -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -125,7 +131,7 @@
             <artifactId>shiro-web</artifactId>
             <version>1.2.3</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -152,14 +158,14 @@
             <artifactId>maven-war-plugin</artifactId>
             <version>2.1.1</version>
             <configuration>
-               <!-- Java EE 6 doesn't require web.xml, Maven needs to catch 
+               <!-- Java EE 6 doesn't require web.xml, Maven needs to catch
                   up! -->
                <failOnMissingWebXml>false</failOnMissingWebXml>
             </configuration>
          </plugin>
       </plugins>
    </build>
-   
+
 	<repositories>
 	    <repository>
 	        <id>prime-repo</id>

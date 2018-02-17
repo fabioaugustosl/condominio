@@ -65,7 +65,7 @@ public class UsuarioResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Boolean usuarioValido(@PathParam("email") String email, @PathParam("senha") String senha) {
         Usuario u = usuarioService.recuperarUsuario(email);
-        if(u != null && senha != null &&
+        if(u != null && senha != null && !u.getCondominio().getBloqueado() &&
         		(EnumTipoUsuario.MORADOR.equals(u.getTipoUsuario()) || EnumTipoUsuario.SINDICO.equals(u.getTipoUsuario()) || EnumTipoUsuario.ADMINISTRATIVO.equals(u.getTipoUsuario()) )){
         	CriptografarSenha criptografar = new CriptografarSenha();
         	try {
